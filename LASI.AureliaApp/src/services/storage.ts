@@ -1,7 +1,6 @@
-﻿import {autoinject} from 'aurelia-framework';
+import {autoinject} from 'aurelia-framework';
 
 @autoinject export default class ClientStorage {
-
   constructor(readonly storage: Storage) {}
 
   store(key: StoreKey, value: {}) {
@@ -9,7 +8,8 @@
   }
 
   retreive(key: StoreKey): string {
-    return JSON.parse(this.storage[key]);
+    const value = this.storage[key];
+    return value ? JSON.parse(value) : undefined;
   }
 
   clear(key?: StoreKey) {

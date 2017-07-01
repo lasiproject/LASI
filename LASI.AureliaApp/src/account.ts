@@ -1,6 +1,6 @@
 import {RouteConfig, NavigationInstruction} from 'aurelia-router';
 
-export class Account {
+export default class Account {
   userName: string;
   fieldOfStudy: {};
   birthDate: Date;

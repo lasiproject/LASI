@@ -2,3 +2,4 @@
 
 /build.js
 /build.js.map
+*.bundle.*

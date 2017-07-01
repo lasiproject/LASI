@@ -1,4 +1,4 @@
-﻿import {ViewCompiler, useView, customElement, bindable} from 'aurelia-framework';
+import {ViewCompiler, useView, customElement, bindable} from 'aurelia-framework';
 import {TemplateRegistryEntry, Loader} from 'aurelia-loader';
 import {HttpClient} from 'aurelia-fetch-client';
 import {Observable} from 'rxjs/Observable';
@@ -24,13 +24,12 @@ import 'typeahead';
   @bindable sourceArray: {text: string}[];
   @bindable options: TypeAheadOptions<{text: string}>;
 
-
   async searchTerm(term: {}) {
     Observable.of(1, 2, 3).throttle
     const results = this.sourceArray.filter(x => x.text === term);
     return results;
   }
-  bind(bindingContext: Object, overrideContext: Object) {
+  bind(bindingContext: object, overrideContext: object) {
     console.log(bindingContext);
     console.log(overrideContext);
   }
@@ -63,7 +62,6 @@ import 'typeahead';
   }
 
   async attached() {
-
     const options: Options = {
       hint: true,
       async: true,

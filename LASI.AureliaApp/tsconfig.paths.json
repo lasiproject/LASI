@@ -4,8 +4,18 @@
     "baseUrl": ".",
     "moduleResolution": "node",
     "paths": {
-      "jspm": [
-        "test/jspm"
+      "app": [
+        "src"
+      ],
+      "app/*": [
+        "src/*"
+      ],
+      "models": [
+        "src/models"
+      ],
+      "env": [
+        "src/env/dev.js",
+        "src/env/prod.js"
       ],
       "tslib": [
         "jspm_packages/npm/tslib@1.6.1"
@@ -115,15 +125,6 @@
       "jquery-contextmenu": [
         "jspm_packages/npm/@types/jquery.contextmenu@1.7.31"
       ],
-      "app": [
-        "src"
-      ],
-      "app/*": [
-        "src/*"
-      ],
-      "models": [
-        "src/models"
-      ],
       "aurelia-validation": [
         "jspm_packages/npm/aurelia-validation@1.0.0"
       ],
@@ -132,6 +133,9 @@
       ],
       "aurelia-ui-framework": [
         "jspm_packages/npm/aurelia-ui-framework@master"
+      ],
+      "flat-map": [
+        "jspm_packages/github/aluanhaddad/flat-map@master"
       ]
     }
   }

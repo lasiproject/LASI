@@ -25,6 +25,11 @@
       "./jspm_packages/npm/@types"
     ]
   },
+  "exclude": [
+    "node_modules",
+    "jspm_packages",
+    "*.bundle.js"
+  ],
   "typeAcquisition": {
     "enable": false
   }

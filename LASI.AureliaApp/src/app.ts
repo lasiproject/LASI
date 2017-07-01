@@ -1,7 +1,7 @@
-﻿import { autoinject } from 'aurelia-framework';
-import { Router, RouterConfiguration, NavigationInstruction } from 'aurelia-router';
+import {autoinject} from 'aurelia-framework';
+import {Router, RouterConfiguration, NavigationInstruction} from 'aurelia-router';
 import UserService from './services/user';
-import { User } from 'models';
+import User from './models/user';
 
 @autoinject export class App {
   constructor(readonly userService: UserService) {
@@ -22,11 +22,11 @@ import { User } from 'models';
     this.router = router;
     config.title = 'LASI';
     config.map([
-      { name: 'app', route: 'home', nav: true, moduleId: './home', title: 'Home' },
-      { name: 'documents', route: ['', 'documents'], nav: true, moduleId: './documents', title: 'Documents' },
-      { name: 'account', route: 'account', nav: true, moduleId: './account', title: 'Account', settings: { user: this.user } },
-      { name: 'signin', route: 'signin', nav: true, moduleId: './signin', title: 'Signin' },
-      { name: 'signout', route: 'signout', nav: true, moduleId: './signout', title: 'Signout' }
+      {name: 'app', route: 'documents', nav: true, moduleId: './docuemnts', title: 'Home'},
+      {name: 'documents', route: ['', 'documents'], nav: true, moduleId: './documents', title: 'Documents'},
+      {name: 'account', route: 'account', nav: true, moduleId: './account', title: 'Account', settings: {user: this.user}},
+      {name: 'signin', route: 'signin', nav: true, moduleId: './signin', title: 'Signin'},
+      {name: 'signout', route: 'signout', nav: true, moduleId: './signout', title: 'Signout'}
     ]);
   }
 
