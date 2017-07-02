@@ -41,8 +41,8 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void GetValueOrDefaultTest2()
         {
-            Check.That(target.GetValueOrDefault("one", () => default(int?))).IsNotNull();
-            Check.That(target.GetValueOrDefault("eight", () => default(int?))).IsNull();
+            Check.That(target.GetValueOrDefault("one", () => default)).IsNotNull();
+            Check.That(target.GetValueOrDefault("eight", () => default)).IsNull();
             Check.That(target.GetValueOrDefault("eight", () => 8)).IsEqualTo(8);
             Check.That(target.GetValueOrDefault("four", () => 7)).IsEqualTo(4);
             Check.That(target.GetValueOrDefault("four", () => 7)).IsNotEqualTo(7);

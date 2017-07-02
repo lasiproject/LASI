@@ -19,7 +19,7 @@ namespace LASI.Interop
         /// <param name="timeSnapshotted">
         /// The time when the sample was taken.
         /// </param>
-        public ResourceUsageSample(float cpuUsage, float memoryUsage, DateTimeOffset? timeSnapshotted = default(DateTimeOffset?))
+        public ResourceUsageSample(float cpuUsage, float memoryUsage, DateTimeOffset? timeSnapshotted = default)
             : this()
         {
             CpuUsage = cpuUsage;

@@ -31,10 +31,7 @@ namespace LASI.Core.Analysis.Relationships
                     ? new ActionsRelatedOn(actions)
                     : default(ActionsRelatedOn?);
             }
-            else
-            {
-                throw new InvalidOperationException(BuildAssociationContextMessage(performer, receiver));
-            }
+            throw new InvalidOperationException(BuildAssociationContextMessage(performer, receiver));
         }
 
         /// <summary>
