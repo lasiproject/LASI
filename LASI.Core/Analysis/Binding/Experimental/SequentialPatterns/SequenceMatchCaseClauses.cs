@@ -196,7 +196,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 {
                     pattern(seq[0] as T1, seq[1] as T2, seq[2] as T3, seq[3] as T4, seq[4] as T5,
                             seq[5] as T6, seq[6] as T7, seq[7] as T8, seq[8] as T9, seq[9] as T10);
-
                 }
             });
 

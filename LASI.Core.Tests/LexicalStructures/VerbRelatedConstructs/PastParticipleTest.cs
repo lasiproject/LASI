@@ -4,7 +4,6 @@ using Xunit;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is A test class for PastPrtcplVerbTest and is intended
     ///to contain all PastPrtcplVerbTest Unit Tests

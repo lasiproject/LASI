@@ -596,7 +596,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     elements[4] as T5
                 );
             return r;
-
         }
         public static bool ApplyIfApplicable<T1, T2, T3, T4, T5, T6, TLexical>(
             this Action<T1, T2, T3, T4, T5, T6> pattern,

@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace LASI.Content.Tests
 {
 
-
     /// <summary>
     ///This is a test class for PdfFileTest and is intended
     ///to contain all PdfFileTest Unit Tests

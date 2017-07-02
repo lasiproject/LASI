@@ -124,6 +124,5 @@ namespace LASI.Content
         public static bool operator !=(InputFile left, InputFile right) => !(left == right);
 
         protected FileConversionFailureException CreateFileConversionFailureException(string targetExtension, Exception e) => new FileConversionFailureException(FullPath, this.CanonicalExtension, targetExtension, e);
-
     }
 }

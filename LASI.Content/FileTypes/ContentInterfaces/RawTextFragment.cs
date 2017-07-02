@@ -55,6 +55,5 @@ namespace LASI.Content
 
         public override string ToString() => LoadText();
         private string content;
-
     }
 }

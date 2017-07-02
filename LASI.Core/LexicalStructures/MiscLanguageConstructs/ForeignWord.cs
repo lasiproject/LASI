@@ -22,5 +22,4 @@ namespace LASI.Core
             set;
         }
     }
-
 }

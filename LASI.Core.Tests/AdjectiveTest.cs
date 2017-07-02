@@ -7,7 +7,6 @@ using Xunit;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is A test class for AdjectiveTest and is intended
     ///to contain all AdjectiveTest Unit Tests
@@ -70,7 +69,6 @@ namespace LASI.Core.Tests
             actual = target.AdverbialModifiers;
             Check.That(target.AdverbialModifiers).IsEmpty();
         }
-
 
     }
 }

@@ -6,7 +6,6 @@ using LASI.Core.Heuristics;
 
 namespace LASI.Core
 {
-
     /// <summary>
     /// Represents a Proper Plural Noun.
     /// </summary>

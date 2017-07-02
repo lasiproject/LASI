@@ -246,6 +246,5 @@ namespace LASI.Core
                 where lexical.Match((TCase c) => true)
                 select caseSelector(lexical as TCase);
 
-
     }
 }

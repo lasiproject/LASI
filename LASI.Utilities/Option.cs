@@ -253,7 +253,6 @@ namespace LASI.Utilities
         /// </remarks>
         protected internal sealed class None : Option<T>
         {
-
             public override Option<TResult> Select<TResult>(Func<T, TResult> selector) => Option<TResult>.NoneOfT;
 
             public override Option<TResult> SelectMany<TResult>(Func<T, Option<TResult>> selector) => Option<TResult>.NoneOfT;

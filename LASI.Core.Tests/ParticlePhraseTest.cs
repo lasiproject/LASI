@@ -134,6 +134,5 @@ namespace LASI.Core.Tests
             Check.That(linkedVerbal.ObjectOfThePreposition).IsEqualTo(prepositionalObject);
         }
 
-
     }
 }

@@ -36,5 +36,4 @@ namespace LASI.Core.Analysis.Binding
             : base(info, context)
         { }
     }
-
 }

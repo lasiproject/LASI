@@ -76,7 +76,6 @@ namespace LASI.Utilities.Configuration
             {
                 using (var stream = response.GetResponseStream())
                 {
-
                     for (var b = stream.ReadByte(); b != -1; b = stream.ReadByte())
                     {
                         yield return (byte)b;
@@ -112,6 +111,5 @@ namespace LASI.Utilities.Configuration
             public const string IllformedJsonDocument = "Unable to parse the data, ensure the source is a well formed JSON document";
             public const string NoRootObject = @"The config source is invalid. Valid config sources must be represented as a single top level JSON object";
         }
-
     }
 }

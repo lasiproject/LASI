@@ -22,6 +22,5 @@ namespace LASI.Interop
         {
         }
         private const string AlreadyConfiguredErrorMessage = "LASI Configuration has already been Initialized. Initialize may only be called once.";
-
     }
 }

@@ -25,7 +25,6 @@ namespace LASI.Content
                 Extension = FileName.Substring(FileName.LastIndexOf('.'));
                 FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
                 FullPathSansExt = Directory + FileNameSansExt;
-
             } catch (ArgumentOutOfRangeException) {
                 Extension = string.Empty;
                 FileNameSansExt = FileName;

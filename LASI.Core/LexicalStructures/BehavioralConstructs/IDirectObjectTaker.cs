@@ -19,7 +19,5 @@
         /// Gets an IAggregateEntity implementation composed from all of the IDirectObjectTaker's direct objects.
         /// </summary>
         IAggregateEntity AggregateDirectObject { get; }
-
     }
-
 }

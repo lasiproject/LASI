@@ -17,7 +17,6 @@ namespace LASI.Core.Analysis.Binding
         /// <param name="s">The sentence to bind within.</param>
         public void Bind(Sentence s)
         {
-
             //Handle case of verbless sentence. Needs to be included for the sake of security of the code. 
             if (!s.Phrases.OfVerbPhrase().Any())
             {
@@ -64,17 +63,13 @@ namespace LASI.Core.Analysis.Binding
                         (i.Previous.Sentence == i.Sentence) &&
                          (i.Previous as NounPhrase).SubjectOf == null)
                     {
-
                         (i as VerbPhrase).BindSubject(i.Previous as NounPhrase); //(i.PreviousPhrase as NounPhrase).WasSubjectBound = true;
-
                     }
                     if ((i.Previous.HasSubjectPronoun() || (i.Previous.Previous.HasSubjectPronoun())) || ((i.Previous != null) && (i.Previous.Previous is NounPhrase) &&
                         (i.Previous.Previous.Sentence == i.Sentence) &&
                          (i.Previous.Previous as NounPhrase).SubjectOf == null))
                     {
-
                         (i as VerbPhrase).BindSubject(i.Previous.Previous as NounPhrase);//(i.PreviousPhrase.PreviousPhrase as NounPhrase).WasSubjectBound = true;
-
                     }
                     //if the last word, you can't find any more subjects
                     if (!s.GetPhrasesAfter(i).OfVerbPhrase().Any())
@@ -88,7 +83,6 @@ namespace LASI.Core.Analysis.Binding
                 {
                     (i.Next as VerbPhrase).BindSubject(i.Next.Next as NounPhrase);
                     s.IsInverted = true;
-
                 }
 
                 if (i is AdverbPhrase)
@@ -116,7 +110,6 @@ namespace LASI.Core.Analysis.Binding
                     stateList.Add(s10);
                 }
 
-
             }
         }
 
@@ -125,14 +118,12 @@ namespace LASI.Core.Analysis.Binding
         /// </summary>
         public void Display()
         {
-
             for (var i = 0;
             i < stateList.Count;
             i++)
             {
                 Logger.Log(stateList[i].StatePhrase);
             }
-
         }
 
         internal class State
@@ -151,7 +142,6 @@ namespace LASI.Core.Analysis.Binding
                 get;
                 set;
             }
-
         }
         internal enum StateType
         {

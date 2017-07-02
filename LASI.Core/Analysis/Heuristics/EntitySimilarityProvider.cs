@@ -228,6 +228,5 @@ namespace LASI.Core
                     : Gender.Undetermined;
         }
 
-
     }
 }

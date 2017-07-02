@@ -142,14 +142,12 @@ namespace LASI.App
                 DocumentManager.RemoveByFileName((docSelected as TabItem).Header.ToString());
                 FileManager.RemoveFile((docSelected as TabItem).Header.ToString());
                 CheckIfAddingAllowed();
-
             }
             if (DocumentManager.IsEmpty)
             {
                 startProcessingButton.IsEnabled = false;
                 StartProcessMenuItem.IsEnabled = false;
             }
-
         }
         private async void Grid_Drop(object sender, DragEventArgs e)
         {
@@ -191,7 +189,6 @@ namespace LASI.App
                 {
                     this.ShowMessage($"The document {file} is in use by another process, please close any applications which may be using the document and try again.");
                 }
-
             }
         }
 

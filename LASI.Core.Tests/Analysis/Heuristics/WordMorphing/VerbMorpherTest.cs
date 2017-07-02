@@ -7,7 +7,6 @@ using Xunit;
 namespace LASI.Core.Analysis.WordMorphing.Tests
 {
 
-
     /// <summary>
     ///This is A test class for VerbConjugatorTest and is intended
     ///to contain all VerbConjugatorTest Unit Tests
@@ -28,7 +27,6 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
                 Debug.WriteLine(f);
             Assert.True((from f in expected
                            select actual.Contains(f)).Aggregate(true, (result, b) => result && b));
-
         }
 
         /// <summary>
@@ -43,13 +41,10 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             foreach (var c in conjugated)
             {
                 actual.AddRange(VerbMorpher.FindRoots(c));
-
             }
             Assert.True((from f in expected
                            select actual.Contains(f)).Aggregate(true, (result, b) => result && b));
 
-
         }
-
     }
 }

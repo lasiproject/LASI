@@ -57,13 +57,11 @@ namespace TaggerInterop
         {
 
 
-
             inputFilePath = sourcePath;
             outputFilePath = destinationPath != null ? destinationPath :
                 new FileInfo(sourcePath).DirectoryName + @"\" + new FileInfo(sourcePath.Substring(0, sourcePath.LastIndexOf('.'))).Name + @".tagged";
 
             SourceText = LoadSourceText();
-
         }
         /// <summary>
         /// Returns a new string with certain characters replaced by aliases to aid in the ease of parsing.
@@ -75,7 +73,6 @@ namespace TaggerInterop
             foreach (var rr in textToNumeralMap)
             {
                 p = p.Replace(rr.Key, rr.Value);
-
             }
             return p;
         }
@@ -87,7 +84,6 @@ namespace TaggerInterop
         {
             WriteToFile(ParseViaTaggingMode());
             return outputFilePath;
-
         }
         /// <summary>
         /// Asynchronously processes the text given to the tagger based on the Tagger's current TaggerMode. Returns the path to the tagged file resulting from the process.
@@ -96,7 +92,6 @@ namespace TaggerInterop
         public virtual async Task<string> ProcessFileAsync()
         {
             return await Task.Run(() => ProcessFile());
-
 
         }
 
@@ -182,7 +177,6 @@ namespace TaggerInterop
 
             var result = output.ToString();
             return result;
-
         }
 
         private string POSTag()
@@ -199,7 +193,6 @@ namespace TaggerInterop
                 {
                     output.Append(tokens[currentTag]).Append("/").Append(tags[currentTag]).Append(" ");
                 }
-
             }
 
             var result = output.ToString();
@@ -208,7 +201,6 @@ namespace TaggerInterop
 
         private string Chunk()
         {
-
             var output = new StringBuilder();
             var paragraphs = SourceText.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var paragraph in paragraphs.AsParallel().AsOrdered().Select(p => StripParentheticals(p)))
@@ -275,7 +267,6 @@ namespace TaggerInterop
 
             foreach (string sentence in sentences)
             {
-
                 output.Append(string.Format("<sentence id = \"{0}\">{1}</sentence>", sentenceID++, ParseSentence(sentence).Show())).Append("\r\n\r\n");
             }
 
@@ -567,15 +558,12 @@ namespace TaggerInterop
         {
             SourceText = base.PreProcessText(source);
             return base.ParseViaTaggingMode();
-
         }
         public async Task<string> TagTextSourceAsync(string source)
         {
             SourceText = base.PreProcessText(source);
             return await base.ParseViaTaggingModeAsync();
-
         }
-
     }
     /// <summary>
     /// Used to specify the behavior tagging options of an instance of the SharpNLPtagger class.
@@ -603,5 +591,4 @@ namespace TaggerInterop
         /// </summary>
         NameFind,
     }
-
 }

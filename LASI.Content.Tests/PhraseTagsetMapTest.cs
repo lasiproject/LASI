@@ -11,7 +11,6 @@ using Fact = Xunit.FactAttribute;
 namespace LASI.Content.Tests
 {
 
-
     /// <summary>
     ///This is a test class for PhraseTagsetMapTest and is intended
     ///to contain all PhraseTagsetMapTest Unit Tests
@@ -45,7 +44,6 @@ namespace LASI.Content.Tests
                 ["NP"] = ws => new NounPhrase(ws),
                 ["VP"] = ws => new VerbPhrase(ws),
             };
-
         }
 
         private static PhraseTagsetMap CreatePhraseTagsetMap() => new TestPhraseTagsetMap();

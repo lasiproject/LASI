@@ -46,7 +46,6 @@ namespace LASI.Content.Tagging
     }
     internal class TextNode
     {
-
         public TextNode(string text)
         {
             Text = text;

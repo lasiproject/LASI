@@ -3,7 +3,6 @@
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is a test class for DoubleQuoteTest and is intended
     ///to contain all DoubleQuoteTest Unit Tests
@@ -35,6 +34,5 @@ namespace LASI.Core.Tests
             target.PairWith(target);
             Assert.NotSame(target.PairedWith, target);
         }
-
     }
 }

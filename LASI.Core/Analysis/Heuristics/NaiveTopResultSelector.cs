@@ -15,7 +15,6 @@ namespace LASI.Core.Analysis.Heuristics
     /// </summary>
     public static class NaiveTopResultSelector
     {
-
         private static IEnumerable<(string relationship, float weight)> GetTopResultsByVerbal(IReifiedTextual source) =>
             GetVerbWiseRelationships(source)
                 .Select(relationship => (CreateKey(relationship), (float)Math.Round(relationship.Weight, 2)))
@@ -71,6 +70,5 @@ namespace LASI.Core.Analysis.Heuristics
             $@"{svs.Subject.Text} -> {svs.Verbal.Text}
                {(svs.Direct != null ? " -> " + svs.Direct.Text : string.Empty)}
                {(svs.Indirect != null ? " -> " + svs.Indirect.Text : string.Empty)}";
-
     }
 }

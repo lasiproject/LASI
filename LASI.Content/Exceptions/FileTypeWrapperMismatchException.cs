@@ -44,7 +44,6 @@ namespace LASI.Content.Exceptions
         {
             base.GetObjectData(info, context);
             info.AddValue(nameof(MistmatchedExtension), MistmatchedExtension, typeof(string));
-
         }
         public string MistmatchedExtension { get; }
     }

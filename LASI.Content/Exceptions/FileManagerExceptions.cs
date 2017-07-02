@@ -222,7 +222,6 @@ namespace LASI.Content
                 filesInProjectDirectories = value;
             }
         }
-
     }
 
     /// <summary>

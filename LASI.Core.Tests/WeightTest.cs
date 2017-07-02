@@ -10,7 +10,6 @@ using NFluent;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is A test class for WeightTest and is intended
     ///to contain all WeightTest Unit Tests

@@ -122,5 +122,4 @@ namespace LASI.Core.Analysis.Heuristics
         private static bool ReferencerTestCompare(NounPhrase left, NounPhrase y) =>
             left.Match((IReferencer r) => r.RefersTo.Any(e => e.Text == y.Text || e.IsAliasFor(y) || e.IsSimilarTo(y)));
     }
-
 }

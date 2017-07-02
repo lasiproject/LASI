@@ -245,5 +245,4 @@ namespace LASI.Core.Tests
             Check.That(sentences).ContainsExactly(target.Sentences);
         }
     }
-
 }

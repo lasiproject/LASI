@@ -63,6 +63,5 @@ namespace LASI.Core.Configuration
             /// </summary>
             public static string Male => BasePath + "malefirst.txt";
         }
-
     }
 }

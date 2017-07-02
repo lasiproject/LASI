@@ -54,7 +54,6 @@ namespace LASI.Content
                 leaveOpen: false)
             )
             {
-
                 if (Directory.Exists(zipName))
                 {
                     try

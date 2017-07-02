@@ -8,7 +8,6 @@ using Xunit;
 
 namespace LASI.Core.Tests
 {
-
     /// <summary>
     ///This is a test class for AggregateEntityTest and is intended
     ///to contain all AggregateEntityTest Unit Tests
@@ -43,7 +42,6 @@ namespace LASI.Core.Tests
 
             Check.That(target).Contains(americans);
             Check.That(target).Contains(canadians);
-
         }
         /// <summary>
         ///A test for AddPossession

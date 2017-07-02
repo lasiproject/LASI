@@ -22,5 +22,4 @@ namespace LASI.App.Extensions
         }
         public static void Deconstruct(EventPattern<KeyEventArgs> e, out Key key, out string value) => (key, value) = (e.EventArgs.Key, e.EventArgs.InputSource.ToString());
     }
-
 }

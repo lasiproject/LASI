@@ -56,11 +56,9 @@ namespace LASI.Utilities.Configuration
                         Value = isAggregate ? property.Value.ToString() : (string)property.Value
                     })
                    .ToDictionary(p => p.Name, p => p.Value);
-
         }
 
         private readonly System.Collections.Generic.IDictionary<string, string> data;
-
 
     }
 }

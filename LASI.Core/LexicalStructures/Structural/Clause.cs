@@ -49,7 +49,6 @@ namespace LASI.Core
                     sistren[i].Previous = sistren[i - 1];
                 }
                 sistren[i].Next = sistren[i + 1];
-
             }
         }
 

@@ -19,6 +19,5 @@ namespace LASI.Core.Tests
             var target = new Existential(text);
             Check.That(target.Text).IsEqualTo(text);
         }
-
     }
 }

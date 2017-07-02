@@ -21,7 +21,6 @@ namespace LASI.Content
         {
             if (!Extension.Equals(".xml", StringComparison.OrdinalIgnoreCase))
                 throw new FileTypeWrapperMismatchException<XmlFile>(Extension);
-
         }
 
         /// <summary>

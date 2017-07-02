@@ -97,7 +97,6 @@ namespace LASI.Core
                              where y != null
                              select y;
             GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 1);
-
         }
 
         /// <summary>

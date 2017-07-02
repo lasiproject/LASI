@@ -75,7 +75,6 @@ namespace LASI.Core.Heuristics
             aliasedEntityReferenceMap.AddOrUpdate(
                 entity, new HashSet<IEntity>(aliases),
                 (key, value) => new HashSet<IEntity>(value.Union(aliases)));
-
         }
         /// <summary>
         /// Gets the textual representations of all known aliases defined for the given entity.
@@ -111,6 +110,5 @@ namespace LASI.Core.Heuristics
 
         private static ConcurrentDictionary<IEntity, ISet<IEntity>> aliasedEntityReferenceMap = new ConcurrentDictionary<IEntity, ISet<IEntity>>();
         private static ConcurrentDictionary<string, ISet<string>> aliasDictionary = new ConcurrentDictionary<string, ISet<string>>();
-
     }
 }

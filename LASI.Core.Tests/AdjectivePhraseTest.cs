@@ -7,7 +7,6 @@ using Xunit;
 
 namespace LASI.Core.Tests
 {
-
     /// <summary>
     ///This is A test class for AdjectivePhraseTest and is intended
     ///to contain all AdjectivePhraseTest Unit Tests
@@ -39,7 +38,6 @@ namespace LASI.Core.Tests
             IAdverbial modifier = new Adverb("very");
             target.ModifyWith(modifier);
             Assert.True(target.AdverbialModifiers.Contains(modifier));
-
         }
 
         /// <summary>

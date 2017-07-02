@@ -218,7 +218,6 @@ namespace LASI.Utilities.Tests
             Assert.True(((object)right).Equals(left));
             Assert.True(left.Equals(right));
             Assert.True(((object)left).Equals(right));
-
         }
         [Fact]
         public void IEquatableOfOptionEqualityTest2()

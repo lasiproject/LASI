@@ -25,7 +25,6 @@ namespace LASI.Core.Analysis.Relationships
 
             if (mapping != null)
             {
-
                 var actions = mapping[performer, receiver].Concat(mapping[receiver, performer]);
                 return actions.Any()
                     ? new ActionsRelatedOn(actions)

@@ -8,7 +8,6 @@ using LASI.Content.Exceptions;
 namespace LASI.Content.Tests
 {
 
-
     /// <summary>
     ///This is a test class for DocFileTest and is intended
     ///to contain all DocFileTest Unit Tests

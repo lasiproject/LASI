@@ -117,7 +117,6 @@ namespace LASI.Core.Tests
             target.Modality = expected;
             actual = target.Modality;
             Check.That(expected).Equals(actual);
-
         }
 
 
@@ -202,7 +201,6 @@ namespace LASI.Core.Tests
             actual = target.IndirectObjects;
             Check.That(actual).Contains(indirectObject);
             Check.That(target.AggregateIndirectObject).Contains(indirectObject);
-
         }
 
         /// <summary>
@@ -331,7 +329,6 @@ namespace LASI.Core.Tests
             actual = target.HasSubject(predicate);
             Check.That(expected).Equals(actual);
         }
-
 
     }
 }

@@ -4,7 +4,6 @@ using Xunit;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is a test class for SimpleDeclarativeClauseBeginPhraseTest and is intended
     ///to contain all SimpleDeclarativeClauseBeginPhraseTest Unit Tests

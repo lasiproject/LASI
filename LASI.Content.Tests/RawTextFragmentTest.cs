@@ -14,7 +14,6 @@ namespace LASI.Content.Tests
     /// </summary>
     public class RawTextFragmentTest
     {
-
         /// <summary>
         ///A test for RawTextFragment Constructor
         /// </summary>

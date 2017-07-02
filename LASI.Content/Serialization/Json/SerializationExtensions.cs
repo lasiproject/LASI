@@ -92,7 +92,6 @@ namespace LASI.Content.Serialization.Json
             yield return new JProperty("metaWeight", element.MetaWeight);
         }
         private static readonly NodeNameMapper ElementNameMappingProvider = new NodeNameMapper();
-
     }
 }
 

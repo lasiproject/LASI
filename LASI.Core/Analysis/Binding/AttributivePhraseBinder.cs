@@ -95,7 +95,5 @@ namespace LASI.Core.Binding
             }
             return results.Where(result => result.Count() > 1);
         }
-
     }
-
 }

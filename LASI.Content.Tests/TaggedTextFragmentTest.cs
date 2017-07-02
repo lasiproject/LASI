@@ -9,14 +9,12 @@ using Fact = Xunit.FactAttribute;
 namespace LASI.Content.Tests
 {
 
-
     /// <summary>
     ///This is a test class for TaggedTextFragmentTest and is intended
     ///to contain all TaggedTextFragmentTest Unit Tests
     /// </summary>
     public class TaggedTextFragmentTest
     {
-
         private Tagger Tagger => new Tagger();
 
         /// <summary>

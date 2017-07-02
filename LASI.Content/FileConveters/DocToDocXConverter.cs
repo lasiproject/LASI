@@ -16,7 +16,6 @@ namespace LASI.Content
     /// </summary>
     public class DocToDocXConverter : FileConverter<DocFile, DocXFile>
     {
-
         /// <summary>
         /// Initializes a new instance of DocToDocXConverter which will handle the conversion of the given .doc document.
         /// </summary>
@@ -79,7 +78,6 @@ namespace LASI.Content
             doc2xPathField ?? (doc2xPathField = (Config != null ?
             Config["ResourcesDirectory"] + Config["ConvertersDirectory"] :
             ConfigurationManager.AppSettings["ResourcesDirectory"] + ConfigurationManager.AppSettings["ConvertersDirectory"]) + "doc2x.exe");
-
 
 
 

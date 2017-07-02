@@ -121,7 +121,6 @@ namespace LASI.Core
                 IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : empty,
                 gender.IsDetermined() ? "\nPrevailing Gender: " + gender : empty
             );
-
         }
         #endregion
 

@@ -497,7 +497,6 @@ namespace LASI.Content
         /// <param name="fileExtension">The file extension which for which to retrieve the appropriate InputFile instantiator function.</param>
         /// <returns>A function which can be invoked to instantiate an InputFile Wrapper corresponding to the given file extension.</returns>
         public Func<string, InputFile> this[string fileExtension] => mapping.ToDictionary().GetValueOrDefault(fileExtension, unsupportedHandler);
-
     }
     #endregion
 }

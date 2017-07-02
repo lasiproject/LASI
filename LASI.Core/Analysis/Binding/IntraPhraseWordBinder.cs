@@ -91,7 +91,6 @@ namespace LASI.Core.Binding
 
             if (vp.Words.Count() > 1 && LastVerb != null)
             {
-
                 // Adverb linking to NEXT adverb
                 var adverbList = vp.Words.OfAdverb();
                 if (adverbList.Any())

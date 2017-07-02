@@ -49,7 +49,6 @@ namespace LASI.Core.Heuristics.WordNet
                     }
                 }
             }
-
         }
         private static AdjectiveSynset CreateSet(string fileLine)
         {
@@ -105,7 +104,6 @@ namespace LASI.Core.Heuristics.WordNet
 
         public static string WORD_REGEX1 => WordRegex;
     }
-
 }
 
 

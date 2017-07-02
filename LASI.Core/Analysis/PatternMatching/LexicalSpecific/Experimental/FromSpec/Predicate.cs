@@ -51,6 +51,5 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
             public LiftedPredicate(Func<TOther, bool> requirement) { this.requirement = requirement; }
             public override bool Satifies<TLexical>(TLexical element) => element is TOther && requirement(element as TOther);
         }
-
     }
 }

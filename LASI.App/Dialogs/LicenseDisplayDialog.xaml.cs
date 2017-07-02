@@ -42,6 +42,5 @@ namespace LASI.App.Dialogs
                 Close();
             }
         }
-
     }
 }

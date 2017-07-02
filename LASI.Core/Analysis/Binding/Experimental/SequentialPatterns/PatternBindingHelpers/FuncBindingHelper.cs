@@ -701,6 +701,5 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 elements[8] is T9 &&
                 elements[9] is T10;
 
-
     }
 }

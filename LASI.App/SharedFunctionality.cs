@@ -80,7 +80,6 @@ namespace LASI.App
                     }
                 }
                 window.MessageIf(validFiles.Any, $"Cannot add a file of type {data}. The following formats are supported {UiMessages.ValidDocumentFormats}");
-
             }
         }
 

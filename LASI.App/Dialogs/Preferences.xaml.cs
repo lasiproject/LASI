@@ -55,7 +55,6 @@ namespace LASI.App.Dialogs
             autoNameCheckBox.IsChecked = Settings.Default.AutoNameProjects;
 
             minimizeToTrayCheckBox.IsChecked = Settings.Default.TrayMinimize;
-
         }
 
         private void LoadAdvancedPreferences()

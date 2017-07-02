@@ -5,7 +5,6 @@ using Xunit;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is A test class for ForeignWordTest and is intended
     ///to contain all ForeignWordTest Unit Tests
@@ -38,7 +37,6 @@ namespace LASI.Core.Tests
             actual = target.UsedAsType;
             Check.That(expected).IsEqualTo(actual);
         }
-
 
     }
 }

@@ -110,7 +110,6 @@ namespace LASI.Utilities.Tests
             Func<U, T> actual;
             actual = FunctionExtensions.Compose(f, g);
             Check.That(expected(default(U))).IsEqualTo(default(T));
-
         }
 
         [Fact]

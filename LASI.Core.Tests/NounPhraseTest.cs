@@ -265,7 +265,6 @@ namespace LASI.Core.Tests
             IReferencer pro = new RelativePronoun("which");
             target.BindReferencer(pro);
             Check.That(target.Referencers.All(r => r.RefersTo.Contains(target))).IsTrue();
-
         }
 
         /// <summary>
@@ -279,7 +278,6 @@ namespace LASI.Core.Tests
             target.BindDescriptor(descriptor);
             Check.That(target.Descriptors).Contains(descriptor);
             Check.That(descriptor.Describes).IsEqualTo(target);
-
         }
     }
 }

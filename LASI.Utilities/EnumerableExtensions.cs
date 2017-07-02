@@ -691,6 +691,5 @@ namespace LASI.Utilities
                 action();
             }
         }
-
     }
 }

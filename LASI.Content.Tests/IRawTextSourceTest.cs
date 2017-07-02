@@ -7,7 +7,6 @@ using NFluent;
 namespace LASI.Content.Tests
 {
 
-
     /// <summary>
     ///This is a test class for IUntaggedTextSourceTest and is intended
     ///to contain all IUntaggedTextSourceTest Unit Tests

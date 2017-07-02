@@ -62,5 +62,4 @@ namespace LASI.Content
 
         public override string CanonicalExtension => ".doc";
     }
-
 }

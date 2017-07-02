@@ -8,7 +8,6 @@ using NFluent;
 namespace LASI.Content.Tests
 {
 
-
     /// <summary>
     ///This is A test class for DocToDocXConverterTest and is intended
     ///to contain all DocToDocXConverterTest Unit Tests

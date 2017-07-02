@@ -23,7 +23,5 @@ namespace LASI.Core
             PairedWith = complement;
             complement.PairedWith = this;
         }
-
     }
-
 }

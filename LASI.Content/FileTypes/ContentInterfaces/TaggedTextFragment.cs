@@ -11,7 +11,6 @@ namespace LASI.Content
     /// </summary>
     public class TaggedTextFragment : ITaggedTextSource
     {
-
         /// <summary>
         /// Initializes a new instance of the TaggedTextFragment class containing the provided text and having the provided name.
         /// </summary>
@@ -49,6 +48,5 @@ namespace LASI.Content
         public string Name { get; }
 
         private string taggedText;
-
     }
 }

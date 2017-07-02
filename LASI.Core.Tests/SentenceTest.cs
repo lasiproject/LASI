@@ -158,6 +158,5 @@ namespace LASI.Core.Tests
             Check.That(target.Text).IsEqualTo(string.Join(" ", clauses.Select(c => c.Text)) + sentenceEnding.Text);
         }
 
-
     }
 }

@@ -40,6 +40,5 @@ namespace LASI.Core.Heuristics.WordNet
         /// Constant value which specifies how the number of lines the header of a WordNet file.
         /// </summary>
         protected const int LinesInHeader = 29;
-
     }
 }

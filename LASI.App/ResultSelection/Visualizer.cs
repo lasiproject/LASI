@@ -75,7 +75,6 @@ namespace LASI.App
                 var barSeries = new BarSeries { ItemsSource = chart.GetItemSource() };
                 ConfigureDataPointSeries(barSeries);
                 ResetChartContent(chart, barSeries);
-
             }
         }
 

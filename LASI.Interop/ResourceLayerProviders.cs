@@ -94,6 +94,5 @@
         public static event MemoryHandler MemoryCritical = delegate { };
 
         private static MB GetAvailableMemory() => (MB)new System.Diagnostics.PerformanceCounter("Memory", "Available MBytes").NextValue();
-
     }
 }

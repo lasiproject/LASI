@@ -339,7 +339,6 @@ namespace LASI.App
                 ProjectNameTextBox.ToolTip = new ToolTip { Content = errorMessage };
                 return false;
             }
-
         }
 
         private bool ValidateProjectLocationField()

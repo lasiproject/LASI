@@ -4,7 +4,6 @@ using Xunit;
 
 namespace LASI.Core.Tests.PatternMatching
 {
-
     public class PhraseAsSequentialPatternMatchingTest
     {
         [Fact]

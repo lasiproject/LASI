@@ -52,6 +52,5 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing.Tests
                 Check.That(adjectiveForms.Except(synthesizedForms, StringComparer.OrdinalIgnoreCase)).IsEmpty();
             }
         }
-
     }
 }

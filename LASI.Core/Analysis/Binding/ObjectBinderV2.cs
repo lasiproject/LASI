@@ -97,6 +97,5 @@ namespace LASI.Core.Analysis.Binding
             return results;
         }
 
-
     }
 }

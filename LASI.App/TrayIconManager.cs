@@ -102,7 +102,6 @@ namespace LASI.App
                 };
                 notifyIcon.MouseClick += HandleNotifyIconOrBalloonClicked;
                 notifyIcon.BalloonTipClicked += HandleNotifyIconOrBalloonClicked;
-
             }
 
             /// <summary>
