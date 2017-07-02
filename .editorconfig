@@ -1,8 +1,5 @@
 root = true
-
-[*.cs]
-[*.xaml]
+[*.{cs,cshtml}]
 indent_style = space
-indent_size = 4
-[*]
-indent_size = 2
+indent_size  = tab
+tab_width    = 4

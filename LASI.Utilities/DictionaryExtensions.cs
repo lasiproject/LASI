@@ -253,7 +253,7 @@ namespace LASI.Utilities
         public static Dictionary<TKey, (TValue value, int index)> WithIndices<TKey, TValue>(this Dictionary<TKey, TValue> dictionary) =>
             dictionary
                 .Select((entry, index) => (entry.Key, (entry.Value, index)))
-                .ToDictionary(x => x.Item1, x => x.Item2);
+                .ToDictionary(x => x.Key, x => x.Item2);
 
         #endregion Dictionary Extensions
 
@@ -520,14 +520,8 @@ namespace LASI.Utilities
 
             TValue IDictionary<TKey, TValue>.this[TKey key]
             {
-                get
-                {
-                    return this[key];
-                }
-                set
-                {
-                    wrapped[key] = value;
-                }
+                get => this[key];
+                set => wrapped[key] = value;
             }
 
             public TValue this[TKey key] => wrapped.GetValueOrDefault(key, defaultValueFactory(key));
