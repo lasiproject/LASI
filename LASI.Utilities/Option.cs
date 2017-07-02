@@ -267,7 +267,7 @@ namespace LASI.Utilities
             public override bool Equals(object obj) => obj is None || obj is Option<None>;
             public override bool Equals(T other) => false;
             public override int GetHashCode() => 0;
-            public override T Value { get { throw new InvalidOperationException(ValueAccessErrorMessage); } }
+            public override T Value => throw new InvalidOperationException(ValueAccessErrorMessage);
 
             private const string ValueAccessErrorMessage = "None does not have a value.";
             internal None() : base(false) { }

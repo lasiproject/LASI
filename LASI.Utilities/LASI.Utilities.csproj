@@ -43,29 +43,6 @@
     <CodeAnalysisRuleSet>..\LASI.App\LASI.App.ruleset</CodeAnalysisRuleSet>
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>..\LASI.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>7.1</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DocumentationFile>bin\Release\LASI.Utilities.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>..\LASI.App\LASI.App.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>7.1</LangVersion>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -78,6 +55,9 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Linq, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.4.3.0\lib\net463\System.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>

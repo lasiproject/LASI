@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\xunit.runner.visualstudio.2.3.0-beta3-build3705\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.3.0-beta3-build3705\build\net20\xunit.runner.visualstudio.props')" />
+  <Import Project="..\packages\xunit.runner.msbuild.2.3.0-beta3-build3705\build\net452\xunit.runner.msbuild.props" Condition="Exists('..\packages\xunit.runner.msbuild.2.3.0-beta3-build3705\build\net452\xunit.runner.msbuild.props')" />
+  <Import Project="..\packages\xunit.core.2.3.0-beta3-build3705\build\xunit.core.props" Condition="Exists('..\packages\xunit.core.2.3.0-beta3-build3705\build\xunit.core.props')" />
   <Import Project="..\packages\xunit.core.2.0.0\build\Xamarin.iOS\xunit.core.props" Condition="Exists('..\packages\xunit.core.2.0.0\build\Xamarin.iOS\xunit.core.props')" />
   <Import Project="..\packages\xunit.runner.visualstudio.2.0.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.0.0\build\net20\xunit.runner.visualstudio.props')" />
   <PropertyGroup>
@@ -47,26 +50,6 @@
     <CodeAnalysisRuleSet>..\LASI.App\LASI.App.ruleset</CodeAnalysisRuleSet>
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <LangVersion>7.1</LangVersion>
-    <CodeAnalysisRuleSet>..\LASI.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <LangVersion>7.1</LangVersion>
-    <CodeAnalysisRuleSet>..\LASI.App\LASI.App.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="NFluent, Version=2.0.0.71, Culture=neutral, PublicKeyToken=18828b37b84b1437, processorArchitecture=MSIL">
       <HintPath>..\packages\NFluent.2.0.0\lib\net45\NFluent.dll</HintPath>
@@ -77,6 +60,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Linq, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.4.3.0\lib\net463\System.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
@@ -89,14 +75,17 @@
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.abstractions.2.0.1\lib\net35\xunit.abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="xunit.assert, Version=2.2.0.3545, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\packages\xunit.assert.2.2.0\lib\netstandard1.1\xunit.assert.dll</HintPath>
+    <Reference Include="xunit.assert, Version=2.3.0.3705, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.assert.2.3.0-beta3-build3705\lib\netstandard1.1\xunit.assert.dll</HintPath>
     </Reference>
-    <Reference Include="xunit.core, Version=2.2.0.3545, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\packages\xunit.extensibility.core.2.2.0\lib\netstandard1.1\xunit.core.dll</HintPath>
+    <Reference Include="xunit.core, Version=2.3.0.3705, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.core.2.3.0-beta3-build3705\lib\netstandard1.1\xunit.core.dll</HintPath>
     </Reference>
-    <Reference Include="xunit.execution.desktop, Version=2.2.0.3545, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\packages\xunit.extensibility.execution.2.2.0\lib\net452\xunit.execution.desktop.dll</HintPath>
+    <Reference Include="xunit.execution.desktop, Version=2.3.0.3705, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.execution.2.3.0-beta3-build3705\lib\net452\xunit.execution.desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.runner.utility.net452, Version=2.3.0.3705, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.runner.utility.2.3.0-beta3-build3705\lib\net452\xunit.runner.utility.net452.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
@@ -134,7 +123,6 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
@@ -161,7 +149,14 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\packages\xunit.core.2.3.0-beta3-build3705\build\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.3.0-beta3-build3705\build\xunit.core.props'))" />
+    <Error Condition="!Exists('..\packages\xunit.core.2.3.0-beta3-build3705\build\xunit.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.3.0-beta3-build3705\build\xunit.core.targets'))" />
+    <Error Condition="!Exists('..\packages\xunit.runner.msbuild.2.3.0-beta3-build3705\build\net452\xunit.runner.msbuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.msbuild.2.3.0-beta3-build3705\build\net452\xunit.runner.msbuild.props'))" />
+    <Error Condition="!Exists('..\packages\xunit.runner.msbuild.2.3.0-beta3-build3705\build\net452\xunit.runner.msbuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.msbuild.2.3.0-beta3-build3705\build\net452\xunit.runner.msbuild.targets'))" />
+    <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.3.0-beta3-build3705\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.3.0-beta3-build3705\build\net20\xunit.runner.visualstudio.props'))" />
   </Target>
+  <Import Project="..\packages\xunit.core.2.3.0-beta3-build3705\build\xunit.core.targets" Condition="Exists('..\packages\xunit.core.2.3.0-beta3-build3705\build\xunit.core.targets')" />
+  <Import Project="..\packages\xunit.runner.msbuild.2.3.0-beta3-build3705\build\net452\xunit.runner.msbuild.targets" Condition="Exists('..\packages\xunit.runner.msbuild.2.3.0-beta3-build3705\build\net452\xunit.runner.msbuild.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
