@@ -151,7 +151,7 @@ namespace Shared.Test.NFluentExtensions
                 FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement {requirement}.").For(typeof(T).Name).On(checker.Value).ToString());
         }
 
-        public static ICheckLink<ICheck<T>> IsSameReferenceAs<T>(this ICheck<T> check, T expected) => check.IsSameReferenceThan(expected);
+        public static ICheckLink<ICheck<T>> IsSameReferenceAs<T>(this ICheck<T> check, T expected) => check.IsSameReferenceAs(expected);
 
         public static ICheckLink<ICheck<IEnumerable<T>>> StartsWith<T>(this ICheck<IEnumerable<T>> check, params T[] expectedValues)
         {
