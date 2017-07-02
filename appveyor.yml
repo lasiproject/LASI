@@ -2,15 +2,15 @@ version: 1.0.0.{build}
 image: Visual Studio 2017 Preview
 configuration: Debug
 platform: Any CPU
+cache:
+- .\NameData
+- .\ThirdPartyComponents
+- .\LASI.App\Resources
 nuget:
   project_feed: true
 build_script:
 - ps: MSBuild ./Lasi.sln /verbosity:normal /m /ignoreprojectextensions:".sln,.vdproj" /p:Configuration=Debug /p:Platform="Any CPU" /t:Rebuild
 before_test:
 - ps: 
-test:
-  assemblies:
-    except:
-    - LASI.Content.Tests.dll
 after_test:
 - ps: dir -r ./LASI.App/*.dll
