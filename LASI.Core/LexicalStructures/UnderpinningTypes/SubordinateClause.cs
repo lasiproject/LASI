@@ -14,9 +14,9 @@ namespace LASI.Core
     {
         public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
 
-        IVerbal IAttributive<IVerbal>.AttributedTo { get { throw new NotImplementedException(); } }
+        IVerbal IAttributive<IVerbal>.AttributedTo => throw new NotImplementedException();
 
-        IDescriptor IAttributive<IDescriptor>.AttributedTo { get { throw new NotImplementedException(); } }
+        IDescriptor IAttributive<IDescriptor>.AttributedTo => throw new NotImplementedException();
         /// <summary>
         /// Gets the entity to which the <see cref="SubordinateClause"/> is attributed and or describes.
         /// </summary>

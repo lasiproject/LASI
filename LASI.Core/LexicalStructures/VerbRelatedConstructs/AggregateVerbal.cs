@@ -125,19 +125,20 @@ namespace LASI.Core
 
         public ModalAuxilary Modality
         {
-            get
-            {
-                return this.Select(member => member.Modality).DefaultIfEmpty().GroupBy(modality => modality?.Text).MaxBy(group => group.Count()).First();
-            }
+            get => this.Select(member => member.Modality)
+                .DefaultIfEmpty()
+                .GroupBy(modality => modality?.Text)
+                .MaxBy(group => group.Count())
+                .First();
             set
             {
-                throw new NotSupportedException($"Cannot Modify The Modality of an Aggregate Verbal.{this.ToString()}");
+                throw new NotSupportedException($"Cannot Modify The Modality of an Aggregate Verbal.{ToString()}");
             }
         }
 
-        public ILexical ObjectOfThePreposition { get { throw new NotImplementedException(); } }
+        public ILexical ObjectOfThePreposition => throw new NotImplementedException();
 
-        public IPrepositional PrepositionalToObject { get { throw new NotImplementedException(); } }
+        public IPrepositional PrepositionalToObject => throw new NotImplementedException();
 
         /// <summary>
         /// Gets or sets the subject complement of the <see cref="AggregateVerbal"/>

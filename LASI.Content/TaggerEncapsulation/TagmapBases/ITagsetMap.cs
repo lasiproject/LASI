@@ -8,11 +8,11 @@ namespace LASI.Content.Tagging
         /// Gets the PosTag string corresponding to the <see cref="Type"/> of the given
         /// <typeparamref name="TLexical"/>.
         /// </summary>
-        /// <param name="word">The <typeparamref name="TLexical"/> for which to get the corresponding tag.</param>
+        /// <param name="leixcal">The <typeparamref name="TLexical"/> for which to get the corresponding tag.</param>
         /// <returns>
         /// The PosTag string corresponding to the <see cref="Type"/> of the given <typeparamref name="TLexical"/>.
         /// </returns>
-        string this[TLexical word] { get; }
+        string this[TLexical leixcal] { get; }
         /// <summary>
         /// Provides POS-Tag indexed access to a factory function which can be invoked to create an instance of the class which provides its
         /// run-time representation.
