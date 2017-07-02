@@ -253,7 +253,7 @@ namespace LASI.Utilities
         public static Dictionary<TKey, (TValue value, int index)> WithIndices<TKey, TValue>(this Dictionary<TKey, TValue> dictionary) =>
             dictionary
                 .Select((entry, index) => (entry.Key, (entry.Value, index)))
-                .ToDictionary(x => x.Key, x => x.Item2);
+                .ToDictionary(x => x.Item1, x => x.Item2);
 
         #endregion Dictionary Extensions
 
@@ -512,9 +512,9 @@ namespace LASI.Utilities
 
             public int Count => wrapped.Count;
 
-            ICollection<TKey> IDictionary<TKey, TValue>.Keys => ((IDictionary<TKey, TValue>)wrapped).Keys;
+            ICollection<TKey> IDictionary<TKey, TValue>.Keys => wrapped.Keys;
 
-            ICollection<TValue> IDictionary<TKey, TValue>.Values => ((IDictionary<TKey, TValue>)wrapped).Values;
+            ICollection<TValue> IDictionary<TKey, TValue>.Values => wrapped.Values;
 
             public bool IsReadOnly => wrapped.IsReadOnly;
 
@@ -536,6 +536,9 @@ namespace LASI.Utilities
 
             public void Add(TKey key, TValue value)
             {
+                // TODO: Remove this! It is an arbitrary test to probe for AppVeyor's supported feature set.
+                int x = default;
+                Console.Write(x);
                 wrapped.Add(key, value);
             }
 
