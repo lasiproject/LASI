@@ -161,19 +161,17 @@ namespace LASI.Core
         /// </summary>
         public virtual IQuantifier QuantifiedBy
         {
-            get
-            {
-                return quantity;
-            }
+            get => quantifiedBy;
             set
             {
-                if (quantity != null)
+                if (quantifiedBy != null)
                 {
-                    quantity.QuantifiedBy = value;
-                    value.Quantifies = quantity;
+                    quantifiedBy.QuantifiedBy = value;
+                    value.Quantifies = quantifiedBy;
                 }
-                else {
-                    quantity = value;
+                else
+                {
+                    quantifiedBy = value;
                     value.Quantifies = this;
                 }
             }
@@ -186,7 +184,7 @@ namespace LASI.Core
         private IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
         private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
-        private IQuantifier quantity;
+        private IQuantifier quantifiedBy;
 
         #endregion Fields
 

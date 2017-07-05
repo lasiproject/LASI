@@ -130,10 +130,7 @@ namespace LASI.Core
                 .GroupBy(modality => modality?.Text)
                 .MaxBy(group => group.Count())
                 .First();
-            set
-            {
-                throw new NotSupportedException($"Cannot Modify The Modality of an Aggregate Verbal.{ToString()}");
-            }
+            set => throw new NotSupportedException($"Cannot Modify The Modality of an Aggregate Verbal.{ToString()}");
         }
 
         public ILexical ObjectOfThePreposition => throw new NotImplementedException();

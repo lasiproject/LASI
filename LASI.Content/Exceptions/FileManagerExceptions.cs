@@ -213,14 +213,8 @@ namespace LASI.Content
         /// </summary>
         public IEnumerable<InputFile> FilesInProjectDirectories
         {
-            get
-            {
-                return filesInProjectDirectories;
-            }
-            protected set
-            {
-                filesInProjectDirectories = value;
-            }
+            get => filesInProjectDirectories;
+            protected set => filesInProjectDirectories = value;
         }
     }
 

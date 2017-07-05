@@ -145,16 +145,16 @@ namespace LASI.Core
         /// </summary>
         public NounPhrase OuterAttributive
         {
-            get { return outerAttributive; }
-            set { outerAttributive = value != this ? value : null; }
+            get => outerAttributive;
+            set => outerAttributive = value != this ? value : null;
         }
         /// <summary>
         /// Gets or sets another NounPhrase, to the right of current instance, which is functions as an Attributor of current instance.
         /// </summary>
         public NounPhrase InnerAttributive
         {
-            get { return innerAttributive; }
-            set { innerAttributive = value != this ? value : null; }
+            get => innerAttributive;
+            set => innerAttributive = value != this ? value : null;
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace LASI.Core
         /// </summary>
         public Option<IPossesser> Possesser
         {
-            get { return possessor; }
+            get => possessor;
             set
             {
                 possessor = value;
@@ -185,7 +185,7 @@ namespace LASI.Core
         /// </summary>
         public virtual IVerbal SubjectOf
         {
-            get { return subjectOf; }
+            get => subjectOf;
             private set
             {
                 subjectOf = value;
@@ -205,7 +205,7 @@ namespace LASI.Core
         /// </summary>
         public virtual IVerbal IndirectObjectOf
         {
-            get { return indirectObjectOf; }
+            get => indirectObjectOf;
             private set
             {
                 indirectObjectOf = value;

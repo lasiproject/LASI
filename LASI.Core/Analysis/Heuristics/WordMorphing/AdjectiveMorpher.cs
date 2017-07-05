@@ -135,8 +135,8 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             new SuffixEndingPair { Ending = "", Suffix = "est" },
         };
 
-        private static readonly WordNetExceptionDataManager Helper= new WordNetExceptionDataManager("adj.exc");
-        private static readonly IReadOnlyDictionary<string, List<string>> ExceptionMapping= Helper.ExcMapping;
+        private static readonly WordNetExceptionDataManager Helper = new WordNetExceptionDataManager("adj.exc");
+        private static readonly IReadOnlyDictionary<string, List<string>> ExceptionMapping = Helper.ExcMapping;
 
         private struct SuffixEndingPair
         {
@@ -146,14 +146,22 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
 
             public string Suffix
             {
-                get { return suffix; }
-                set { suffixLength = (suffix = value).Length; }
+                get => suffix;
+                set
+                {
+                    suffix = value;
+                    suffixLength = suffix.Length;
+                }
             }
 
             public string Ending
             {
-                get { return ending; }
-                set { endingLength = value.Length; ending = value; }
+                get => ending;
+                set
+                {
+                    endingLength = value.Length;
+                    ending = value;
+                }
             }
 
             public int EndingLength => endingLength;

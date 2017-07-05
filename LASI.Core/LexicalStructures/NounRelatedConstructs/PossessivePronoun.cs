@@ -48,10 +48,7 @@ namespace LASI.Core
         /// </summary>
         public IPossesser PossessesFor
         {
-            get
-            {
-                return possessesFor;
-            }
+            get => possessesFor;
             set
             {
                 possessesFor = value;

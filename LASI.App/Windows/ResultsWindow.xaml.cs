@@ -448,14 +448,8 @@ namespace LASI.App
         /// </summary>
         public IEnumerable<Document> Documents
         {
-            get
-            {
-                return documents;
-            }
-            set
-            {
-                documents = value.ToList();
-            }
+            get => documents;
+            set => documents = value.ToList();
         }
 
         #endregion

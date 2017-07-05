@@ -103,8 +103,8 @@ namespace LASI.Core.Analysis.Melding
         /// </summary>
         public IVerbal SubjectOf
         {
-            get { return subjectsOfVerbals; }
-            private set { subjectsOfVerbals = new[] { value }.ToAggregate(); }
+            get => subjectsOfVerbals;
+            private set => subjectsOfVerbals = new[] { value }.ToAggregate();
         }
         /// <summary>
         /// Gets the <see cref="IVerbal"/> of which the entity is the direct object of.
@@ -116,8 +116,8 @@ namespace LASI.Core.Analysis.Melding
         /// </summary>
         public IVerbal IndirectObjectOf
         {
-            get { return indirectObjectsOfVerbals; }
-            private set { indirectObjectsOfVerbals = new[] { value }.ToAggregate(); }
+            get => indirectObjectsOfVerbals;
+            private set => indirectObjectsOfVerbals = new[] { value }.ToAggregate();
         }
 
 

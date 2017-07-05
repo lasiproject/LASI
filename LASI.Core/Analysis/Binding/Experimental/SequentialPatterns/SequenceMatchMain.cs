@@ -314,8 +314,8 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
 
         private List<ILexical> Sequence
         {
-            get { return sequence; }
-            set { this.sequence = value; }
+            get => sequence;
+            set => sequence = value;
         }
 
         private List<ILexical> SequenceFilteredByCurrentPredicates => FilterByCurrentPredicates(Sequence);
