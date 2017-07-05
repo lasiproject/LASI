@@ -2,12 +2,15 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using LASI.Utilities.Validation;
 
 namespace LASI.Utilities
 {
     /// <summary>Provides various methods for Dictionary types.</summary>
+    [DebuggerStepThrough]
+    [DebuggerNonUserCode]
     public static class DictionaryExtensions
     {
         #region ConcurrentDictionary Extensions
@@ -32,13 +35,7 @@ namespace LASI.Utilities
         /// <see cref="ConcurrentDictionary{TKey, TValue}"/> or default(<typeparamref name="TValue"/>) if the
         /// key does not exist.
         /// </returns>
-        public static TValue GetValueOrDefault<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, TKey key)
-        {
-            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
-            TValue value;
-            dictionary.TryGetValue(key, out value);
-            return value;
-        }
+        public static TValue GetValueOrDefault<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, TKey key) => dictionary.GetValueOrDefault(key, () => default);
 
         /// <summary>
         /// Gets the value with the specified key from the
@@ -64,12 +61,7 @@ namespace LASI.Utilities
         /// <see cref="ConcurrentDictionary{TKey, TValue}"/> or the specified defaultValue
         /// if the key does not exist.
         /// </returns>
-        public static TValue GetValueOrDefault<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
-        {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValue;
-        }
+        public static TValue GetValueOrDefault<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue) => dictionary.GetValueOrDefault(key, () => defaultValue);
 
         /// <summary>
         /// Gets the value with the specified key from the
@@ -97,9 +89,8 @@ namespace LASI.Utilities
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> defaultValueFactory)
         {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValueFactory();
+            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValueFactory();
         }
 
         /// <summary>
@@ -155,13 +146,8 @@ namespace LASI.Utilities
         /// <see cref="Dictionary{TKey, TValue}"/> or default(<typeparamref name="TValue"/>) if the
         /// key does not exist.
         /// </returns>
-        public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
-        {
-            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
-            TValue value;
-            dictionary.TryGetValue(key, out value);
-            return value;
-        }
+        public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key) =>
+            dictionary.GetValueOrDefault(key, () => default);
 
         /// <summary>
         /// Gets the value with the specified key from the
@@ -187,12 +173,8 @@ namespace LASI.Utilities
         /// <see cref="Dictionary{TKey, TValue}"/> or the specified defaultValue
         /// if the key does not exist.
         /// </returns>
-        public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
-        {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValue;
-        }
+        public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue) =>
+            dictionary.GetValueOrDefault(key, () => defaultValue);
 
         /// <summary>
         /// Gets the value with the specified key from the
@@ -220,9 +202,8 @@ namespace LASI.Utilities
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TValue> defaultValueFactory)
         {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValueFactory();
+            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValueFactory();
         }
 
         /// <summary>
@@ -241,7 +222,6 @@ namespace LASI.Utilities
         /// The action to perform on each
         /// <see cref="System.Collections.Generic.KeyValuePair{TKey, TValue}" /> in the <see cref="Dictionary{TKey, TValue}" />.
         /// </param>
-        [System.Diagnostics.DebuggerStepThrough]
         public static void ForEach<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, Action<TKey, TValue> action)
         {
             foreach (var keyValuePair in dictionary)
@@ -253,7 +233,7 @@ namespace LASI.Utilities
         public static Dictionary<TKey, (TValue value, int index)> WithIndices<TKey, TValue>(this Dictionary<TKey, TValue> dictionary) =>
             dictionary
                 .Select((entry, index) => (entry.Key, (entry.Value, index)))
-                .ToDictionary(x => x.Item1, x => x.Item2);
+                .ToDictionary(x => x.Key, x => x.Item2);
 
         #endregion Dictionary Extensions
 
@@ -279,13 +259,7 @@ namespace LASI.Utilities
         /// <see cref="IDictionary{TKey, TValue}"/> or default(<typeparamref name="TValue"/>) if the
         /// key does not exist.
         /// </returns>
-        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
-        {
-            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
-            TValue value;
-            dictionary.TryGetValue(key, out value);
-            return value;
-        }
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) => dictionary.GetValueOrDefault(key, () => default);
 
         /// <summary>
         /// Gets the value with the specified key from the
@@ -311,12 +285,7 @@ namespace LASI.Utilities
         /// <see cref="IDictionary{TKey, TValue}"/> or the specified defaultValue
         /// if the key does not exist.
         /// </returns>
-        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
-        {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValue;
-        }
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue) => dictionary.GetValueOrDefault(key, () => defaultValue);
 
         /// <summary>
         /// Gets the value with the specified key from the
@@ -344,9 +313,8 @@ namespace LASI.Utilities
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> defaultValueFactory)
         {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValueFactory();
+            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key), defaultValueFactory, nameof(defaultValueFactory));
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValueFactory();
         }
 
         /// <summary>
@@ -368,6 +336,7 @@ namespace LASI.Utilities
         [System.Diagnostics.DebuggerStepThrough]
         public static void ForEach<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Action<TKey, TValue> action)
         {
+            Validate.NotNull(dictionary, nameof(dictionary), action, nameof(action));
             foreach (var keyValuePair in dictionary)
             {
                 action(keyValuePair.Key, keyValuePair.Value);
@@ -401,13 +370,7 @@ namespace LASI.Utilities
         /// The value with the specified key from the <see cref="IReadOnlyDictionary{TKey, TValue}"/> or default(<typeparamref name="TValue"/>) if the
         /// key does not exist.
         /// </returns>
-        public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key)
-        {
-            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
-            TValue value;
-            dictionary.TryGetValue(key, out value);
-            return value;
-        }
+        public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key) => dictionary.GetValueOrDefault(key, () => default);
 
         /// <summary>
         /// Gets the value with the specified key from the
@@ -433,12 +396,7 @@ namespace LASI.Utilities
         /// <see cref="IReadOnlyDictionary{TKey, TValue}"/> or the specified defaultValue
         /// if the key does not exist.
         /// </returns>
-        public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
-        {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValue;
-        }
+        public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue) => dictionary.GetValueOrDefault(key, () => defaultValue);
 
         /// <summary>
         /// Gets the value with the specified key from the
@@ -466,9 +424,8 @@ namespace LASI.Utilities
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> defaultValueFactory)
         {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValueFactory();
+            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key), defaultValueFactory, nameof(defaultValueFactory));
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValueFactory();
         }
 
         /// <summary>
