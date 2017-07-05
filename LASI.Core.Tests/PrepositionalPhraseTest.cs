@@ -5,7 +5,7 @@ using NFluent;
 using Shared.Test.NFluentExtensions;
 using Xunit;
 
-namespace LASI.Core.Testss
+namespace LASI.Core.Tests
 {
     /// <summary>
     ///This is A test class for PrepositionalPhraseTest and is intended

@@ -17,7 +17,7 @@ namespace LASI.Content.Tests
             var file = new FileInfo($@"..\..\MockUserFiles\{fileName}");
             directoryPath = Directory.CreateDirectory($@"{Directory.GetCurrentDirectory()}\{this.GetType()}\{TestsRun}").FullName;
             filePath = file.CopyTo($@"{directoryPath}\{fileName}", overwrite: true).FullName;
-            ++TestsRun;
+            TestsRun += 1;
         }
         protected abstract Func<string, TConvertFrom> SourceFactory { get; }
 
