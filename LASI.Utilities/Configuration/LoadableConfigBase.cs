@@ -83,6 +83,13 @@ namespace LASI.Utilities.Configuration
                 }
             }
         }
+
+        /// <summary>
+        /// Parses a JSON text containing configuration and returns the result as a <see cref="JObject"/>.
+        /// </summary>
+        /// <param name="jsonText">The seralized configuration.</param>
+        /// <returns>A <see cref="JObject"/> containing the deserialized result.</returns>
+        /// <exception cref="ArgumentException">Thrown when the <paramref name="jsonText"/> does not represent a valid JSON object.</exception>
         protected static JObject ParseAndValidateJson(string jsonText)
         {
             object data;
