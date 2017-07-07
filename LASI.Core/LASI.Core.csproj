@@ -114,7 +114,6 @@
     <Compile Include="Analysis\Binding\Experimental\SequentialPatterns\ContinuationMode.cs" />
     <Compile Include="Analysis\Binding\Experimental\SequentialPatterns\DeclarativeBinder.cs" />
     <Compile Include="Analysis\Binding\Experimental\SequentialPatterns\MatchExtensions.cs" />
-    <Compile Include="Analysis\Binding\Experimental\SequentialPatterns\MatchFailureException.cs" />
     <Compile Include="Analysis\Binding\Experimental\SequentialPatterns\SequenceMatchMain.cs" />
     <Compile Include="Analysis\Binding\Experimental\SequentialPatterns\SequenceMatchCaseClauses.cs" />
     <Compile Include="Analysis\Binding\IIntraSentenceBinder.cs" />
