@@ -66,15 +66,26 @@ namespace LASI.App
 
         public static void RemoveByFileName(string name)
         {
-            var remove = itemsAdded.FirstOrDefault(item => item.Content.ToString().Substring(0, item.Content.ToString().LastIndexOf('.')) == name);
+            var remove = itemsAdded.FirstOrDefault(matchesTargetName);
             if (remove != null)
             {
-                itemsAdded.Remove(remove);
-                runningListDisplay.Items.Remove(remove);
-                --documentCount;
+                RemoveFile(remove);
             }
-            NumberOfDocumentsChanged?.Invoke(runningListDisplay, new RoutedPropertyChangedEventArgs<double>(documentCount + 1, documentCount));
+
+            NumberOfDocumentsChanged(runningListDisplay, new RoutedPropertyChangedEventArgs<double>(documentCount + 1, documentCount));
+
+            bool matchesTargetName(ListViewItem item) => item.Content.ToString().Substring(0, item.Content.ToString().LastIndexOf('.')) == name;
         }
+
+        public static void RemoveAll() => itemsAdded.ToList().ForEach(RemoveFile);
+
+        private static void RemoveFile(ListViewItem remove)
+        {
+            itemsAdded.Remove(remove);
+            runningListDisplay.Items.Remove(remove);
+            --documentCount;
+        }
+
 
         /// <summary>
         /// Returns true if the file represented by the given file info is locked by the operating
@@ -136,7 +147,7 @@ namespace LASI.App
 
         #region Events
 
-        public static event RoutedPropertyChangedEventHandler<double> NumberOfDocumentsChanged;
+        public static event RoutedPropertyChangedEventHandler<double> NumberOfDocumentsChanged = delegate { };
 
         #endregion Events
     }

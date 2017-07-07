@@ -9,6 +9,7 @@ namespace LASI.Interop.Tests
     public class ConfigurationTests
     {
         [Fact]
+        [Trait("Infrastructure", "Infrastructure")]
         public void InitializeTwiceThrowsSystemAlreadyConfiguredException()
         {
             Configures[new Random().Next(0, 4)]();
