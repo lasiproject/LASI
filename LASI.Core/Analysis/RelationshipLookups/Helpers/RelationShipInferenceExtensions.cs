@@ -28,7 +28,7 @@ namespace LASI.Core.Analysis.Relationships
                 var actions = mapping[performer, receiver].Concat(mapping[receiver, performer]);
                 return actions.Any()
                     ? new ActionsRelatedOn(actions)
-                    : default(ActionsRelatedOn?);
+                    : default;
             }
             throw new InvalidOperationException(BuildAssociationContextMessage(performer, receiver));
         }

@@ -395,7 +395,7 @@ namespace LASI.Core.Analysis.PatternMatching
 
         #region Fields
 
-        private TResult result = default(TResult);
+        private TResult result = default;
 
         #endregion Fields
 

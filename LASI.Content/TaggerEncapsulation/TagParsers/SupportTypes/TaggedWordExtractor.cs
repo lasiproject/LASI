@@ -30,7 +30,7 @@ namespace LASI.Content
                         data.Substring(0, tagBegin),
                         tag:
                         data.Substring(tagBegin + 1))
-                : default(TaggedText?);
+                : default;
         }
     }
 }

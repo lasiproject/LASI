@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using LASI.Core.Analysis.Heuristics.WordMorphing;
+using LASI.Utilities;
 using Xunit;
 
 namespace LASI.Core.Analysis.WordMorphing.Tests
@@ -20,13 +21,17 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         public void GetConjugationsTest()
         {
             var root = "walk";
-            IEnumerable<string> expected = new[] { "walked", "walks", "walking" }.ToList();
+            IEnumerable<string> expected = new[] { "walked", "walks", "walking" };
             IEnumerable<string> actual;
             actual = VerbMorpher.GetConjugations(root);
             foreach (var f in actual)
+            {
                 Debug.WriteLine(f);
-            Assert.True((from f in expected
-                           select actual.Contains(f)).Aggregate(true, (result, b) => result && b));
+            }
+            foreach (var e in expected)
+            {
+                Assert.True(actual.Contains(e));
+            }
         }
 
         /// <summary>
@@ -43,7 +48,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
                 actual.AddRange(VerbMorpher.FindRoots(c));
             }
             Assert.True((from f in expected
-                           select actual.Contains(f)).Aggregate(true, (result, b) => result && b));
+                         select actual.Contains(f)).Aggregate(true, (result, b) => result && b));
 
         }
     }

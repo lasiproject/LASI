@@ -104,12 +104,12 @@ namespace LASI.Utilities.Tests
         /// </summary>
         public void ComposeTest1Helper<R, U, T>()
         {
-            Func<R, T> f = r => default(T);
-            Func<U, R> g = u => default(R);
-            Func<U, T> expected = u => default(T);
+            Func<R, T> f = r => default;
+            Func<U, R> g = u => default;
+            Func<U, T> expected = u => default;
             Func<U, T> actual;
             actual = FunctionExtensions.Compose(f, g);
-            Check.That(expected(default(U))).IsEqualTo(default(T));
+            Check.That(expected(default)).IsEqualTo(default);
         }
 
         [Fact]

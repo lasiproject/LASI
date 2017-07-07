@@ -46,9 +46,13 @@ namespace LASI.Content.Serialization.Json
         private static IEnumerable<JProperty> GetRoleIndependentProperties(ILexical element)
         {
             foreach (var property in GetCommonProperties(element))
+            {
                 yield return property;
+            }
             foreach (var property in GetStructuralProperties(element))
+            {
                 yield return property;
+            }
         }
         private static IEnumerable<JProperty> GetStructuralProperties(ILexical element) =>
             from result in element.Match()

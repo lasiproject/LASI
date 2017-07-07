@@ -209,13 +209,21 @@ namespace LASI.Content.Tests
             get
             {
                 foreach (var file in DocFiles)
+                {
                     yield return file;
+                }
                 foreach (var file in DocXFiles)
+                {
                     yield return file;
+                }
                 foreach (var file in PdfFiles)
+                {
                     yield return file;
+                }
                 foreach (var file in TxtFiles)
+                {
                     yield return file;
+                }
             }
         }
 
