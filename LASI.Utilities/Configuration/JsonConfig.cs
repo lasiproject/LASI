@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using LASI.Utilities;
-using LASI.Utilities.Validation;
+using System.Collections.Generic;
 
 namespace LASI.Utilities.Configuration
 {
@@ -40,25 +39,23 @@ namespace LASI.Utilities.Configuration
             MakeDictionary(ref data, jObject);
         }
 
-
-
         /// <summary>Gets the value with the specified name.</summary>
         /// <param name="name">The name of the value to retrieve.</param>
         /// <returns>The value with the specified name.</returns>
-        public string this[string name] => data.GetValueOrDefault(name);
-        private void MakeDictionary(ref System.Collections.Generic.IDictionary<string, string> dict, JObject configSource)
+        public string this[string name] => data.ContainsKey(name) ? data[name] : default;
+
+        private void MakeDictionary(ref IVariantDictionary<string, string> dict, JObject configSource)
         {
             dict = (from property in configSource.Properties()
                     let isAggregate = property.Value is JContainer
                     select new
                     {
-                        property.Name,
-                        Value = isAggregate ? property.Value.ToString() : (string)property.Value
+                        Name = property.Name,
+                        Value = isAggregate ? property.Value.ToString() : property.Value.ToString()
                     })
-                   .ToDictionary(p => p.Name, p => p.Value);
+                   .ToVariantDictionary(p => p.Name.ToString(), p => p.Value.ToString());
         }
 
-        private readonly System.Collections.Generic.IDictionary<string, string> data;
-
+        private readonly IVariantDictionary<string, string> data;
     }
 }

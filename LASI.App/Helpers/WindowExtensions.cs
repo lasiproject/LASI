@@ -16,7 +16,10 @@ namespace LASI.App.Helpers
         /// <returns> The window. </returns>
         public static Window CloseIf(this Window window, Func<bool> predicate)
         {
-            if (predicate()) window.Close();
+            if (predicate())
+            {
+                window.Close();
+            }
             return window;
         }
 
@@ -26,11 +29,7 @@ namespace LASI.App.Helpers
         /// <param name="window"> The window. </param>
         /// <param name="condition"> The condition to test. </param>
         /// <returns> The window. </returns>
-        public static Window CloseIf(this Window window, bool condition)
-        {
-            window.CloseIf(() => condition);
-            return window;
-        }
+        public static Window CloseIf(this Window window, bool condition) => window.CloseIf(() => condition);
 
         /// <summary>
         /// Attempts to reposition the <see cref="Window"/> in relation to the desktop, using the location of the specified <see cref="Window" /> as a reference. 

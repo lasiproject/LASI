@@ -46,15 +46,16 @@ namespace LASI.Content.Tagging
     }
     internal class TextNode
     {
-        public TextNode(string text)
-        {
-            Text = text;
-        }
+        public TextNode(string text) => Text = text;
+
         public override string ToString()
         {
             var result = Text;
             foreach (var c in Children)
+            {
                 Text += c.ToString();
+            }
+
             return result;
         }
 

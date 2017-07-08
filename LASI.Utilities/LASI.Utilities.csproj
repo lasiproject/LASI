@@ -80,6 +80,8 @@
     <Compile Include="CharacterExtensions.cs" />
     <Compile Include="EnumerableFormattingExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IVariantDictionary.cs" />
+    <Compile Include="IVariantKeyValuePair.cs" />
     <Compile Include="Specialized\Enhanced\Universal\UniversalExtensions.cs" />
     <Compile Include="Specialized\Enhanced\IList\Linq\IListExtensions.cs" />
     <Compile Include="Option.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="StringExtensions.cs" />
+    <Compile Include="VariantDictionaryImplementation.cs" />
     <Compile Include="Weight.cs" />
     <Compile Include="ExceptionExtensions.cs" />
   </ItemGroup>

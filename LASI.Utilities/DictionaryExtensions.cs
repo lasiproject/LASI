@@ -109,7 +109,7 @@ namespace LASI.Utilities
         /// The action to perform on each
         /// <see cref="System.Collections.Generic.KeyValuePair{TKey, TValue}" /> in the <see cref="ConcurrentDictionary{TKey, TValue}" />.
         /// </param>
-        [System.Diagnostics.DebuggerStepThrough]
+        [DebuggerStepThrough]
         public static void ForEach<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, Action<TKey, TValue> action)
         {
             foreach (var keyValuePair in dictionary)
@@ -333,7 +333,7 @@ namespace LASI.Utilities
         /// The action to perform on each
         /// <see cref="System.Collections.Generic.KeyValuePair{TKey, TValue}" /> in the <see cref="IDictionary{TKey, TValue}" />.
         /// </param>
-        [System.Diagnostics.DebuggerStepThrough]
+        [DebuggerStepThrough]
         public static void ForEach<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Action<TKey, TValue> action)
         {
             Validate.NotNull(dictionary, nameof(dictionary), action, nameof(action));
@@ -444,7 +444,7 @@ namespace LASI.Utilities
         /// The action to perform on each
         /// <see cref="System.Collections.Generic.KeyValuePair{TKey, TValue}" /> in the <see cref="IDictionary{TKey, TValue}" />.
         /// </param>
-        [System.Diagnostics.DebuggerStepThrough]
+        [DebuggerStepThrough]
         public static void ForEach<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, Action<TKey, TValue> action)
         {
             foreach (var keyValuePair in dictionary)
@@ -453,6 +453,7 @@ namespace LASI.Utilities
             }
         }
 
+        #endregion IDictionary Extensions
         private class DefaultingDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
         {
             public DefaultingDictionary(IDictionary<TKey, TValue> wrapped, Func<TKey, TValue> defaultValueFactory)
@@ -520,7 +521,5 @@ namespace LASI.Utilities
 
             public bool Remove(KeyValuePair<TKey, TValue> item) => wrapped.Remove(item);
         }
-
-        #endregion IDictionary Extensions
     }
 }

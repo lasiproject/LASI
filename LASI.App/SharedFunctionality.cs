@@ -66,12 +66,12 @@ namespace LASI.App
                     foreach (var file in validFiles)
                     {
                         var fileNamePresent = DocumentManager.HasFileWithName(file.Name);
-                        window.MessageIf(fileNamePresent, $"A document named {file} is already part of the current project.");
+                        window.ShowMessageIf($"A document named {file} is already part of the current project.", fileNamePresent);
                         if (!fileNamePresent)
                         {
-                            window.MessageIf(
-                                !DocumentManager.AbleToOpen(file),
-                                $@"The document {file} is in use by another process. Please close any applications which may be using the file and try again.");
+                            window.ShowMessageIf(
+                                $@"The document {file} is in use by another process. Please close any applications which may be using the file and try again.",
+                                !DocumentManager.AbleToOpen(file));
                             if (!DocumentManager.AbleToOpen(file))
                             {
                                 await processValid(file);
@@ -79,7 +79,7 @@ namespace LASI.App
                         }
                     }
                 }
-                window.MessageIf(validFiles.Any, $"Cannot add a file of type {data}. The following formats are supported {UiMessages.ValidDocumentFormats}");
+                window.ShowMessageIf($"Cannot add a file of type {data}. The following formats are supported {UiMessages.ValidDocumentFormats}", validFiles.Any);
             }
         }
 
