@@ -112,10 +112,12 @@ namespace LASI.Core.Tests
 
             using (var expected = members.GetEnumerator())
             using (var actual = target.GetEnumerator())
+            {
                 while (expected.MoveNext() | actual.MoveNext())
                 {
                     Check.That(actual.Current).IsEqualTo(expected.Current);
                 }
+            }
         }
 
         /// <summary>

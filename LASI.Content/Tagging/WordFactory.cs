@@ -1,16 +1,5 @@
-﻿using LASI;
-using LASI.Core;
-using LASI.Utilities;
+﻿using LASI.Core;
 using LASI.Content.Tagging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml;
 
 namespace LASI.Content
 {
@@ -36,7 +25,10 @@ namespace LASI.Content
         public Word Create(TaggedText taggedText)
         {
             if (string.IsNullOrWhiteSpace(taggedText.Text))
+            {
                 throw new EmptyOrWhiteSpaceStringTaggedAsWordException(taggedText.Tag);
+            }
+
             try
             {
                 return wordTagset[taggedText.Tag](taggedText.Text);
@@ -48,11 +40,13 @@ namespace LASI.Content
             catch (UnknownWordTagException)
             {
                 if (taggedText.Tag.Length == 1) // this is dubious
+                {
                     return new Punctuator(taggedText.Text[0]);
+                }
                 throw;
             }
         }
 
-        private WordTagsetMap wordTagset;
+        private readonly WordTagsetMap wordTagset;
     }
 }

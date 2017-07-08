@@ -117,16 +117,15 @@
     <Compile Include="FileManager.cs" />
     <Compile Include="FileTypes\FileConverter.cs" />
     <Compile Include="Exceptions\FileManagerExceptions.cs" />
-    <Compile Include="TaggerEncapsulation\TagmapBases\ITagsetMap.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\Basis\Experimental\ExperimentalTagParser.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\Basis\TagParser.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\PhraseExtractor.cs" />
-    <Compile Include="TaggerEncapsulation\TagmapBases\PhraseTagsetMap.cs" />
-    <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNLPPhraseTagsetMap.cs" />
-    <Compile Include="TaggerEncapsulation\TaggerInterop\SharpNLPTagger.cs" />
-    <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNLPWordTagsetMap.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\TaggedWordExtractor.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\WordFactory.cs" />
+    <Compile Include="Tagging\TagmapBases\ITagsetMap.cs" />
+    <Compile Include="Tagging\TagParsers\Basis\Experimental\ExperimentalTagParser.cs" />
+    <Compile Include="Tagging\TagParsers\Basis\TagParser.cs" />
+    <Compile Include="Tagging\PhraseExtractor.cs" />
+    <Compile Include="Tagging\TagmapBases\PhraseTagsetMap.cs" />
+    <Compile Include="Tagging\SNLPTagsetMaps\SharpNLPPhraseTagsetMap.cs" />
+    <Compile Include="Tagging\TaggerInterop\SharpNLPTagger.cs" />
+    <Compile Include="Tagging\SNLPTagsetMaps\SharpNLPWordTagsetMap.cs" />
+    <Compile Include="Tagging\TaggedWordExtractor.cs" />
     <Compile Include="FileTypes\DocXFile.cs" />
     <Compile Include="FileTypes\Support\FileData.cs" />
     <Compile Include="FileTypes\PdfFile.cs" />
@@ -135,11 +134,12 @@
     <Compile Include="FileTypes\TaggedFile.cs" />
     <Compile Include="FileTypes\TxtFile.cs" />
     <Compile Include="TaggedSourceParser.cs" />
-    <Compile Include="TaggerEncapsulation\TagmapBases\WordTagsetMap.cs" />
+    <Compile Include="Tagging\TagmapBases\WordTagsetMap.cs" />
     <Compile Include="Exceptions\PartOfSpeechTagExceptions.cs" />
     <Compile Include="FileTypes\DocFile.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\TaggedText.cs" />
-    <Compile Include="TaggerEncapsulation\Tagger.cs" />
+    <Compile Include="Tagging\TaggedText.cs" />
+    <Compile Include="Tagging\Tagger.cs" />
+    <Compile Include="Tagging\WordFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ic_launcher-web.ico" />
