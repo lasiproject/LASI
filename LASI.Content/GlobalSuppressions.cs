@@ -23,4 +23,5 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0007:Use implicit type", Justification = "<Pending>", Scope = "member", Target = "~M:TaggerInterop.SharpNLPTagger.NameFind~System.String")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0135:Function does not reach its end or a 'return' statement by any of possible execution paths", Justification = "False postive: single expression", Scope = "member", Target = "~M:TaggerInterop.SharpNLPTagger.ParseViaTaggingModeAsync(TaggerInterop.TaggerMode)~System.Threading.Tasks.Task{System.String}")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Maintainability", "RCS1168:Parameter name differs from base name.", Justification = "<Pending>", Scope = "member", Target = "~P:LASI.Content.Tagging.PhraseTagsetMap.Item(LASI.Core.Phrase)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0029:Use coalesce expression", Justification = "<Pending>", Scope = "member", Target = "~M:TaggerInterop.SharpNLPTagger.#ctor(TaggerInterop.TaggerMode,System.String,System.String)")]
 

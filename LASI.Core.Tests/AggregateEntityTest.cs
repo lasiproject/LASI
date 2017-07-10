@@ -1,6 +1,7 @@
 ﻿using LASI.Core;
 using System;
 using System.Linq;
+using static System.Linq.Enumerable;
 using System.Collections.Generic;
 using LASI.Utilities;
 using NFluent;
@@ -107,7 +108,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void GetEnumeratorTest()
         {
-            var members = Enumerable.Empty<IEntity>();
+            var members = Empty<IEntity>();
             var target = new AggregateEntity(members);
 
             using (var expected = members.GetEnumerator())
@@ -235,7 +236,7 @@ namespace LASI.Core.Tests
                 new NounPhrase(new CommonPluralNoun("cats")),
                 new NounPhrase(new CommonPluralNoun("dogs"))
             );
-            var possessions = new[]  {
+            var possessions = new[] {
                 new NounPhrase(new CommonPluralNoun("claws")),
                 new NounPhrase(new CommonPluralNoun("teeth"))
             };
@@ -300,7 +301,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void WeightTest()
         {
-            IEnumerable<IEntity> members = new IEntity[] { };
+            var members = Empty<IEntity>();
             var target = new AggregateEntity(members);
             var expected = new Random().NextDouble();
             double actual;

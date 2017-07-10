@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Linq.Enumerable;
 
 namespace LASI.Core
 {
@@ -44,7 +45,7 @@ namespace LASI.Core
         /// </returns>
         public static IEnumerable<Phrase> Between(this Phrase after, Func<Phrase, bool> endSelector) => after.Document.Phrases.Any(endSelector) ?
                after.Document.Phrases.SkipWhile(p => p != after).Skip(1).TakeWhile(p => !endSelector(p)) :
-               Enumerable.Empty<Phrase>();
+               Empty<Phrase>();
 
         #region Sequential Implementations
 

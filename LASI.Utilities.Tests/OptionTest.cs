@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Linq.Enumerable;
 
 namespace LASI.Utilities.Tests
 {

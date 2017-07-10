@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using LASI.Utilities;
 
 namespace LASI.App
 {
@@ -14,21 +15,23 @@ namespace LASI.App
         /// <summary>
         /// Enables "minimize to tray" behavior for the specified Window.
         /// </summary>
-        /// <param name = "window">Window to enable the behavior for.</param>
-        public static void Enable(Window window)
+        /// <param name = "window"><see cref="Window"/> to enable the behavior on.</param>
+        /// <param name="windows">Additional <see cref="Window"/>s to enable the behavior on.</param>
+        public static void Enable(Window window, params Window[] windows)
         {
             // No need to track this instance; its event handlers will keep it alive
-            TrayIconProvider.FromWindow(window);
-        }
-
-        /// <summary>
-        /// Enables "minimize to tray" behavior for the specified Window.
-        /// </summary>
-        /// <param name = "window">Window to enable the behavior for.</param>
-        public static void Enable(InProgressWindow window)
-        {
-            // No need to track this instance; its event handlers will keep it alive
-            TrayIconProvider.FromInProgressWindow(window);
+            foreach (var w in windows.Prepend(window))
+            {
+                switch (w)
+                {
+                    case InProgressWindow inProgress:
+                        TrayIconProvider.FromInProgressWindow(inProgress);
+                        break;
+                    default:
+                        TrayIconProvider.FromWindow(w);
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -126,10 +129,8 @@ namespace LASI.App
                 }
             }
 
-            #region Fields
             private WrappedWindow window;
             private System.Windows.Forms.NotifyIcon notifyIcon;
-            #endregion
 
             private struct WrappedWindow
             {

@@ -26,9 +26,7 @@ namespace LASI.App.Properties
         {
             if (Default.TrayMinimize)
             {
-                TrayIconManager.Enable(WindowManager.ProjectPreviewScreen);
-                TrayIconManager.Enable(WindowManager.InProgressScreen);
-                TrayIconManager.Enable(WindowManager.ResultsScreen);
+                TrayIconManager.Enable(WindowManager.ProjectPreviewScreen, WindowManager.InProgressScreen, WindowManager.ResultsScreen);
             }
         }
 
