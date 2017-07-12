@@ -1,5 +1,6 @@
 ﻿import $ from 'jquery';
-import { LexicalMenu, VerbalMenu, ReferencerMenu, ContextMenuDataSource, LexicalMenuBuilder as LexicalMenuBuilderInterface } from 'models';
+import {LexicalMenu, ReferencerMenu, ContextMenuDataSource, LexicalMenuBuilder as LexicalMenuBuilderInterface} from 'models';
+import {VerbalMenu} from 'app/models/verbal-menu';
 
 export default class LexicalMenuBuilder implements LexicalMenuBuilderInterface {
   buildForVerbal = createForVerbalMenuBuilder({});
@@ -22,7 +23,7 @@ function menuIsReferencerMenu(menu: LexicalMenu): menu is ReferencerMenu {
   return !!(menu && referencerMenu.refersToIds);
 }
 
-function createForReferencerMenuBuilder(menuActionTargets: { [id: string]: JQuery }) {
+function createForReferencerMenuBuilder(menuActionTargets: {[id: string]: JQuery}) {
   const resetReferencerAsssotionCssClasses = () =>
     Object.keys(menuActionTargets)
       .map(key => menuActionTargets[key])
@@ -36,8 +37,8 @@ function createForReferencerMenuBuilder(menuActionTargets: { [id: string]: JQuer
   ];
 }
 
-function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery }) {
-  return (function (verbalMenuCssClassMap: { [mapping: string]: string }) {
+function createForVerbalMenuBuilder(menuActionTargets: {[id: string]: JQuery}) {
+  return (function (verbalMenuCssClassMap: {[mapping: string]: string}) {
     return (source: VerbalMenu) => {
       const menuItems = [];
       if (source.subjectIds) {

@@ -299,8 +299,8 @@ SystemJS.config({
         "npm:systemjs-plugin-babel@0.0.17/regenerator-runtime.js"
       ],
       "deps.bundle.js": [
-        "npm:tslib@1.6.1/tslib.es6.js",
-        "npm:tslib@1.6.1.json",
+        "npm:tslib@1.7.1/tslib.es6.js",
+        "npm:tslib@1.7.1.json",
         "npm:systemjs-plugin-babel@0.0.17/regenerator-runtime.js",
         "npm:systemjs-plugin-babel@0.0.17.json",
         "npm:systemjs-plugin-babel@0.0.17/babel-helpers/toConsumableArray.js",
@@ -682,7 +682,6 @@ SystemJS.config({
         "npm:core-js@2.4.1/modules/es6.object.create.js",
         "npm:core-js@2.4.1/modules/es6.symbol.js",
         "npm:core-js@2.4.1/modules/_enum-keys.js",
-        "npm:core-js@2.4.1/client/core.js",
         "npm:aurelia-templating-router@1.1.0/aurelia-templating-router.js",
         "npm:aurelia-templating-router@1.1.0.json",
         "npm:aurelia-templating-router@1.1.0/route-href.js",
@@ -1328,7 +1327,7 @@ SystemJS.config({
     "stream": "npm:jspm-nodelibs-stream@0.2.1",
     "string_decoder": "npm:jspm-nodelibs-string_decoder@0.2.1",
     "tls": "npm:jspm-nodelibs-tls@0.2.1",
-    "tslib": "npm:tslib@1.6.1",
+    "tslib": "npm:tslib@1.7.1",
     "tty": "npm:jspm-nodelibs-tty@0.2.1",
     "typeahead": "github:twitter/typeahead.js@0.11.1",
     "typescript": "npm:typescript@next",

@@ -49,7 +49,12 @@ interface Array<T> {
   const allAre = <T>(args: {}[]): args is T[] => args.every(Array.isArray);
 
   const arrayAgumentations = {
-    correlate<T, U, TKey, R>(this: T[], inner: U[], outerKeySelector: (x: T) => TKey, innerKeySelector: (x: U) => TKey, resultSelector?: (x: {first: T, second: U}) => R): R[] | {first: T, second: U}[] {
+    correlate<T, U, TKey, R>(
+      this: T[],
+      inner: U[],
+      outerKeySelector: (x: T) => TKey,
+      innerKeySelector: (x: U) => TKey,
+      resultSelector?: (x: {first: T, second: U}) => R): R[] | {first: T, second: U}[] {
       const outerKeyed = this.map((element) => ({element, key: outerKeySelector(element)}));
       const innerKeyed = inner.map(element => ({element, key: innerKeySelector(element)}));
       const results = outerKeyed.flatMap(({element: first, key}) => {
@@ -64,7 +69,6 @@ interface Array<T> {
     average<T>(this: T[], valueSelector: (n: T) => number = Number): number {
       return this.reduce((total, value) => total + valueSelector(value), 0) / this.length;
     },
-
 
     groupBy(this: {}[], keySelector: (x: {}) => string | number, valueSelector: (x: {}) => {} = identity) {
       return this.reduce((groups, element) => {

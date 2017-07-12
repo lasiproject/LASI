@@ -4,14 +4,15 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run serve",
+    "start": "npm run concurrently \"npm run serve\" \"npm run bundle-flow\"",
     "serve": "lite-server",
     "test": "jspm run test",
-    "postinstall": "jspm i && ati i",
-    "ati": "ati",
+    "postinstall": "jspm i && npm run ati",
+    "ati": "ati i --explicitIndex false",
     "tsc": "tsc",
     "tslint": "tslint",
-    "bundle-flow": "jspm unbundle && jspm bundle -i plugin-typescript + plugin-babel + text + sass transpilers.bundle.js && jspm bundle -i app/** - [app/**] + aurelia-bootstrapper + aurelia-dialog + aurelia-pal + aurelia-history-browser + aurelia-templating + aurelia-templating-router + aurelia-templating-resources + aurelia-loader-default + aurelia-logging-console + aurelia-templating-binding deps.bundle.js && jspm bundle -wid [app/**] app.bundle.js",
+    "concurrently": "concurrently",
+    "bundle-flow": "jspm unbundle && jspm bundle --source-map-contents -i plugin-typescript + plugin-babel + text + sass transpilers.bundle.js && jspm bundle -i app/** - [app/**] + aurelia-bootstrapper + aurelia-dialog + aurelia-pal + aurelia-history-browser + aurelia-templating + aurelia-templating-router + aurelia-templating-resources + aurelia-loader-default + aurelia-logging-console + aurelia-templating-binding deps.bundle.js && jspm bundle -wid --source-map-contents [app/**] app.bundle.js",
     "lint": "tslint --force --format stylish -c tslint.json --project tsconfig.json -e \"**/__test__/**\"",
     "bundle-dev": "jspm unbundle && jspm bundle app/** -wid",
     "bundle-prod": "jspm unbundle && jspm bundle app/** --minify",
@@ -284,7 +285,7 @@
           }
         }
       },
-      "npm:tslib@1.6.1": {
+      "npm:tslib@1.7.1": {
         "main": "tslib.es6.js",
         "format": "esm",
         "meta": {
@@ -310,7 +311,7 @@
     }
   },
   "devDependencies": {
-    "aurelia-types-installer": "0.2.12",
+    "aurelia-types-installer": "^0.2.13",
     "concurrently": "^3.4.0",
     "jspm": "0.17.0-beta.42",
     "lite-server": "^2.3.0",

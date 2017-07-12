@@ -5,7 +5,6 @@ import './styles/styles.scss';
 import './styles/site.css';
 import './styles/lexical.css';
 import 'bootstrap';
-import 'core-js/client/core';
 import {Aurelia, autoinject, inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 import TokenService from './services/token';

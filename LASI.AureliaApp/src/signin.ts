@@ -1,11 +1,11 @@
 import $ from 'jquery';
-import { autoinject, bindable } from 'aurelia-framework';
-import { AppRouter } from 'aurelia-router';
-import { User } from 'models';
+import {autoinject, bindable} from 'aurelia-framework';
+import {AppRouter} from 'aurelia-router';
+import User from './models/user';
 import UserService from './services/user';
 
 @autoinject export class Signin {
-  constructor(readonly users: UserService, readonly router: AppRouter) { }
+  constructor(readonly users: UserService, readonly router: AppRouter) {}
 
   async login() {
     const user = await this.users

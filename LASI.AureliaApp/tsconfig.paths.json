@@ -18,7 +18,7 @@
         "src/env/prod.js"
       ],
       "tslib": [
-        "jspm_packages/npm/tslib@1.6.1"
+        "jspm_packages/npm/tslib@1.7.1"
       ],
       "jquery": [
         "jspm_packages/npm/@types/jquery@2.0.41"
