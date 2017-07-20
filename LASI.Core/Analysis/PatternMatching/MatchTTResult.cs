@@ -70,37 +70,42 @@ namespace LASI.Core.Analysis.PatternMatching
     /// fluent interface style.
     /// </para> <example>
     /// <code>
-    /// var weight = myLexical.Match().Yield&lt;double&gt;()
-    ///         .Case((IReferencer r) =&gt; r.ReferredTo.Weight)
-    ///     	.Case((IEntity e) =&gt; e.Weight)
-    ///     	.Case((IVerbal v) =&gt; v.HasSubject()? v.Subject.Weight : 0)
+    /// var weight = myLexical.Match()
+    ///     .Case((IReferencer r) =&gt; r.ReferredTo.Weight)
+    ///     .Case((IEntity e) =&gt; e.Weight)
+    ///     .Case((IVerbal v) =&gt; v.HasSubject()? v.Subject.Weight : 0)
     /// 	.Result(1);
-    /// </code> </example><example>
+    /// </code>
+    /// </example>
+    /// <example>
     /// <code>
-    /// var weight = myLexical.Match().Yield&lt;double&gt;()
+    /// var weight = myLexical.Match()
     /// 		.Case((Phrase p) =&gt; p.Words.Average(w =&gt; w.Weight))
     /// 		.Case((Word w) =&gt; w.Weight)
     /// 	.Result();
-    /// </code> </example>
-    /// <para> Patterns may be nested arbitrarily as in the following example </para> <example>
+    /// </code>
+    /// </example>
+    /// <para> Patterns may be nested arbitrarily as in the following example</para>
+    /// <example>
     /// <code>
-    /// var weight = myLexical.Match().Yield&lt;double&gt;()
-    ///         .Case((IReferencer r) =&gt; r.ReferredTo
-    ///             .Match().Yield&lt;double&gt;()
-    ///                 .Case((Phrase p) =&gt; p.Words.OfNoun().Average(w =&gt; w.Weight))
-    ///             .Result())
-    ///         .Case((Noun n) =&gt; n.Weight)
+    /// var weight = myLexical.Match()
+    ///     .Case((IReferencer r) =&gt; r.ReferredTo.Match()
+    ///         .Case((Phrase p) =&gt; p.Words.OfNoun().Average(w =&gt; w.Weight))
+    ///         .Result())
+    ///     .Case((Noun n) =&gt; n.Weight)
     ///     .Result();
-    /// </code> </example>
+    /// </code>
+    /// </example>
     /// <para>
     /// When a Yield clause is not applied, the Match Expression will not yield a value. Instead it
     /// will behave much as a Type driven switch statement. <example>
     /// <code>
     /// myLexical.Match()
-    ///         .Case((Phrase p) =&gt; Console.Write("Phrase: ", p.Text))
-    /// 	    .Case((Word w) =&gt; Console.Write("Word: ", w.Text))
+    ///     .Case((Phrase p) =&gt; Console.Write("Phrase: ", p.Text))
+    ///     .Case((Word w) =&gt; Console.Write("Word: ", w.Text))
     ///     .Default(() =&gt; Console.Write("Not a Word or Phrase"));
-    /// </code> </example>
+    /// </code>
+    /// </example>
     /// </para>
     /// <para>
     /// * a: The visitor pattern provides statically type safe double dispatch, at the cost of
@@ -122,7 +127,7 @@ namespace LASI.Core.Analysis.PatternMatching
     /// </para>
     /// </remarks>
     [DebuggerStepThrough]
-    public class Match<T, TResult> : MatchBase<T> where T : class, ILexical
+    public sealed class Match<T, TResult> : MatchBase<T> where T : class, ILexical
     {
         #region Constructors
 
@@ -137,9 +142,6 @@ namespace LASI.Core.Analysis.PatternMatching
         {
             Matched = matched;
         }
-
-        [DebuggerStepThrough]
-        internal Match(Utilities.Option<T> optionalValue) : base(optionalValue) { }
 
         #endregion Constructors
 
@@ -189,11 +191,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
-        public PredicatedMatch<T, TResult> When<TCase>(Func<TCase, bool> predicate) where TCase : class, ILexical
-        {
-            var cast = Value as TCase;
-            return new PredicatedMatch<T, TResult>(cast != null && predicate(cast), this);
-        }
+        public PredicatedMatch<T, TResult> When<TCase>(Func<TCase, bool> predicate) where TCase : class, ILexical =>
+            new PredicatedMatch<T, TResult>(Value is TCase c && predicate(c), this);
 
         /// <summary>
         /// Appends a When expression to the current pattern. This applies a predicate to the value
@@ -229,8 +228,9 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </returns>
         public Match<T, TResult> Case<TCase>(Func<TResult> func) where TCase : class, ILexical
         {
+            // Despite the nullary func, TCase must match.
             if (!UnMatchable && !Matched && Value is TCase)
-            { // Despite the nullary func, TCase must match.
+            {
                 result = func();
                 Matched = true;
             }
@@ -253,16 +253,10 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </returns>
         public Match<T, TResult> Case<TCase>(Func<TCase, TResult> func) where TCase : class, ILexical
         {
-            if (!UnMatchable && !Matched)
+            if (!UnMatchable && !Matched && Value is TCase matched)
             {
-#pragma warning disable IDE0019 // Use pattern matching : False diagnostic as pattern matching if (Value is TCase matched) {...} causes an error (seems like it should work)
-                var cast = Value as TCase;
-#pragma warning restore IDE0019 // Use pattern matching
-                if (cast != null)
-                {
-                    result = func(cast);
-                    Matched = true;
-                }
+                result = func(matched);
+                Matched = true;
             }
             return this;
         }
@@ -276,15 +270,16 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
         public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<bool> when) where TCase : class, ILexical => When(when).Then(then);
 
-        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<TCase, bool> when) where TCase : class, ILexical =>
-            When(when).Then(then); public Match<T, TResult> Case<TCase>(TResult then, Func<TCase, bool> when) where TCase : class, ILexical =>
-             When(when).Then(then);
+        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<TCase, bool> when) where TCase : class, ILexical => When(when).Then(then);
+
+        public Match<T, TResult> Case<TCase>(TResult then, Func<TCase, bool> when) where TCase : class, ILexical => When(when).Then(then);
 
         public Match<T, TResult> Case(Func<T, TResult> then, Func<T, bool> when) => When(when).Then(then);
 
-        public Match<T, TResult> Case<TCase>(Func<TResult> then, Func<TCase, bool> when) where TCase : class, ILexical =>
-            When(when).Then(then);
+        public Match<T, TResult> Case<TCase>(Func<TResult> then, Func<TCase, bool> when) where TCase : class, ILexical => When(when).Then(then);
+
         public Match<T, TResult> Case(Func<TResult> then, Func<T, bool> when) => When(when).Then(then);
+
         public Match<T, TResult> Case(TResult then, Func<T, bool> when) => When(when).Then(then);
 
         /// <summary>

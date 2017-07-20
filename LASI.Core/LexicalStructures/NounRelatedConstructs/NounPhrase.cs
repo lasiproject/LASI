@@ -173,9 +173,12 @@ namespace LASI.Core
                 possessor = value;
                 // Bind entity words of the phrase as possessions of possessor.
 
-                foreach (var entity in Words.OfEntity())
+                if (value.IsSome)
                 {
-                    value.Match().Case((IEntity e) => e.AddPossession(entity)).Default(() => Words.OfEntity().ToList().ForEach(e => e.Possesser = value));
+                    foreach (var entity in Words.OfEntity())
+                    {
+                        value.Value.Match().Case((IEntity e) => e.AddPossession(entity)).Default(() => Words.OfEntity().ToList().ForEach(e => e.Possesser = value));
+                    }
                 }
             }
         }

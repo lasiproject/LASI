@@ -31,12 +31,6 @@ namespace LASI.Core.Analysis.PatternMatching
             Value = value;
         }
 
-        protected MatchBase(Option<T> optionalValue)
-        {
-            UnMatchable = optionalValue.IsNone;
-            Value = optionalValue.IsSome ? optionalValue.Value : null;
-        }
-
         #region Properties
         /// <summary>
         /// Gets or sets the value indicating if a match was found or if the default value will be yielded by the Result method.

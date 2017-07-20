@@ -51,26 +51,32 @@ namespace LASI.Core.Analysis.PatternMatching
     /// localization of logic, which in the case of visitors would not possible as implementations of visitors will inherently get spread
     /// out in both the textual space of the source code and the conceptions of implementers. The syntax for pattern matching uses a fluent
     /// interface style.
-    /// </para><example>
-    /// <code>
-    ///  var weight = myLexical.Match() .Case((IReferencer r) =&gt;
-    /// Console.WriteLine(r.ReferredTo.Weight)) .Case((IEntity e) =&gt; Console.WriteLine(e.Weight)) .Case((IVerbal v) =&gt;
-    /// Console.WriteLine(v.HasSubject()? v.Subject.Weight : 0));
-    /// </code></example><example>
+    /// </para>
+    /// <example>
     /// <code>
     ///  var weight = myLexical.Match()
-    /// .Case((Phrase p) =&gt; Console.WriteLine(p.Words.Average(w =&gt; w.Weight))) .Case((Word w) =&gt; Console.WriteLine(w.Weight))
-    /// .Default(()=&gt; Console.WriteLine("not a word or phrase"))
+    ///     .Case((IReferencer r) =&gt; Console.WriteLine(r.ReferredTo.Weight))
+    ///     .Case((IEntity e) =&gt; Console.WriteLine(e.Weight))
+    ///     .Case((IVerbal v) =&gt; Console.WriteLine(v.HasSubject()? v.Subject.Weight : 0));
+    /// </code></example>
+    /// <example>
+    /// <code>
+    ///  var weight = myLexical.Match()
+    ///     .Case((Phrase p) =&gt; Console.WriteLine(p.Words.Average(w =&gt; w.Weight)))
+    ///     .Case((Word w) =&gt; Console.WriteLine(w.Weight))
+    ///     .Default(()=&gt; Console.WriteLine("not a word or phrase"))
     /// </code></example>
     /// <para>Patterns may be nested arbitrarily as in the following example</para>
     /// <para>
     /// When a Yield clause is not applied, the Match Expression will not yield a value. Instead it will behave much as a Type driven switch
     /// statement. <example>
     /// <code>
-    ///  myLexical.Match() .Case((Phrase p) =&gt; Console.WriteLine("Phrase:
-    /// ", p.Text)) .Case((Word
-    /// w) =&gt; Console.WriteLine("Word: ", w.Text)) .Default(() =&gt; Console.WriteLine("Not a Word or Phrase"));
-    /// </code></example>
+    ///  myLexical.Match()
+    ///     .Case((Phrase p) =&gt; Console.WriteLine($"Phrase: {p.Text}"))
+    ///     .Case((Word w) =&gt; Console.WriteLine("Word: ", w.Text))
+    ///     .Default(() =&gt; Console.WriteLine("Not a Word or Phrase"));
+    /// </code>
+    /// </example>
     /// </para>
     /// <para>
     /// * a: The visitor pattern provides statically type safe double dispatch, at the cost of increased code complexity and increased class coupling.
@@ -88,7 +94,7 @@ namespace LASI.Core.Analysis.PatternMatching
     /// </remarks>
     /// <seealso cref="LASI.Core.MatchExtensions">Provides extension methods which allow for the creation of Match expressions.</seealso>
     [DebuggerStepThrough]
-    public class Match<T> : MatchBase<T> where T : class, ILexical
+    public sealed class Match<T> : MatchBase<T> where T : class, ILexical
     {
         #region Constructors
 
@@ -97,8 +103,6 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </summary>
         /// <param name="value">The value to match against.</param>
         internal Match(T value) : base(value) { }
-
-        internal Match(Option<T> value) : base(value) { }
 
         #endregion Constructors
 
@@ -146,11 +150,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </typeparam>
         /// <param name="predicate">The predicate to test the value being matched over.</param>
         /// <returns>The PredicatedMatch&lt;T&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
-        public PredicatedMatch<T> When<TCase>(Func<TCase, bool> predicate) where TCase : class, ILexical
-        {
-            var typed = Value as TCase;
-            return new PredicatedMatch<T>(typed != null && predicate(typed), this);
-        }
+        public PredicatedMatch<T> When<TCase>(Func<TCase, bool> predicate) where TCase : class, ILexical => new PredicatedMatch<T>(Value is TCase c && predicate(c), this);
 
         /// <summary>
         /// Appends a When expression to the current pattern. This applies a predicate to the value being matched such that the subsequent
@@ -177,8 +177,8 @@ namespace LASI.Core.Analysis.PatternMatching
         {
             if (!UnMatchable && Value is TCase && !Matched)
             {
-                Matched = true;
                 action();
+                Matched = true;
             }
             return this;
         }
@@ -197,16 +197,10 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T> Case<TCase>(Action<TCase> action) where TCase : class, ILexical
         {
-            if (!UnMatchable && !Matched)
+            if (!UnMatchable && !Matched && Value is TCase c)
             {
-#pragma warning disable IDE0019 // Use pattern matching : False diagnostic as pattern matching if (Value is TCase matched) {...} causes an error (seems like it should work)
-                var matched = Value as TCase;
-#pragma warning restore IDE0019 // Use pattern matching
-                if (matched != null)
-                {
-                    Matched = true;
-                    action(matched);
-                }
+                action(c);
+                Matched = true;
             }
             return this;
         }
@@ -215,8 +209,8 @@ namespace LASI.Core.Analysis.PatternMatching
         {
             if (!UnMatchable && Value != null && !Matched)
             {
-                Matched = true;
                 action(Value);
+                Matched = true;
             }
             return this;
         }
@@ -234,6 +228,7 @@ namespace LASI.Core.Analysis.PatternMatching
             if (!UnMatchable && !Matched)
             {
                 action();
+                Matched = true;
             }
         }
 
@@ -246,6 +241,7 @@ namespace LASI.Core.Analysis.PatternMatching
             if (!UnMatchable && !Matched && Value != null)
             {
                 action(Value);
+                Matched = true;
             }
         }
 
