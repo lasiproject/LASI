@@ -23,7 +23,8 @@
     "downlevelIteration": true,
     "typeRoots": [
       "./jspm_packages/npm/@types"
-    ]
+    ],
+    "types": []
   },
   "exclude": [
     "node_modules",

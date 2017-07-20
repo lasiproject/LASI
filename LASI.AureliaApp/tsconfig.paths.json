@@ -13,6 +13,9 @@
       "models": [
         "src/models"
       ],
+      "models/*": [
+        "src/models/*"
+      ],
       "env": [
         "src/env/dev.js",
         "src/env/prod.js"

@@ -1,4 +1,4 @@
-import {SentenceModel} from 'app/models';
+import SentenceModel from 'models/sentence-model';
 
 export default ParagraphModel;
 

@@ -1,8 +1,8 @@
-import {LexicalMenuCore} from 'app/models';
+import {LexicalMenuCore} from 'models/lexical-menu';
 
 export default VerbalMenu;
 
-export interface VerbalMenu extends LexicalMenuCore {
+interface VerbalMenu extends LexicalMenuCore {
   kind: 'verbal';
   /**
     * The ids of any subjects.
@@ -17,4 +17,4 @@ export interface VerbalMenu extends LexicalMenuCore {
     */
   indirectObjectIds: number[];
 }
-export namespace VerbalMenu {}
+namespace VerbalMenu {}
