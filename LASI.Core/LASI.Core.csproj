@@ -146,11 +146,11 @@
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\Termification\Tests.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\TokenBased.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\MatchAgainstTuple.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchBase.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Match.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatchTTResult.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatchBase.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatch.cs" />
+    <Compile Include="Analysis\PatternMatching\MatchBase.cs" />
+    <Compile Include="Analysis\PatternMatching\Match.cs" />
+    <Compile Include="Analysis\PatternMatching\PredicatedMatchTTResult.cs" />
+    <Compile Include="Analysis\PatternMatching\PredicatedMatchBase.cs" />
+    <Compile Include="Analysis\PatternMatching\PredicatedMatch.cs" />
     <Compile Include="Analysis\RelationshipLookups\AliasLookup.cs" />
     <Compile Include="Analysis\RelationshipLookups\Helpers\ActionsRelatedOn.cs" />
     <Compile Include="Analysis\RelationshipLookups\Helpers\IActionReceiverPair.cs" />
@@ -200,8 +200,8 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
     <Compile Include="LexicalStructures\AttributiveConstructs\IAttributable.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchTTResult.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchExtensions.cs" />
+    <Compile Include="Analysis\PatternMatching\MatchTTResult.cs" />
+    <Compile Include="Analysis\PatternMatching\MatchExtensions.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
     <Compile Include="Analysis\Heuristics\EntityClassificationExtensions.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfRecursiveEnumerableLexicalsExtenstions.cs" />
