@@ -257,7 +257,7 @@ namespace LASI.Core.Tests
                 new NounPhrase(new CommonPluralNoun("dogs"))
             );
             IPossesser expected = new NounPhrase(new ProperPluralNoun("Americans"));
-            target.Possesser = expected.ToOption();
+            target.Possesser = expected;
             var actual = target.Possesser;
             Check.That(actual).IsEqualTo(expected);
         }
