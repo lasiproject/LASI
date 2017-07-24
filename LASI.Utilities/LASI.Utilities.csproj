@@ -82,6 +82,12 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IVariantDictionary.cs" />
     <Compile Include="IVariantKeyValuePair.cs" />
+    <Compile Include="Logger.DebugOutputProxy.cs">
+      <DependentUpon>Logger.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logger.Mode.cs">
+      <DependentUpon>Logger.cs</DependentUpon>
+    </Compile>
     <Compile Include="Specialized\Enhanced\Universal\UniversalExtensions.cs" />
     <Compile Include="Specialized\Enhanced\IList\Linq\IListExtensions.cs" />
     <Compile Include="Option.cs" />

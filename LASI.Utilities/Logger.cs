@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using LASI.Utilities.Validation;
 
 namespace LASI.Utilities
@@ -10,27 +7,12 @@ namespace LASI.Utilities
     /// <summary>
     /// Maps standard output operations, providing a common interface for writing to the Console, Debug, and File output streams.
     /// </summary>
-    public static class Logger
+    public static partial class Logger
     {
-        #region Static Constructor
-
         /// <summary>
         /// Initializes the Output class, setting its destination to the System.Console.Out TextWriter.
         /// </summary>
-        static Logger() { SetToConsole(); }
-
-        #endregion Static Constructor
-
-        #region Methods
-
-        /// <summary>
-        /// Sets the current output stream to Console.Out, the default which is the default which on run.
-        /// </summary>
-        public static void SetToConsole()
-        {
-            OutputMode = Mode.Console;
-            writer = Console.Out;
-        }
+        static Logger() => SetToConsole();
 
         /// <summary>
         /// Sets the current output to the file specified by the given path.
@@ -62,11 +44,21 @@ namespace LASI.Utilities
             // and also the logic behind such granularity is questionable from a conceptual standpoint.
 
             writer = TextWriter.Synchronized(new StreamWriter(fileStream));
-            writer.WriteLine($"LASI Log: {DateTime.Now}");
+            writer.WriteLine($"LASI Log: {DateTimeOffset.Now}");
 
-            AppDomain.CurrentDomain.ProcessExit += delegate { writer.Dispose(); };
-            AppDomain.CurrentDomain.DomainUnload += delegate { writer.Dispose(); };
-            AppDomain.CurrentDomain.UnhandledException += delegate { writer.Dispose(); };
+            var currentDomain = AppDomain.CurrentDomain;
+            currentDomain.ProcessExit += delegate { writer.Dispose(); };
+            currentDomain.DomainUnload += delegate { writer.Dispose(); };
+            currentDomain.UnhandledException += delegate { writer.Dispose(); };
+        }
+
+        /// <summary>
+        /// Sets the current output stream to Console.Out, the default which is the default which on run.
+        /// </summary>
+        public static void SetToConsole()
+        {
+            OutputMode = Mode.Console;
+            writer = Console.Out;
         }
 
         /// <summary>
@@ -107,7 +99,7 @@ namespace LASI.Utilities
         /// Writes a string to the text output stream.
         /// </summary>
         /// <param name="value">The string to write to the text output stream.</param>
-        public static void Log(string value) { writer.WriteLine(value); }
+        public static void Log(string value) => writer.WriteLine(value);
 
         /// <summary>
         /// Writes a formatted string to the text output stream followed by a line terminator, using the same semantics
@@ -121,7 +113,7 @@ namespace LASI.Utilities
         /// item is less than 0 (zero), or greater than or equal to the number of objects
         /// to be formatted (which, for this method overload, is one).
         /// </exception>
-        public static void Log(string format, object arg0, object arg1) { writer.WriteLine(format, arg0, arg1); }
+        public static void Log(string format, object arg0, object arg1) => writer.WriteLine(format, arg0, arg1);
         /// <summary>
         /// Writes a formatted string to the text output stream followed by a line terminator, using the same semantics
         /// as the <see cref="string.Format(string, object)"/> method.
@@ -135,17 +127,36 @@ namespace LASI.Utilities
         /// item is less than 0 (zero), or greater than or equal to the number of objects
         /// to be formatted (which, for this method overload, is one).
         /// </exception>
-        public static void Log(string format, object arg0, object arg1, object arg2) { writer.WriteLine(format, arg0, arg1, arg2); }
+        public static void Log(string format, object arg0, object arg1, object arg2) => writer.WriteLine(format, arg0, arg1, arg2);
 
         /// <summary>
         /// Writes an object to the text output stream.
         /// </summary>
         /// <param name="value">The object to write to the text output stream.</param>
-        public static void Log(object value) { writer.WriteLine(value); }
+        public static void Log(object value) => writer.WriteLine(value);
 
-        #endregion
+        /// <summary>
+        /// Writes the full details of a <see cref="Exception"/> to the text output stream.
+        /// </summary>
+        /// <param name="exception">The <see cref="Exception"/> to write to the text output stream.</param>
+        /// <param name="additionalInfoSelector">A function to extract additional details from the exception.</param>
+        public static void Log<TException>(TException exception, Func<TException, string> additionalInfoSelector) where TException : Exception
+        {
+            Log(exception);
+            writer.WriteLine($"AdditionalInfo: {additionalInfoSelector(exception)}");
+        }
 
-        #region Properties
+        /// <summary>
+        /// Writes the full details of a <see cref="Exception"/> to the text output stream.
+        /// </summary>
+        /// <param name="exception">The <see cref="Exception"/> to write to the text output stream.</param>
+        public static void Log(Exception exception)
+        {
+            writer.WriteLine(exception.GetType());
+            writer.WriteLine($"{nameof(exception.Message)}: {exception.Message}");
+            writer.WriteLine($"{nameof(exception.StackTrace)}: {exception.StackTrace}");
+            writer.WriteLine($"{nameof(exception.Data)}: {exception.Data}");
+        }
 
         /// <summary>
         /// Gets the System.IO.TextWriter object to which all output is currently written.
@@ -155,92 +166,5 @@ namespace LASI.Utilities
         /// Gets the OutputMode indicating where the output is being directed.
         /// </summary>
         public static Mode OutputMode { get; private set; }
-
-        #endregion
-
-        #region Classes 
-
-        /// <summary>
-        /// A <see cref="TextWriter"/> which delegates to the debug output of a supporting IDE.
-        /// </summary>
-        private class DebugOutputProxy : TextWriter
-        {
-            private DebugOutputProxy() { }
-            internal static readonly DebugOutputProxy Instance = new DebugOutputProxy();
-            public override void Write(bool value) { Debug.Write(value); }
-            public override void Write(char value) { Debug.Write(value); }
-            public override void Write(char[] buffer) { Debug.Write(new string(buffer)); }
-            public override void Write(char[] buffer, int index, int count) { Debug.Write(string.Join(string.Empty, buffer.Skip(index).Take(count))); }
-            public override void Write(decimal value) { Debug.Write(value); }
-            public override void Write(double value) { Debug.Write(value); }
-            public override void Write(float value) { Debug.Write(value); }
-            public override void Write(int value) { Debug.Write(value); }
-            public override void Write(long value) { Debug.Write(value); }
-            public override void Write(object value) { Debug.Write(value); }
-            public override void Write(string format, object arg0) { Debug.Write(string.Format(format, arg0)); }
-            public override void Write(string format, object arg0, object arg1) { Debug.Write(string.Format(format, arg0, arg1)); }
-            public override void Write(string format, object arg0, object arg1, object arg2) { Debug.Write(string.Format(format, arg0, arg1, arg2)); }
-            public override void Write(string format, params object[] arg) { Debug.Write(string.Format(format, arg)); }
-            public override void Write(string value) { Debug.Write(value); }
-            public override void Write(uint value) { Debug.Write(value); }
-            public override void Write(ulong value) { Debug.Write(value); }
-            public override void WriteLine() { Debug.WriteLine(string.Empty); }
-            public override void WriteLine(bool value) { Debug.WriteLine(value); }
-            public override void WriteLine(char value) { Debug.WriteLine(value); }
-            public override void WriteLine(char[] buffer) { Debug.WriteLine(new string(buffer)); }
-            public override void WriteLine(char[] buffer, int index, int count) { Debug.WriteLine(string.Join(string.Empty, buffer.Skip(index).Take(count))); }
-            public override void WriteLine(decimal value) { Debug.WriteLine(value); }
-            public override void WriteLine(double value) { Debug.WriteLine(value); }
-            public override void WriteLine(float value) { Debug.WriteLine(value); }
-            public override void WriteLine(int value) { Debug.WriteLine(value); }
-            public override void WriteLine(long value) { Debug.WriteLine(value); }
-            public override void WriteLine(object value) { Debug.WriteLine(value); }
-            public override void WriteLine(string format, object arg0) { Debug.WriteLine(format, arg0); }
-            public override void WriteLine(string format, object arg0, object arg1) { Debug.WriteLine(format, arg0, arg1); }
-            public override void WriteLine(string format, object arg0, object arg1, object arg2) { Debug.WriteLine(format, arg0, arg1, arg2); }
-            public override void WriteLine(string format, params object[] arg) { Debug.WriteLine(format, arg); }
-            public override void WriteLine(string value) { Debug.WriteLine(value); }
-            public override void WriteLine(uint value) { Debug.WriteLine(value); }
-            public override void WriteLine(ulong value) { Debug.WriteLine(value); }
-            public override Encoding Encoding => Encoding.ASCII;
-            public override void Close() { }
-        }
-        #endregion
-
-        /// <summary>
-        /// Defines the output modes of the Output class.
-        /// </summary>
-        public enum Mode
-        {
-            /// <summary>
-            /// The default. An output mode has not yet been set.
-            /// </summary>
-            Unspecified,
-            /// <summary>
-            /// Output will be directed to the current console window.
-            /// </summary>
-            /// <seealso cref="SetToConsole"/>
-            Console,
-            /// <summary>
-            /// Output will be directed to the IDE's debug window.
-            /// </summary>
-            /// <seealso cref="SetToDebug"/>
-            Debug,
-            /// <summary>
-            /// Output will be directed to a file.
-            /// </summary>
-            /// <seealso cref="SetToFile(string)" />
-            File,
-            /// <summary>
-            /// Output will be directed to an externally supplied destination.
-            /// </summary>
-            /// <seealso cref="SetTo(TextWriter)"/>
-            Custom,
-            /// <summary>
-            /// No output will occur.
-            /// </summary>
-            /// <seealso cref="SetToSilent"/>
-            Silent
-        }
     }
 }
