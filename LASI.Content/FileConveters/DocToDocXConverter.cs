@@ -14,7 +14,7 @@ namespace LASI.Content
     /// Converts Microsoft word .doc binary files to modern Microsoft word .docx open XML files.
     /// This allows for easy extraction of the raw textual content which must be passed to the tagging module.
     /// </summary>
-    public class DocToDocXConverter : FileConverter<DocFile, DocXFile>
+    public sealed class DocToDocXConverter : FileConverter<DocFile, DocXFile>
     {
         /// <summary>
         /// Initializes a new instance of DocToDocXConverter which will handle the conversion of the given .doc document.

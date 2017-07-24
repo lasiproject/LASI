@@ -50,6 +50,9 @@ namespace LASI.Content
             }
         }
 
-        public override string CanonicalExtension => ".txt";
+        /// <summary>
+        /// The canonical file extension for the associated input file format.
+        /// </summary>
+        public override string CanonicalExtension { get; } = ".txt";
     }
 }
