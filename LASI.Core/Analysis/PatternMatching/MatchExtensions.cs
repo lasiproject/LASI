@@ -137,9 +137,9 @@ namespace LASI.Core
         /// yields a result which is a of a base type of TResult. This will transform the match into
         /// a more general form which yields a TBase.
         /// </remarks>
-        public static Match<TValue, TBaseResult> Match<TValue, TCase, TResult, TBaseResult>(this Match<TValue, TResult> match, Func<TCase, TBaseResult> func)
-            where TValue : class, ILexical
-            where TCase : class, ILexical
+        public static Match<TValue, TBaseResult> Case<TValue, TCase, TResult, TBaseResult>(this Match<TValue, TResult> match, Func<TCase, TBaseResult> func)
+            where TValue : ILexical
+            where TCase : ILexical
             where TResult : TBaseResult =>
             Match<TValue, TResult>.FromLowerToHigherResultType<TBaseResult, TResult>(match).Case(func);
 
@@ -160,22 +160,22 @@ namespace LASI.Core
         /// yields a result which is a of a base type of TResult. This will transform the match into
         /// a more general form which yields a <see cref="IEnumerator{TBase}"/>.
         /// </remarks>
-        public static Match<TValue, IEnumerable<TResult>> Match<TValue, TCase, TResultEnumerable, TResult>(this Match<TValue, TResultEnumerable> match, Func<TCase, IEnumerable<TResult>> func)
+        public static Match<TValue, IEnumerable<TResult>> Case<TValue, TCase, TResultEnumerable, TResult>(this Match<TValue, TResultEnumerable> match, Func<TCase, IEnumerable<TResult>> func)
             where TResultEnumerable : IEnumerable<TResult>
-            where TValue : class, ILexical
-            where TCase : class, ILexical =>
-            Match<TValue, IEnumerable<TResult>>.TransferValue(match).Match<TValue, TCase, TResultEnumerable, IEnumerable<TResult>>(func);
+            where TValue : ILexical
+            where TCase : ILexical =>
+            Match<TValue, IEnumerable<TResult>>.TransferValue(match).Case<TValue, TCase, TResultEnumerable, IEnumerable<TResult>>(func);
 
         public static TBaseResult Result<TValue, TResult, TBaseResult>(this Match<TValue, TResult> match, TBaseResult defaultValue)
-            where TResult : TBaseResult where TValue : class, ILexical =>
+            where TResult : TBaseResult where TValue : ILexical =>
             Match<TValue, TResult>.FromLowerToHigherResultType<TBaseResult, TResult>(match).Result(defaultValue);
 
         public static TBaseResult Result<TValue, TResult, TBaseResult>(this Match<TValue, TResult> match, Func<TBaseResult> defaultValueFactory)
-            where TResult : TBaseResult where TValue : class, ILexical =>
+            where TResult : TBaseResult where TValue : ILexical =>
             Match<TValue, TResult>.FromLowerToHigherResultType<TBaseResult, TResult>(match).Result(defaultValueFactory);
 
         public static TBaseResult Result<TValue, TResult, TBaseResult>(this Match<TValue, TResult> match, Func<TValue, TBaseResult> defaultValueFactory)
-            where TResult : TBaseResult where TValue : class, ILexical =>
+            where TResult : TBaseResult where TValue : ILexical =>
             Match<TValue, TResult>.FromLowerToHigherResultType<TBaseResult, TResult>(match).Result(defaultValueFactory);
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace LASI.Core
         /// specified ILexical value.
         /// </returns>
         public static Match<TValue> Match<TValue>(this TValue value)
-            where TValue : class, ILexical => new Match<TValue>(value);
+            where TValue : ILexical => new Match<TValue>(value);
 
         /// <summary>
         /// Matches a value against a single case and immediately returns the result.
@@ -200,8 +200,12 @@ namespace LASI.Core
         /// <param name="pattern">The single pattern case to try.</param>
         /// <returns>The result of matching the value against the specified pattern.</returns>
         public static TResult Match<TValue, TCase, TResult>(this TValue value, Func<TCase, TResult> pattern)
-            where TValue : class, ILexical
-            where TCase : class, ILexical => value.Match().Case(pattern).Result();
+            where TValue : ILexical
+            where TCase : ILexical => value.Match().Case(pattern).Result();
+
+        public static TResult Match<TValue, TCase, TResult>(this TValue value, Func<TValue, TResult> pattern)
+             where TValue : ILexical
+             where TCase : ILexical => value.Match().Case(pattern).Result();
 
         /// <summary>
         /// Matches a value against two case patterns and immediately returns the result.
@@ -226,10 +230,22 @@ namespace LASI.Core
         public static SequenceMatch Match(this IEnumerable<Phrase> phrases) => new SequenceMatch(phrases);
 
         public static IEnumerable<TResult> SelectCase<TLexical, TCase, TResult>(this IEnumerable<TLexical> lexicals, Func<TCase, TResult> caseSelector)
-            where TLexical : class, ILexical where TCase : class, ILexical =>
-                from lexical in lexicals
-                where lexical.Match((TCase c) => true)
-                select caseSelector(lexical as TCase);
+            where TLexical : ILexical
+            where TCase : ILexical
+        {
+            return lexicals.SelectMany(enumerateWithCase);
+
+            IEnumerable<TResult> enumerateWithCase(TLexical lexical)
+            {
+                if (lexical is TCase c)
+                {
+                    yield return caseSelector(c);
+                }
+            }
+
+        }
+
+        public static IEnumerable<TResult> SelectMany<TLexical, TResult>(this IEnumerable<TLexical> lexicals, Func<TLexical, Match<TLexical, TResult>> expression) where TLexical : ILexical => SelectCase(lexicals, expression).Select(x => x.Result());
 
     }
 }

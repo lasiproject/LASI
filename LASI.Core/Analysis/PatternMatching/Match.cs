@@ -94,7 +94,7 @@ namespace LASI.Core.Analysis.PatternMatching
     /// </remarks>
     /// <seealso cref="LASI.Core.MatchExtensions">Provides extension methods which allow for the creation of Match expressions.</seealso>
     [DebuggerStepThrough]
-    public sealed class Match<T> : MatchBase<T> where T : class, ILexical
+    public sealed class Match<T> : MatchBase<T> where T : ILexical
     {
         #region Constructors
 
@@ -119,7 +119,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <typeparam name="TResult">The Type of the result which the match expression may now return.</typeparam>
         /// <param name="pattern">The function describing the case.</param>
         /// <returns>A Match&lt;T, R&gt; representing the now result yielding Match expression.</returns>
-        public Match<T, TResult> Case<TCase, TResult>(Func<TCase, TResult> pattern) where TCase : class, ILexical => Yield<TResult>().Case(pattern);
+        public Match<T, TResult> Case<TCase, TResult>(Func<TCase, TResult> pattern) where TCase : ILexical => Yield<TResult>().Case(pattern);
 
         /// <summary>
         /// Promotes the current non result returning expression of type Case&lt;T&gt; into a result returning expression of Case&lt;T,
@@ -150,7 +150,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </typeparam>
         /// <param name="predicate">The predicate to test the value being matched over.</param>
         /// <returns>The PredicatedMatch&lt;T&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
-        public PredicatedMatch<T> When<TCase>(Func<TCase, bool> predicate) where TCase : class, ILexical => new PredicatedMatch<T>(Value is TCase c && predicate(c), this);
+        public PredicatedMatch<T> When<TCase>(Func<TCase, bool> predicate) where TCase : ILexical => new PredicatedMatch<T>(Value is TCase c && predicate(c), this);
 
         /// <summary>
         /// Appends a When expression to the current pattern. This applies a predicate to the value being matched such that the subsequent
@@ -173,7 +173,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </typeparam>
         /// <param name="action">The Action which, if this Case expression is Matched, will be invoked.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T> Case<TCase>(Action action) where TCase : class, ILexical
+        public Match<T> Case<TCase>(Action action) where TCase : ILexical
         {
             if (!UnMatchable && Value is TCase && !Matched)
             {
@@ -195,7 +195,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// PatternMatching expression.
         /// </param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T> Case<TCase>(Action<TCase> action) where TCase : class, ILexical
+        public Match<T> Case<TCase>(Action<TCase> action) where TCase : ILexical
         {
             if (!UnMatchable && !Matched && Value is TCase c)
             {

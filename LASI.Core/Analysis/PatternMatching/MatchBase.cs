@@ -19,7 +19,7 @@ namespace LASI.Core.Analysis.PatternMatching
     /// Provides for the construction of flexible Typed Pattern Matching expressions.
     /// </summary>
     [DebuggerStepThrough]
-    public abstract class MatchBase<T> where T : class, ILexical
+    public abstract class MatchBase<T> where T : ILexical
     {
         /// <summary>
         /// Initializes a new instance of the MatchBase&lt;T&gt; class which will match against the given value.

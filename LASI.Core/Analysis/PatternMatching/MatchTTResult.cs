@@ -127,7 +127,7 @@ namespace LASI.Core.Analysis.PatternMatching
     /// </para>
     /// </remarks>
     [DebuggerStepThrough]
-    public sealed class Match<T, TResult> : MatchBase<T> where T : class, ILexical
+    public sealed class Match<T, TResult> : MatchBase<T> where T : ILexical
     {
         #region Constructors
 
@@ -137,7 +137,6 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </summary>
         /// <param name="value">The value to match with.</param>
         /// <param name="matched">Indicates if the match is to be initialized as already matched.</param>
-        [DebuggerStepThrough]
         internal Match(T value, bool matched) : base(value)
         {
             Matched = matched;
@@ -191,7 +190,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
-        public PredicatedMatch<T, TResult> When<TCase>(Func<TCase, bool> predicate) where TCase : class, ILexical =>
+        public PredicatedMatch<T, TResult> When<TCase>(Func<TCase, bool> predicate) where TCase : ILexical =>
             new PredicatedMatch<T, TResult>(Value is TCase c && predicate(c), this);
 
         /// <summary>
@@ -226,7 +225,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>
         /// The Match&lt;T, R&gt; describing the Match expression so far.
         /// </returns>
-        public Match<T, TResult> Case<TCase>(Func<TResult> func) where TCase : class, ILexical
+        public Match<T, TResult> Case<TCase>(Func<TResult> func) where TCase : ILexical
         {
             // Despite the nullary func, TCase must match.
             if (!UnMatchable && !Matched && Value is TCase)
@@ -251,7 +250,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>
         /// The Match&lt;T, R&gt; describing the Match expression so far.
         /// </returns>
-        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> func) where TCase : class, ILexical
+        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> func) where TCase : ILexical
         {
             if (!UnMatchable && !Matched && Value is TCase matched)
             {
@@ -268,15 +267,15 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="then">The function to apply if the case matched.</param>
         /// <param name="when">The predicate to match.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<bool> when) where TCase : class, ILexical => When(when).Then(then);
+        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<bool> when) where TCase : ILexical => When(when).Then(then);
 
-        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<TCase, bool> when) where TCase : class, ILexical => When(when).Then(then);
+        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<TCase, bool> when) where TCase : ILexical => When(when).Then(then);
 
-        public Match<T, TResult> Case<TCase>(TResult then, Func<TCase, bool> when) where TCase : class, ILexical => When(when).Then(then);
+        public Match<T, TResult> Case<TCase>(TResult then, Func<TCase, bool> when) where TCase : ILexical => When(when).Then(then);
 
         public Match<T, TResult> Case(Func<T, TResult> then, Func<T, bool> when) => When(when).Then(then);
 
-        public Match<T, TResult> Case<TCase>(Func<TResult> then, Func<TCase, bool> when) where TCase : class, ILexical => When(when).Then(then);
+        public Match<T, TResult> Case<TCase>(Func<TResult> then, Func<TCase, bool> when) where TCase : ILexical => When(when).Then(then);
 
         public Match<T, TResult> Case(Func<TResult> then, Func<T, bool> when) => When(when).Then(then);
 
@@ -295,7 +294,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>
         /// The Match&lt;T, R&gt; describing the Match expression so far.
         /// </returns>
-        public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : class, ILexical
+        public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : ILexical
         {
             if (!UnMatchable && !Matched && Value is TPattern)
             {
@@ -411,7 +410,9 @@ namespace LASI.Core.Analysis.PatternMatching
         public IEnumerable<TResult> Where(Func<TResult, bool> predicate)
         {
             if (Matched && predicate(result))
+            {
                 yield return result;
+            }
         }
         public IEnumerable<TFinalProjection> SelectMany<TFinalProjection>(Func<TResult, IEnumerable<TFinalProjection>> projection)
         {

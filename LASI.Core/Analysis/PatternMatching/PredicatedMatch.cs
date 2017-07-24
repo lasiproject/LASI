@@ -11,7 +11,7 @@ namespace LASI.Core.Analysis.PatternMatching
     /// The Type of the value which the Pattern Matching expression will match with.
     /// </typeparam>
     [DebuggerStepThrough]
-    public class PredicatedMatch<T> : PredicatedMatchBase<T> where T : class, ILexical
+    public class PredicatedMatch<T> : PredicatedMatchBase<T> where T : ILexical
     {
         /// <summary>
         /// Initializes a new instance of the PredicatedMatch&lt;T&gt; class which will match
