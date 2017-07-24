@@ -11,7 +11,7 @@ namespace LASI.Core.LexicalStructures
         where TUnit : IUnitLexical, ILexical
         where TRole : TUnit, ILexical
     {
-        /// <summary>Gets the components which comprise the role of IRoleCompositeLexical&lt;<typeparamref name="TUnit"/>, <typeparamref name="TRole"/>&gt;.</summary>
+        /// <summary>The components which comprise the role of IRoleCompositeLexical&lt;<typeparamref name="TUnit"/>, <typeparamref name="TRole"/>&gt;.</summary>
         IEnumerable<TRole> RoleComponents { get; }
     }
 }

@@ -67,7 +67,7 @@ namespace LASI.Core
         public void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = this.ToOption<IPossesser>();
+            possession.Possesser = this;
         }
         /// <summary>
         /// Returns a string representation of the NounPhrase.
@@ -112,7 +112,7 @@ namespace LASI.Core
             var empty = string.Empty;
             return base.ToString() + string.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}",
                 Possessions.Any() ? "\nPossessions: " + Possessions.Format(p => p.Text + '\n') : empty,
-                from p in Possesser select "\nPossessed By: " + p.Text,
+                Possesser != null ? "\nPossessed By: " + Possesser.Text : empty,
                 OuterAttributive != null ? "\nDefinedby: " + OuterAttributive.Text : empty,
                 InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : empty,
                 aliases.Any() ? "\nClassified as: " + aliases.Format() : empty,
@@ -163,9 +163,9 @@ namespace LASI.Core
         public EntityKind EntityKind { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the Entity which "owns" the NounPhrase.
+        /// The Entity which "owns" the NounPhrase.
         /// </summary>
-        public Option<IPossesser> Possesser
+        public IPossesser Possesser
         {
             get => possessor;
             set
@@ -173,18 +173,20 @@ namespace LASI.Core
                 possessor = value;
                 // Bind entity words of the phrase as possessions of possessor.
 
-                if (value.IsSome)
+                if (value is null) { return; }
+
+                foreach (var entity in Words.OfEntity())
                 {
-                    foreach (var entity in Words.OfEntity())
-                    {
-                        value.Value.Match().Case((IEntity e) => e.AddPossession(entity)).Default(() => Words.OfEntity().ToList().ForEach(e => e.Possesser = value));
-                    }
+                    value.Match()
+                        .Case((IEntity e) => e.AddPossession(entity))
+                        .Default(() => Words.OfEntity().ToList().ForEach(e => e.Possesser = value));
                 }
+
             }
         }
 
         /// <summary>
-        /// Gets the <see cref="IVerbal"/> instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
+        /// The <see cref="IVerbal"/> instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
         public virtual IVerbal SubjectOf
         {
@@ -199,12 +201,12 @@ namespace LASI.Core
             }
         }
         /// <summary>
-        /// Gets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
+        /// The <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
         public virtual IVerbal DirectObjectOf => directObjectOf;
 
         /// <summary>
-        /// Gets or sets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
+        /// The <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
         /// </summary>
         public virtual IVerbal IndirectObjectOf
         {
@@ -219,14 +221,15 @@ namespace LASI.Core
             }
         }
 
-        public virtual IEnumerable<Noun> RoleComponents => Words.OfNoun();
+        /// <summary>The components which comprise the role of <see cref="IRoleCompositeLexical{Word,Noun}"/>.</summary>
+        public IEnumerable<Noun> RoleComponents => Words.OfNoun();
         #endregion
 
         #region Fields
         private IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
         private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
-        private Option<IPossesser> possessor = Option.None<IPossesser>();
+        private IPossesser possessor;
         private IVerbal directObjectOf;
         private IVerbal indirectObjectOf;
         private IVerbal subjectOf;

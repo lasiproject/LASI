@@ -53,7 +53,7 @@ namespace LASI.Core
         public void AddPossession(IPossessable possessable)
         {
             possessions = possessions.Add(possessable);
-            possessable.Possesser = this.ToOption<IPossesser>();
+            possessable.Possesser = this;
         }
 
         /// <summary>
@@ -80,11 +80,11 @@ namespace LASI.Core
         #region Properties
 
         /// <summary>
-        /// Gets all of the IDescriptor constructs, generally Adjectives or AdjectivePhrases, which describe the PresentParticiple.
+        /// The <see cref="IDescriptor"/> constructs, generally Adjectives or AdjectivePhrases, which describe the PresentParticiple.
         /// </summary>
         public IEnumerable<IDescriptor> Descriptors => descriptors;
         /// <summary>
-        /// Gets all of the constructs which the PresentParticiple "owns".
+        /// The constructs which the <see cref="PresentParticiple"/> "owns".
         /// </summary>
         public IEnumerable<IPossessable> Possessions => possessions;
         /// <summary>
@@ -104,11 +104,11 @@ namespace LASI.Core
         /// </summary>
         public IVerbal IndirectObjectOf { get; private set; }
         /// <summary>
-        /// Gets or sets the Entity which "owns" the PresentParticiple.
+        /// The <see cref="IPossesser"/> which "owns" the <see cref="PresentParticiple"/>.
         /// </summary>
-        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public IPossesser Possesser { get; set; }
         /// <summary>
-        /// Gets the Activity value of the EntityKind enumeration, the kind always associated with an PresentParticiple.
+        /// The Activity value of the EntityKind enumeration, the kind always associated with an PresentParticiple.
         /// </summary>
         public EntityKind EntityKind { get; }
 

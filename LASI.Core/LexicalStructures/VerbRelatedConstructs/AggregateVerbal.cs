@@ -63,7 +63,7 @@ namespace LASI.Core
 
         public void ModifyWith(IAdverbial modifier) => adverbialModifiers = adverbialModifiers.Add(modifier);
 
-        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IVerbal, IEnumerable<TResult>> flattenAbout) => this.SelectMany(flattenAbout).NonNull();
+        private IEnumerable<T> FlattenAbout<T>(Func<IVerbal, IEnumerable<T>> flattenAbout) where T : class, ILexical => this.SelectMany(flattenAbout).NonNull();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 

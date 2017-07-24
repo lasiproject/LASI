@@ -93,12 +93,12 @@ namespace LASI.Core.Binding.Experimental
                 {
                     case EntityKind.Person:
                     case EntityKind.PersonMultiple:
-                    return EntityKind.PersonMultiple;
+                        return EntityKind.PersonMultiple;
                     case EntityKind.ThingUnknown:
                     case EntityKind.ThingMultiple:
-                    return EntityKind.ThingMultiple;
+                        return EntityKind.ThingMultiple;
                     default:
-                    return matchedKind;
+                        return matchedKind;
                 }
             }
         }
@@ -109,7 +109,7 @@ namespace LASI.Core.Binding.Experimental
         /// <summary>
         /// Gets or sets the possessor of the AggregateNounPhrase.
         /// </summary>
-        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public IPossesser Possesser { get; set; }
 
         public IEnumerable<IPossessable> Possessions => possessions;
 

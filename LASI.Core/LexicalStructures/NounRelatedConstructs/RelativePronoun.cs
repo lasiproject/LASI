@@ -32,9 +32,10 @@ namespace LASI.Core
         {
             if (RefersTo == null || !RefersTo.Any())
             {
-                RefersTo = new AggregateEntity(new[] { target });
+                RefersTo = new AggregateEntity(target);
             }
-            else {
+            else
+            {
                 RefersTo = new AggregateEntity(RefersTo.Append(target));
             }
             EntityKind = RefersTo.EntityKind;
@@ -51,9 +52,10 @@ namespace LASI.Core
             {
                 RefersTo.AddPossession(possession);
             }
-            else {
+            else
+            {
                 possessions = possessions.Add(possession);
-                possession.Possesser = (this as IPossesser).ToOption();
+                possession.Possesser = this;
             }
         }
         /// <summary>
@@ -75,9 +77,9 @@ namespace LASI.Core
             descriptor.Describes = this;
         }
         /// <summary>
-        /// Returns a string representation of the RelativePronoun.
+        /// Returns a string representation of the <see cref="RelativePronoun"/>.
         /// </summary>
-        /// <returns>A string representation of the RelativePronoun.</returns>
+        /// <returns>A string representation of the <see cref="RelativePronoun"/>.</returns>
         public override string ToString() => Text + (VerboseOutput ? " " + RelativePronounKind : string.Empty);
 
         /// <summary>
@@ -107,54 +109,54 @@ namespace LASI.Core
 
         #region Properties
         /// <summary>
-        /// Gets the IEntity which can be said to "own" the RelativePronoun.
+        /// The IEntity which can be said to "own" the <see cref="RelativePronoun"/>.
         /// </summary>
-        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public IPossesser Possesser { get; set; }
         /// <summary>
         /// Indicates whether or not the IPronoun is bound to an Entity.
         /// </summary>
         public bool IsBound => RefersTo != null && RefersTo.Any();
         /// <summary>
-        /// Gets the RelativePronounKind of the RelativePronoun.
+        /// The RelativePronounKind of the RelativePronoun.
         /// </summary>
         public Kind RelativePronounKind { get; }
         /// <summary>
-        /// Gets the Entity which the RelativePronoun references.
+        /// The Entity which the RelativePronoun references.
         /// </summary>
         public IAggregateEntity RefersTo { get; private set; }
 
         /// <summary>
-        /// Gets the EntityKind; Person, Place, Thing, Organization, or Activity;  of the Noun.
+        ///The EntityKind; Person, Place, Thing, Organization, or Activity; of the <see cref="RelativePronoun"/>.
         /// </summary>
         public EntityKind EntityKind { get; private set; }
         /// <summary>
-        ///Gets or sets the IVerbal instance the RelativePronoun is the subject object of.
+        /// The IVerbal instance the RelativePronoun is the subject object of.
         /// </summary>
         public IVerbal SubjectOf { get; private set; }
         /// <summary>
-        ///Gets or sets the IVerbal instance the RelativePronoun is the direct object of.
+        /// The IVerbal instance the RelativePronoun is the direct object of.
         /// </summary>
         public IVerbal DirectObjectOf { get; private set; }
         /// <summary>
-        ///Gets or sets the IVerbal instance the RelativePronoun is the indirect object of.
+        /// The IVerbal instance the RelativePronoun is the indirect object of.
         /// </summary>
         public IVerbal IndirectObjectOf { get; private set; }
         /// <summary>
-        /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the RelativePronoun Instance.
+        /// The IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the <see cref="RelativePronoun"/>.
         /// </summary>
         public IEnumerable<IReferencer> Referencers => referencers;
         /// <summary>
-        /// Gets the collection of IDescriptors, generally Adjectives or AdjectivePhrases which describe the RelativePronoun.
+        /// The IDescriptors, generally Adjectives or AdjectivePhrases which describe the <see cref="RelativePronoun"/>.
         /// </summary>
         public IEnumerable<IDescriptor> Descriptors => descriptors;
         /// <summary>
-        /// Gets the collection of IEntity instances which the RelativePronoun can be said to "own".
+        /// The IEntity instances which the RelativePronoun can be said to "own".
         /// </summary>
         public IEnumerable<IPossessable> Possessions => possessions;
 
 
         /// <summary>
-        /// Gets or sets the Lexical construct which is subordinated by the RelativePronoun.
+        /// The Lexical construct which is subordinated by the <see cref="RelativePronoun"/>.
         /// </summary>
         public ILexical Subordinates { get; set; }
 

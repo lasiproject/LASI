@@ -20,7 +20,7 @@ namespace LASI.Core.Tests
         public void AddPossessionTest()
         {
             var target = CreateNoun();
-            IEntity possession = new NounPhrase(new[] { new CommonSingularNoun("chew"), new CommonSingularNoun("toy") });
+            IEntity possession = new NounPhrase(new CommonSingularNoun("chew"), new CommonSingularNoun("toy"));
             target.AddPossession(possession);
             Check.That(target.Possessions).Contains(possession);
             Check.That(possession.Possesser).IsEqualTo(target);
@@ -121,11 +121,11 @@ namespace LASI.Core.Tests
         public void PossesserTest()
         {
             var target = CreateNoun(); // TODO: Initialize to an appropriate value
-            IEntity expected = new NounPhrase(new Word[] { new Adjective("Red"), new CommonSingularNoun("Team") });
+            IEntity expected = new NounPhrase(new Adjective("Red"), new CommonSingularNoun("Team"));
 
-            target.Possesser = expected.ToOption<IPossesser>();
+            target.Possesser = expected;
             var actual = target.Possesser;
-            Check.That(actual).IsEqualTo(expected);//).IsTrue();
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>

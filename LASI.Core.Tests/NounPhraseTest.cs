@@ -26,8 +26,13 @@ namespace LASI.Core.Tests
                 new Conjunction("and"),
                 new ProperPluralNoun("Canadians")
             };
-            var target = new NounPhrase(composedWords);
-            Check.That(target.Words).IsEqualTo(composedWords);
+            Check.ThatCode(() => new NounPhrase(composedWords))
+                .DoesNotThrow().And.WhichResult()
+                .HasFieldsWithSameValues(new
+                {
+                    Words = composedWords
+                });
+
         }
 
 
@@ -37,9 +42,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindDescriberTest()
         {
-            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
-            var target = new NounPhrase(composedWords);
-            IDescriptor adj = new AdjectivePhrase(new Word[] { new CommonSingularNoun("peace"), new PresentParticiple("loving") });
+            var target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
+            IDescriptor adj = new AdjectivePhrase(new CommonSingularNoun("peace"), new PresentParticiple("loving"));
             target.BindDescriptor(adj);
             Check.That(target.Descriptors).Contains(adj);
         }
@@ -132,7 +136,7 @@ namespace LASI.Core.Tests
         {
             var target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IEntity expected = new NounPhrase(new ProperSingularNoun("North"), new ProperSingularNoun("America"));
-            target.Possesser = expected.ToOption<IPossesser>();
+            target.Possesser = expected;
             var actual = target.Possesser;
             Check.That(actual).IsEqualTo(expected);
         }
