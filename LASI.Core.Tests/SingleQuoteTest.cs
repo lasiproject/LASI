@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -8,12 +9,13 @@ namespace LASI.Core.Tests
     ///to contain all SingleQuoteTest Unit Tests
     /// </summary>
     public class SingleQuoteTest
-    { 
+    {
         /// <summary>
         ///A test for PairWith
         /// </summary>
         [Fact]
-        public void PairWithTest() {
+        public void PairWithTest()
+        {
             var target = new SingleQuote();
             var complement = new SingleQuote();
             target.PairWith(complement);
@@ -25,10 +27,10 @@ namespace LASI.Core.Tests
         ///A test for SingleQuote Constructor
         /// </summary>
         [Fact]
-        public void SingleQuoteConstructorTest() {
+        public void SingleQuoteConstructorTest()
+        {
             var target = new SingleQuote();
-            Assert.True(target.Text == "'");
-            Assert.Equal(target.LiteralCharacter, '\'');
+            Check.That(target).HasFieldsWithSameValues(new { Text = "'", LiteralCharacter = '\'' });
         }
     }
 }

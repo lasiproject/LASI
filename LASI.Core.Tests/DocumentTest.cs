@@ -113,7 +113,7 @@ namespace LASI.Core.Tests
             actual = target.Verbals;
             foreach (var e in expected)
             {
-                Assert.True(actual.Contains(e, LASI.Utilities.Equality.Create<IVerbal>((a, b) => a.Text == b.Text && a.GetType() == b.GetType())));
+                Assert.Contains(e, actual, Equality.Create<IVerbal>((a, b) => a.Text == b.Text && a.GetType() == b.GetType()));
             }
         }
 

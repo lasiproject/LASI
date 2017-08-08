@@ -17,7 +17,8 @@ namespace LASI.Interop.Tests
             Check.ThatCode(Configures[new Random().Next(0, 4)]).Throws<AlreadyConfiguredException>();
         }
 
-        private static readonly Action[] Configures = {
+        static readonly Action[] Configures =
+        {
             InitializeWithJSONSubkeyConfig,
             InitializeWithSimpleJSONConfig,
             InitializeWithSimpleJSONConfigFromStream,
@@ -26,7 +27,7 @@ namespace LASI.Interop.Tests
         /// <summary>
         /// A test for <see cref="Configuration.Initialize(string, ConfigFormat)"/>
         /// </summary>
-        public static void InitializeWithSimpleJSONConfig()
+        static void InitializeWithSimpleJSONConfig()
         {
             var path = @"..\..\configAtTopLevel.json";
             var format = ConfigFormat.Json;
@@ -44,7 +45,7 @@ namespace LASI.Interop.Tests
         /// <summary>
         /// A test for <see cref="Configuration.Initialize(string, ConfigFormat, string)"/>
         /// </summary>
-        public static void InitializeWithJSONSubkeyConfig()
+        static void InitializeWithJSONSubkeyConfig()
         {
             var path = @"..\..\configWithDataSubkey.json";
             var format = ConfigFormat.Json;
@@ -54,7 +55,7 @@ namespace LASI.Interop.Tests
         /// <summary>
         /// A test for <see cref="Configuration.Initialize(Stream, ConfigFormat)"/>
         /// </summary>
-        public static void InitializeWithSimpleJSONConfigFromStream()
+        static void InitializeWithSimpleJSONConfigFromStream()
         {
             var path = @"..\..\configAtTopLevel.json";
             var format = ConfigFormat.Json;
@@ -63,7 +64,7 @@ namespace LASI.Interop.Tests
         /// <summary>
         /// A test for <see cref="Configuration.Initialize(Stream, ConfigFormat, string)"/>
         /// </summary>
-        public static void InitializeWithSimpleJSONSubkeyConfigFromStream()
+        static void InitializeWithSimpleJSONSubkeyConfigFromStream()
         {
             var path = @"..\..\configAtTopLevel.json";
             var format = ConfigFormat.Json;

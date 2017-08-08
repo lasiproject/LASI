@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using NFluent;
+using Shared.Test.NFluentExtensions;
 
 namespace LASI.Core.Tests
 { 
@@ -26,8 +28,7 @@ namespace LASI.Core.Tests
             var target = CreateIInderectObjectTaker();
             IEntity indirectObject = new NounPhrase(new Word[] { new PossessivePronoun("my"), new CommonSingularNoun("friend") });
             target.BindIndirectObject(indirectObject);
-            Assert.True(target.IndirectObjects.Contains(indirectObject));
-            Assert.True(target.AggregateIndirectObject.Contains(indirectObject));
+            Check.That(indirectObject).Satisfies(target.IndirectObjects.Contains).And.Satisfies(target.AggregateIndirectObject.Contains);
         }
 
         /// <summary>
