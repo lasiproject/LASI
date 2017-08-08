@@ -459,7 +459,7 @@ namespace LASI.Content
             }
         }
 
-        internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(path => { throw new UnsupportedFileTypeException("unmapped " + path); });
+        internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(path => throw new UnsupportedFileTypeException("unmapped " + path));
 
         #region Fields
 
