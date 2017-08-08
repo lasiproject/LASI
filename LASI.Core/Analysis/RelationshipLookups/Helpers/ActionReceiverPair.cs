@@ -64,7 +64,7 @@ namespace LASI.Core.Analysis.Relationships
         /// <c>true</c> if the ActionReceiverPair&lt;TVerbal, TEntity&gt; is equal to the given
         /// object, otherwise false.
         /// </returns>
-        public override bool Equals(object obj) => obj is ActionReceiverPair<TVerbal, TEntity> && this.Equals((ActionReceiverPair<TVerbal, TEntity>)obj);
+        public override bool Equals(object obj) => obj is ActionReceiverPair<TVerbal, TEntity> o && Equals(o);
 
         /// <summary>
         /// Indicates whether the current <see cref="ActionReceiverPair{TEntity,TVerbal}"/> is equal

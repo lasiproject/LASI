@@ -63,10 +63,10 @@ namespace LASI.Core.Analysis.Relationships
         /// <summary>
         /// Gets the collection of entities which are the recipients of the given action when performed by the given action Performer.
         /// </summary>
-        /// <param name="actionPerformer">The action Performing Entity.</param>
+        /// <param name="performer">The action Performing Entity.</param>
         /// <param name="action">The Action which the Performing Entity performs.</param>
         /// <returns>The collection of entities which are the recipients of the given action when performed by the given action Performer.</returns>
-        IEnumerable<TEntity> this[TEntity actionPerformer, TVerbal action] { get; }
+        IEnumerable<TEntity> this[TEntity performer, TVerbal action] { get; }
         /// <summary>
         /// Gets the collection of entities which are the recipients of the given action when performed by the given action Performer.
         /// The extant Actions and Action performers within the data set are matched based on the logic of the supplied predicate functions.
