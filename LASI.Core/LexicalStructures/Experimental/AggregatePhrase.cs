@@ -67,7 +67,6 @@ namespace LASI.Core.Binding.Experimental
 
         public IEnumerable<IDescriptor> Descriptors => descriptors;
 
-
         /// <summary>
         ///Gets the IVerbal instance the AggregateNounPhrase is the subject of.
         /// </summary>
@@ -102,7 +101,6 @@ namespace LASI.Core.Binding.Experimental
                 }
             }
         }
-
 
         public double MetaWeight { get; set; }
 

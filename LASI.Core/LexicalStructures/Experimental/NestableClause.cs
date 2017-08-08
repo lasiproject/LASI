@@ -1,9 +1,5 @@
-﻿using LASI.Utilities;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LASI.Core.Binding.Experimental
 {
@@ -17,6 +13,7 @@ namespace LASI.Core.Binding.Experimental
             Parent = parent;
             Children = constituentClauses;
         }
+
         public IEnumerable<NestableClause> GetClausesSkippingSubordinates()
         {
             var temp = Children.TakeWhile(c => !(c is SubordinateClause));
@@ -25,14 +22,14 @@ namespace LASI.Core.Binding.Experimental
             return result.Select(c => c.Self);
         }
 
-
         #region Properties
 
         public NestableClause Parent { get; set; }
+
         public IEnumerable<INestableLexical<NestableClause>> Children { get; set; }
+
         public NestableClause Self => this;
 
-        #endregion
-
+        #endregion Properties
     }
 }

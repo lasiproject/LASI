@@ -169,9 +169,9 @@
     <Compile Include="LexicalStructures\BehavioralConstructs\IObjectTaker.cs" />
     <Compile Include="LexicalStructures\BehavioralConstructs\IQuantifier.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
-    <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />
-    <Compile Include="LexicalStructures\ExperimentalTypes\INestableLexical.cs" />
-    <Compile Include="LexicalStructures\ExperimentalTypes\NestableClause.cs" />
+    <Compile Include="LexicalStructures\Experimental\AggregatePhrase.cs" />
+    <Compile Include="LexicalStructures\Experimental\INestableLexical.cs" />
+    <Compile Include="LexicalStructures\Experimental\NestableClause.cs" />
     <Compile Include="LexicalStructures\Structural\ICompositeLexical.cs" />
     <Compile Include="LexicalStructures\Structural\ILinkedUnitLexical.cs" />
     <Compile Include="LexicalStructures\Structural\IPrepositionLinkable.cs" />
