@@ -69,9 +69,12 @@ namespace LASI.Content
         /// Initializes a new instance of the FileManagerNotInitializedException class with its message string set to message.
         /// </summary> 
         public FileManagerNotInitializedException()
-            : base("File Manager has not been initialized. No directory context in which to operate.")
+            : this("File Manager has not been initialized. No directory context in which to operate.")
         {
         }
+
+        private FileManagerNotInitializedException(string message) : base(message) { }
+
         public FileManagerNotInitializedException(string message, Exception inner) : base(message, inner) { }
         /// <summary>
         /// Initializes a new instance of the <see cref="FileManagerNotInitializedException"/> class with serialized data.
@@ -136,6 +139,8 @@ namespace LASI.Content
             : base(info, context)
         {
         }
+
+        private UnsupportedFileTypeException() { }
     }
 
     /// <summary>
@@ -182,6 +187,9 @@ namespace LASI.Content
         {
             CollectDirInfo();
         }
+
+        private FileManagerException() { }
+
         /// <summary>
         /// Sets the System.Runtime.Serialization.SerializationInfo with information about the exception.
         /// </summary>

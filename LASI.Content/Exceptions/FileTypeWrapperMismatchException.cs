@@ -33,13 +33,21 @@ namespace LASI.Content.Exceptions
         /// The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains contextual information
         /// about the source or destination.
         /// </param>
-        protected FileTypeWrapperMismatchException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        private FileTypeWrapperMismatchException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
             if (info == null)
+            {
                 throw new ArgumentNullException(nameof(info));
-            this.MistmatchedExtension = info.GetString(nameof(MistmatchedExtension));
+            }
+
+            MistmatchedExtension = info.GetString(nameof(MistmatchedExtension));
         }
+
+        private FileTypeWrapperMismatchException(string message, Exception inner) : base(message, inner)
+        {
+        }
+
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
