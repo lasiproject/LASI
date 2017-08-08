@@ -111,9 +111,9 @@ namespace LASI.Core.Analysis.Relationships
         /// <summary>
         /// Gets the collection of Performer - Receiver EntityPairs which consists of all pairing of Entities which are related by the given Verbal.
         /// </summary>
-        /// <param name="action">The verbal for which to find relationships over.</param>
+        /// <param name="relator">The verbal for which to find relationships over.</param>
         /// <returns>The collection of Performer - Receiver EntityPairs which consists of all pairing of Entities which are related by the given Verbal.</returns>
-        public IEnumerable<PerformerReceiverPair<TEntity, TEntity>> this[TVerbal action] => this[action, actionComparer];
+        public IEnumerable<PerformerReceiverPair<TEntity, TEntity>> this[TVerbal relator] => this[relator, actionComparer];
 
         /// <summary>
         /// Gets the collection of Action - Receiver ActionReceiverPairs which consists of all pairings of Actions and Receivers for all received Actions the given Entity performs.
@@ -139,23 +139,23 @@ namespace LASI.Core.Analysis.Relationships
         /// Gets the collection of Performer - Receiver EntityPairs which consists of all pairing of Entities which are related by the given Verbal.
         /// The extant verbals within the data set are matched based on the logic of the supplied predicate function.
         /// </summary>
-        /// <param name="action">The verbal for which to find relationships over.</param>
-        /// <param name="actionComparer">A predicate function which determines how to find matches for the given Verbal.</param>
+        /// <param name="relater">The verbal for which to find relationships over.</param>
+        /// <param name="verbalComparer">A predicate function which determines how to find matches for the given Verbal.</param>
         /// <returns>The collection of Performer - Receiver EntityPairs which consists of all pairing of Entities which are related by the given Verbal.</returns>
-        public IEnumerable<PerformerReceiverPair<TEntity, TEntity>> this[TVerbal action, Func<TVerbal, TVerbal, bool> actionComparer] =>
+        public IEnumerable<PerformerReceiverPair<TEntity, TEntity>> this[TVerbal relater, Func<TVerbal, TVerbal, bool> verbalComparer] =>
             from a in VerbalRelationshipDomain
-            where actionComparer(a, action)
-            from performer in action.Subjects.OfType<TEntity>()
-            from receiver in action.DirectObjects.Concat(action.IndirectObjects).OfType<TEntity>()
+            where verbalComparer(a, relater)
+            from performer in relater.Subjects.OfType<TEntity>()
+            from receiver in relater.DirectObjects.Concat(relater.IndirectObjects).OfType<TEntity>()
             select new PerformerReceiverPair<TEntity, TEntity>(performer, receiver);
 
         /// <summary>
         /// Gets the collection of entities which are the recipients of the given action when performed by the given action Performer.
         /// </summary>
-        /// <param name="actionPerformer">The action Performing Entity.</param>
+        /// <param name="performer">The action Performing Entity.</param>
         /// <param name="action">The Action which the Performing Entity performs.</param>
         /// <returns>The collection of entities which are the recipients of the given action when performed by the given action Performer.</returns>
-        public IEnumerable<TEntity> this[TEntity actionPerformer, TVerbal action] => this[actionPerformer, performerComparer, action, actionComparer];
+        public IEnumerable<TEntity> this[TEntity performer, TVerbal action] => this[performer, performerComparer, action, actionComparer];
 
         /// <summary>
         /// Gets the collection of entities which are the recipients of the given action when performed by the given action Performer.
