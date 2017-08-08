@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -16,8 +17,8 @@ namespace LASI.Core.Tests
         public void DoubleQuoteConstructorTest()
         {
             var target = new DoubleQuote();
-            Assert.Equal(target.PairedWith, null);
-            Assert.Equal(target.Text, "\"");
+            Check.That(target.PairedWith).IsNull();
+            Check.That(target.Text).IsEqualTo("\"");
         }
 
         /// <summary>
@@ -26,13 +27,15 @@ namespace LASI.Core.Tests
         [Fact]
         public void PairWithTest()
         {
-            var target = new DoubleQuote();
-            var complement = new DoubleQuote();
+            DoubleQuote target = new DoubleQuote();
+            DoubleQuote complement = new DoubleQuote();
+
             target.PairWith(complement);
-            Assert.Same(target.PairedWith, complement);
-            Assert.Same(target, target.PairedWith.PairedWith);
+            Check.That(target.PairedWith).IsSameReferenceAs(complement);
+
             target.PairWith(target);
-            Assert.NotSame(target.PairedWith, target);
+
+            Check.That(target.PairedWith).Not.IsSameReferenceAs(target);
         }
     }
 }

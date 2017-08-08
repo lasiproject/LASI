@@ -68,7 +68,9 @@ namespace LASI.Utilities.Tests
             {
                 target(5);
             }
+#pragma warning disable RCS1075 // Avoid empty catch clause that catches System.Exception.
             catch (Exception e) when (e.Message == failure)
+#pragma warning restore RCS1075 // Avoid empty catch clause that catches System.Exception.
             {
             }
             Check.That(fCalled).IsFalse();

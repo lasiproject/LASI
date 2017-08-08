@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Xunit;
+using NFluent;
 
 namespace LASI.Core.Tests
 {
@@ -37,7 +38,7 @@ namespace LASI.Core.Tests
             Assert.False(actual.Any());
             IAdverbial modifier = new Adverb("very");
             target.ModifyWith(modifier);
-            Assert.True(target.AdverbialModifiers.Contains(modifier));
+            Assert.Contains(modifier, target.AdverbialModifiers);
         }
 
         /// <summary>
@@ -61,11 +62,10 @@ namespace LASI.Core.Tests
         [Fact]
         public void ModifyWithTest()
         {
-            IEnumerable<Word> composedWords = new Word[] { new Adjective("tall") };
-            var target = new AdjectivePhrase(composedWords);
+            var target = new AdjectivePhrase(new Word[] { new Adjective("tall") });
             IAdverbial adv = new Adverb("overly");
             target.ModifyWith(adv);
-            Assert.True(target.AdverbialModifiers.Contains(adv));
+            Check.That(target.AdverbialModifiers).Contains(adv).Only();
         }
     }
 }
