@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using LASI.Core.Analysis.Heuristics.WordMorphing;
 using LASI.Utilities;
+using NFluent;
 using Xunit;
 
 namespace LASI.Core.Analysis.WordMorphing.Tests
@@ -30,7 +31,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             }
             foreach (var e in expected)
             {
-                Assert.True(actual.Contains(e));
+                Check.That(e).Contains(actual);
             }
         }
 
@@ -47,8 +48,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             {
                 actual.AddRange(VerbMorpher.FindRoots(c));
             }
-            Assert.True((from f in expected
-                         select actual.Contains(f)).Aggregate(true, (result, b) => result && b));
+            Assert.True(expected.Select(actual.Contains).All());
 
         }
     }

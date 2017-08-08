@@ -118,7 +118,7 @@ namespace LASI.Utilities
             /// </summary>
             /// <param name="obj">The object for which to get a hash code.</param>
             /// <returns>A hash code for the specified object.</returns>
-            public override int GetHashCode(T obj) => obj == null ? 0 : 1;
+            public override int GetHashCode(T obj) => Default.Equals(obj, default) ? 0 : 1;
 
             private readonly Func<T, T, bool> equals;
         }

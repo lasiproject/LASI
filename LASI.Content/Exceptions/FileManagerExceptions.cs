@@ -140,7 +140,7 @@ namespace LASI.Content
         {
         }
 
-        private UnsupportedFileTypeException() { }
+        public UnsupportedFileTypeException() { }
     }
 
     /// <summary>
@@ -188,7 +188,7 @@ namespace LASI.Content
             CollectDirInfo();
         }
 
-        private FileManagerException() { }
+        public FileManagerException() { }
 
         /// <summary>
         /// Sets the System.Runtime.Serialization.SerializationInfo with information about the exception.

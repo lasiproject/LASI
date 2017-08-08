@@ -395,12 +395,15 @@ namespace LASI.Utilities.Tests
             Assert.False(target.IsNone);
             Assert.True(target.IsSome);
         }
+
+        [Fact]
         public void IsSomeTest4()
         {
             var target = Option.Create(random());
             Assert.False(target.IsNone);
             Assert.True(target.IsSome);
         }
+
         [Fact]
         public void IsSomeTest5()
         {

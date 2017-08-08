@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -14,9 +15,8 @@ namespace LASI.Core.Tests
         public void EntityKindTest()
         {
             IEntity target = new CommonSingularNoun("cat");
-            EntityKind actual;
-            actual = target.EntityKind;
-            Assert.Equal(actual, EntityKind.Thing);
+
+            Check.That(target.EntityKind).IsEqualTo(EntityKind.Thing);
         }
     }
 }
