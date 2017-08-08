@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Xunit;
+using NFluent;
 
 namespace LASI.Core.Tests
 {
@@ -12,22 +13,16 @@ namespace LASI.Core.Tests
     /// </summary>
     public class IDirectObjectTakerTest
     {
-        internal virtual IDirectObjectTaker CreateIDirectObjectTaker()
-        {
-            IDirectObjectTaker target = new BaseVerb("slay");
-            return target;
-        }
-
         /// <summary>
         ///A test for BindDirectObject
         /// </summary>
         [Fact]
         public void BindDirectObjectTest()
         {
-            var target = CreateIDirectObjectTaker();
+            var target = new BaseVerb("slay");
             IEntity directObject = new PersonalPronoun("them");
             target.BindDirectObject(directObject);
-            Assert.True(target.DirectObjects.Any(o => o == directObject));
+            Check.That(target.DirectObjects).Contains(directObject);
         }
 
         /// <summary>
@@ -36,14 +31,17 @@ namespace LASI.Core.Tests
         [Fact]
         public void AggregateDirectObjectTest()
         {
-            var target = CreateIDirectObjectTaker();
-            IAggregateEntity aggregateObject = new AggregateEntity(new[]{
-                new NounPhrase(new Word[]{new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")}),
-                new NounPhrase(new Word[]{new PossessivePronoun("his"),new CommonPluralNoun("cats")})
-            });
+            var target = new BaseVerb("slay");
+            IAggregateEntity aggregateObject = new AggregateEntity(
+                new NounPhrase(new ProperSingularNoun("John"), new ProperSingularNoun("Smith")),
+                new NounPhrase(new PossessivePronoun("his"), new CommonPluralNoun("cats"))
+            );
+
             target.BindDirectObject(aggregateObject);
+
             var actual = target.AggregateDirectObject;
-            Assert.False(actual.Except(aggregateObject).Any());
+
+            Check.That(actual.Except(aggregateObject)).IsEmpty();
         }
 
         /// <summary>
@@ -52,10 +50,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void DirectObjectsTest()
         {
-            var target = CreateIDirectObjectTaker();
-            IEnumerable<IEntity> actual;
-            actual = target.DirectObjects;
-            Assert.Equal(target.DirectObjects, actual);
+            var target = new BaseVerb("slay");
+            IEnumerable<IEntity> actual = target.DirectObjects;
+            Check.That(target.DirectObjects).IsEqualTo(actual);
         }
     }
 }

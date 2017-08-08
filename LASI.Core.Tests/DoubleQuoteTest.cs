@@ -27,8 +27,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void PairWithTest()
         {
-            DoubleQuote target = new DoubleQuote();
-            DoubleQuote complement = new DoubleQuote();
+            var target = new DoubleQuote();
+            var complement = new DoubleQuote();
 
             target.PairWith(complement);
             Check.That(target.PairedWith).IsSameReferenceAs(complement);

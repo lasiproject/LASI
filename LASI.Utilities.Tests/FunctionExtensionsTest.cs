@@ -384,13 +384,14 @@ namespace LASI.Utilities.Tests
         /// <summary>
         ///A test for Identity
         /// </summary>
-        public void IdentityTestHelper<T>() where T : new()
+        static void IdentityTestHelper<T>() where T : new()
         {
             var target = new T();
             var expected = target;
             var actual = Identity(target);
             Check.That(expected).IsEqualTo(actual);
         }
+
         [Fact]
         public void WithTimerOfArity0FunctionStopsAndStartsTimerAppropriately()
         {
