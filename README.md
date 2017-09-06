@@ -10,7 +10,7 @@ Some of the heuristics applied include:
 
 lifted frequencies, syntactic identification, sentence level locality, and gender aware pronoun inference
 
-LASI is implemented in C# 7.0 and targets the .NET Framework Version 4.6
+LASI is implemented in C# 7.1 and targets the .NET Framework Version 4.7
 
 (The .NET 4.5 requirement stems from the use of the async function modifier together with the await operator)
 
