@@ -1,5 +1,6 @@
 ﻿namespace LASI.Content.Tagging
 {
+    using System;
     using Exception = System.Exception;
     using SerializableAttribute = System.SerializableAttribute;
     using SerializationInfo = System.Runtime.Serialization.SerializationInfo;
@@ -24,7 +25,8 @@
         /// The Word Tag that was associated with a blank or empty piece of text.
         /// </param>
         public EmptyOrWhiteSpaceStringTaggedAsWordException(string tagGivenToBlankWord) : base(
-            $"An piece of whitespace was annotated with a Word Tag. Tag: {tagGivenToBlankWord}") { }
+            $"An piece of whitespace was annotated with a Word Tag. Tag: {tagGivenToBlankWord}")
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EmptyOrWhiteSpaceStringTaggedAsWordException"/> class with its message string set to message.
@@ -49,7 +51,8 @@
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
         private EmptyOrWhiteSpaceStringTaggedAsWordException(SerializationInfo info, StreamingContext context) :
-            base(info, context) { }
+            base(info, context)
+        { }
 
         private const string DefaultMessage = "An piece of whitespace was annotated with a Word Tag.";
     }
@@ -187,6 +190,8 @@
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
         protected PartOfSpeechTagException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+        protected PartOfSpeechTagException() { }
     }
 
     /// <summary>
@@ -286,7 +291,8 @@
         /// A description of the error. The content of message is intended to be understood by humans.
         /// </param>
         public UnknownPhraseTagException(string posTagString) : base(
-            $"The phrase tag {posTagString}\nis not defined by the Tagset") { }
+            $"The phrase tag {posTagString}\nis not defined by the Tagset")
+        { }
 
         /// <summary>
         /// Initializes a new instance of the UnknownPhraseTypeException class with its message
@@ -328,7 +334,8 @@
         /// A description of the error. The content of message is intended to be understood by humans.
         /// </param>
         public UnknownWordTagException(string posTagString) : base(
-            $"The Word Level Tag \"{posTagString}\" is not defined by the Tagset") { }
+            $"The Word Level Tag \"{posTagString}\" is not defined by the Tagset")
+        { }
 
         /// <summary>
         /// Initializes a new instance of the UnknownPOSException class with its message string set
@@ -395,7 +402,8 @@
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
         protected UnknownPartOfSpeechException(SerializationInfo info, StreamingContext context) :
-            base(info, context) { }
+            base(info, context)
+        { }
     }
 
     /// <summary>

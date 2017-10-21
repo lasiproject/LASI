@@ -13,7 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile />    
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,7 +30,7 @@
     <CodeAnalysisRuleSet>..\LASI.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Debug\LASI.Content.XML</DocumentationFile>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +42,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DocumentationFile>bin\Release\LASI.Content.xml</DocumentationFile>
     <CodeAnalysisRuleSet>..\LASI.App\LASI.App.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>ic_launcher-web.ico</ApplicationIcon>
@@ -96,7 +97,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Content\Configuration.cs" />
+    <Compile Include="Exceptions\ContentFileException.cs" />
+    <Compile Include="Exceptions\FileConversionFailureException.cs" />
+    <Compile Include="Exceptions\FileManagerNotInitializedException.cs" />
     <Compile Include="Exceptions\UnmappedLexicalTypeExceptions.cs" />
+    <Compile Include="Exceptions\UnmappedPhraseTypeException.cs" />
+    <Compile Include="Exceptions\UnmappedWordTypeException.cs" />
+    <Compile Include="Exceptions\UnsupportedFileTypeException.cs" />
     <Compile Include="FileConveters\DocToDocXConverter.cs" />
     <Compile Include="FileConveters\DocxToTextConverter.cs" />
     <Compile Include="FileConveters\PdfToTextConverter.cs" />

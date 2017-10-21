@@ -101,10 +101,11 @@ namespace LASI.Utilities.Tests
             ComposeTest1Helper<Complex?, Complex?, Complex?>();
             ComposeTest1Helper<BigInteger?, BigInteger?, BigInteger?>();
         }
+
         /// <summary>
         ///A test for Compose
         /// </summary>
-        public void ComposeTest1Helper<R, U, T>()
+        void ComposeTest1Helper<R, U, T>()
         {
             Func<R, T> f = r => default;
             Func<U, R> g = u => default;

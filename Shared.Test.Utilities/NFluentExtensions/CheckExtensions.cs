@@ -34,12 +34,17 @@ namespace Shared.Test.NFluentExtensions
                 {
                     if (!requirement(checker.Value))
                     {
-                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement {requirementName}.").For(typeof(T).Name).On(checker.Value).ToString();
+                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement {requirementName}.")
+                            .On(checker.Value)
+                            .ToString();
 
                         throw new FluentCheckException(errorMessage);
                     }
                 },
-                FluentMessage.BuildMessage($"The {{0}} satisifies the requirement {requirementName} whereas it must not.").For(typeof(T).Name).On(checker.Value).ToString());
+                FluentMessage.BuildMessage($"The {{0}} satisifies the requirement {requirementName} whereas it must not.")
+                    .On(checker.Value)
+                    .ToString()
+            );
         }
 
         public static ICheckLink<ICheck<T>> Satisfies<T>(this ICheck<T> check, Func<bool> requirement)
@@ -63,12 +68,17 @@ namespace Shared.Test.NFluentExtensions
                     var req = requirement();
                     if (!req)
                     {
-                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement{requirement}.").For(typeof(T).Name).On(checker.Value).ToString();
+                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement{requirement}.")
+                            .On(checker.Value)
+                            .ToString();
 
                         throw new FluentCheckException(errorMessage);
                     }
                 },
-                FluentMessage.BuildMessage($"The {{0}} satisifies the requirement {requirement} whereas it must not.").For(typeof(T).Name).On(checker.Value).ToString());
+                FluentMessage.BuildMessage($"The {{0}} satisifies the requirement {requirement} whereas it must not.")
+                    .On(checker.Value)
+                    .ToString()
+                );
         }
 
         public static ICheckLink<ICheck<T>> Satisfies<T>(this ICheck<T> check, bool requirement)
@@ -91,12 +101,17 @@ namespace Shared.Test.NFluentExtensions
                 {
                     if (!requirement)
                     {
-                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement{requirement}.").For(typeof(T).Name).On(checker.Value).ToString();
+                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement{requirement}.")
+                            .On(checker.Value)
+                            .ToString();
 
                         throw new FluentCheckException(errorMessage);
                     }
                 },
-                FluentMessage.BuildMessage($"The {{0}} satisifies the requirement {requirement} whereas it must not.").For(typeof(T).Name).On(checker.Value).ToString());
+                FluentMessage.BuildMessage($"The {{0}} satisifies the requirement {requirement} whereas it must not.")
+                    .On(checker.Value)
+                    .ToString()
+                );
         }
 
         public static ICheckLink<ICheck<T>> DoesNotSatisfy<T>(this ICheck<T> check, Func<T, bool> requirement)
@@ -109,12 +124,17 @@ namespace Shared.Test.NFluentExtensions
                 {
                     if (requirement(checker.Value))
                     {
-                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} satisfies the requirement {requirementName} whereas it must not.").For(typeof(T).Name).On(checker.Value).ToString();
+                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} satisfies the requirement {requirementName} whereas it must not.")
+                            .On(checker.Value)
+                            .ToString();
 
                         throw new FluentCheckException(errorMessage);
                     }
                 },
-                FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement {requirementName}.").For(typeof(T).Name).On(checker.Value).ToString());
+                FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement {requirementName}.")
+                    .On(checker.Value)
+                    .ToString()
+            );
         }
 
         public static ICheckLink<ICheck<T>> DoesNotSatisfy<T>(this ICheck<T> check, Func<bool> requirement)
@@ -126,12 +146,17 @@ namespace Shared.Test.NFluentExtensions
                 {
                     if (requirement())
                     {
-                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} satisfies the requirement {requirement} whereas it must not.").For(typeof(T).Name).On(checker.Value).ToString();
+                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} satisfies the requirement {requirement} whereas it must not.")
+                            .On(checker.Value)
+                            .ToString();
 
                         throw new FluentCheckException(errorMessage);
                     }
                 },
-                FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement {requirement}.").For(typeof(T).Name).On(checker.Value).ToString());
+                FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement {requirement}.")
+                    .On(checker.Value)
+                    .ToString()
+            );
         }
 
         public static ICheckLink<ICheck<T>> DoesNotSatisfy<T>(this ICheck<T> check, bool requirement)
@@ -143,12 +168,18 @@ namespace Shared.Test.NFluentExtensions
                 {
                     if (requirement)
                     {
-                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} satisfies the requirement {requirement} whereas it must not.").For(typeof(T).Name).On(checker.Value).ToString();
+                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} satisfies the requirement {requirement} whereas it must not.")
+                            .On(checker.Value)
+                            .ToString();
 
                         throw new FluentCheckException(errorMessage);
                     }
                 },
-                FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement {requirement}.").For(typeof(T).Name).On(checker.Value).ToString());
+                FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement {requirement}.")
+                    .For(typeof(T).Name)
+                    .On(checker.Value)
+                    .ToString()
+            );
         }
 
         public static ICheckLink<ICheck<T>> IsSameReferenceAs<T>(this ICheck<T> check, T expected) => check.IsSameReferenceAs(expected);
@@ -165,11 +196,17 @@ namespace Shared.Test.NFluentExtensions
             {
                 if (actual.Count < expectedValues.Length || !actual.Zip(expectedValues, EqualityComparer<T>.Default.Equals).All(x => x))
                 {
-                    var message = FluentMessage.BuildMessage($"The {{0}} does not start with:\n[ {string.Join(", ", expectedValues)} ]\nit starts with:\n[ {string.Join(", ", actual)} ]").For(typeof(IEnumerable<T>).Name).On(checker.Value).ToString();
+                    var message = FluentMessage.BuildMessage($"The {{0}} does not start with:\n[ {string.Join(", ", expectedValues)} ]\nit starts with:\n[ {string.Join(", ", actual)} ]")
+                        .On(checker.Value)
+                        .ToString();
                     throw new FluentCheckException(message);
                 }
             },
-            FluentMessage.BuildMessage($"The {{0}} starts with:\n[ {string.Join(", ", expectedValues)} ]\nit whereas it must not.").For(typeof(IEnumerable<T>).Name).On(checker.Value).ToString());
+            FluentMessage.BuildMessage($"The {{0}} starts with:\n[ {string.Join(", ", expectedValues)} ]\nit whereas it must not.")
+                .For(typeof(IEnumerable<T>).Name)
+                .On(checker.Value)
+                .ToString()
+            );
         }
         public static ICheckLink<ICheck<IEnumerable<T>>> EndsWith<T>(this ICheck<IEnumerable<T>> check, params T[] expectedValues)
         {
@@ -183,11 +220,17 @@ namespace Shared.Test.NFluentExtensions
             {
                 if (actual.Count < expectedValues.Length || !actual.Zip(expectedValues.Reverse(), EqualityComparer<T>.Default.Equals).All(x => x))
                 {
-                    var message = FluentMessage.BuildMessage($"The {{0}} does not end with:\n[ {string.Join(", ", expectedValues)} ]\nit ends with:\n[ {string.Join(", ", actual)} ]").For(typeof(IEnumerable<T>).Name).On(checker.Value).ToString();
+                    var message = FluentMessage.BuildMessage($"The {{0}} does not end with:\n[ {string.Join(", ", expectedValues)} ]\nit ends with:\n[ {string.Join(", ", actual)} ]")
+                        .On(checker.Value)
+                        .ToString();
                     throw new FluentCheckException(message);
                 }
             },
-            FluentMessage.BuildMessage($"The {{0}} ends with:\n[ {string.Join(", ", expectedValues)} ]\nit whereas it must not.").For(typeof(IEnumerable<T>).Name).On(checker.Value).ToString());
+            FluentMessage.BuildMessage($"The {{0}} ends with:\n[ {string.Join(", ", expectedValues)} ]\nit whereas it must not.")
+                .For(typeof(IEnumerable<T>).Name)
+                .On(checker.Value)
+                .ToString()
+            );
         }
 
         public static ICheck<TValue> HasMember<T, TValue>(this ICheck<T> check, Expression<Func<T, TValue>> expression)

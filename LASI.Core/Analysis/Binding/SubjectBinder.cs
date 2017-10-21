@@ -14,16 +14,16 @@ namespace LASI.Core.Analysis.Binding
         /// <summary>
         /// This is the Bind function for the SubjectBinder Class 
         /// </summary>
-        /// <param name="s">The sentence to bind within.</param>
-        public void Bind(Sentence s)
+        /// <param name="sentence">The sentence to bind within.</param>
+        public void Bind(Sentence sentence)
         {
             //Handle case of verbless sentence. Needs to be included for the sake of security of the code. 
-            if (!s.Phrases.OfVerbPhrase().Any())
+            if (!sentence.Phrases.OfVerbPhrase().Any())
             {
-                throw new VerblessPhrasalSequenceException(s.Phrases);
+                throw new VerblessPhrasalSequenceException(sentence.Phrases);
             }
 
-            foreach (var i in s.Phrases)
+            foreach (var i in sentence.Phrases)
             {
                 if (i is AdjectivePhrase)
                 {
@@ -59,9 +59,7 @@ namespace LASI.Core.Analysis.Binding
                     s6.S = StateType.Final;
                     stateList.Add(s6);
                     //subject for normal sentence.
-                    if ((i.Previous is NounPhrase) &&
-                        (i.Previous.Sentence == i.Sentence) &&
-                         (i.Previous as NounPhrase).SubjectOf == null)
+                    if ((i.Previous is NounPhrase np) && (np.Sentence == i.Sentence) && (i.Previous as NounPhrase).SubjectOf is null)
                     {
                         (i as VerbPhrase).BindSubject(i.Previous as NounPhrase); //(i.PreviousPhrase as NounPhrase).WasSubjectBound = true;
                     }
@@ -72,7 +70,7 @@ namespace LASI.Core.Analysis.Binding
                         (i as VerbPhrase).BindSubject(i.Previous.Previous as NounPhrase);//(i.PreviousPhrase.PreviousPhrase as NounPhrase).WasSubjectBound = true;
                     }
                     //if the last word, you can't find any more subjects
-                    if (!s.GetPhrasesAfter(i).OfVerbPhrase().Any())
+                    if (!sentence.GetPhrasesAfter(i).OfVerbPhrase().Any())
                         break;
                 }
 
@@ -82,7 +80,7 @@ namespace LASI.Core.Analysis.Binding
                     && (i.Next.Next as NounPhrase).SubjectOf == null)
                 {
                     (i.Next as VerbPhrase).BindSubject(i.Next.Next as NounPhrase);
-                    s.IsInverted = true;
+                    sentence.IsInverted = true;
                 }
 
                 if (i is AdverbPhrase)
@@ -136,7 +134,7 @@ namespace LASI.Core.Analysis.Binding
             {
                 get;
                 set;
-            } 
+            }
             public Phrase StatePhrase
             {
                 get;

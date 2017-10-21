@@ -6,8 +6,6 @@ namespace LASI.Core.Binding.Experimental
     {
         TLexical Parent { get; }
 
-        TLexical Self { get; }
-
         IEnumerable<INestableLexical<TLexical>> Children { get; }
     }
 }

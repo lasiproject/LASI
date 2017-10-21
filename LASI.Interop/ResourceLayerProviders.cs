@@ -1,8 +1,9 @@
-﻿namespace LASI.Interop
+﻿using System;
+using MemoryHandler = System.EventHandler<LASI.Interop.MemoryThresholdExceededEventArgs>;
+using Mode = LASI.Interop.PerformanceProfile;
+
+namespace LASI.Interop
 {
-    using System;
-    using MemoryHandler = System.EventHandler<MemoryThresholdExceededEventArgs>;
-    using Mode = PerformanceProfile;
     /// <summary>
     /// Centralizes management and control of the memory (RAM) consumed by lookup caches.
     /// </summary>
@@ -17,7 +18,8 @@
         /// </param>
         public static void SetByPerformanceMode(Mode mode)
         {
-            MinRamThreshold = mode == Mode.High ? (MB)2048 : mode == Mode.Normal ? (MB)3072 : (MB)4096;
+            MinRamThreshold = mode == Mode.High ? (MB) 2048 :
+                mode == Mode.Normal ? (MB) 3072 : (MB) 4096;
         }
 
         /// <summary>
@@ -33,15 +35,15 @@
             checkIntervalTimer.Start();
             checkIntervalTimer.Elapsed += delegate
             {
-                //var available = GetAvailableMemory();
-                //if (available < MinRamThreshold)
-                //{
-                //    MemoryCritical(null, new MemoryEventArgs
-                //    {
-                //        RemainingMemory = available,
-                //        TriggeringThreshold = MinRamThreshold
-                //    });
-                //}
+                var available = GetAvailableMemory();
+                if (available < MinRamThreshold)
+                {
+                    MemoryCritical(null, new MemoryThresholdExceededEventArgs()
+                    {
+                        RemainingMemory = available,
+                        TriggeringThreshold = MinRamThreshold
+                    });
+                }
             };
         }
 
@@ -62,9 +64,13 @@
         /// The function to be invoked when available memory is least 128 MegaBytes greater than the
         /// specified threshold.
         /// </param>
-        private static void ConfigureRamEvent(MB threshold, int frequency, MemoryHandler availableRamDecreased, MemoryHandler availableRamIncreased)
+        private static void ConfigureRamEvent(MB threshold, int frequency, MemoryHandler availableRamDecreased,
+            MemoryHandler availableRamIncreased)
         {
-            if (frequency < 1) { throw new ArgumentOutOfRangeException(nameof(frequency), "frequency must be greater than 0"); }
+            if (frequency < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(frequency), "frequency must be greater than 0");
+            }
             var increased = availableRamIncreased;
             var backingTimer = new System.Timers.Timer(frequency);
             backingTimer.Elapsed += delegate
@@ -83,7 +89,11 @@
                 }
                 else if (available >= threshold + 128)
                 {
-                    increased(null, new MemoryThresholdExceededEventArgs { RemainingMemory = available, TriggeringThreshold = threshold });
+                    increased(null, new MemoryThresholdExceededEventArgs
+                    {
+                        RemainingMemory = available,
+                        TriggeringThreshold = threshold
+                    });
                 }
             };
         }
@@ -93,6 +103,7 @@
         /// </summary>
         public static event MemoryHandler MemoryCritical = delegate { };
 
-        private static MB GetAvailableMemory() => (MB)new System.Diagnostics.PerformanceCounter("Memory", "Available MBytes").NextValue();
+        private static MB GetAvailableMemory() =>
+            (MB) new System.Diagnostics.PerformanceCounter("Memory", "Available MBytes").NextValue();
     }
 }

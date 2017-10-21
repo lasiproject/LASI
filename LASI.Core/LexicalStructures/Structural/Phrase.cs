@@ -8,7 +8,7 @@ namespace LASI.Core
     /// <summary>
     /// Provides the base class, properties, and behaviors for all Phrase level grammatical constructs.
     /// </summary>
-    public abstract class Phrase : ILexical, ICompositeLexical<Word>, ILinkedUnitLexical<Phrase>
+    public abstract class Phrase : ILexical, ICompositeLexical<Word>, ILinkedUnitLexical<Phrase>, ISentenceUnit
     {
         #region Constructors
 
@@ -62,13 +62,13 @@ namespace LASI.Core
         /// </summary>
         /// <param name="prepositional">The prepositional to bind.</param>
         public void BindLeftPrepositional(IPrepositional prepositional) => LeftPrepositional = prepositional;
-        
+
         /// <summary>
         /// Binds the specified prepositional as the rightward prepositional of the phrase.
         /// </summary>
         /// <param name="prepositional">The prepositional to bind.</param>
         public void BindRightPrepositional(IPrepositional prepositional) => RightPrepositional = prepositional;
-       
+
         #endregion
 
         #region Properties
@@ -105,7 +105,7 @@ namespace LASI.Core
         public Clause Clause { get; private set; }
 
         /// <summary>
-        /// Gets or sets the Sentence to which the Phrase belongs.
+        /// Gets or sets the <see cref="Sentence"/> to which the <see cref="Phrase"/> belongs.
         /// </summary>
         public Sentence Sentence { get; private set; }
 

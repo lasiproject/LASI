@@ -22,12 +22,14 @@
                 new XElement("Results",
                     new XAttribute("Name", parentElementTitle),
                     from e in lexicals.WithIndices()
-                    select new XElement(e.element.GetType().Name,
-                        new XAttribute("Id", e.index),
-                        new XAttribute("Text", e.element.Text),
+                    let element = e.element
+                    let index = e.index
+                    select new XElement(element.GetType().Name,
+                        new XAttribute("Id", index),
+                        new XAttribute("Text", element.Text),
                         new XElement("Weights",
-                            new XElement("Weight", new XAttribute("Level", "Document"), Math.Round(e.element.Weight, 2)),
-                        new XElement("Weight", new XAttribute("Level", "Crossed"), Math.Round(e.element.MetaWeight, 2)))
+                            new XElement("Weight", new XAttribute("Level", "Document"), Math.Round(element.Weight, 2)),
+                        new XElement("Weight", new XAttribute("Level", "Crossed"), Math.Round(element.MetaWeight, 2)))
                         )
                     )
                 );

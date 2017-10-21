@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Core;
+using LASI.Core.Analysis.Binding.Experimental.SequentialPatterns;
 
-namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
+namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
 {
-    public static class DeclarativeBinder
+    internal static class DeclarativeBinder
     {
-        public static void Bind(Sentence sentence)
+        private static void Bind(Sentence sentence)
         {
             Example(sentence);
         }
         static void Example(Sentence sentence)
         {
-            sentence.Phrases.Match()
+            sentence.Match()
                 .WithContinuationMode(ContinuationMode.None)
                 .When(sentence.Phrases.Count() > 2)
                 .IgnoreOnce<IAdverbial, IDescriptor>()

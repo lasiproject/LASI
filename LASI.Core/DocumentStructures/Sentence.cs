@@ -14,7 +14,7 @@ namespace LASI.Core
         /// The SentenceEnding which demarcates the Sentence. If not provided, a period will be
         /// assumed, and an instance of SentenceEnding created to represent it.
         /// </param>
-        public Sentence(IEnumerable<Phrase> phrases, SentenceEnding ending) : this(new[] { new Clause(phrases) }, ending) { }
+        public Sentence(IEnumerable<Phrase> phrases, SentenceEnding ending) : this(new[] {new Clause(phrases)}, ending) { }
 
         /// <summary>Initializes a new instance of the Sentence class.</summary>
         /// <param name="clauses">The sequence of Clause elements which comprise the Sentence.</param>
@@ -106,16 +106,18 @@ namespace LASI.Core
         /// </para>
         /// </summary>
         public bool IsInverted { get; set; }
+
         /// <summary>
         /// Gets a value indicating whether or not the Sentence is exclamatory. Generally this indicates that it ends with an exclamation point.
         /// </summary>
         /// <seealso cref="SentenceEnding.ExclamationPoint"/>
-        public bool IsExclaramatory { get; }
+        public bool IsExclaramatory => false;
+
         /// <summary>
         /// Gets a value indicating whether or not the Sentence is interrogative. Generally this indicates that it ends with a question mark.
         /// </summary>
         /// <seealso cref="SentenceEnding.QuestionMark"/>
-        public bool IsInterrogative { get; }
+        public bool IsInterrogative => false;
 
         /// <summary>Gets the Paragraph to which the Sentence belongs.</summary>
         public Paragraph Paragraph { get; private set; }

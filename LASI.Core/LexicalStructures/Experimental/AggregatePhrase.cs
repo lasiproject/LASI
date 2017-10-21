@@ -5,7 +5,7 @@ using LASI.Utilities;
 
 namespace LASI.Core.Binding.Experimental
 {
-    internal interface IAggregateLexical<TPrimary, TBase> : ILexical
+    internal interface IAggregateLexical<out TPrimary, out TBase> : ILexical
         where TPrimary : TBase, ILexical
         where TBase : ILexical
     {

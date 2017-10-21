@@ -44,30 +44,21 @@ namespace LASI.Content.Tagging
             }
         }
     }
-    internal class TextNode
+    class TextNode
     {
         public TextNode(string text) => Text = text;
 
-        public override string ToString()
-        {
-            var result = Text;
-            foreach (var c in Children)
-            {
-                Text += c.ToString();
-            }
-
-            return result;
-        }
+        public override string ToString() => Children.Aggregate(Text, (result, child) => result + child);
 
         public void AppentChild(TextNode child)
         {
-            Children.Add(child);
+            children.Add(child);
         }
-        public string Text
-        {
-            get;
-            private set;
-        }
-        public List<TextNode> Children { get; } = new List<TextNode>();
+
+        public string Text { get; }
+
+        public IReadOnlyList<TextNode> Children => children;
+
+        readonly List<TextNode> children = new List<TextNode>();
     }
 }

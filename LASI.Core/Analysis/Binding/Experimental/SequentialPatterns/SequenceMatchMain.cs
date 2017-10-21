@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
+
 // TODO: SequenceMatch like class with result returning case expressions. Probably not add them to the current class. API is large as it is.
-namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
+namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
 {
     using static FunctionExtensions;
 
@@ -22,8 +23,9 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
 
         internal SequenceMatch(Sentence sentence)
         {
-            sequence = sentence.Phrases.Select(p => p as ILexical).ToList();
+            sequence = sentence.Phrases.ToList<ILexical>();
         }
+
         #endregion
 
         #region Ignore Clauses
@@ -132,7 +134,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <returns>The SentenceMatch so far.</returns>
         public SequenceMatch IgnoreOnce<T1>()
-        where T1 : class, ILexical
+            where T1 : class, ILexical
         {
             checkOncePredicates.Add(v => !(v is T1));
             return this;
@@ -271,6 +273,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             continuationMode = mode;
             return this;
         }
+
         /// <summary>
         /// Appends a log action to the <see cref="SequenceMatch"/>.
         /// </summary>
@@ -297,7 +300,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         {
             var results = new List<ILexical>(values.Count);
             var tests = checkOncePredicates.Concat(predicates);
-            Func<ILexical, bool> test = e => tests.All(t => t(e));
+            bool test(ILexical e) => tests.All(t => t(e));
             var i = 0;
             for (; i < values.Count; ++i)
             {
@@ -329,8 +332,8 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         private ContinuationMode continuationMode;
         private bool guardSatisfied;
         private bool guarded;
-        private List<Func<ILexical, bool>> predicates = new List<Func<ILexical, bool>>();
-        private List<Func<ILexical, bool>> checkOncePredicates = new List<Func<ILexical, bool>>();
+        private readonly List<Func<ILexical, bool>> predicates = new List<Func<ILexical, bool>>();
+        private readonly List<Func<ILexical, bool>> checkOncePredicates = new List<Func<ILexical, bool>>();
         private List<ILexical> sequence;
         private int indexOfLast;
 

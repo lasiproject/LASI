@@ -3,7 +3,7 @@ using LASI.Utilities.Specialized.Enhanced.Universal;
 using NFluent;
 using Xunit;
 
-namespace LASI.Core.PatternMatching.Tests
+namespace LASI.Core.Tests.PatternMatching
 {
     public class MatchTTresultTest
     {

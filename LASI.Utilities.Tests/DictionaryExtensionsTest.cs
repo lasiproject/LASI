@@ -19,7 +19,21 @@ namespace LASI.Utilities.Tests
             ["four"] = 4
         };
 
+        [Fact]
+        public void DeconstructMustProduceTheExpectedValues()
+        {
+            DeconstructMustProduceTheExpectedValuesTestHelper(1, "hello", (1, "hello"));
+            DeconstructMustProduceTheExpectedValuesTestHelper(2, "hello1", (2, "hello1"));
+            DeconstructMustProduceTheExpectedValuesTestHelper(3, "hello3", (3, "hello3"));
+            DeconstructMustProduceTheExpectedValuesTestHelper(4, "hello4", (4, "hello4"));
+        }
 
+        private static void DeconstructMustProduceTheExpectedValuesTestHelper<T1, T2>(T1 key, T2 value, (T1, T2) expected)
+        {
+            var pair = new KeyValuePair<T1, T2>(key, value);
+            var (k, v) = pair;
+            Check.That((k, v)).IsEqualTo(expected);
+        }
         [Fact]
         public void GetValueOrDefaultTest()
         {

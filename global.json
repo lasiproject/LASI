@@ -1,16 +1,14 @@
 {
-  "projects": [
-    "wrap",
-    "Core",
-    "Content",
-    "Utilities",
-    "Interop",
-    "LASI.WebApp",
-    "LASI.WebApp.Tests"
-  ],
-  "sdk": {
-    "version": "1.0.0-rc2-20221",
-    "architecture": "x64",
-    "runtime": "clr"
-  }
+    "projects": [
+        "wrap",
+        "Core",
+        "Content",
+        "Utilities",
+        "Interop",
+        "LASI.WebApp"
+    ],
+    "sdk": {
+        "version": "*",
+        "architecture": "x64"
+    }
 }

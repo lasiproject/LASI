@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
+using LASI.Core.Analysis.Binding.Experimental.SequentialPatterns;
 using LASI.Core.Analysis.PatternMatching;
-using LASI.Utilities;
+using static LASI.Utilities.Logger;
 
 namespace LASI.Core
 {
@@ -137,7 +137,8 @@ namespace LASI.Core
         /// yields a result which is a of a base type of TResult. This will transform the match into
         /// a more general form which yields a TBase.
         /// </remarks>
-        public static Match<TValue, TBaseResult> Case<TValue, TCase, TResult, TBaseResult>(this Match<TValue, TResult> match, Func<TCase, TBaseResult> func)
+        public static Match<TValue, TBaseResult> Case<TValue, TCase, TResult, TBaseResult>(
+            this Match<TValue, TResult> match, Func<TCase, TBaseResult> func)
             where TValue : ILexical
             where TCase : ILexical
             where TResult : TBaseResult =>
@@ -160,21 +161,26 @@ namespace LASI.Core
         /// yields a result which is a of a base type of TResult. This will transform the match into
         /// a more general form which yields a <see cref="IEnumerator{TBase}"/>.
         /// </remarks>
-        public static Match<TValue, IEnumerable<TResult>> Case<TValue, TCase, TResultEnumerable, TResult>(this Match<TValue, TResultEnumerable> match, Func<TCase, IEnumerable<TResult>> func)
+        public static Match<TValue, IEnumerable<TResult>> Case<TValue, TCase, TResultEnumerable, TResult>(
+            this Match<TValue, TResultEnumerable> match, Func<TCase, IEnumerable<TResult>> func)
             where TResultEnumerable : IEnumerable<TResult>
-            where TValue : ILexical
+            where TValue : class, ILexical
             where TCase : ILexical =>
-            Match<TValue, IEnumerable<TResult>>.TransferValue(match).Case<TValue, TCase, TResultEnumerable, IEnumerable<TResult>>(func);
+            Match<TValue, IEnumerable<TResult>>.TransferValue(match)
+                .Case<TValue, TCase, TResultEnumerable, IEnumerable<TResult>>(func);
 
-        public static TBaseResult Result<TValue, TResult, TBaseResult>(this Match<TValue, TResult> match, TBaseResult defaultValue)
+        public static TBaseResult Result<TValue, TResult, TBaseResult>(this Match<TValue, TResult> match,
+            TBaseResult defaultValue)
             where TResult : TBaseResult where TValue : ILexical =>
             Match<TValue, TResult>.FromLowerToHigherResultType<TBaseResult, TResult>(match).Result(defaultValue);
 
-        public static TBaseResult Result<TValue, TResult, TBaseResult>(this Match<TValue, TResult> match, Func<TBaseResult> defaultValueFactory)
+        public static TBaseResult Result<TValue, TResult, TBaseResult>(this Match<TValue, TResult> match,
+            Func<TBaseResult> defaultValueFactory)
             where TResult : TBaseResult where TValue : ILexical =>
             Match<TValue, TResult>.FromLowerToHigherResultType<TBaseResult, TResult>(match).Result(defaultValueFactory);
 
-        public static TBaseResult Result<TValue, TResult, TBaseResult>(this Match<TValue, TResult> match, Func<TValue, TBaseResult> defaultValueFactory)
+        public static TBaseResult Result<TValue, TResult, TBaseResult>(this Match<TValue, TResult> match,
+            Func<TValue, TBaseResult> defaultValueFactory)
             where TResult : TBaseResult where TValue : ILexical =>
             Match<TValue, TResult>.FromLowerToHigherResultType<TBaseResult, TResult>(match).Result(defaultValueFactory);
 
@@ -200,12 +206,22 @@ namespace LASI.Core
         /// <param name="pattern">The single pattern case to try.</param>
         /// <returns>The result of matching the value against the specified pattern.</returns>
         public static TResult Match<TValue, TCase, TResult>(this TValue value, Func<TCase, TResult> pattern)
-            where TValue : ILexical
+            where TValue : class, ILexical
             where TCase : ILexical => value.Match().Case(pattern).Result();
 
+        /// <summary>
+        /// Matches a value against a single case and immediately returns the result.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value being matched over.</typeparam>
+        /// <typeparam name="TCase">The type of the Case pattern.</typeparam>
+        /// <typeparam name="TResult">The result type of the match expression.</typeparam>
+        /// <param name="value">The Lexical value to match against.</param>
+        /// <param name="pattern">The single pattern case to try.</param>
+        /// <returns>The result of matching the value against the specified pattern.</returns>
+        /// <returns></returns>
         public static TResult Match<TValue, TCase, TResult>(this TValue value, Func<TValue, TResult> pattern)
-             where TValue : ILexical
-             where TCase : ILexical => value.Match().Case(pattern).Result();
+            where TValue : class, ILexical
+            where TCase : ILexical => value.Match().Case(pattern).Result();
 
         /// <summary>
         /// Matches a value against two case patterns and immediately returns the result.
@@ -218,18 +234,35 @@ namespace LASI.Core
         /// <param name="p1">The first pattern case to try.</param>
         /// <param name="p2">The second pattern case to try.</param>
         /// <returns>The result of matching the value against the two specified patterns.</returns>
-        public static TResult Match<TValue, T1, T2, TResult>(this TValue value, Func<T1, TResult> p1, Func<T2, TResult> p2)
+        public static TResult Match<TValue, T1, T2, TResult>(this TValue value, Func<T1, TResult> p1,
+            Func<T2, TResult> p2)
             where TValue : class, ILexical
             where T1 : class, ILexical
-            where T2 : class, ILexical => value.Match().Case(p1).Case(p2).Result();
+            where T2 : ILexical => value.Match().Case(p1).Case(p2).Result();
 
-        public static SequenceMatch Match(this Sentence sentence) => new SequenceMatch(sentence);
+        /// <summary>
+        /// Begins a pattern match expression over the <see cref="Sentence"/>.
+        /// </summary>
+        /// <param name="sentence">The sentence to match against.</param>
+        /// <returns>A <see cref="SequenceMatch"/> instance representing the match expression.</returns>
+        public static SequenceMatch Match(this Sentence sentence) => new SequenceMatch(sentence).AddLogger(Log);
 
-        public static SequenceMatch Match(this IEnumerable<Word> words) => new SequenceMatch(words);
+        /// <summary>
+        /// Begins a pattern match expression over the sequence of <see cref="ILexical"/>s.
+        /// </summary>
+        /// <param name="lexicalSequence">The sequence of to match against.</param>
+        /// <returns>A <see cref="SequenceMatch"/> instance representing the match expression.</returns>
+        public static SequenceMatch Match(this IEnumerable<ILexical> lexicalSequence) => new SequenceMatch(lexicalSequence).AddLogger(Log);
 
-        public static SequenceMatch Match(this IEnumerable<Phrase> phrases) => new SequenceMatch(phrases);
+        /// <summary>
+        /// Begins a pattern match expression over the sequence of <see cref="Phrase"/>s in the <see cref="Clause"/>.
+        /// </summary>
+        /// <param name="phrase">The clause to match against.</param>
+        /// <returns>A <see cref="SequenceMatch"/> instance representing the match expression.</returns>
+        public static SequenceMatch MatchSequence(this Phrase phrase) => new SequenceMatch(phrase.Words);
 
-        public static IEnumerable<TResult> SelectCase<TLexical, TCase, TResult>(this IEnumerable<TLexical> lexicals, Func<TCase, TResult> caseSelector)
+        public static IEnumerable<TResult> SelectCase<TLexical, TCase, TResult>(this IEnumerable<TLexical> lexicals,
+            Func<TCase, TResult> caseSelector)
             where TLexical : ILexical
             where TCase : ILexical
         {
@@ -242,10 +275,10 @@ namespace LASI.Core
                     yield return caseSelector(c);
                 }
             }
-
         }
 
-        public static IEnumerable<TResult> SelectMany<TLexical, TResult>(this IEnumerable<TLexical> lexicals, Func<TLexical, Match<TLexical, TResult>> expression) where TLexical : ILexical => SelectCase(lexicals, expression).Select(x => x.Result());
-
+        public static IEnumerable<TResult> SelectMany<TLexical, TResult>(this IEnumerable<TLexical> lexicals,
+            Func<TLexical, Match<TLexical, TResult>> expression) where TLexical : ILexical =>
+            SelectCase(lexicals, expression).Select(x => x.Result());
     }
 }
