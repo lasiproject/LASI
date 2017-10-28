@@ -67,16 +67,7 @@ namespace LASI.Core.Heuristics
                    entityText, new HashSet<string>(textualAliases),
                    (key, value) => new HashSet<string>(value.Concat(textualAliases)));
         }
-        private static void DefineAliasesImplementation(IEntity entity, IEntity alias, params IEntity[] aliases)
-        {
-            aliasDictionary.AddOrUpdate(
-                entity.Text,
-                key => new HashSet<string>(aliases.Select(a => a.Text)),
-                (key, value) => new HashSet<string>(value.Union(aliases.Select(a => a.Text))));
-            aliasedEntityReferenceMap.AddOrUpdate(
-                entity, new HashSet<IEntity>(aliases),
-                (key, value) => new HashSet<IEntity>(value.Union(aliases)));
-        }
+
         /// <summary>
         /// Gets the textual representations of all known aliases defined for the given entity.
         /// </summary>

@@ -8,7 +8,7 @@ namespace LASI.Utilities
     /// </summary>
     /// <typeparam name="TKey">The type of keys in the read-only dictionary.</typeparam>
     /// <typeparam name="TValue">The type of values in the read-only dictionary.</typeparam>
-    public interface IVariantDictionary<in TKey, out TValue> : IEnumerable<IVariantKeyValuePair<TKey, TValue>>
+    public interface IVariantDictionary<TKey, out TValue> : IEnumerable<IVariantKeyValuePair<TKey, TValue>>, IReadOnlyCollection<IVariantKeyValuePair<TKey, TValue>>
     {
         /// <summary>
         /// Gets the element that has the specified key in the read-only dictionary.

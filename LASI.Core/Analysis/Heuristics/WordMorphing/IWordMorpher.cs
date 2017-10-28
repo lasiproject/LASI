@@ -26,10 +26,10 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         /// Returns the base form of the specified word.
         /// If the word is already in its base form, the text content of the Word will simply be returned.
         /// </summary>
-        /// <param name="wordText">A string whose text represents the lexical form a word of the given type.</param>
+        /// <param name="word">A string whose text represents the lexical form a word of the given type.</param>
         /// <returns>The base form of the given type of word.
         /// If the word is already in its base form, the text content of the Word will simply be returned.</returns>
-        string FindRoot(string wordText);
+        string FindRoot(string word);
 
         /// <summary>
         /// Computes and returns the list of all conjugated forms of the word specified by the specified word.

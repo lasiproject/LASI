@@ -1,5 +1,952 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Source\GitHub\LASI" t="IncludeFlat">
+      <e p=".editorconfig" t="Include" />
+      <e p=".gitignore" t="Include" />
+      <e p=".nuget" t="Include">
+        <e p="packages.config" t="Include" />
+      </e>
+      <e p="appveyor.yml" t="Include" />
+      <e p="ExperimentalClientProjects" t="Include" />
+      <e p="failingtests.playlist" t="Include" />
+      <e p="global.json" t="Include" />
+      <e p="Icons\favicon.ico" t="Include" />
+      <e p="LASI.App" t="IncludeRecursive">
+        <e p="app.config" t="Include" />
+        <e p="App.xaml" t="Include" />
+        <e p="App.xaml.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Button Images" t="Include">
+          <e p="add-document.png" t="Include" />
+          <e p="bargraph.png" t="Include" />
+          <e p="columngraph.png" t="Include" />
+          <e p="columngraphbutton.png" t="Include" />
+          <e p="piechart.png" t="Include" />
+          <e p="piechart2.png" t="Include" />
+          <e p="printButton.png" t="Include" />
+          <e p="remove-document.png" t="Include" />
+        </e>
+        <e p="config.json" t="Include" />
+        <e p="Dialogs" t="Include">
+          <e p="ComponentInfoDialog.xaml" t="Include" />
+          <e p="ComponentInfoDialog.xaml.cs" t="Include" />
+          <e p="CrossJoinSelectDialog.xaml" t="Include" />
+          <e p="CrossJoinSelectDialog.xaml.cs" t="Include" />
+          <e p="ErrorDialog.xaml" t="Include" />
+          <e p="ErrorDialog.xaml.cs" t="Include" />
+          <e p="ErrorKind.cs" t="Include" />
+          <e p="ExportResultsDialog.xaml" t="Include" />
+          <e p="ExportResultsDialog.xaml.cs" t="Include" />
+          <e p="FindWindow.xaml" t="Include" />
+          <e p="FindWindow.xaml.cs" t="Include" />
+          <e p="LicenseDisplayDialog.xaml" t="Include" />
+          <e p="LicenseDisplayDialog.xaml.cs" t="Include" />
+          <e p="Preferences.xaml" t="Include" />
+          <e p="Preferences.xaml.cs" t="Include" />
+        </e>
+        <e p="DocumentManager.cs" t="Include" />
+        <e p="Extensions" t="Include">
+          <e p="WindowExtensions.cs" t="Include" />
+        </e>
+        <e p="GlobalSuppressions.cs" t="Include" />
+        <e p="Helpers" t="Include">
+          <e p="UiElementExtensions.cs" t="Include" />
+          <e p="WindowExtensions.cs" t="Include" />
+        </e>
+        <e p="Icons" t="Include">
+          <e p="LasiLogo.ico" t="Include" />
+        </e>
+        <e p="LASI.App.csproj" t="IncludeRecursive" />
+        <e p="LASI.App.ruleset" t="Include" />
+        <e p="LasiLogo.ico" t="Include" />
+        <e p="Manual.pdf" t="Include" />
+        <e p="MiscImages" t="Include">
+          <e p="3paws.png" t="Include" />
+          <e p="arrow-docgohere.png" t="Include" />
+          <e p="arrow.png" t="Include" />
+          <e p="collie1.png" t="Include" />
+          <e p="collie2.png" t="Include" />
+          <e p="inprogress.png" t="Include" />
+          <e p="LasiLogo.ico" t="Include" />
+          <e p="lasisplash1.png" t="Include" />
+          <e p="NameErrorImage.png" t="Include" />
+          <e p="nodocumentserror.png" t="Include" />
+          <e p="NothingFilledError.png" t="Include" />
+          <e p="print.png" t="Include" />
+          <e p="SplashPicture.PNG" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+          <e p="Resources.Designer.cs" t="Include" />
+          <e p="Resources.resx" t="Include" />
+          <e p="Settings.Designer.cs" t="Include" />
+          <e p="Settings.settings" t="Include" />
+        </e>
+        <e p="Resources" t="Include">
+          <e p="DotLasiFile.xsd" t="Include" />
+          <e p="LASICustom" t="Include">
+            <e p="Binding" t="Include">
+              <e p="KnownSubordinators.txt" t="Include" />
+            </e>
+            <e p="NameData" t="Include">
+              <e p="femalefirst.txt" t="Include" />
+              <e p="last.txt" t="Include" />
+              <e p="malefirst.txt" t="Include" />
+            </e>
+          </e>
+          <e p="TaggingPackage" t="Include">
+            <e p="OpenNLP" t="Include">
+              <e p="OpenNLP" t="Include">
+                <e p="Models" t="Include">
+                  <e p="acronyms" t="Include" />
+                  <e p="cmodel.nbin" t="Include" />
+                  <e p="cmodel_nr.nbin" t="Include" />
+                  <e p="coref" t="Include">
+                    <e p="acronyms" t="Include" />
+                    <e p="cmodel.nbin" t="Include" />
+                    <e p="cmodel_nr.nbin" t="Include" />
+                    <e p="defmodel.nbin" t="Include" />
+                    <e p="defmodel_nr.nbin" t="Include" />
+                    <e p="fmodel.nbin" t="Include" />
+                    <e p="fmodel_nr.nbin" t="Include" />
+                    <e p="gen.fem" t="Include" />
+                    <e p="gen.mal" t="Include" />
+                    <e p="gen.nbin" t="Include" />
+                    <e p="imodel.nbin" t="Include" />
+                    <e p="imodel_nr.nbin" t="Include" />
+                    <e p="num.nbin" t="Include" />
+                    <e p="plmodel.nbin" t="Include" />
+                    <e p="plmodel_nr.nbin" t="Include" />
+                    <e p="pmodel.nbin" t="Include" />
+                    <e p="pmodel_nr.nbin" t="Include" />
+                    <e p="pnmodel.nbin" t="Include" />
+                    <e p="pnmodel_nr.nbin" t="Include" />
+                    <e p="sim.nbin" t="Include" />
+                    <e p="tmodel.nbin" t="Include" />
+                    <e p="tmodel_nr.nbin" t="Include" />
+                  </e>
+                  <e p="defmodel.nbin" t="Include" />
+                  <e p="defmodel_nr.nbin" t="Include" />
+                  <e p="EnglishChunk.nbin" t="Include" />
+                  <e p="EnglishPOS.nbin" t="Include" />
+                  <e p="EnglishSD.nbin" t="Include" />
+                  <e p="EnglishTok.nbin" t="Include" />
+                  <e p="fmodel.nbin" t="Include" />
+                  <e p="fmodel_nr.nbin" t="Include" />
+                  <e p="gen.fem" t="Include" />
+                  <e p="gen.mal" t="Include" />
+                  <e p="gen.nbin" t="Include" />
+                  <e p="imodel.nbin" t="Include" />
+                  <e p="namefind" t="Include">
+                    <e p="acronyms" t="Include" />
+                    <e p="cmodel.nbin" t="Include" />
+                    <e p="cmodel_nr.nbin" t="Include" />
+                    <e p="date.nbin" t="Include" />
+                    <e p="defmodel.nbin" t="Include" />
+                    <e p="defmodel_nr.nbin" t="Include" />
+                    <e p="fmodel.nbin" t="Include" />
+                    <e p="fmodel_nr.nbin" t="Include" />
+                    <e p="gen.fem" t="Include" />
+                    <e p="gen.mal" t="Include" />
+                    <e p="gen.nbin" t="Include" />
+                    <e p="imodel.nbin" t="Include" />
+                    <e p="imodel_nr.nbin" t="Include" />
+                    <e p="location.nbin" t="Include" />
+                    <e p="money.nbin" t="Include" />
+                    <e p="num.nbin" t="Include" />
+                    <e p="organization.nbin" t="Include" />
+                    <e p="percentage.nbin" t="Include" />
+                    <e p="person.nbin" t="Include" />
+                    <e p="plmodel.nbin" t="Include" />
+                    <e p="plmodel_nr.nbin" t="Include" />
+                    <e p="pmodel.nbin" t="Include" />
+                    <e p="pmodel_nr.nbin" t="Include" />
+                    <e p="pnmodel.nbin" t="Include" />
+                    <e p="pnmodel_nr.nbin" t="Include" />
+                    <e p="sim.nbin" t="Include" />
+                    <e p="time.nbin" t="Include" />
+                    <e p="tmodel.nbin" t="Include" />
+                    <e p="tmodel_nr.nbin" t="Include" />
+                  </e>
+                  <e p="num.nbin" t="Include" />
+                  <e p="parser" t="Include">
+                    <e p="build.nbin" t="Include" />
+                    <e p="check.nbin" t="Include" />
+                    <e p="chunk.nbin" t="Include" />
+                    <e p="head_rules" t="Include" />
+                    <e p="percentage.nbin" t="Include" />
+                    <e p="tag.nbin" t="Include" />
+                    <e p="tagdict" t="Include" />
+                    <e p="time.nbin" t="Include" />
+                  </e>
+                  <e p="plmodel.nbin" t="Include" />
+                  <e p="plmodel_nr.nbin" t="Include" />
+                  <e p="pmodel.nbin" t="Include" />
+                  <e p="pmodel_nr.nbin" t="Include" />
+                  <e p="pnmodel.nbin" t="Include" />
+                  <e p="pnmodel_nr.nbin" t="Include" />
+                  <e p="sim.nbin" t="Include" />
+                  <e p="tmodel.nbin" t="Include" />
+                  <e p="tmodel_nr.nbin" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="WordNet" t="Include">
+              <e p="2.1" t="Include">
+                <e p="dict" t="Include">
+                  <e p="adj.exc" t="Include" />
+                  <e p="adv.exc" t="Include" />
+                  <e p="cntlist" t="Include" />
+                  <e p="cntlist.rev" t="Include" />
+                  <e p="data.adj" t="Include" />
+                  <e p="data.adv" t="Include" />
+                  <e p="data.noun" t="Include" />
+                  <e p="data.verb" t="Include" />
+                  <e p="frames.vrb" t="Include" />
+                  <e p="index.adj" t="Include" />
+                  <e p="index.adv" t="Include" />
+                  <e p="index.noun" t="Include" />
+                  <e p="index.sense" t="Include" />
+                  <e p="index.verb" t="Include" />
+                  <e p="log.grind.2.1" t="Include" />
+                  <e p="noun.exc" t="Include" />
+                  <e p="sentidx.vrb" t="Include" />
+                  <e p="sents.vrb" t="Include" />
+                  <e p="verb.exc" t="Include" />
+                  <e p="verb.Framestext" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+          <e p="WordNetThesaurusData" t="Include">
+            <e p="adj.exc" t="Include" />
+            <e p="adv.exc" t="Include" />
+            <e p="data.adj" t="Include" />
+            <e p="data.adv" t="Include" />
+            <e p="data.noun" t="Include" />
+            <e p="data.verb" t="Include" />
+            <e p="dictionary.txt" t="Include" />
+            <e p="index.adj" t="Include" />
+            <e p="index.adv" t="Include" />
+            <e p="index.noun" t="Include" />
+            <e p="index.sense" t="Include" />
+            <e p="index.verb" t="Include" />
+            <e p="noun.exc" t="Include" />
+            <e p="verb.exc" t="Include" />
+          </e>
+        </e>
+        <e p="ResultSelection" t="Include">
+          <e p="ChartKind.cs" t="Include" />
+          <e p="Visualizer.cs" t="Include" />
+        </e>
+        <e p="Settings.cs" t="Include" />
+        <e p="SharedFunctionality.cs" t="Include" />
+        <e p="Themes" t="Include">
+          <e p="Generic.xaml" t="Include" />
+        </e>
+        <e p="TrayIconManager.cs" t="Include" />
+        <e p="Visualization" t="Include">
+          <e p="ContextMenuBuilder.cs" t="Include" />
+          <e p="SyntacticColorMapping.cs" t="Include" />
+        </e>
+        <e p="WindowManager.cs" t="Include" />
+        <e p="Windows" t="Include">
+          <e p="InProgressWindow.xaml" t="Include" />
+          <e p="InProgressWindow.xaml.cs" t="Include" />
+          <e p="ProjectPreviewWindow.xaml" t="Include" />
+          <e p="ProjectPreviewWindow.xaml.cs" t="Include" />
+          <e p="ResultsWindow.xaml" t="Include" />
+          <e p="ResultsWindow.xaml.cs" t="Include" />
+          <e p="StartupWindow.xaml" t="Include" />
+          <e p="StartupWindow.xaml.cs" t="Include" />
+        </e>
+      </e>
+      <e p="LASI.Content" t="IncludeRecursive">
+        <e p="app.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Content" t="Include">
+          <e p="Configuration.cs" t="Include" />
+        </e>
+        <e p="Exceptions" t="Include">
+          <e p="ContentFileException.cs" t="Include" />
+          <e p="FileConversionFailureException.cs" t="Include" />
+          <e p="FileManagerExceptions.cs" t="Include" />
+          <e p="FileManagerNotInitializedException.cs" t="Include" />
+          <e p="FileTypeWrapperMismatchException.cs" t="Include" />
+          <e p="PartOfSpeechTagExceptions.cs" t="Include" />
+          <e p="UnmappedLexicalTypeExceptions.cs" t="Include" />
+          <e p="UnmappedPhraseTypeException.cs" t="Include" />
+          <e p="UnmappedWordTypeException.cs" t="Include" />
+          <e p="UnsupportedFileTypeException.cs" t="Include" />
+        </e>
+        <e p="FileConveters" t="Include">
+          <e p="DocToDocXConverter.cs" t="Include" />
+          <e p="DocxToTextConverter.cs" t="Include" />
+          <e p="PdfToTextConverter.cs" t="Include" />
+        </e>
+        <e p="FileManager.cs" t="Include" />
+        <e p="FileTypes" t="Include">
+          <e p="ContentInterfaces" t="Include">
+            <e p="IRawTextSource.cs" t="Include" />
+            <e p="ITaggedTextSource.cs" t="Include" />
+            <e p="RawTextFragment.cs" t="Include" />
+            <e p="TaggedTextFragment.cs" t="Include" />
+          </e>
+          <e p="DocFile.cs" t="Include" />
+          <e p="DocXFile.cs" t="Include" />
+          <e p="FileConverter.cs" t="Include" />
+          <e p="InputFile.cs" t="Include" />
+          <e p="PdfFile.cs" t="Include" />
+          <e p="Support" t="Include">
+            <e p="FileData.cs" t="Include" />
+          </e>
+          <e p="TaggedFile.cs" t="Include" />
+          <e p="TxtFile.cs" t="Include" />
+          <e p="XmlFile.cs" t="Include" />
+        </e>
+        <e p="GlobalSuppressions.cs" t="Include" />
+        <e p="ic_launcher-web.ico" t="Include" />
+        <e p="LASI.Content.csproj" t="IncludeRecursive" />
+        <e p="LasiLogo.ico" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Serialization" t="Include">
+          <e p="ILexicalSerializer.cs" t="Include" />
+          <e p="Json" t="Include">
+            <e p="SerializationExtensions.cs" t="Include" />
+            <e p="SimpleJsonSerializer.cs" t="Include" />
+          </e>
+          <e p="SerializerFactory.cs" t="Include" />
+          <e p="Xml" t="Include">
+            <e p="NodeNameMapper.cs" t="Include" />
+            <e p="SerializationExtensions.cs" t="Include" />
+            <e p="SimpleXmlSerializer.cs" t="Include" />
+          </e>
+        </e>
+        <e p="TaggedSourceParser.cs" t="Include" />
+        <e p="Tagging" t="Include">
+          <e p="PhraseExtractor.cs" t="Include" />
+          <e p="SNLPTagsetMaps" t="Include">
+            <e p="SharpNLPPhraseTagsetMap.cs" t="Include" />
+            <e p="SharpNLPWordTagsetMap.cs" t="Include" />
+          </e>
+          <e p="TaggedText.cs" t="Include" />
+          <e p="TaggedWordExtractor.cs" t="Include" />
+          <e p="Tagger.cs" t="Include" />
+          <e p="TaggerInterop" t="Include">
+            <e p="SharpNLPTagger.cs" t="Include" />
+          </e>
+          <e p="TagmapBases" t="Include">
+            <e p="ITagsetMap.cs" t="Include" />
+            <e p="PhraseTagsetMap.cs" t="Include" />
+            <e p="WordTagsetMap.cs" t="Include" />
+          </e>
+          <e p="TagParsers" t="Include">
+            <e p="Basis" t="Include">
+              <e p="Experimental" t="Include">
+                <e p="ExperimentalTagParser.cs" t="Include" />
+              </e>
+              <e p="TagParser.cs" t="Include" />
+            </e>
+          </e>
+          <e p="WordFactory.cs" t="Include" />
+        </e>
+      </e>
+      <e p="LASI.Content.Tests" t="IncludeRecursive">
+        <e p="app.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="DocFileTest.cs" t="Include" />
+        <e p="DocToDocXConverterTest.cs" t="Include" />
+        <e p="DocXFileTest.cs" t="Include" />
+        <e p="DocxToTextConverterTest.cs" t="Include" />
+        <e p="Extensions" t="Include">
+          <e p="NFluent.cs" t="Include" />
+        </e>
+        <e p="FileConverterTestsBase.cs" t="Include" />
+        <e p="FileManagerTest.cs" t="Include" />
+        <e p="InputFileTest.cs" t="Include" />
+        <e p="IRawTextSourceTest.cs" t="Include" />
+        <e p="ITaggedTextSourceTest.cs" t="Include" />
+        <e p="LASI.Content.Tests.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="PdfFileTest.cs" t="Include" />
+        <e p="PdfToTextConverterTest.cs" t="Include" />
+        <e p="PhraseTagsetMapTest.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="RawTextFragmentTest.cs" t="Include" />
+        <e p="SerializationExtensionsTest.cs" t="Include" />
+        <e p="TaggedFileTest.cs" t="Include" />
+        <e p="TaggedTextFragmentTest.cs" t="Include" />
+        <e p="TxtFileTest.cs" t="Include" />
+      </e>
+      <e p="LASI.Core" t="IncludeRecursive">
+        <e p="Analysis" t="Include">
+          <e p="Ambiance" t="Include">
+            <e p="IAmbiantContext.cs" t="Include" />
+            <e p="IAmbiantContextBearer.cs" t="Include" />
+          </e>
+          <e p="Binder.cs" t="Include" />
+          <e p="Binding" t="Include">
+            <e p="AdaptivePronounBinder.cs" t="Include" />
+            <e p="AdjectivePhraseBinder.cs" t="Include" />
+            <e p="AttributivePhraseBinder.cs" t="Include" />
+            <e p="DeclarativePronounBinder.cs" t="Include" />
+            <e p="Experimental" t="Include">
+              <e p="SequentialPatterns" t="Include">
+                <e p="ContinuationMode.cs" t="Include" />
+                <e p="DeclarativeBinder.cs" t="Include" />
+                <e p="PatternBindingHelpers" t="Include">
+                  <e p="ActionBindingHelper.cs" t="Include" />
+                  <e p="FuncBindingHelper.cs" t="Include" />
+                </e>
+                <e p="SequenceMatchCaseClauses.cs" t="Include" />
+                <e p="SequenceMatchMain.cs" t="Include" />
+              </e>
+            </e>
+            <e p="IIntraSentenceBinder.cs" t="Include" />
+            <e p="IntraPhraseWordBinder.cs" t="Include" />
+            <e p="IntraSentenceIDescriptorToVerbalSubjectBinder.cs" t="Include" />
+            <e p="InvalidStateTransitionException.cs" t="Include" />
+            <e p="ObjectBinder.cs" t="Include" />
+            <e p="ObjectBinderV2.cs" t="Include" />
+            <e p="PhraseWiseEntityGroupBinder.cs" t="Include" />
+            <e p="PreBinder.cs" t="Include" />
+            <e p="PronounBinder.cs" t="Include" />
+            <e p="ScopedAliasMap.cs" t="Include" />
+            <e p="SubjectBinder.cs" t="Include" />
+            <e p="SubordinateClauseIdentifier.cs" t="Include" />
+            <e p="VerblessPhrasalSequenceException.cs" t="Include" />
+          </e>
+          <e p="Heuristics" t="Include">
+            <e p="AdverbialSimilarityProvider.cs" t="Include" />
+            <e p="CrossDocumentJoiner.cs" t="Include" />
+            <e p="DescriptorSimilarityProvider.cs" t="Include" />
+            <e p="EntityClassificationExtensions.cs" t="Include" />
+            <e p="EntitySimilarityProvider.cs" t="Include" />
+            <e p="Lexicon.cs" t="Include" />
+            <e p="LookupNameProvider.cs" t="Include" />
+            <e p="NaiveTopResultSelector.cs" t="Include" />
+            <e p="Paths.cs" t="Include" />
+            <e p="ResourceLoadEventArgs.cs" t="Include" />
+            <e p="Similarity.cs" t="Include" />
+            <e p="Support" t="Include">
+              <e p="LexicalComparers.cs" t="Include" />
+              <e p="SvoRelationship.cs" t="Include" />
+            </e>
+            <e p="SyntacticCategorical" t="Include">
+              <e p="AdjectiveLookup.cs" t="Include" />
+              <e p="AdverbLookup.cs" t="Include" />
+              <e p="CategoricalEnumerations" t="Include">
+                <e p="AdjectiveCategory.cs" t="Include" />
+                <e p="AdverbCategory.cs" t="Include" />
+                <e p="NounCategory.cs" t="Include" />
+                <e p="VerbCategory.cs" t="Include" />
+              </e>
+              <e p="NounLookup.cs" t="Include" />
+              <e p="Support" t="Include">
+                <e p="Synset.cs" t="Include" />
+                <e p="WordNetLexCategoryInformation.cs" t="Include" />
+              </e>
+              <e p="VerbLookup.cs" t="Include" />
+              <e p="WordNetLookup.cs" t="Include" />
+            </e>
+            <e p="VerbalSimilarityProvider.cs" t="Include" />
+            <e p="WordMorphing" t="Include">
+              <e p="AdjectiveMorpher.cs" t="Include" />
+              <e p="AdverbMorpher.cs" t="Include" />
+              <e p="ExceptionEntry.cs" t="Include" />
+              <e p="IWordMorpher.cs" t="Include" />
+              <e p="NounMorpher.cs" t="Include" />
+              <e p="VerbMorpher.cs" t="Include" />
+              <e p="WordNetExceptionDataManager.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Melding" t="Include">
+            <e p="LiftedEntity.cs" t="Include" />
+            <e p="MeldingExtensions.cs" t="Include" />
+          </e>
+          <e p="PatternMatching" t="Include">
+            <e p="LexicalSpecific" t="Include">
+              <e p="Experimental" t="Include">
+                <e p="FromSpec" t="Include">
+                  <e p="Applicator.cs" t="Include" />
+                  <e p="CaseTypePredicate.cs" t="Include" />
+                  <e p="CaseTypeWhenPredicate.cs" t="Include" />
+                  <e p="ExactTextPredicate.cs" t="Include" />
+                  <e p="Predicate.cs" t="Include" />
+                  <e p="PredicateBuilder.cs" t="Include" />
+                  <e p="WhenPredicate.cs" t="Include" />
+                </e>
+                <e p="MatchAgainstTuple.cs" t="Include" />
+                <e p="Termification" t="Include">
+                  <e p="Term.cs" t="Include" />
+                  <e p="Tests.cs" t="Include" />
+                </e>
+                <e p="TokenBased.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Match.cs" t="Include" />
+            <e p="MatchBase.cs" t="Include" />
+            <e p="MatchExtensions.cs" t="Include" />
+            <e p="MatchTTResult.cs" t="Include" />
+            <e p="PredicatedMatch.cs" t="Include" />
+            <e p="PredicatedMatchBase.cs" t="Include" />
+            <e p="PredicatedMatchTTResult.cs" t="Include" />
+          </e>
+          <e p="ProcessingTask.cs" t="Include" />
+          <e p="RelationshipLookups" t="Include">
+            <e p="AliasLookup.cs" t="Include" />
+            <e p="Helpers" t="Include">
+              <e p="ActionReceiverPair.cs" t="Include" />
+              <e p="ActionsRelatedOn.cs" t="Include" />
+              <e p="IActionReceiverPair.cs" t="Include" />
+              <e p="PerformerReceiverPair.cs" t="Include" />
+              <e p="RelationShipInferenceExtensions.cs" t="Include" />
+            </e>
+            <e p="IRelationshipLookup.cs" t="Include" />
+            <e p="RelationshipLookup.cs" t="Include" />
+            <e p="RelationshipLookupExtensions.cs" t="Include" />
+          </e>
+          <e p="Weighter.cs" t="Include" />
+        </e>
+        <e p="app.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Configuration" t="Include">
+          <e p="Concurrency.cs" t="Include" />
+          <e p="Configuration.cs" t="Include" />
+          <e p="ReportEventArgs.cs" t="Include" />
+        </e>
+        <e p="DocumentStructures" t="Include">
+          <e p="Document.cs" t="Include" />
+          <e p="IReifiedTextual.cs" t="Include" />
+          <e p="Paragraph.cs" t="Include" />
+          <e p="Sentence.cs" t="Include" />
+          <e p="TextualEnumerable.cs" t="Include" />
+        </e>
+        <e p="GlobalSuppressions.cs" t="Include" />
+        <e p="LASI.Core.csproj" t="IncludeRecursive" />
+        <e p="LexicalStructures" t="Include">
+          <e p="AdjectiveRelatedConstructs" t="Include">
+            <e p="Adjective.cs" t="Include" />
+            <e p="AdjectivePhrase.cs" t="Include" />
+            <e p="ComparativeAdjective.cs" t="Include" />
+            <e p="SuperlativeAdjective.cs" t="Include" />
+          </e>
+          <e p="AdverbRelatedConstructs" t="Include">
+            <e p="Adverb.cs" t="Include" />
+            <e p="AdverbPhrase.cs" t="Include" />
+            <e p="ComparativeAdverb.cs" t="Include" />
+            <e p="SuperlativeAdverb.cs" t="Include" />
+          </e>
+          <e p="AttributiveConstructs" t="Include">
+            <e p="IAttributable.cs" t="Include" />
+            <e p="IAttributive.cs" t="Include" />
+          </e>
+          <e p="BehavioralConstructs" t="Include">
+            <e p="IAdverbial.cs" t="Include" />
+            <e p="IAdverbialModifiable.cs" t="Include" />
+            <e p="IDirectObjectTaker.cs" t="Include" />
+            <e p="IEntity.cs" t="Include" />
+            <e p="IInderectObjectTaker.cs" t="Include" />
+            <e p="IModalityModifiable.cs" t="Include" />
+            <e p="IObjectTaker.cs" t="Include" />
+            <e p="IPossessable.cs" t="Include" />
+            <e p="IPossesser.cs" t="Include" />
+            <e p="IQuantifiable.cs" t="Include" />
+            <e p="IQuantifier.cs" t="Include" />
+            <e p="IReferenceable.cs" t="Include" />
+            <e p="IReferencer.cs" t="Include" />
+            <e p="ISubjectTaker.cs" t="Include" />
+            <e p="IVerbal.cs" t="Include" />
+            <e p="IVerbalObject.cs" t="Include" />
+            <e p="IVerbalSubject.cs" t="Include" />
+            <e p="IWeakPossessor.cs" t="Include" />
+          </e>
+          <e p="BridgingConstructs" t="Include">
+            <e p="Conjunction.cs" t="Include" />
+            <e p="ConjunctionPhrase.cs" t="Include" />
+            <e p="IConjunctive.cs" t="Include" />
+            <e p="Interjection.cs" t="Include" />
+            <e p="IPrepositional.cs" t="Include" />
+            <e p="ISubordinator.cs" t="Include" />
+            <e p="Particle.cs" t="Include" />
+            <e p="ParticlePhrase.cs" t="Include" />
+            <e p="Preposition.cs" t="Include" />
+            <e p="PrepositionalPhrase.cs" t="Include" />
+            <e p="PrepositionRole.cs" t="Include" />
+            <e p="ToLinker.cs" t="Include" />
+          </e>
+          <e p="EnumerableExtensions" t="Include">
+            <e p="EnumerableOfIEntityExtensions.cs" t="Include" />
+            <e p="EnumerableOfIPronounExtensions.cs" t="Include" />
+            <e p="EnumerableOfIVerbalExtensions.cs" t="Include" />
+            <e p="EnumerableOfLexicalExtensions.cs" t="Include" />
+            <e p="EnumerableOfPhraseExtensions.cs" t="Include" />
+            <e p="EnumerableOfRecursiveEnumerableLexicalsExtenstions.cs" t="Include" />
+            <e p="EnumerableOfWordExtensions.cs" t="Include" />
+          </e>
+          <e p="Experimental" t="Include">
+            <e p="AggregatePhrase.cs" t="Include" />
+            <e p="INestableLexical.cs" t="Include" />
+            <e p="NestableClause.cs" t="Include" />
+          </e>
+          <e p="MiscLanguageConstructs" t="Include">
+            <e p="Existential.cs" t="Include" />
+            <e p="ForeignWord.cs" t="Include" />
+            <e p="InterjectionPhrase.cs" t="Include" />
+            <e p="InterrogativePhrase.cs" t="Include" />
+            <e p="InvertedClauseBeginPhrase.cs" t="Include" />
+            <e p="PossessiveEnding.cs" t="Include" />
+            <e p="RoughListPhrase.cs" t="Include" />
+            <e p="SimpleDeclarativePhrase.cs" t="Include" />
+            <e p="UnknownPhrase.cs" t="Include" />
+            <e p="UnknownWord.cs" t="Include" />
+          </e>
+          <e p="NounRelatedConstructs" t="Include">
+            <e p="AggregateEntity.cs" t="Include" />
+            <e p="CommonNoun.cs" t="Include" />
+            <e p="CommonPluralNoun.cs" t="Include" />
+            <e p="CommonSingularNoun.cs" t="Include" />
+            <e p="Determiner.cs" t="Include" />
+            <e p="DeterminerKind.cs" t="Include" />
+            <e p="EntityKind.cs" t="Include" />
+            <e p="Gender.cs" t="Include" />
+            <e p="IAggregateEntity.cs" t="Include" />
+            <e p="IDescriptor.cs" t="Include" />
+            <e p="IDeterminable.cs" t="Include" />
+            <e p="ISimpleGendered.cs" t="Include" />
+            <e p="Noun.cs" t="Include" />
+            <e p="NounPhrase.cs" t="Include" />
+            <e p="PersonalPronoun.cs" t="Include" />
+            <e p="PossessivePronoun.cs" t="Include" />
+            <e p="PreDeterminer.cs" t="Include" />
+            <e p="Pronoun.cs" t="Include" />
+            <e p="PronounKind.cs" t="Include" />
+            <e p="PronounPhrase.cs" t="Include" />
+            <e p="ProperNoun.cs" t="Include" />
+            <e p="ProperPluralNoun.cs" t="Include" />
+            <e p="ProperSingularNoun.cs" t="Include" />
+            <e p="Quantifier.cs" t="Include" />
+            <e p="RelativePossessivePronoun.cs" t="Include" />
+            <e p="RelativePronoun.cs" t="Include" />
+            <e p="RelativePronounKind.cs" t="Include" />
+          </e>
+          <e p="Structural" t="Include">
+            <e p="Clause.cs" t="Include" />
+            <e p="ICompositeLexical.cs" t="Include" />
+            <e p="ILexical.cs" t="Include" />
+            <e p="ILinkedUnitLexical.cs" t="Include" />
+            <e p="IPrepositionLinkable.cs" t="Include" />
+            <e p="IRoleCompositeLexical.cs" t="Include" />
+            <e p="ISentenceUnit.cs" t="Include" />
+            <e p="IUnitLexical.cs" t="Include" />
+            <e p="IWeightable.cs" t="Include" />
+            <e p="Phrase.cs" t="Include" />
+            <e p="Word.cs" t="Include" />
+          </e>
+          <e p="SymbolsAndPunctuators" t="Include">
+            <e p="DoubleQuote.cs" t="Include" />
+            <e p="IPairedPunctuator.cs" t="Include" />
+            <e p="Punctuator.cs" t="Include" />
+            <e p="QuotationMark.cs" t="Include" />
+            <e p="SentenceEnding.cs" t="Include" />
+            <e p="SingleQuote.cs" t="Include" />
+            <e p="Symbol.cs" t="Include" />
+            <e p="SymbolPhrase.cs" t="Include" />
+          </e>
+          <e p="UnderpinningTypes" t="Include">
+            <e p="IAggregateLexical.cs" t="Include" />
+            <e p="SubordinateClause.cs" t="Include" />
+            <e p="SubordinateClauseBeginPhrase.cs" t="Include" />
+          </e>
+          <e p="VerbRelatedConstructs" t="Include">
+            <e p="AggregateVerbal.cs" t="Include" />
+            <e p="BaseVerb.cs" t="Include" />
+            <e p="ClauseExtensions.cs" t="Include" />
+            <e p="IAggregateVerbal.cs" t="Include" />
+            <e p="InfinitivePhrase.cs" t="Include" />
+            <e p="ModalAuxilary.cs" t="Include" />
+            <e p="PastParticiple.cs" t="Include" />
+            <e p="PastTenseVerb.cs" t="Include" />
+            <e p="PhraseExtensions.cs" t="Include" />
+            <e p="PresentParticiple.cs" t="Include" />
+            <e p="SingularPresentVerb.cs" t="Include" />
+            <e p="ThirdPersonSingularPresentVerb.cs" t="Include" />
+            <e p="Verb.cs" t="Include" />
+            <e p="VerbalExtensions.cs" t="Include" />
+            <e p="VerbPhrase.cs" t="Include" />
+          </e>
+        </e>
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="LASI.Core.Tests" t="IncludeRecursive">
+        <e p="AdjectivePhraseTest.cs" t="Include" />
+        <e p="AdjectiveTest.cs" t="Include" />
+        <e p="AdverbTest.cs" t="Include" />
+        <e p="AggregateEntityTest.cs" t="Include" />
+        <e p="Analysis" t="Include">
+          <e p="Heuristics" t="Include">
+            <e p="WordMorphing" t="Include">
+              <e p="AdjectiveMorpherTest.cs" t="Include" />
+              <e p="NounMorpherTest.cs" t="Include" />
+              <e p="VerbMorpherTest.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="app.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="CommonPluralNounTest.cs" t="Include" />
+        <e p="CommonSingularNounTest.cs" t="Include" />
+        <e p="ConjunctionPhraseTest.cs" t="Include" />
+        <e p="ConjunctionTest.cs" t="Include" />
+        <e p="DeterminerTest.cs" t="Include" />
+        <e p="DocumentTest.cs" t="Include" />
+        <e p="DoubleQuoteTest.cs" t="Include" />
+        <e p="ExistentialTest.cs" t="Include" />
+        <e p="ForeignWordTest.cs" t="Include" />
+        <e p="IDirectObjectTakerTest.cs" t="Include" />
+        <e p="IEntityTest.cs" t="Include" />
+        <e p="IGenderedTest.cs" t="Include" />
+        <e p="IInderectObjectTakerTest.cs" t="Include" />
+        <e p="ILexicalTest.cs" t="Include" />
+        <e p="IModalityModifiableTest.cs" t="Include" />
+        <e p="InterjectionPhraseTest.cs" t="Include" />
+        <e p="InterjectionTest.cs" t="Include" />
+        <e p="InvertedClauseBeginPhraseTest.cs" t="Include" />
+        <e p="IPrepositionLinkableTest.cs" t="Include" />
+        <e p="IQuantifiableTest.cs" t="Include" />
+        <e p="ISimpleGenderedTest.cs" t="Include" />
+        <e p="LASI.Core.Tests.csproj" t="IncludeRecursive" />
+        <e p="LexicalStructures" t="Include">
+          <e p="VerbRelatedConstructs" t="Include">
+            <e p="PastParticipleTest.cs" t="Include" />
+            <e p="PastParticipleVerbTest.cs" t="Include" />
+            <e p="PastTenseVerbTest.cs" t="Include" />
+            <e p="VerbPhraseTest.cs" t="Include" />
+            <e p="VerbTest.cs" t="Include" />
+          </e>
+        </e>
+        <e p="LexiconTest.cs" t="Include" />
+        <e p="ModalAuxilaryTest.cs" t="Include" />
+        <e p="ModalTest.cs" t="Include" />
+        <e p="NounPhraseTest.cs" t="Include" />
+        <e p="NounTest.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="ParagraphTest.cs" t="Include" />
+        <e p="ParticlePhraseTest.cs" t="Include" />
+        <e p="ParticleTest.cs" t="Include" />
+        <e p="PatternMatching" t="Include">
+          <e p="MatchTTresultTest.cs" t="Include" />
+          <e p="MonadOperatorsTest.cs" t="Include" />
+          <e p="PhraseAsSequentialPatternMatchingTest.cs" t="Include" />
+          <e p="SequentialPatternMatchingTest.cs" t="Include" />
+        </e>
+        <e p="PersonalPronounTest.cs" t="Include" />
+        <e p="PreDeterminerTest.cs" t="Include" />
+        <e p="PrepositionalPhraseTest.cs" t="Include" />
+        <e p="PrepositionTest.cs" t="Include" />
+        <e p="ProperNounTest.cs" t="Include" />
+        <e p="ProperPluralNounTest.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="PunctuatorTest.cs" t="Include" />
+        <e p="RelationshipInferenceExtensionsTest.cs" t="Include" />
+        <e p="RoughListPhraseTest.cs" t="Include" />
+        <e p="SentenceTest.cs" t="Include" />
+        <e p="SimpleDeclarativeClauseBeginPhraseTest.cs" t="Include" />
+        <e p="SingleQuoteTest.cs" t="Include" />
+        <e p="SubjectBinderTests.cs" t="Include" />
+        <e p="SuperlativeAdverbTest.cs" t="Include" />
+        <e p="SymbolTest.cs" t="Include" />
+        <e p="UnknownWordTest.cs" t="Include" />
+        <e p="WeightTest.cs" t="Include" />
+        <e p="WordTest.cs" t="Include" />
+      </e>
+      <e p="LASI.Installer\LASI.Installer.vdproj" t="IncludeRecursive" />
+      <e p="LASI.Interop" t="IncludeRecursive">
+        <e p="AlreadyConfiguredException.cs" t="Include" />
+        <e p="AnalysisOrchestrator.cs" t="Include" />
+        <e p="app.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Concurrency.cs" t="Include" />
+        <e p="Configuration.cs" t="Include" />
+        <e p="GlobalSuppressions.cs" t="Include" />
+        <e p="LASI.Interop.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="PerformanceProfile.cs" t="Include" />
+        <e p="ProgressReporting" t="Include">
+          <e p="Basis" t="Include">
+            <e p="SystemResourceNotifierDualizer.cs" t="Include" />
+          </e>
+          <e p="MB.cs" t="Include" />
+          <e p="MemoryThresholdExceededEventArgs.cs" t="Include" />
+          <e p="ProgressReportEventArgs.cs" t="Include" />
+          <e p="ResourceLoadEventArgs.cs" t="Include" />
+          <e p="SystemResourceLoadingNotifier.cs" t="Include" />
+          <e p="SystemResourceNotifier.cs" t="Include" />
+        </e>
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="ResourceLayerProviders.cs" t="Include" />
+        <e p="ResourceNotifier.cs" t="Include" />
+        <e p="ResourceUsageManager.cs" t="Include" />
+        <e p="ResourceUsageSample.cs" t="Include" />
+        <e p="Visualization" t="Include">
+          <e p="IStyleProvider.cs" t="Include" />
+          <e p="ITextualRepresenation.cs" t="Include" />
+        </e>
+      </e>
+      <e p="LASI.Interop.Tests" t="IncludeRecursive">
+        <e p="app.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="configAtTopLevel.json" t="Include" />
+        <e p="ConfigurationTests.cs" t="Include" />
+        <e p="configWithDataSubkey.json" t="Include" />
+        <e p="LASI.Interop.Tests.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="LASI.ruleset" t="Include" />
+      <e p="Lasi.sln" t="IncludeFlat" />
+      <e p="LASI.Utilities" t="IncludeRecursive">
+        <e p="Action.cs" t="Include" />
+        <e p="app.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="CharacterExtensions.cs" t="Include" />
+        <e p="ClassDiagram1.cd" t="Include" />
+        <e p="Configuration" t="Include">
+          <e p="IConfig.cs" t="Include" />
+          <e p="IMutableConfig.cs" t="Include" />
+          <e p="JsonConfig.cs" t="Include" />
+          <e p="LoadableConfigBase.cs" t="Include" />
+          <e p="XmlConfig.cs" t="Include" />
+        </e>
+        <e p="DictionaryExtensions.cs" t="Include" />
+        <e p="EnumerableExtensions.cs" t="Include" />
+        <e p="EnumerableFormattingExtensions.cs" t="Include" />
+        <e p="Equality.cs" t="Include" />
+        <e p="ExceptionExtensions.cs" t="Include" />
+        <e p="Func.cs" t="Include" />
+        <e p="FunctionExtensions.cs" t="Include" />
+        <e p="GlobalSuppressions.cs" t="Include" />
+        <e p="Input.cs" t="Include" />
+        <e p="IVariantDictionary.cs" t="Include" />
+        <e p="IVariantKeyValuePair.cs" t="Include" />
+        <e p="LASI.Utilities.csproj" t="IncludeRecursive" />
+        <e p="Logger.cs" t="Include" />
+        <e p="Logger.DebugOutputProxy.cs" t="Include" />
+        <e p="Logger.Mode.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Option.cs" t="Include" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Specialized" t="Include">
+          <e p="Enhanced" t="Include">
+            <e p="IList" t="Include">
+              <e p="Linq" t="Include">
+                <e p="IListExtensions.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Universal" t="Include">
+              <e p="UniversalExtensions.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="StringExtensions.cs" t="Include" />
+        <e p="Validation" t="Include">
+          <e p="Validate.cs" t="Include" />
+        </e>
+        <e p="VariantDictionaryImplementation.cs" t="Include" />
+        <e p="Weight.cs" t="Include" />
+      </e>
+      <e p="LASI.Utilities.Tests" t="IncludeRecursive">
+        <e p="app.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="CharExtensionsTest.cs" t="Include" />
+        <e p="ComparerTest.cs" t="Include" />
+        <e p="DictionaryExtensionsTest.cs" t="Include" />
+        <e p="EnumerableExtensionsTest.cs" t="Include" />
+        <e p="Extensions" t="Include">
+          <e p="CheckExtensions.cs" t="Include" />
+        </e>
+        <e p="FunctionExtensionsTest.cs" t="Include" />
+        <e p="LASI.Utilities.Tests.csproj" t="IncludeRecursive" />
+        <e p="ListExtensionsTest.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="OptionTest.cs" t="Include" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="LASI.WebApp\LASI.WebApp.xproj" t="IncludeRecursive" />
+      <e p="Licences\b2xtranslatorLicense.txt" t="Include" />
+      <e p="Licences\iTextSharpLicense.txt" t="Include" />
+      <e p="Licences\LASILicense.rtf" t="Include" />
+      <e p="Licences\LASILicense.txt" t="Include" />
+      <e p="Licences\SharpNLPLicense.txt" t="Include" />
+      <e p="Licences\WordNetLicense.txt" t="Include" />
+      <e p="Licences\WPFToolkitLicense.txt" t="Include" />
+      <e p="packages" t="ExcludeRecursive">
+        <e p="Roslynator.Analyzers.1.5.0-rc\analyzers\dotnet\cs" t="Include">
+          <e p="Roslynator.Common.dll" t="Include" />
+          <e p="Roslynator.Core.dll" t="Include" />
+        </e>
+        <e p="xunit.analyzers.0.6.0\analyzers\dotnet\cs" t="Include">
+          <e p="xunit.analyzers.dll" t="Include" />
+        </e>
+        <e p="xunit.runner.visualstudio.2.2.0\build\_common\xunit.abstractions.dll" t="Include" />
+        <e p="xunit.runner.visualstudio.2.2.0\build\_common\xunit.runner.reporters.net452.dll" t="Include" />
+        <e p="xunit.runner.visualstudio.2.2.0\build\_common\xunit.runner.utility.net35.dll" t="Include" />
+        <e p="xunit.runner.visualstudio.2.2.0\build\_common\xunit.runner.visualstudio.testadapter.dll" t="Include" />
+      </e>
+      <e p="README.md" t="Include" />
+      <e p="Script1.fsx" t="Include" />
+      <e p="Shared.Test.Utilities" t="IncludeRecursive">
+        <e p="app.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="LASI.Shared.Test.csproj" t="IncludeRecursive" />
+        <e p="NFluentExtensions" t="Include">
+          <e p="CheckExtensions.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="Solution Items" t="Include">
+        <e p="Licenses" t="Include" />
+      </e>
+      <e p="Test" t="Include">
+        <e p="TestUtilities" t="Include" />
+      </e>
+      <e p="TestLocator.config" t="Include" />
+    </e>
+    <e p="C:\Users\Aluan\.Rider2017.2\system\resharper-host\local\Transient\ReSharperHost\v10\SolutionCaches\_Lasi.-831280871.00" t="ExcludeRecursive" />
+  </component>
   <component name="RiderRiderContentModelStore">
     <excludedPaths />
   </component>

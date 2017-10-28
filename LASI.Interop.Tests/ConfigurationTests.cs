@@ -24,21 +24,15 @@ namespace LASI.Interop.Tests
             InitializeWithSimpleJSONConfigFromStream,
             InitializeWithSimpleJSONSubkeyConfigFromStream
         };
+
         /// <summary>
         /// A test for <see cref="Configuration.Initialize(string, ConfigFormat)"/>
         /// </summary>
-        static void InitializeWithSimpleJSONConfig()
+        private static void InitializeWithSimpleJSONConfig()
         {
             var path = @"..\..\configAtTopLevel.json";
             var format = ConfigFormat.Json;
-            try
-            {
-                Configuration.Initialize(path, format);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            Configuration.Initialize(path, format);
         }
 
 
@@ -52,6 +46,7 @@ namespace LASI.Interop.Tests
             var subkey = "Data";
             Configuration.Initialize(path, format, subkey);
         }
+
         /// <summary>
         /// A test for <see cref="Configuration.Initialize(Stream, ConfigFormat)"/>
         /// </summary>
@@ -61,6 +56,7 @@ namespace LASI.Interop.Tests
             var format = ConfigFormat.Json;
             Configuration.Initialize(new MemoryStream(Encoding.Default.GetBytes(File.ReadAllText(path))), format);
         }
+
         /// <summary>
         /// A test for <see cref="Configuration.Initialize(Stream, ConfigFormat, string)"/>
         /// </summary>
@@ -69,7 +65,8 @@ namespace LASI.Interop.Tests
             var path = @"..\..\configAtTopLevel.json";
             var format = ConfigFormat.Json;
             var subkey = "Data";
-            Configuration.Initialize(new MemoryStream(Encoding.Default.GetBytes(File.ReadAllText(path))), format, subkey);
+            Configuration.Initialize(new MemoryStream(Encoding.Default.GetBytes(File.ReadAllText(path))), format,
+                subkey);
         }
     }
 }
