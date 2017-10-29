@@ -1,4 +1,4 @@
-{
+{"$schema": "http://json.schemastore.org/tslint",
   "defaultSeverity": "warning",
   "rules": {
     "prefer-const": true,
@@ -8,12 +8,10 @@
       25
     ],
     "ban": [
-      [
         true,
         "require",
         "window",
         "document"
-      ]
     ],
     "no-debugger": true,
     "class-name": true,
@@ -22,6 +20,7 @@
     "forin": true,
     "indent": [
       true,
+      "spaces",
       2
     ],
     "interface-name": [

@@ -51,7 +51,7 @@
       "fsevents": "npm:fsevents@^1.0.0",
       "jodid25519": "npm:jodid25519@^1.0.0",
       "jsbn": "npm:jsbn@0.1",
-      "plugin-babel": "npm:systemjs-plugin-babel@^0.0.17",
+      "plugin-babel": "npm:systemjs-plugin-babel@^0.0.25",
       "plugin-typescript": "github:frankwallis/plugin-typescript@^7.0.6",
       "request": "npm:request@^2.34",
       "source-map-support": "npm:source-map-support@^0.4.3",
@@ -62,27 +62,27 @@
     },
     "peerDependencies": {
       "assert": "npm:jspm-nodelibs-assert@^0.2.0",
-      "aurelia-binding": "npm:aurelia-binding@^1.1.0",
-      "aurelia-bootstrapper": "npm:aurelia-bootstrapper@^1.0.0",
-      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@^1.0.0",
+      "aurelia-binding": "npm:aurelia-binding@^1.2.1",
+      "aurelia-bootstrapper": "npm:aurelia-bootstrapper@^2.1.1",
+      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@^1.3.1",
       "aurelia-event-aggregator": "npm:aurelia-event-aggregator@^1.0.0",
       "aurelia-fetch-client": "npm:aurelia-fetch-client@^1.0.1",
-      "aurelia-framework": "npm:aurelia-framework@^1.0.0",
+      "aurelia-framework": "npm:aurelia-framework@^1.1.5",
       "aurelia-history": "npm:aurelia-history@^1.0.0",
       "aurelia-history-browser": "npm:aurelia-history-browser@^1.0.0",
       "aurelia-loader": "npm:aurelia-loader@^1.0.0",
       "aurelia-loader-default": "npm:aurelia-loader-default@^1.0.0",
-      "aurelia-logging": "npm:aurelia-logging@^1.0.0",
+      "aurelia-logging": "npm:aurelia-logging@^1.3.1",
       "aurelia-logging-console": "npm:aurelia-logging-console@^1.0.0",
       "aurelia-metadata": "npm:aurelia-metadata@^1.0.0",
-      "aurelia-pal": "npm:aurelia-pal@^1.0.0",
+      "aurelia-pal": "npm:aurelia-pal@^1.3.0",
       "aurelia-pal-browser": "npm:aurelia-pal-browser@^1.0.0",
       "aurelia-path": "npm:aurelia-path@^1.0.0",
       "aurelia-polyfills": "npm:aurelia-polyfills@^1.0.0",
       "aurelia-route-recognizer": "npm:aurelia-route-recognizer@^1.0.0",
       "aurelia-router": "npm:aurelia-router@^1.0.1",
-      "aurelia-task-queue": "npm:aurelia-task-queue@^1.1.0",
-      "aurelia-templating": "npm:aurelia-templating@^1.0.0",
+      "aurelia-task-queue": "npm:aurelia-task-queue@^1.2.0",
+      "aurelia-templating": "npm:aurelia-templating@^1.4.2",
       "aurelia-templating-binding": "npm:aurelia-templating-binding@^1.0.0",
       "aurelia-templating-resources": "npm:aurelia-templating-resources@^1.0.0",
       "aurelia-templating-router": "npm:aurelia-templating-router@^1.0.0",
@@ -126,7 +126,7 @@
       "zlib": "npm:jspm-nodelibs-zlib@^0.2.0"
     },
     "overrides": {
-      "github:frankwallis/plugin-typescript@7.0.6": {
+      "github:frankwallis/plugin-typescript@7.1.0": {
         "peerDependencies": {
           "typescript": "next"
         }
@@ -177,10 +177,10 @@
           }
         }
       },
-      "npm:@types/bootstrap@3.3.33": {
+      "npm:@types/bootstrap@3.3.36": {
         "dependencies": {}
       },
-      "npm:aurelia-dialog@1.0.0-beta.3.0.1": {
+      "npm:aurelia-dialog@1.0.0-rc.1.0.3": {
         "main": "dist/es2015/index",
         "format": "esm",
         "directories": {
@@ -196,7 +196,7 @@
           "_stream_transform": "readable-stream/transform"
         }
       },
-      "npm:debug@2.6.3": {
+      "npm:debug@2.6.9": {
         "main": "browser.js",
         "jspmNodeConversion": false,
         "format": "cjs",
@@ -238,27 +238,11 @@
       "npm:moment@2.18.1": {
         "jspmNodeConversion": false
       },
-      "npm:ms@0.7.2": {
-        "jspmNodeConversion": false,
-        "format": "cjs"
+      "npm:moment@2.19.1": {
+        "jspmNodeConversion": false
       },
-      "npm:pbkdf2@3.0.12": {
+      "npm:pbkdf2@3.0.14": {
         "main": "browser.js"
-      },
-      "npm:readable-stream@1.1.14": {
-        "map": {
-          "stream": "stream-browserify/index"
-        },
-        "systemjs": {
-          "main": "readable.js"
-        },
-        "dependencies": {
-          "core-util-is": "~1.0.0",
-          "inherits": "~2.0.1",
-          "isarray": "0.0.1",
-          "string_decoder": "~0.10.0",
-          "stream-browserify": "^1.0.0"
-        }
       },
       "npm:reflect-metadata@0.1.10": {
         "jspmNodeConversion": false,
@@ -268,9 +252,6 @@
             "default": "@empty"
           }
         }
-      },
-      "npm:safe-buffer@5.0.1": {
-        "browser": "index.js"
       },
       "npm:safe-buffer@5.1.1": {
         "browser": "index.js"
@@ -285,7 +266,7 @@
           }
         }
       },
-      "npm:tslib@1.7.1": {
+      "npm:tslib@1.8.0": {
         "main": "tslib.es6.js",
         "format": "esm",
         "meta": {
@@ -311,11 +292,11 @@
     }
   },
   "devDependencies": {
-    "aurelia-types-installer": "^0.2.13",
-    "concurrently": "^3.4.0",
-    "jspm": "0.17.0-beta.42",
+    "aurelia-types-installer": "^0.3.2",
+    "concurrently": "^3.5.0",
+    "jspm": "beta",
     "lite-server": "^2.3.0",
-    "tslint": "^5.4.3",
+    "tslint": "latest",
     "typescript": "next"
   },
   "dependencies": {}

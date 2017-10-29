@@ -2,6 +2,7 @@
   "compileOnSave": false,
   "extends": "./tsconfig.paths.json",
   "compilerOptions": {
+    "baseUrl": "./",
     "noEmit": true,
     "inlineSourceMap": true,
     "strict": true,
@@ -12,7 +13,7 @@
     "emitDecoratorMetadata": true,
     "traceResolution": false,
     "allowJs": true,
-    "module": "es2015",
+    "module": "commonjs",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "target": "esnext",
@@ -24,7 +25,13 @@
     "typeRoots": [
       "./jspm_packages/npm/@types"
     ],
-    "types": []
+    "types": [],
+    "plugins": [
+      {
+        "name": "tslint-language-service",
+        "autoFixOnSave": true
+      }
+    ]
   },
   "exclude": [
     "node_modules",
