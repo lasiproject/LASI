@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using LASI.Utilities;
+using System.Linq;
 
 namespace LASI.Core
 {
@@ -14,9 +14,8 @@ namespace LASI.Core
         /// Initializes a new instance of the ParticlePhrase class.
         /// </summary>
         /// <param name="words">The words which compose to form the ParticlePhrase.</param>
-        public ParticlePhrase(IEnumerable<Word> words)
-            : base(words) {
-        }
+        public ParticlePhrase(IEnumerable<Word> words) : base(words) { }
+
         /// <summary>
         /// Initializes a new instance of the ParticlePhrase class.
         /// </summary>
@@ -31,20 +30,23 @@ namespace LASI.Core
         /// Lexical constructs include word, Phrase, and Clause Types.
         /// </summary>
         /// <param name="prepositionalObject">The ILexical construct as the object of the ParticlePhrase.</param>
-        public void BindObject(ILexical prepositionalObject) {
+        public void BindObject(ILexical prepositionalObject)
+        {
             BoundObject = prepositionalObject;
         }
         /// <summary>
         /// Gets or sets the ILexical construct on the right-hand-side of the Preposition.
         /// </summary>
-        public ILexical ToTheRightOf {
+        public ILexical ToTheRightOf
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the ILexical construct on the left-hand-side of the Preposition.
         /// </summary>
-        public ILexical ToTheLeftOf {
+        public ILexical ToTheLeftOf
+        {
             get;
             set;
         }
@@ -53,7 +55,8 @@ namespace LASI.Core
         /// <summary>
         /// Gets the object of the IPrepositional construct.
         /// </summary>
-        public ILexical BoundObject {
+        public ILexical BoundObject
+        {
             get;
             protected set;
         }
@@ -63,7 +66,8 @@ namespace LASI.Core
         /// Gets or sets the contextually extrapolated role of the ParticlePhrase.
         /// </summary>
         /// <seealso cref="PrepositionRole"/>
-        public PrepositionRole Role {
+        public PrepositionRole Role
+        {
             get;
             set;
         }

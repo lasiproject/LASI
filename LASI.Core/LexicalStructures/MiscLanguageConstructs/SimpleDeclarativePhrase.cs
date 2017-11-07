@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using LASI.Utilities;
+using System.Linq;
 
 namespace LASI.Core
 {
@@ -13,7 +13,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="composed">The words which comprise the SimpleDeclarativeClauseBeginPhrase.</param>
         public SimpleDeclarativeClauseBeginPhrase(IEnumerable<Word> composed)
-            : base(composed) {
+            : base(composed)
+        {
         }
         /// <summary>
         /// Initializes a new instance of the SimpleDeclarativeClauseBeginPhrase class.

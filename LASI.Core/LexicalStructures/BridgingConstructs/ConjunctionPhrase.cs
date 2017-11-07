@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using LASI.Utilities;
+using System.Linq;
 
 namespace LASI.Core
 {
@@ -15,7 +15,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="composedWords">The words which compose to form the ConjunctionPhrase.</param>
         public ConjunctionPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
+            : base(composedWords)
+        {
         }
         /// <summary>
         /// Initializes a new instance of the ConjunctionPhrase class.
@@ -33,14 +34,16 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Word, Phrase, or Clause on the Right hand side of the ConjunctionPhrase.
         /// </summary>
-        public ILexical JoinedRight {
+        public ILexical JoinedRight
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the Word, Phrase, or Clause on the Left hand side of the ConjunctionPhrase.
         /// </summary>
-        public ILexical JoinedLeft {
+        public ILexical JoinedLeft
+        {
             get;
             set;
         }

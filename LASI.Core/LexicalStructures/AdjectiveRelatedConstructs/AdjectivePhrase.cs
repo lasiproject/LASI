@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using LASI.Utilities;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace LASI.Core
 {
@@ -34,7 +33,8 @@ namespace LASI.Core
         /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the AdjectivePhrase.
         /// </summary>
         /// <param name="modifier">The Adverbial construct by which to modify the AdjectivePhrase.</param>
-        public virtual void ModifyWith(IAdverbial modifier) {
+        public virtual void ModifyWith(IAdverbial modifier)
+        {
             adverbialModifiers.Add(modifier);
             modifier.Modifies = this;
         }

@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using NFluent;
-using NFluent.Extensions;
-using NFluent.Helpers;
-using Shared.Test.NFluentExtensions;
 
 namespace LASI.Utilities.Tests
 {
-    using Fact = Xunit.FactAttribute;
     using static Enumerable;
-    using Specialized;
+    using Fact = Xunit.FactAttribute;
     public class EnumerableExtensionsTest
     {
         #region Sequence String Formatting Methods
@@ -105,35 +101,6 @@ namespace LASI.Utilities.Tests
         #endregion
 
         #region Additional Query Operators
-
-        [Fact]
-        public void AppendInsertsValueAtEnd()
-        {
-            var values = new[] { 1, 2, 3 };
-            Check.That(values.Append(0)).ContainsExactly(1, 2, 3, 0);
-        }
-        [Fact]
-        public void AppendInsertsActualValueAtEnd()
-        {
-            var elements = Range(0, 5).Select(x => new object());
-            var toAppend = new object();
-            Check.That(elements.Append(toAppend)).EndsWith(toAppend);
-        }
-
-        [Fact]
-        public void PrependInsertsValueAtStart()
-        {
-            var values = new[] { 1, 2, 3 };
-            Check.That(values.Prepend(0)).ContainsExactly(0, 1, 2, 3);
-        }
-
-        [Fact]
-        public void AppendInsertsActualValueAtStart()
-        {
-            var elements = Range(0, 5).Select(x => new object());
-            var toPrepend = new object();
-            Check.That(elements.Prepend(toPrepend)).StartsWith(toPrepend);
-        }
 
         [Fact]
         public void PairWisePairsAdjacentElements()
