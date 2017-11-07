@@ -411,6 +411,5 @@ namespace LASI.Core.Tests
             Check.That(target.ObjectOfThePreposition).IsEqualTo(prepositionalObject);
         }
 
-
     }
 }

@@ -1,10 +1,9 @@
-﻿using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
+﻿using LASI.Core.Analysis.Binding.Experimental.SequentialPatterns;
 using NFluent;
 using Xunit;
 
 namespace LASI.Core.Tests.PatternMatching
 {
-
     public class PhraseAsSequentialPatternMatchingTest
     {
         [Fact]
@@ -12,20 +11,19 @@ namespace LASI.Core.Tests.PatternMatching
         {
             var actual = false;
             var target = new NounPhrase(new Determiner("The"), new CommonSingularNoun("truth"));
-            var expected = true;
             target.MatchSequence()
                 .Case((Determiner d, IEntity e) => actual = true);
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsTrue();
         }
+
         [Fact]
         public void NounPhraseTest2()
         {
             var actual = false;
             var target = new NounPhrase(new Determiner("The"), new CommonSingularNoun("truth"));
-            var expected = true;
             target.MatchSequence()
                 .Case((Determiner d, IDeterminable e) => actual = true);
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsTrue();
         }
     }
 }

@@ -54,7 +54,6 @@ namespace LASI.Core.Heuristics.WordNet
 
         private static AdverbSynset CreateSet(string fileLine)
         {
-
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
             var referencedSets = from Match match in Regex.Matches(line, pointerRegex)
@@ -105,6 +104,5 @@ namespace LASI.Core.Heuristics.WordNet
         };
         private readonly WordNetLookup<Adjective> adjectiveLookup;
     }
-
 }
 

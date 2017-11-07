@@ -201,5 +201,4 @@ namespace LASI.Core.Heuristics.WordNet
             [";u"] = LinkType.DomainOfSynset_USAGE
         };
     }
-
 }

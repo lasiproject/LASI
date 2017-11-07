@@ -29,10 +29,8 @@ namespace LASI.Core
         /// <typeparam name="TEntity">Any Type which implements the IDescribable interface.</typeparam>
         /// <param name="entities">The sequence of IDescribables to filter.</param>
         /// <returns>All Entities in the given sequence which are bound to an IDescriptor.</returns>
-        public static IEnumerable<TEntity> HavingDescriptor<TEntity>(this IEnumerable<TEntity> entities)
-            where TEntity : IEntity => from e in entities
-                                       where e.Descriptors.Any()
-                                       select e;
+        public static IEnumerable<TEntity> HavingDescriptor<TEntity>(this IEnumerable<TEntity> entities) where TEntity : IEntity =>
+            entities.Where(entity => entity.Descriptors.Any());
 
         /// <summary>
         /// Returns all IDescribable Constructs in the given sequence which are bound to an
@@ -47,10 +45,8 @@ namespace LASI.Core
         /// All IDescribable Constructs in the given sequence which are bound to an IDescriptor that
         /// matches the given descriptorMatcher predicate function.
         /// </returns>
-        public static IEnumerable<TEntity> HavingDescriptor<TEntity>(this IEnumerable<TEntity> entities, Func<IDescriptor, bool> predicate)
-            where TEntity : IEntity => from e in entities
-                                       where e.Descriptors.Any(predicate)
-                                       select e;
+        public static IEnumerable<TEntity> HavingDescriptor<TEntity>(this IEnumerable<TEntity> entities, Func<IDescriptor, bool> predicate) where TEntity : IEntity =>
+            entities.Where(entity => entity.Descriptors.Any(predicate));
 
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the
@@ -83,7 +79,7 @@ namespace LASI.Core
         /// </returns>
         public static IEnumerable<TEntity> InDirectObjectRole<TEntity>(this IEnumerable<TEntity> entities, Func<IVerbal, bool> predicate)
             where TEntity : IEntity => from e in entities.InDirectObjectRole()
-                                       where e.DirectObjectOf.Match(predicate)
+                                       where e.DirectObjectOf.Match().Case(predicate).Result()
                                        select e;
 
         /// <summary>
@@ -232,7 +228,7 @@ namespace LASI.Core
                entity.Match()
                 .When((IReferencer r) => r.RefersTo.Any())
                 .Then((IReferencer r) => r.RefersTo)
-                .Match((IEntity e) => e)
+                .Case((IEntity e) => e)
             .Result());
 
         #endregion Sequential Implementations
@@ -389,11 +385,14 @@ namespace LASI.Core
         /// All IEntity constructs in the source sequence which have been bound as the Subject,
         /// Direct Object, or Indirect Object of an IVerbal construct.
         /// </returns>
-        public static ParallelQuery<TEntity> InSubjectOrObjectRole<TEntity>(this ParallelQuery<TEntity> entities)
-            where TEntity : IEntity => from entity in entities
-                                       let verbal = entity.SubjectOf ?? entity.DirectObjectOf.Match((IVerbal v) => v) ?? entity.IndirectObjectOf
-                                       where verbal != null
-                                       select entity;
+        public static ParallelQuery<TEntity> InSubjectOrObjectRole<TEntity>(this ParallelQuery<TEntity> entities) where TEntity : IEntity =>
+            from entity in entities
+            let verbal = entity.SubjectOf ?? entity.DirectObjectOf
+               .Match()
+               .Case((IVerbal v) => v)
+               .Result() ?? entity.IndirectObjectOf
+            where verbal != null
+            select entity;
 
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the
@@ -428,10 +427,8 @@ namespace LASI.Core
         /// All IEntity constructs in the source sequence which have been bound as the Subject of an
         /// IVerbal construct.
         /// </returns>
-        public static ParallelQuery<TEntity> InSubjectRole<TEntity>(this ParallelQuery<TEntity> entities)
-            where TEntity : IEntity => from e in entities
-                                       where e.SubjectOf != null
-                                       select e;
+        public static ParallelQuery<TEntity> InSubjectRole<TEntity>(this ParallelQuery<TEntity> entities) where TEntity : IEntity =>
+            entities.Where(entity => entity.SubjectOf != null);
 
 
         /// <summary>
@@ -449,7 +446,11 @@ namespace LASI.Core
         /// any IVerbal construct which conforms the logic of the IVerbal selector function.
         /// </returns>
         public static ParallelQuery<TEntity> InSubjectRole<TEntity>(this ParallelQuery<TEntity> entities, Func<IVerbal, bool> predicate)
-            where TEntity : IEntity => entities.InSubjectRole().Where(entity => predicate(entity.SubjectOf));
+            where TEntity : IEntity => from entity in entities
+                                       let verbal = entity.SubjectOf
+                                       where verbal != null
+                                       where predicate(entity.SubjectOf)
+                                       select entity;
 
         /// <summary>
         /// Returns all the entities in the sequence such that, if they are referencers, their
@@ -462,12 +463,12 @@ namespace LASI.Core
         /// be returned in their place.
         /// </returns>
         public static ParallelQuery<IEntity> ResolvingReferences<TEntity>(this ParallelQuery<TEntity> entities)
-            where TEntity : class, IEntity => entities
-                .Select(x => x.Match()
-                    .When((IReferencer r) => r.RefersTo.Any())
-                    .Then((IReferencer r) => r.RefersTo)
-                    .Match((IEntity e) => e).Result()
-                );
+            where TEntity : class, IEntity => from entity in entities
+                                              let expression = entity.Match()
+                                                  .When((IReferencer r) => r.RefersTo.Any())
+                                                  .Then((IReferencer r) => r.RefersTo)
+                                                  .Case((IEntity e) => e)
+                                              select expression.Result();
 
         #endregion Parallel Implementations
     }

@@ -57,7 +57,7 @@ namespace LASI.Core
         public void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = this.ToOption<IPossesser>();
+            possession.Possesser = this;
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the aggregate entity.
@@ -147,9 +147,9 @@ namespace LASI.Core
         /// </summary>
         public IEnumerable<IPossessable> Possessions => possessions;
         /// <summary>
-        /// Gets or sets the Entity which is inferred to "own" all members the aggregate entity.
+        /// The Entity which is inferred to "own" all members the aggregate entity.
         /// </summary>
-        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public IPossesser Possesser { get; set; }
         /// <summary>
         /// A textual representation of the aggregate entity.
         /// </summary>
@@ -159,12 +159,12 @@ namespace LASI.Core
                     select member.Text + (prepositionText.IsNullOrWhiteSpace() ? string.Empty : " " + prepositionText));
 
         /// <summary>
-        /// Gets or sets the numeric Weight of the aggregate entity within the context of its document.
+        /// The numeric Weight of the aggregate entity within the context of its document.
         /// </summary>
         // TODO: Revise this to compute some smart average.
         public double Weight { get; set; }
         /// <summary>
-        /// Gets or sets the numeric weight of the aggregate entity over the context of all extant documents.
+        /// The numeric weight of the aggregate entity over the context of all extant documents.
         /// </summary>
         public double MetaWeight { get; set; }
 

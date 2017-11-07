@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Core.Binding.Experimental;
 
 namespace LASI.Core.Binding
 {
@@ -22,6 +23,7 @@ namespace LASI.Core.Binding
                 ProcessContiguous(cg);
             }
         }
+
         /// <summary>
         /// Binds the attributively related NounPhrase elements within the given sequence of Phrases.
         /// </summary>
@@ -44,10 +46,10 @@ namespace LASI.Core.Binding
             {
                 var npLeft = phrases.OfNounPhrase().First();
                 var npRight = phrases.Skip(1).OfNounPhrase().First();
-                var leftNPDeterminer = npLeft?.Words?.OfDeterminer()?.FirstOrDefault();
+                var leftNpDeterminer = npLeft?.Words?.OfDeterminer()?.FirstOrDefault();
                 var rightNpDeterminer = npRight?.Words?.OfDeterminer()?.FirstOrDefault();
-                if (leftNPDeterminer != null && rightNpDeterminer != null &&
-                    leftNPDeterminer.DeterminerKind == DeterminerKind.Definite &&
+                if (leftNpDeterminer != null && rightNpDeterminer != null &&
+                    leftNpDeterminer.DeterminerKind == DeterminerKind.Definite &&
                     rightNpDeterminer.DeterminerKind == DeterminerKind.Indefinite)
                 {
                     npLeft.InnerAttributive = npRight;
@@ -79,12 +81,10 @@ namespace LASI.Core.Binding
             var temp = phrases;
             while (temp.Any())
             {
-                Func<Phrase, bool> continueTaking = p => p.Match()
+                bool continueTaking(Phrase p) => p.Match()
                     .Case((NounPhrase n) => true)
                     .Case((PrepositionalPhrase x) => true)
-                    .Case(x => x.Words.All(w => w is Punctuator) &&
-                        x.Next is NounPhrase &&
-                        x.Previous is NounPhrase)
+                    .Case(x => x.Words.All(w => w is Punctuator) && x.Next is NounPhrase && x.Previous is NounPhrase)
                     .Result();
 
                 results.Add(temp.TakeWhile(continueTaking));
@@ -95,7 +95,5 @@ namespace LASI.Core.Binding
             }
             return results.Where(result => result.Count() > 1);
         }
-
     }
-
 }

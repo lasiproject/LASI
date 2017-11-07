@@ -14,7 +14,7 @@ namespace LASI.Content
     /// An input file converter specialized to extract the written content from a .docx (Microsoft word 2003+ open XML file format)
     /// and create a text file containing this content as raw text.
     /// </summary>
-    public class DocxToTextConverter : FileConverter<DocXFile, TxtFile>
+    public sealed class DocxToTextConverter : FileConverter<DocXFile, TxtFile>
     {
         /// <summary>
         /// Constructs a new instance which will govern the conversion InputFile instance provided.
@@ -31,7 +31,7 @@ namespace LASI.Content
         /// <summary>
         /// Converts the .docx document into zip archive, deleting any preexisting conversion to zip.
         /// </summary>
-        protected virtual void DocxToZip()
+        private void DocxToZip()
         {
             var zipName = Path.Combine(DestinationInfo.Directory, DestinationInfo.FileNameSansExt);
             File.Copy(Original.FullPath, zipName + ".zip", overwrite: true);
@@ -54,7 +54,6 @@ namespace LASI.Content
                 leaveOpen: false)
             )
             {
-
                 if (Directory.Exists(zipName))
                 {
                     try
@@ -210,7 +209,7 @@ namespace LASI.Content
         /// <summary>
         /// Gets or sets the XmlFile which contains the significant text of the .docx document.
         /// </summary>
-        protected virtual InputFile XmlFile { get; set; }
+        private InputFile XmlFile { get; set; }
 
         /// <summary>
         /// The <see cref="System.Xml.XmlReaderSettings"/> to use for reading the underlying contents of the docx file.

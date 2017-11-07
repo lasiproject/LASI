@@ -15,7 +15,6 @@ namespace LASI.Core.Tests
     /// </summary>
     public class WordTest
     {
-
         [Fact]
         public void CreateWordWithOnlyWhiteSpaceTextThrowsArgumentException()
         {
@@ -84,7 +83,6 @@ namespace LASI.Core.Tests
             int actual;
             actual = target.GetHashCode();
             Check.That(actual).IsEqualTo(expected);
-
         }
 
         /// <summary>
@@ -130,7 +128,6 @@ namespace LASI.Core.Tests
             string actual;
             actual = target.Text;
             Check.That(actual).IsEqualTo(expected);
-
         }
 
 
@@ -159,10 +156,8 @@ namespace LASI.Core.Tests
             Word.VerboseOutput = expected;
             actual = Word.VerboseOutput;
             Check.That(actual).IsEqualTo(expected);
-
         }
 
         static Word CreateWord() => new CommonSingularNoun("dog");
-
     }
 }

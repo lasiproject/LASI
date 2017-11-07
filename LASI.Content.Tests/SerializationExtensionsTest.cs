@@ -59,9 +59,9 @@ namespace LASI.Content.Serialization.Json.Tests
         {
             var target = TestHelper.TestVerbal;
             var serialized = target.ToJObject();
-            Assert.NotNull(serialized);
-            Assert.Equal(target.Text, serialized["text"]);
-            Assert.True(JToken.DeepEquals(JArray.FromObject(target.AdverbialModifiers.Select(e => e.ToJObject())), serialized["adverbialModifiers"]));
+            Check.That(serialized).IsNotNull();
+            Check.That(target.Text).IsEqualTo((string)serialized["text"]);
+            Check.That(JToken.DeepEquals(JArray.FromObject(target.AdverbialModifiers.Select(e => e.ToJObject())), serialized["adverbialModifiers"])).IsTrue();
         }
 
         private static class TestHelper

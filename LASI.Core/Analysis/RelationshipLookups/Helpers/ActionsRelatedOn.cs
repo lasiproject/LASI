@@ -28,7 +28,7 @@ namespace LASI.Core.Analysis.Relationships
         /// </summary>
         /// <param name="obj">The System.Object to compare to.</param>
         /// <returns> <c>true</c> if the current ActionsRelatedOn is equal to the specified System.Object.</returns>
-        public override bool Equals(object obj) => obj is ActionsRelatedOn && this.Equals((ActionsRelatedOn)obj);
+        public override bool Equals(object obj) => obj is ActionsRelatedOn a && Equals(a);
 
         /// <summary>
         /// Computes the hash code for the ActionsRelatedOn instance.

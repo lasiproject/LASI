@@ -37,7 +37,6 @@ namespace LASI.Core.Binding.Experimental
                                       select actions;
 
                 actionsByBranch.DefaultIfEmpty(Empty<Action>()).First().InvokeAll();
-
             }
         }
         private static IEnumerable<Action> GetBranchActions(IEnumerable<Word> words)

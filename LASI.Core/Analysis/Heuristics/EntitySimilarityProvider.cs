@@ -154,7 +154,7 @@ namespace LASI.Core
             .Case((CommonNoun n) => Gender.Neutral)
             .Case((IEntity e) => (from referener in e.Referencers
                                   let gendered = referener as ISimpleGendered
-                                  let gender = gendered != null ? gendered.Gender : default(Gender)
+                                  let gender = gendered != null ? gendered.Gender : default
                                   group gender by gender into byGender
                                   orderby byGender.Count() descending
                                   select byGender.Key).DefaultIfEmpty().First(), when: e => e.Referencers.Any())
@@ -227,7 +227,6 @@ namespace LASI.Core
                     : genders.All(g => g.IsNeutral()) ? Gender.Neutral : Gender.Undetermined
                     : Gender.Undetermined;
         }
-
 
     }
 }

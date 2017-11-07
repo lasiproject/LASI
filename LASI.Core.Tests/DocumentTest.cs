@@ -8,7 +8,6 @@ using Xunit;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is A test class for DocumentTest and is intended
     ///to contain all DocumentTest Unit Tests
@@ -114,9 +113,8 @@ namespace LASI.Core.Tests
             actual = target.Verbals;
             foreach (var e in expected)
             {
-                Assert.True(actual.Contains(e, LASI.Utilities.Equality.Create<IVerbal>((a, b) => a.Text == b.Text && a.GetType() == b.GetType())));
+                Assert.Contains(e, actual, LASI.Utilities.Equality.Create<IVerbal>((a, b) => a.Text == b.Text && a.GetType() == b.GetType()));
             }
-
         }
 
         /// <summary>
@@ -125,7 +123,6 @@ namespace LASI.Core.Tests
         [Fact]
         public void GetEntitiesTest()
         {
-
             var target = CreateUnboundUnweightedTestDocument();
             IEnumerable<IEntity> expected = new IEntity[]{
                 new NounPhrase(new Word[] {
@@ -150,7 +147,7 @@ namespace LASI.Core.Tests
             actual = target.Entities;
             foreach (var e in expected)
             {
-                Assert.True(actual.Contains(e, LASI.Utilities.Equality.Create<IEntity>((a, b) => a.Text == b.Text && a.GetType() == b.GetType())));
+                Assert.Contains(e, actual, Equality.Create<IEntity>((a, b) => a.Text == b.Text && a.GetType() == b.GetType()));
             }
         }
 
@@ -174,7 +171,6 @@ namespace LASI.Core.Tests
         [Fact]
         public void PhrasesTest()
         {
-
             var target = CreateUnboundUnweightedTestDocument();
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
@@ -227,7 +223,6 @@ namespace LASI.Core.Tests
             actual = target.Sentences;
             for (var i = 0; i < actual.Count(); ++i)
             {
-
                 Check.That(firstParagraphSentences.ToList()[i]).IsEqualTo(actual.ToList()[i]);
             }
         }
@@ -365,9 +360,7 @@ namespace LASI.Core.Tests
             Check.That(target.Paragraphs.Except(actual.SelectMany(page => page.Paragraphs))).IsEmpty();
             Check.That(target.Sentences.Except(actual.SelectMany(page => page.Sentences))).IsEmpty();
             Check.That(string.Join(string.Empty, target.Sentences.Select(s => s.Text))).IsEqualTo(string.Join(string.Empty, actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
-
         }
-
 
 
     }

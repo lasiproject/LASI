@@ -3,7 +3,6 @@
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is a test class for SuperlativeAdverbTest and is intended
     ///to contain all SuperlativeAdverbTest Unit Tests

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
+using static System.Linq.Enumerable;
 
 namespace LASI.Core.Heuristics
 {
@@ -22,10 +23,10 @@ namespace LASI.Core.Heuristics
         {
             ISet<IEntity> aliasedBy;
             ISet<string> aliases;
-            return aliasedEntityReferenceMap.TryGetValue(possiblyAliasedBy, out aliasedBy) &&
-                aliasedBy.Contains(possibleAlias) ||
-                aliasDictionary.TryGetValue(possiblyAliasedBy.Text, out aliases) &&
-                aliases.Contains(possibleAlias.Text);
+            return aliasedEntityReferenceMap.TryGetValue(possiblyAliasedBy, out aliasedBy)
+                && aliasedBy.Contains(possibleAlias)
+                || aliasDictionary.TryGetValue(possiblyAliasedBy.Text, out aliases)
+                && aliases.Contains(possibleAlias.Text);
         }
         /// <summary>
         /// Establishes that the given Entity has a the given textual alias. 
@@ -66,17 +67,7 @@ namespace LASI.Core.Heuristics
                    entityText, new HashSet<string>(textualAliases),
                    (key, value) => new HashSet<string>(value.Concat(textualAliases)));
         }
-        private static void DefineAliasesImplementation(IEntity entity, IEntity alias, params IEntity[] aliases)
-        {
-            aliasDictionary.AddOrUpdate(
-                entity.Text,
-                key => new HashSet<string>(aliases.Select(a => a.Text)),
-                (key, value) => new HashSet<string>(value.Union(aliases.Select(a => a.Text))));
-            aliasedEntityReferenceMap.AddOrUpdate(
-                entity, new HashSet<IEntity>(aliases),
-                (key, value) => new HashSet<IEntity>(value.Union(aliases)));
 
-        }
         /// <summary>
         /// Gets the textual representations of all known aliases defined for the given entity.
         /// </summary>
@@ -99,18 +90,17 @@ namespace LASI.Core.Heuristics
             .When(e => e.SubjectOf.IsClassifier)
             .Then(e => e.SubjectOf.DirectObjects.SelectMany(o => o.Match()
                     .When((IReferencer p) => p.RefersTo.Any())
-                    .Then((IReferencer p) => p.RefersTo.SelectMany(r => GetLikelyAliases(r)))
+                    .Then((IReferencer p) => p.RefersTo.SelectMany(GetLikelyAliases))
                     .Case((Noun n) => n.GetSynonyms())
                 .Result()))
-            .Result(Enumerable.Empty<string>());
+            .Result(Empty<string>());
 
         private static IEnumerable<string> DefineAliases(NounPhrase nounPhrase) =>
             nounPhrase.Words.OfNoun().Count() == 1 && !nounPhrase.Words.Any(w => w is ProperNoun) ?
             Lexicon.GetSynonyms(nounPhrase.Words.OfNoun().First()) :
-            Enumerable.Empty<string>();
+            Empty<string>();
 
         private static ConcurrentDictionary<IEntity, ISet<IEntity>> aliasedEntityReferenceMap = new ConcurrentDictionary<IEntity, ISet<IEntity>>();
         private static ConcurrentDictionary<string, ISet<string>> aliasDictionary = new ConcurrentDictionary<string, ISet<string>>();
-
     }
 }

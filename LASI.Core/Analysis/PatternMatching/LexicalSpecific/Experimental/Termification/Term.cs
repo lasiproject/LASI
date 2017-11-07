@@ -75,15 +75,14 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
         public Pattern<TResult> ApplyWhen<TTerm, TTypePattern>(TTerm predicate, Func<TTypePattern, TResult> f) where TTerm : Term where TTypePattern : ILexical =>
             ApplyIfApplicable(predicate, f);
 
-        //public Pattern<TResult> ApplyWhen(Term predicate, Func<ILexical, TResult> f) {
-        //    return ApplyIfApplicable(predicate, f);
-        //}
+        public Pattern<TResult> ApplyWhen(Term predicate, Func<ILexical, TResult> f) => ApplyIfApplicable(predicate, f);
+
         public Pattern<TResult> ApplyWhen<TTypePattern>(MetaTerm<TTypePattern> predicate, Func<TTypePattern, TResult> f) where TTypePattern : ILexical =>
             ApplyIfApplicable(predicate, f);
 
         public ILexical Lexical { get; }
 
-        public TResult Result { get; protected set; }
+        public TResult Result { get; set; }
 
         protected bool Accepted { get; set; }
     }
@@ -103,41 +102,34 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
 
     internal class TermWithResultType<TResult> : Term
     {
-        public TermWithResultType(Term term)
+        public TermWithResultType(Term term) => this.term = term;
+
+        public TermWithResultType()
         {
-            this.term = term;
         }
 
-        public static TermWithResultType<TResult> operator &(TermWithResultType<TResult> left, Term right) => new TermWithResultType<TResult>(left.Combine(right));
+        public static TermWithResultType<TResult> operator &(TermWithResultType<TResult> left, Term right) =>
+            new TermWithResultType<TResult>(left.Combine(right));
 
-        public override bool Test(ILexical lexical)
-        {
-            throw new NotImplementedException();
-        }
+        public override bool Test(ILexical lexical) => throw new NotImplementedException();
 
         protected override Term Combine(Term other) => base.Combine(other);
 
-        public override TermKind Kind
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public override TermKind Kind => throw new NotImplementedException();
 
         private Term term;
     }
 
     internal class TextualTerm<TResult> : TermWithResultType<TResult>
     {
-        public TextualTerm(Term term) : base(term)
-        {
-        }
+        public TextualTerm(string text) : base() => Text = text;
 
         public override bool Test(ILexical lexical) => lexical.Text == Text;
 
-        //public TextualTerm(string text) : base(term) { Text = text; }
+
         public override TermKind Kind => TermKind.Textual;
+
+        public static implicit operator TextualTerm<TResult>(string text) => new TextualTerm<TResult>(text);
 
         public string Text { get; }
     }

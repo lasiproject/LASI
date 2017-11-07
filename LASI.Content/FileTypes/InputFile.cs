@@ -123,19 +123,6 @@ namespace LASI.Content
         /// <returns> <c>true</c> if the InputFile on the left is not equal to the InputFile on the right.</returns>
         public static bool operator !=(InputFile left, InputFile right) => !(left == right);
 
-        /// <summary>
-        /// Creates a <see cref="FileConversionFailureException"/> for the specified input file.
-        /// </summary>
-        /// <param name="targetExtension">The extension of the target file type to which conversion failed.</param>
-        /// <param name="innerException">An inner exception to propagate.</param>
-        /// <returns>A <see cref="FileConversionFailureException"/> for the specified input file.</returns>
-        protected FileConversionFailureException CreateFileConversionFailureException(string targetExtension, Exception innerException) =>
-            new FileConversionFailureException(
-                fileName: FullPath,
-                sourceType: CanonicalExtension,
-                inner: innerException,
-                targetType: targetExtension
-            );
-
+        protected FileConversionFailureException CreateFileConversionFailureException(string targetExtension, Exception e) => new FileConversionFailureException(FullPath, this.CanonicalExtension, targetExtension, e);
     }
 }

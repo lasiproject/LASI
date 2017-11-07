@@ -85,7 +85,7 @@ namespace LASI.Core
             else
             {
                 possessions.Add(possession);
-                possession.Possesser = this.ToOption<IPossesser>();
+                possession.Possesser = this;
             }
         }
 
@@ -102,7 +102,10 @@ namespace LASI.Core
         /// Binds the <see cref="Pronoun"/> as a direct object of the <see cref="IVerbal"/>.
         /// </summary>
         /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
-        public void BindAsDirectObjectOf(IVerbal verbal) => DirectObjectOf = verbal;
+        public void BindAsDirectObjectOf(IVerbal verbal)
+        {
+            DirectObjectOf = verbal;
+        }
 
         /// <summary>
         /// Binds the <see cref="Pronoun"/> as an indirect object of the <see cref="IVerbal"/>.
@@ -149,7 +152,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the <see cref="IVerbal"/> which is inferred to the Pronoun.
         /// </summary>
-        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public IPossesser Possesser { get; set; }
         /// <summary>
         /// Gets the EntityKind of the Pronoun.
         /// </summary>

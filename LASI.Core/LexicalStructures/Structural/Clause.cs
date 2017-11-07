@@ -17,10 +17,7 @@ namespace LASI.Core
         /// Initializes a new instances of the Clause class.
         /// </summary>
         /// <param name="phrases">The linear sequence of Phrases which compose to form the Clause.</param>
-        public Clause(IEnumerable<Phrase> phrases)
-        {
-            Phrases = phrases;
-        }
+        public Clause(IEnumerable<Phrase> phrases) => Phrases = phrases;
 
         /// <summary>
         /// Initializes a new instances of the Clause class.
@@ -49,7 +46,6 @@ namespace LASI.Core
                     sistren[i].Previous = sistren[i - 1];
                 }
                 sistren[i].Next = sistren[i + 1];
-
             }
         }
 

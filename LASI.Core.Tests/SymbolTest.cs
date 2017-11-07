@@ -3,7 +3,6 @@
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is a test class for SymbolTest and is intended
     ///to contain all SymbolTest Unit Tests
@@ -21,6 +20,5 @@ namespace LASI.Core.Tests
             Assert.Equal(character, target.LiteralCharacter);
             Assert.Equal(character.ToString(), target.Text);
         }
-
     }
 }

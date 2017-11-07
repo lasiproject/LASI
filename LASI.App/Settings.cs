@@ -4,7 +4,6 @@ using System.Windows;
 namespace LASI.App.Properties
 {
 
-
     // This class allows you to handle specific events on the settings class:
     //  The SettingChanging event is raised before a setting's value is changed.
     //  The PropertyChanged event is raised after a setting's value is changed.
@@ -12,7 +11,6 @@ namespace LASI.App.Properties
     //  The SettingsSaving event is raised before the setting values are saved.
     internal sealed partial class Settings
     {
-
         public Settings()
         {
             // // To add event handlers for saving and changing settings, uncomment the lines below:
@@ -28,9 +26,7 @@ namespace LASI.App.Properties
         {
             if (Default.TrayMinimize)
             {
-                TrayIconManager.Enable(WindowManager.ProjectPreviewScreen);
-                TrayIconManager.Enable(WindowManager.InProgressScreen);
-                TrayIconManager.Enable(WindowManager.ResultsScreen);
+                TrayIconManager.Enable(WindowManager.ProjectPreviewScreen, WindowManager.InProgressScreen, WindowManager.ResultsScreen);
             }
         }
 

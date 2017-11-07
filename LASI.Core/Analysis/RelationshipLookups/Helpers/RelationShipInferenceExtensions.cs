@@ -25,16 +25,15 @@ namespace LASI.Core.Analysis.Relationships
 
             if (mapping != null)
             {
-
                 var actions = mapping[performer, receiver].Concat(mapping[receiver, performer]);
                 return actions.Any()
                     ? new ActionsRelatedOn(actions)
+#pragma warning disable IDE0034 // Simplify 'default' expression 
+                    // Suggestion is breaks this method.
                     : default(ActionsRelatedOn?);
+#pragma warning restore IDE0034 // Simplify 'default' expression
             }
-            else
-            {
-                throw new InvalidOperationException(BuildAssociationContextMessage(performer, receiver));
-            }
+            throw new InvalidOperationException(BuildAssociationContextMessage(performer, receiver));
         }
 
         /// <summary>

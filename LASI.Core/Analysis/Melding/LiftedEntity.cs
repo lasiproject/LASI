@@ -62,7 +62,7 @@ namespace LASI.Core.Analysis.Melding
         public void AddPossession(IPossessable possession)
         {
             possessions.Add(possession);
-            possession.Possesser = this.ToOption<IPossesser>();
+            possession.Possesser = this;
         }
 
         /// <summary>
@@ -103,8 +103,8 @@ namespace LASI.Core.Analysis.Melding
         /// </summary>
         public IVerbal SubjectOf
         {
-            get { return subjectsOfVerbals; }
-            private set { subjectsOfVerbals = new[] { value }.ToAggregate(); }
+            get => subjectsOfVerbals;
+            private set => subjectsOfVerbals = new AggregateVerbal(value);
         }
         /// <summary>
         /// Gets the <see cref="IVerbal"/> of which the entity is the direct object of.
@@ -116,12 +116,12 @@ namespace LASI.Core.Analysis.Melding
         /// </summary>
         public IVerbal IndirectObjectOf
         {
-            get { return indirectObjectsOfVerbals; }
-            private set { indirectObjectsOfVerbals = new[] { value }.ToAggregate(); }
+            get => indirectObjectsOfVerbals;
+            private set => indirectObjectsOfVerbals = new AggregateVerbal(value);
         }
 
 
-        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public IPossesser Possesser { get; set; }
 
         public string Text => Avatar.Text;
 
@@ -144,13 +144,14 @@ namespace LASI.Core.Analysis.Melding
 
         #region Helper Methods
 
-        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, TResult> selector) where TResult : ILexical =>
+        private IEnumerable<T> FlattenAbout<T>(Func<IEntity, T> selector) where T : ILexical =>
             from r in Represented
             let result = selector(r)
-            where result != null
+            let defaulted = (object)result
+            where !(defaulted is default)
             select result;
 
-        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, IEnumerable<TResult>> collectionSelector) =>
+        private IEnumerable<T> FlattenAbout<T>(Func<IEntity, IEnumerable<T>> collectionSelector) where T : class =>
             Represented.SelectMany(e => collectionSelector(e).NonNull());
         #endregion Private Helper Methods
 

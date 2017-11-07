@@ -58,6 +58,5 @@ namespace LASI.App.Dialogs
         /// </summary>
         public List<Document> SelectedDocuments { get; } = new List<Document>();
 
-
     }
 }

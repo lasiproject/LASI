@@ -26,7 +26,6 @@ namespace LASI.App.Dialogs
         {
             InitializeComponent();
             resourceManager = new ResourceManager(System.Globalization.CultureInfo.CurrentUICulture.Name, assembly: System.Reflection.Assembly.GetExecutingAssembly());
-
         }
 
         #region Interaction Logic

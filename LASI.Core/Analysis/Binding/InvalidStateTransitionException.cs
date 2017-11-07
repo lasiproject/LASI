@@ -21,6 +21,7 @@ namespace LASI.Core.Analysis.Binding
         public InvalidStateTransitionException(string stateName, ILexical errorOn)
             : base($"Invalid Transition\nAt State {stateName}\nOn {errorOn}")
         { }
+
         /// <summary>
         ///  Initializes a new instance of the <see cref="InvalidStateTransitionException"/> class with serialized data.
         /// </summary>
@@ -32,9 +33,14 @@ namespace LASI.Core.Analysis.Binding
         /// The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains contextual information
         /// about the source or destination.
         /// </param>
-        protected InvalidStateTransitionException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context)
-        { }
-    }
+        public InvalidStateTransitionException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 
+        protected InvalidStateTransitionException() { }
+
+        protected InvalidStateTransitionException(string message) : base(message) { }
+
+        protected InvalidStateTransitionException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+    }
 }

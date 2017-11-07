@@ -1,8 +1,7 @@
-﻿using LASI.Core;
-using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LASI.Core.Analysis.Binding.Experimental.SequentialPatterns;
 using LASI.Core.Configuration;
 
 namespace LASI.Core.Analysis.Binding
@@ -96,7 +95,6 @@ namespace LASI.Core.Analysis.Binding
             }
             return results;
         }
-
 
     }
 }

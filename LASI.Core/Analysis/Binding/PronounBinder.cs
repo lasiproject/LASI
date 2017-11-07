@@ -37,5 +37,4 @@ namespace LASI.Core.Binding
             }
         }
     }
-
 }

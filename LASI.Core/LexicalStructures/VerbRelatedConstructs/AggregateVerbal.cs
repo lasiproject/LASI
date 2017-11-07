@@ -63,7 +63,7 @@ namespace LASI.Core
 
         public void ModifyWith(IAdverbial modifier) => adverbialModifiers = adverbialModifiers.Add(modifier);
 
-        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IVerbal, IEnumerable<TResult>> flattenAbout) => this.SelectMany(flattenAbout).NonNull();
+        private IEnumerable<T> FlattenAbout<T>(Func<IVerbal, IEnumerable<T>> flattenAbout) where T : class, ILexical => this.SelectMany(flattenAbout).NonNull();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -125,19 +125,17 @@ namespace LASI.Core
 
         public ModalAuxilary Modality
         {
-            get
-            {
-                return this.Select(member => member.Modality).DefaultIfEmpty().GroupBy(modality => modality?.Text).MaxBy(group => group.Count()).First();
-            }
-            set
-            {
-                throw new NotSupportedException($"Cannot Modify The Modality of an Aggregate Verbal.{this.ToString()}");
-            }
+            get => this.Select(member => member.Modality)
+                .DefaultIfEmpty()
+                .GroupBy(modality => modality?.Text)
+                .MaxBy(group => group.Count())
+                .First();
+            set => throw new NotSupportedException($"Cannot Modify The Modality of an Aggregate Verbal.{ToString()}");
         }
 
-        public ILexical ObjectOfThePreposition { get { throw new NotImplementedException(); } }
+        public ILexical ObjectOfThePreposition => throw new NotImplementedException();
 
-        public IPrepositional PrepositionalToObject { get { throw new NotImplementedException(); } }
+        public IPrepositional PrepositionalToObject => throw new NotImplementedException();
 
         /// <summary>
         /// Gets or sets the subject complement of the <see cref="AggregateVerbal"/>

@@ -1,113 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SerializationInfo = System.Runtime.Serialization.SerializationInfo;
 using StreamingContext = System.Runtime.Serialization.StreamingContext;
 
 namespace LASI.Content.Tagging
 {
-    /// <summary>
-    /// The Exception that is thrown when attempting to access the tag corresponding to a
-    /// <see cref="Core.Word" /> whose type is not mapped by the Tagset.
-    /// </summary>
-    /// <seealso cref="WordTagsetMap" />
-    /// <seealso cref="SharpNLPWordTagsetMap" />
-    [Serializable]
-    public sealed class UnmappedWordTypeException : UnmappedLexicalTypeException
-    {
-        /// <summary>
-        /// Initializes a new instance of the UnmappedWordTypeException class with its message
-        /// string set to message.
-        /// </summary>
-        /// <param name="message">
-        /// A description of the error. The content of message is intended to be understood by humans.
-        /// </param>
-        public UnmappedWordTypeException(string message) : base(message) { }
-
-        /// <summary>
-        /// Initializes a new instance of the UnmappedWordTypeException class with the given type information.
-        /// </summary>
-        /// <param name="wordType">The type of the unmapped word.</param>
-        /// <param name="tagsetType">The type of the tagset in which the word is unmapped.</param>
-        public UnmappedWordTypeException(Type wordType, Type tagsetType) : base(wordType, tagsetType) { }
-
-        /// <summary>
-        /// Initializes a new instance of the UnmappedWordTypeException class with its message
-        /// string set to message.
-        /// </summary>
-        /// <param name="message">
-        /// A description of the error. The content of message is intended to be understood by humans.
-        /// </param>
-        /// <param name="inner">
-        /// The exception that is the cause of the current exception. If the innerException
-        /// parameter is not null, the current exception is raised in a catch block that handles the
-        /// inner exception.
-        /// </param>
-        public UnmappedWordTypeException(string message, Exception inner) : base(message, inner) { }
-
-        /// <summary>
-        /// Initializes a new instance of the UnmappedLexicalTypeException class with the serialized data.
-        /// </summary>
-        /// <param name="info">
-        /// The object that holds the serialized object data about the exception being thrown.
-        /// </param>
-        /// <param name="context">
-        /// The object that holds the serialized object data about the exception being thrown.
-        /// </param>
-        private UnmappedWordTypeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-    }
-
-    /// <summary>
-    /// The Exception that is thrown when attempting to access the tag corresponding to a
-    /// <see cref="Core.Phrase" /> whose type is not mapped by the Tagset.
-    /// </summary>
-    [Serializable]
-    public sealed class UnmappedPhraseTypeException : UnmappedLexicalTypeException
-    {
-        /// <summary>
-        /// Initializes a new instance of the UnmappedPhraseTypeException class with its message
-        /// string set to message.
-        /// </summary>
-        /// <param name="message">
-        /// A description of the error. The content of message is intended to be understood by humans.
-        /// </param>
-        public UnmappedPhraseTypeException(string message) : base(message) { }
-
-        /// <summary>
-        /// Initializes a new instance of the UnmappedPhraseTypeException class with the given type information.
-        /// </summary>
-        /// <param name="phraseType">The type of the unmapped word.</param>
-        /// <param name="tagsetType">The type of the tagset in which the word is unmapped.</param>
-        public UnmappedPhraseTypeException(Type phraseType, Type tagsetType) : base(phraseType, tagsetType) { }
-
-        /// <summary>
-        /// Initializes a new instance of the UnmappedPhraseTypeException class with its message
-        /// string set to message.
-        /// </summary>
-        /// <param name="message">
-        /// A description of the error. The content of message is intended to be understood by humans.
-        /// </param>
-        /// <param name="inner">
-        /// The exception that is the cause of the current exception. If the innerException
-        /// parameter is not null, the current exception is raised in a catch block that handles the
-        /// inner exception.
-        /// </param>
-        public UnmappedPhraseTypeException(string message, Exception inner) : base(message, inner) { }
-
-        /// <summary>
-        /// Initializes a new instance of the UnmappedPhraseTypeException class with the serialized data.
-        /// </summary>
-        /// <param name="info">
-        /// The object that holds the serialized object data about the exception being thrown.
-        /// </param>
-        /// <param name="context">
-        /// The object that holds the serialized object data about the exception being thrown.
-        /// </param>
-        private UnmappedPhraseTypeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-    }
-
     /// <summary>
     /// The Exception that is thrown when attempting to access the tag corresponding to a
     /// <see cref="Core.ILexical" /> whose type is not mapped by the Tagset.
@@ -135,22 +31,22 @@ namespace LASI.Content.Tagging
         }
 
         /// <summary>
-        /// Initializes a new instance of the UnmappedLexicalTypeException class with its message
+        /// Initializes a new instance of the <see cref="UnmappedLexicalTypeException"/> class with its message
         /// string set to message.
         /// </summary>
         /// <param name="message">
         /// A description of the error. The content of message is intended to be understood by humans.
         /// </param>
-        protected UnmappedLexicalTypeException(string message) : base(message)
+        public UnmappedLexicalTypeException(string message) : base(message)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the UnmappedLexicalTypeException class with the given types.
+        /// Initializes a new instance of the <see cref="UnmappedLexicalTypeException"/> class with the given types.
         /// </summary>
         /// <param name="unmappedType">The type of the unmapped ILexical instance.</param>
         /// <param name="tagsetType">The type of the tagset in which the word is unmapped.</param>
-        protected UnmappedLexicalTypeException(Type unmappedType, Type tagsetType)
+        public UnmappedLexicalTypeException(Type unmappedType, Type tagsetType)
             : this($"The Lexical type {unmappedType} is not mapped by the TagsetMap type {tagsetType}.")
         {
             UnmappedType = unmappedType;
@@ -158,7 +54,7 @@ namespace LASI.Content.Tagging
         }
 
         /// <summary>
-        /// Initializes a new instance of the UnmappedLexicalTypeException class with its message
+        /// Initializes a new instance of the <see cref="UnmappedLexicalTypeException"/> class with its message
         /// string set to message.
         /// </summary>
         /// <param name="message">
@@ -169,12 +65,10 @@ namespace LASI.Content.Tagging
         /// parameter is not null, the current exception is raised in a catch block that handles the
         /// inner exception.
         /// </param>
-        protected UnmappedLexicalTypeException(string message, Exception inner) : base(message, inner)
-        {
-        }
+        public UnmappedLexicalTypeException(string message, Exception inner) : base(message, inner) { }
 
         /// <summary>
-        /// Initializes a new instance of the UnmappedLexicalTypeException class with the serialized data.
+        /// Initializes a new instance of the <see cref="UnmappedLexicalTypeException"/> class with the serialized data.
         /// </summary>
         /// <param name="info">
         /// The object that holds the serialized object data about the exception being thrown.
@@ -182,14 +76,39 @@ namespace LASI.Content.Tagging
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
-        protected UnmappedLexicalTypeException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+        public UnmappedLexicalTypeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnmappedLexicalTypeException"/> class with the serialized data.
+        /// </summary>
+        protected UnmappedLexicalTypeException() { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnmappedLexicalTypeException"/> class with the serialized data.
+        /// </summary>
+        /// <param name="message">
+        /// A description of the error. The content of message is intended to be understood by humans.
+        /// </param>
+        /// <param name="paramName">The name of the parameter that caused the current exception.</param>
+        /// <param name="innerException">The exception that is the cause of the current exception. If the innerException
+        /// parameter is not a null reference, the current exception is raised in a catch
+        /// block that handles the inner exception.
+        /// </param>
+        protected UnmappedLexicalTypeException(string message, string paramName, Exception innerException) : base(message, paramName, innerException) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnmappedLexicalTypeException"/> class with the serialized data.
+        /// </summary>
+        /// <param name="message">
+        /// A description of the error. The content of message is intended to be understood by humans.
+        /// </param>
+        /// <param name="paramName">The name of the parameter that caused the current exception.</param>
+        protected UnmappedLexicalTypeException(string message, string paramName) : base(message, paramName) { }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
-            info.AddValue(nameof(UnmappedType), UnmappedType,typeof(Type));
+            info.AddValue(nameof(UnmappedType), UnmappedType, typeof(Type));
             info.AddValue(nameof(TagsetType), TagsetType, typeof(Type));
         }
     }

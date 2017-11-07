@@ -76,7 +76,6 @@ namespace LASI.Utilities.Configuration
             {
                 using (var stream = response.GetResponseStream())
                 {
-
                     for (var b = stream.ReadByte(); b != -1; b = stream.ReadByte())
                     {
                         yield return (byte)b;
@@ -84,6 +83,13 @@ namespace LASI.Utilities.Configuration
                 }
             }
         }
+
+        /// <summary>
+        /// Parses a JSON text containing configuration and returns the result as a <see cref="JObject"/>.
+        /// </summary>
+        /// <param name="jsonText">The seralized configuration.</param>
+        /// <returns>A <see cref="JObject"/> containing the deserialized result.</returns>
+        /// <exception cref="ArgumentException">Thrown when the <paramref name="jsonText"/> does not represent a valid JSON object.</exception>
         protected static JObject ParseAndValidateJson(string jsonText)
         {
             object data;
@@ -112,6 +118,5 @@ namespace LASI.Utilities.Configuration
             public const string IllformedJsonDocument = "Unable to parse the data, ensure the source is a well formed JSON document";
             public const string NoRootObject = @"The config source is invalid. Valid config sources must be represented as a single top level JSON object";
         }
-
     }
 }

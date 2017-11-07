@@ -48,6 +48,5 @@ namespace LASI.Core.Tests
             ISimpleGendered lasi = new ProperSingularNoun("LASI");
             Check.That(lasi.Gender).IsEqualTo(Gender.Neutral).And.IsEqualTo(lasi.GetGender());
         }
-
     }
 }

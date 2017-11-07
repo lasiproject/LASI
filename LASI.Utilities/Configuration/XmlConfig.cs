@@ -47,6 +47,5 @@ namespace LASI.Utilities.Configuration
         /// <param name="name">The name of the value to retrieve.</param>
         /// <returns>The value with the specified name.</returns>
         public string this[string name] => data.GetValueOrDefault(name);
-
     }
 }

@@ -4,7 +4,6 @@ using NFluent;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is A test class for PastTenseVerbTest and is intended
     ///to contain all PastTenseVerbTest Unit Tests
@@ -21,6 +20,5 @@ namespace LASI.Core.Tests
             var target = new PastTenseVerb(text);
             Check.That(target.Text).IsEqualTo(text);
         }
-
     }
 }

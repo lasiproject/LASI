@@ -85,7 +85,6 @@ namespace LASI.Utilities.Tests
             var expected = "[ 0, 1, 2,\n3 ]";
             var actual = target.Format(9);
             Check.That(actual).Equals(expected);
-
         }
         [Fact]
         public void FormatEnforcesSpecifiedLineLengthTestTwo()

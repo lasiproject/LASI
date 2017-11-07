@@ -78,7 +78,6 @@ namespace LASI.Core.Heuristics.WordNet
         }
         public static bool operator !=(Synset<TLinkKind> left, Synset<TLinkKind> right) => !(left == right);
 
-
     }
 
 
@@ -134,5 +133,4 @@ namespace LASI.Core.Heuristics.WordNet
         }
         public AdverbCategory Category { get; }
     }
-
 }

@@ -65,8 +65,6 @@ namespace LASI.Core
 
             public static string ToAlias(string actual) => aliasMap.FirstOrDefault(kvp => kvp.Value == actual).Key ?? actual;
             public static string ToAlias(char actual) => aliasMap.FirstOrDefault(kvp => kvp.Value.Length == 0 && kvp.Value[0] == actual).Key ?? actual.ToString();
-
         }
-
     }
 }

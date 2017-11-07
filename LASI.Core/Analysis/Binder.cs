@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
+using LASI.Core.Analysis.Binding.Experimental.SequentialPatterns;
 using LASI.Core.Analysis.Binding;
 
 namespace LASI.Core
@@ -125,5 +125,4 @@ namespace LASI.Core
 
 
     }
-
 }

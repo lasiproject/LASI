@@ -27,7 +27,7 @@ namespace LASI.App
         /// <param name="chartKind">
         /// The ChartKind value determining the what data set is to be displayed.
         /// </param>
-        public static async void ChangeChartKindAsync(ChartKind chartKind)
+        public static async Task ChangeChartKindAsync(ChartKind chartKind)
         {
             Visualizer.chartKind = chartKind;
             foreach (var pair in DocumentsByChart)
@@ -75,7 +75,6 @@ namespace LASI.App
                 var barSeries = new BarSeries { ItemsSource = chart.GetItemSource() };
                 ConfigureDataPointSeries(barSeries);
                 ResetChartContent(chart, barSeries);
-
             }
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 namespace LASI.Core.Analysis.Heuristics.WordMorphing
 {
     /// <summary>
@@ -34,10 +33,10 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         /// <summary>
         /// Computes and returns the list of all conjugated forms of the word specified by the specified word.
         /// </summary>
-        /// <param name="word">The string representation of a word.</param>
+        /// <param name="wordText">The string representation of a word.</param>
         /// <returns>The collection of all conjugated forms of the word specified by the given text.</returns>
         /// <remarks>By convention the resulting collection should include the root of the originally specified word.</remarks>
-        IEnumerable<string> GetLexicalForms(string word);
+        IEnumerable<string> GetLexicalForms(string wordText);
         /// <summary>
         /// Computes and returns the list of all conjugated forms of the specified word.
         /// </summary>

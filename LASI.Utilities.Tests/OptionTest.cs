@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Linq.Enumerable;
 
 namespace LASI.Utilities.Tests
 {
@@ -218,7 +219,6 @@ public void OptionFromNullSelectManyTest2()
             Assert.True(((object)right).Equals(left));
             Assert.True(left.Equals(right));
             Assert.True(((object)left).Equals(right));
-
         }
         [Fact]
         public void IEquatableOfOptionEqualityTest2()
@@ -395,12 +395,15 @@ public void OptionFromNullSelectManyTest2()
             Assert.False(target.IsNone);
             Assert.True(target.IsSome);
         }
+
+        [Fact]
         public void IsSomeTest4()
         {
             var target = Option.Create(random());
             Assert.False(target.IsNone);
             Assert.True(target.IsSome);
         }
+
         [Fact]
         public void IsSomeTest5()
         {

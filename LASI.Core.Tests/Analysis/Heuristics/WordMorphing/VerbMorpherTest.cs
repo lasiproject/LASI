@@ -2,12 +2,11 @@
 using System.Diagnostics;
 using System.Linq;
 using LASI.Core.Analysis.Heuristics.WordMorphing;
+using LASI.Utilities;
 using Xunit;
 
 namespace LASI.Core.Analysis.WordMorphing.Tests
 {
-
-
     /// <summary>
     ///This is A test class for VerbConjugatorTest and is intended
     ///to contain all VerbConjugatorTest Unit Tests
@@ -21,14 +20,16 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         public void GetConjugationsTest()
         {
             var root = "walk";
-            IEnumerable<string> expected = new[] { "walked", "walks", "walking" }.ToList();
-            IEnumerable<string> actual;
-            actual = VerbMorpher.GetConjugations(root);
-            foreach (var f in actual)
-                Debug.WriteLine(f);
-            Assert.True((from f in expected
-                           select actual.Contains(f)).Aggregate(true, (result, b) => result && b));
-
+            var expected = new[] {"walked", "walks", "walking"};
+            var actual = VerbMorpher.GetConjugations(root);
+            foreach (var a in actual)
+            {
+                Debug.WriteLine(a);
+            }
+            foreach (var e in expected)
+            {
+                Assert.Contains(actual, a => a == e);
+            }
         }
 
         /// <summary>
@@ -37,19 +38,15 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         [Fact]
         public void FindRootTest()
         {
-            var conjugated = new[] { "walked", "walking", "walks" };
-            var expected = new[] { "walk" }.ToList();
+            var conjugated = new[] {"walked", "walking", "walks"};
+            var expected = new[] {"walk"}.ToList();
             var actual = new List<string>();
             foreach (var c in conjugated)
             {
                 actual.AddRange(VerbMorpher.FindRoots(c));
-
             }
             Assert.True((from f in expected
-                           select actual.Contains(f)).Aggregate(true, (result, b) => result && b));
-
-
+                         select actual.Contains(f)).Aggregate(true, (result, b) => result && b));
         }
-
     }
 }

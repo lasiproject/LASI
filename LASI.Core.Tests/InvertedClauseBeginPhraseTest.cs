@@ -5,7 +5,6 @@ using Xunit;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is a test class for InvertedClauseBeginPhraseTest and is intended
     ///to contain all InvertedClauseBeginPhraseTest Unit Tests

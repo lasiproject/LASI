@@ -1,26 +1,35 @@
 using System;
-using System.Reactive;
 using System.Windows;
-using System.Windows.Input;
 
 namespace LASI.App.Extensions
 {
+    /// <summary>
+    /// Defines various extensions methods for working with <see cref="Window"/>s.
+    /// </summary>
     public static class WindowExtensions
     {
-        public static void ShowMessage(this Window window, string messageBoxText)
-        {
-            window.ShowMessage(messageBoxText);
-        }
-        public static void MessageIf(this Window window, Func<bool> condition, string messageBoxText)
-        {
-            MessageIf(window, condition(), messageBoxText);
-        }
-        public static void MessageIf(this Window window, bool condition, string messageBoxText)
-        {
-            if (condition)
-            { MessageBox.Show(window, messageBoxText); }
-        }
-        public static void Deconstruct(EventPattern<KeyEventArgs> e, out Key key, out string value) => (key, value) = (e.EventArgs.Key, e.EventArgs.InputSource.ToString());
-    }
+        /// <summary>
+        /// Displays a <see cref="MessageBox"/> with the specified content in front the <paramref name="window"/>.
+        /// </summary>
+        /// <param name="window">The <see cref="Window"/> that represents the owner window of the message box.</param>
+        /// <param name="messageBoxText">Specifies the text to display.</param>
+        public static void ShowMessage(this Window window, string messageBoxText) => window.ShowMessage(messageBoxText);
 
+        /// <summary>
+        /// Displays a <see cref="MessageBox"/> with the specified content in front the <paramref name="window"/> if the specified condition evaluates to <c>true</c>.
+        /// </summary>
+        /// <param name="window">The <see cref="Window"/> that represents the owner window of the message box.</param>
+        /// <param name="messageBoxText">Specifies the text to display.</param>
+        /// <param name="condition">The condition.</param>
+        public static void ShowMessageIf(this Window window, string messageBoxText, bool condition) => ShowMessageIf(window, messageBoxText, () => condition);
+
+
+        /// <summary>
+        /// Displays a <see cref="MessageBox"/> with the specified content in front the <paramref name="window"/> if the specified predicate evaluates to <c>true</c>.
+        /// </summary>
+        /// <param name="window">The <see cref="Window"/> that represents the owner window of the message box.</param>
+        /// <param name="messageBoxText">Specifies the text to display.</param>
+        /// <param name="condition">The predicate.</param>
+        public static void ShowMessageIf(this Window window, string messageBoxText, Func<bool> condition) => ShowMessageIf(window, messageBoxText, condition);
+    }
 }

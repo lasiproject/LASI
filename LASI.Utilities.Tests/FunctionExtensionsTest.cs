@@ -68,7 +68,9 @@ namespace LASI.Utilities.Tests
             {
                 target(5);
             }
+#pragma warning disable RCS1075 // Avoid empty catch clause that catches System.Exception.
             catch (Exception e) when (e.Message == failure)
+#pragma warning restore RCS1075 // Avoid empty catch clause that catches System.Exception.
             {
             }
             Check.That(fCalled).IsFalse();
@@ -99,18 +101,18 @@ namespace LASI.Utilities.Tests
             ComposeTest1Helper<Complex?, Complex?, Complex?>();
             ComposeTest1Helper<BigInteger?, BigInteger?, BigInteger?>();
         }
+
         /// <summary>
         ///A test for Compose
         /// </summary>
-        public void ComposeTest1Helper<R, U, T>()
+        void ComposeTest1Helper<R, U, T>()
         {
-            Func<R, T> f = r => default(T);
-            Func<U, R> g = u => default(R);
-            Func<U, T> expected = u => default(T);
+            Func<R, T> f = r => default;
+            Func<U, R> g = u => default;
+            Func<U, T> expected = u => default;
             Func<U, T> actual;
             actual = FunctionExtensions.Compose(f, g);
-            Check.That(expected(default(U))).IsEqualTo(default(T));
-
+            Check.That(expected(default)).IsEqualTo(default);
         }
 
         [Fact]
@@ -264,9 +266,9 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void ApplyingArity2ReferentiallyTransparentFunctionReturnsCorrectResult()
         {
-            Func<int, int, int> f = (a, b) => a * b;
+            Func<int, int> f = a => a * 5;
 
-            Check.That(f(5, 2)).IsEqualTo(f.Apply(5)(2));
+            Check.That(f(2)).IsEqualTo(f.Apply(5));
         }
 
         [Fact]
@@ -311,13 +313,14 @@ namespace LASI.Utilities.Tests
         /// <summary>
         ///A test for Identity
         /// </summary>
-        public void IdentityTestHelper<T>() where T : new()
+        static void IdentityTestHelper<T>() where T : new()
         {
             var target = new T();
             var expected = target;
             var actual = Identity(target);
             Check.That(expected).IsEqualTo(actual);
         }
+
         [Fact]
         public void WithTimerOfArity0FunctionStopsAndStartsTimerAppropriately()
         {

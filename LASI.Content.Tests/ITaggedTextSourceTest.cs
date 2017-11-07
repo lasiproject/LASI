@@ -63,6 +63,5 @@ namespace LASI.Content.Tests
                 "John enjoyed, with his usual lack of humility, consuming the object in question.",
                 "Some may call him a heathen, but they are mistaken.",
                 "Heathens are far less dangerous than he." });
-
     }
 }

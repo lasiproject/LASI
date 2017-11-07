@@ -30,6 +30,5 @@ namespace LASI.Core
         /// </summary>
         public string AliasString { get; }
 
-
     }
 }

@@ -18,6 +18,5 @@ namespace LASI.Core
             : base(text) {
         }
 
-
     }
 }

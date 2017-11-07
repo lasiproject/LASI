@@ -46,6 +46,5 @@ namespace LASI.Content.Serialization.Xml
 
         private static readonly NodeNameMapper ElementNames = new NodeNameMapper();
 
-
     }
 }

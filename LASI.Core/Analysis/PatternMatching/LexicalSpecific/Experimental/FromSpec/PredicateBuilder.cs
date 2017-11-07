@@ -19,7 +19,8 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
         public static WhenPredicate<T> When<T>(Func<T, bool> condition) where T : class, ILexical
             => new WhenPredicate<T>(condition);
         public static CaseTypePredicate<IVerbal, ILexical> Verbal => new CaseTypePredicate<IVerbal, ILexical>();
-        static void Test(ILexical value) {
+        static void Test(ILexical value)
+        {
             var pred = Verbal.Combine(When(true)).Combine(Text("dogged")).Combine(When(true));
             var prec = Verbal & When(true) & "dogged" & When(x => x.Text == "true") & "abc" & When(x => true);
             var applicator = new Applicator();
@@ -31,8 +32,10 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
             //var red = prec | applicator2 | (v => v.AggregateDirectObject);
 
             var ree = applicator2.SetTarget(value)
-                | Verbal & When(value.Text == "true") & Text("") | (v => v.AggregateDirectObject)
-                | Verbal & Text("dogged") | (x => x.AggregateDirectObject);
+                | Verbal & When(value.Text == "true") & Text("")
+                | (v => v.AggregateDirectObject)
+                | Verbal & Text("dogged")
+                | (x => x.AggregateDirectObject);
         }
     }
 }

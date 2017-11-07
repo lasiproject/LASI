@@ -72,6 +72,5 @@ namespace LASI.Core
         /// A factory property which creates and yields a new Period when referenced.
         /// </summary>
         public static SentenceEnding Period => new SentenceEnding('.');
-
     }
 }

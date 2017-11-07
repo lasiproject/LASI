@@ -4,7 +4,6 @@ using Xunit;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is A test class for PrepositionTest and is intended
     ///to contain all PrepositionTest Unit Tests
@@ -52,7 +51,6 @@ namespace LASI.Core.Tests
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;
             Check.That(expected).IsEqualTo(actual);
-
         }
 
         /// <summary>
@@ -68,7 +66,6 @@ namespace LASI.Core.Tests
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
             Check.That(expected).IsEqualTo(actual);
-
         }
 
 

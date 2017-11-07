@@ -59,6 +59,5 @@ namespace LASI.Content
         /// <returns>A string representation of <see cref="RawTextFragment"/>.</returns>
         public override string ToString() => LoadText();
         private string content;
-
     }
 }

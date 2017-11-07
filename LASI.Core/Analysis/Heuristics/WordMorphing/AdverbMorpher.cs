@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
-using System;
 
 namespace LASI.Core.Analysis.Heuristics.WordMorphing
 {
@@ -76,7 +76,6 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             }
             return adverbText;
         }
-
 
         private IEnumerable<string> ComputeForms(string containingRoot)
         {

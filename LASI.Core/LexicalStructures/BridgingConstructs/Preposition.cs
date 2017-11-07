@@ -12,7 +12,6 @@ namespace LASI.Core
     /// </summary>
     public class Preposition : Word, IPrepositional
     {
-
         #region Constructors
 
         /// <summary>
@@ -89,7 +88,6 @@ namespace LASI.Core
                 Config["ResourcesDirectory"] + Config["SubordinatingPrepositionalsInfoFile"] :
                 ConfigurationManager.AppSettings["ResourcesDirectory"] +
              ConfigurationManager.AppSettings["SubordinatingPrepositionalsInfoFile"]);
-
 
     }
 }

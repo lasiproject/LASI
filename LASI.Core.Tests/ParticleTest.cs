@@ -4,7 +4,6 @@ using Xunit;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is A test class for ParticleTest and is intended
     ///to contain all ParticleTest Unit Tests
@@ -140,7 +139,6 @@ namespace LASI.Core.Tests
             verbal.AttachObjectViaPreposition(target);
             Check.That(prepositionalObject).IsEqualTo(verbal.ObjectOfThePreposition);
         }
-
 
     }
 }

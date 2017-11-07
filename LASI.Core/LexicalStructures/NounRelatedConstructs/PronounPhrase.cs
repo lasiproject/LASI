@@ -76,6 +76,5 @@ namespace LASI.Core
         }
 
         private IAggregateEntity refersTo;
-
     }
 }

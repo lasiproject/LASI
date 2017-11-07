@@ -66,6 +66,7 @@ namespace LASI.Core.Heuristics.Tests
             Check.That(np.IsFullFemaleName()).IsFalse();
         }
 
+        [Fact]
         public void IsMaleFullRespectsTitles()
         {
             var drPatrickRachels = new NounPhrase(

@@ -4,7 +4,6 @@ using Xunit;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is a test class for IModalityModifiableTest and is intended
     ///to contain all IModalityModifiableTest Unit Tests
@@ -30,7 +29,6 @@ namespace LASI.Core.Tests
             actual = target.Modality;
             Check.That(expected).IsEqualTo(actual);
         }
-
 
     }
 }

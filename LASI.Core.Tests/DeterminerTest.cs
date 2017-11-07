@@ -4,7 +4,6 @@ using Xunit;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is A test class for DeterminerTest and is intended
     ///to contain all DeterminerTest Unit Tests
@@ -37,7 +36,6 @@ namespace LASI.Core.Tests
             actual = target.Determines;
             Check.That(expected).IsEqualTo(actual);
         }
-
 
     }
 }

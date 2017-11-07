@@ -4,7 +4,6 @@ using Xunit;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is a test class for InterjectionTest and is intended
     ///to contain all InterjectionTest Unit Tests

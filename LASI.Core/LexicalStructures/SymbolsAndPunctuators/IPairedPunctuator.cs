@@ -27,7 +27,5 @@ namespace LASI.Core
         /// which, together with the current instance, bookends some lexical content.
         /// </summary>
         TPunctuator PairedWith { get; }
-
     }
-
 }

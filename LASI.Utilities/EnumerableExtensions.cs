@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -8,7 +9,7 @@ using static System.Linq.Enumerable;
 namespace LASI.Utilities
 {
     /// <summary>
-    /// Defines various useful methods for working with IEnummerable sequences of any type.
+    /// Defines various extensions methods for working with <see cref="IEnumerable{T}" /> values.
     /// </summary>
     public static class EnumerableExtensions
     {
@@ -52,7 +53,7 @@ namespace LASI.Utilities
                   .Aggregate((z, e) => (
                       element: func(z.element, e.element, e.index),
                      // this value is never used; it is simply present to make the result type align as required by the overload of Aggregate
-                     index: e.index
+                     e.index
                   )).element;
 
         /// <summary>
@@ -583,6 +584,7 @@ namespace LASI.Utilities
         /// </returns>
         public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
             first.Select(selector).SetEqual(second.Select(selector));
+
         /// <summary>
         /// Creates a <see cref="System.Collections.Generic.Dictionary{Key,Value}"/> from the IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt;.
         /// </summary>
@@ -591,6 +593,30 @@ namespace LASI.Utilities
         /// <param name="source">The IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt; from which to construct the dictionary.</param>
         /// <returns>A dictionary comprised of the contents of the IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt;.</returns>
         public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source) => source.ToDictionary(e => e.Key, e => e.Value);
+
+        /// <summary>
+        /// Creates a <see cref="Utilities.IVariantDictionary{TKey, T}"/> from the IEnumerable&lt;<see cref="IVariantKeyValuePair{TKey, T}"/>&gt;.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <typeparam name="TKey">The type of the keys.</typeparam>
+        /// <param name="source">The IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt; from which to construct the dictionary.</param>
+        /// <param name="keySelector">A function to extract a key from each element.</param>
+        /// <returns>A dictionary comprised of the contents of the IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt;.</returns>
+        public static IVariantDictionary<TKey, T> ToVariantDictionary<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector) =>
+            new VariantDictionaryImplementation<TKey, T>(source.ToDictionary(keySelector));
+
+        /// <summary>
+        /// Creates a <see cref="Utilities.IVariantDictionary{TKey, T}"/> from the IEnumerable&lt;<see cref="IVariantKeyValuePair{TKey, T}"/>&gt;.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <typeparam name="TKey">The type of the keys.</typeparam>
+        /// <typeparam name="TElement">The type of the value returned by elementSelector.</typeparam>
+        /// <param name="source">The IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt; from which to construct the dictionary.</param>
+        /// <param name="keySelector">A function to extract a key from each element.</param>
+        /// <param name="elementSelector">A transform function to produce a result element value from each element.</param>
+        /// <returns>A dictionary comprised of the contents of the IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt;.</returns>
+        public static IVariantDictionary<TKey, TElement> ToVariantDictionary<T, TKey, TElement>(this IEnumerable<T> source, Func<T, TKey> keySelector, Func<T, TElement> elementSelector) =>
+            new VariantDictionaryImplementation<TKey, TElement>(source.ToDictionary(keySelector, elementSelector));
 
         /// <summary>Produces the set union of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>
@@ -691,6 +717,5 @@ namespace LASI.Utilities
                 action();
             }
         }
-
     }
 }

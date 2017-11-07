@@ -1,6 +1,8 @@
 LASI
 ====
 
+[![Join the chat at https://gitter.im/lasi-project/Lobby](https://badges.gitter.im/lasi-project/Lobby.svg)](https://gitter.im/lasi-project/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build status](https://ci.appveyor.com/api/projects/status/cxyj0omx2inwhf8w?svg=true)](https://ci.appveyor.com/project/aluanhaddad/lasi)
 
 LASI is a lexical parsing tool that attempts to identify important associations and generalizable patterns between the words and phrases over a set of one or more documents.
@@ -8,7 +10,7 @@ Some of the heuristics applied include:
 
 lifted frequencies, syntactic identification, sentence level locality, and gender aware pronoun inference
 
-LASI is implemented in C# 7.0 and targets the .NET Framework Version 4.6
+LASI is implemented in C# 7.1 and targets the .NET Framework Version 4.7
 
 (The .NET 4.5 requirement stems from the use of the async function modifier together with the await operator)
 

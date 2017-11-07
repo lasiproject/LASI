@@ -1,6 +1,7 @@
 ﻿using LASI.Core;
 using System;
 using System.Linq;
+using static System.Linq.Enumerable;
 using System.Collections.Generic;
 using LASI.Utilities;
 using NFluent;
@@ -8,7 +9,6 @@ using Xunit;
 
 namespace LASI.Core.Tests
 {
-
     /// <summary>
     ///This is a test class for AggregateEntityTest and is intended
     ///to contain all AggregateEntityTest Unit Tests
@@ -43,7 +43,6 @@ namespace LASI.Core.Tests
 
             Check.That(target).Contains(americans);
             Check.That(target).Contains(canadians);
-
         }
         /// <summary>
         ///A test for AddPossession
@@ -109,15 +108,17 @@ namespace LASI.Core.Tests
         [Fact]
         public void GetEnumeratorTest()
         {
-            var members = Enumerable.Empty<IEntity>();
+            var members = Empty<IEntity>();
             var target = new AggregateEntity(members);
 
             using (var expected = members.GetEnumerator())
             using (var actual = target.GetEnumerator())
+            {
                 while (expected.MoveNext() | actual.MoveNext())
                 {
                     Check.That(actual.Current).IsEqualTo(expected.Current);
                 }
+            }
         }
 
         /// <summary>
@@ -235,7 +236,7 @@ namespace LASI.Core.Tests
                 new NounPhrase(new CommonPluralNoun("cats")),
                 new NounPhrase(new CommonPluralNoun("dogs"))
             );
-            var possessions = new[]  {
+            var possessions = new[] {
                 new NounPhrase(new CommonPluralNoun("claws")),
                 new NounPhrase(new CommonPluralNoun("teeth"))
             };
@@ -256,7 +257,7 @@ namespace LASI.Core.Tests
                 new NounPhrase(new CommonPluralNoun("dogs"))
             );
             IPossesser expected = new NounPhrase(new ProperPluralNoun("Americans"));
-            target.Possesser = expected.ToOption();
+            target.Possesser = expected;
             var actual = target.Possesser;
             Check.That(actual).IsEqualTo(expected);
         }
@@ -300,7 +301,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void WeightTest()
         {
-            IEnumerable<IEntity> members = new IEntity[] { };
+            var members = Empty<IEntity>();
             var target = new AggregateEntity(members);
             var expected = new Random().NextDouble();
             double actual;

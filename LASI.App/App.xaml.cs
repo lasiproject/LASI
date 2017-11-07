@@ -60,6 +60,5 @@ namespace LASI.App
                 FileManager.DecimateProject();
             }
         }
-
     }
 }

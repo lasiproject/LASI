@@ -9,11 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LASI.Content</RootNamespace>
     <AssemblyName>LASI.Content</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,6 +30,7 @@
     <CodeAnalysisRuleSet>..\LASI.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Debug\LASI.Content.XML</DocumentationFile>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,33 +42,13 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DocumentationFile>bin\Release\LASI.Content.xml</DocumentationFile>
     <CodeAnalysisRuleSet>..\LASI.App\LASI.App.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>ic_launcher-web.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>..\LASI.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DocumentationFile>bin\Release\LASI.Content.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>..\LASI.App\LASI.App.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -76,26 +58,28 @@
       <HintPath>..\ThirdPartyComponents\FileFormatConversion\itextsharp\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.4.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.4.3.0\lib\net463\System.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.Extensions.4.3.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
@@ -112,7 +96,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Content\Configuration.cs" />
+    <Compile Include="Exceptions\ContentFileException.cs" />
+    <Compile Include="Exceptions\FileConversionFailureException.cs" />
+    <Compile Include="Exceptions\FileManagerNotInitializedException.cs" />
     <Compile Include="Exceptions\UnmappedLexicalTypeExceptions.cs" />
+    <Compile Include="Exceptions\UnmappedPhraseTypeException.cs" />
+    <Compile Include="Exceptions\UnmappedWordTypeException.cs" />
+    <Compile Include="Exceptions\UnsupportedFileTypeException.cs" />
     <Compile Include="FileConveters\DocToDocXConverter.cs" />
     <Compile Include="FileConveters\DocxToTextConverter.cs" />
     <Compile Include="FileConveters\PdfToTextConverter.cs" />
@@ -133,16 +123,15 @@
     <Compile Include="FileManager.cs" />
     <Compile Include="FileTypes\FileConverter.cs" />
     <Compile Include="Exceptions\FileManagerExceptions.cs" />
-    <Compile Include="TaggerEncapsulation\TagmapBases\ITagsetMap.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\Basis\Experimental\ExperimentalTagParser.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\Basis\TagParser.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\PhraseExtractor.cs" />
-    <Compile Include="TaggerEncapsulation\TagmapBases\PhraseTagsetMap.cs" />
-    <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNLPPhraseTagsetMap.cs" />
-    <Compile Include="TaggerEncapsulation\TaggerInterop\SharpNLPTagger.cs" />
-    <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNLPWordTagsetMap.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\TaggedWordExtractor.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\WordFactory.cs" />
+    <Compile Include="Tagging\TagmapBases\ITagsetMap.cs" />
+    <Compile Include="Tagging\TagParsers\Basis\Experimental\ExperimentalTagParser.cs" />
+    <Compile Include="Tagging\TagParsers\Basis\TagParser.cs" />
+    <Compile Include="Tagging\PhraseExtractor.cs" />
+    <Compile Include="Tagging\TagmapBases\PhraseTagsetMap.cs" />
+    <Compile Include="Tagging\SNLPTagsetMaps\SharpNLPPhraseTagsetMap.cs" />
+    <Compile Include="Tagging\TaggerInterop\SharpNLPTagger.cs" />
+    <Compile Include="Tagging\SNLPTagsetMaps\SharpNLPWordTagsetMap.cs" />
+    <Compile Include="Tagging\TaggedWordExtractor.cs" />
     <Compile Include="FileTypes\DocXFile.cs" />
     <Compile Include="FileTypes\Support\FileData.cs" />
     <Compile Include="FileTypes\PdfFile.cs" />
@@ -151,18 +140,18 @@
     <Compile Include="FileTypes\TaggedFile.cs" />
     <Compile Include="FileTypes\TxtFile.cs" />
     <Compile Include="TaggedSourceParser.cs" />
-    <Compile Include="TaggerEncapsulation\TagmapBases\WordTagsetMap.cs" />
+    <Compile Include="Tagging\TagmapBases\WordTagsetMap.cs" />
     <Compile Include="Exceptions\PartOfSpeechTagExceptions.cs" />
     <Compile Include="FileTypes\DocFile.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\TaggedText.cs" />
-    <Compile Include="TaggerEncapsulation\Tagger.cs" />
+    <Compile Include="Tagging\TaggedText.cs" />
+    <Compile Include="Tagging\Tagger.cs" />
+    <Compile Include="Tagging\WordFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ic_launcher-web.ico" />
     <Content Include="LasiLogo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

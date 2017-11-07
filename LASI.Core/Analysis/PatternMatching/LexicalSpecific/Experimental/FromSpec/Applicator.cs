@@ -14,10 +14,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
             {
                 return apply(element as TCase);
             }
-            else
-            {
-                return default(TResult);
-            }
+            return default;
         }
     }
     class Applicator<TResult>
@@ -28,7 +25,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
             {
                 return apply(element as TCase);
             }
-            else { return default(TResult); }
+            return default;
         }
     }
     class Applicator<T, TResult> where T : class, ILexical
@@ -42,7 +39,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
             {
                 return apply(element as TCase);
             }
-            else { return default(TResult); }
+            return default;
         }
         //public static TResult operator |(Applicator<T, TResult> a, Func<T, TResult> f) => f(default(T));
         public static Applicator<T, TResult> operator |(Applicator<T, TResult> a, Func<T, TResult> f)
@@ -54,6 +51,4 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
         //public static Applicator<T, TResult> operator |(Predicate<T> p, Applicator<T, TResult> a) => a;
         public static Applicator<T, TResult> operator |(Applicator<T, TResult> a, Predicate<T> p) => p.Satifies(a.target) ? a : new Applicator<T, TResult>();
     }
-
-
 }

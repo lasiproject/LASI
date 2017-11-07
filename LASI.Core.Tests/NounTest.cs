@@ -19,8 +19,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void AddPossessionTest()
         {
-            var target = CreateNoun();
-            IEntity possession = new NounPhrase(new[] { new CommonSingularNoun("chew"), new CommonSingularNoun("toy") });
+            var target = new CommonSingularNoun("dog");
+            IEntity possession = new NounPhrase(new CommonSingularNoun("chew"), new CommonSingularNoun("toy"));
             target.AddPossession(possession);
             Check.That(target.Possessions).Contains(possession);
             Check.That(possession.Possesser).IsEqualTo(target);
@@ -32,10 +32,10 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindDescriberTest()
         {
-            var target = CreateNoun();
+            var target = new CommonSingularNoun("dog");
             IDescriptor adjective = new Adjective("rambunctious");
             target.BindDescriptor(adjective);
-            Check.That(target.Descriptors).Contains(adjective);
+            Check.That(target.Descriptors).Contains(adjective).Only();
             Check.That(adjective.Describes).IsEqualTo(target);
         }
 
@@ -45,11 +45,11 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindPronounTest()
         {
-            var target = CreateNoun();
-            Pronoun pro = new PersonalPronoun("it");
-            target.BindReferencer(pro);
-            Check.That(target.Referencers).Contains(pro);
-            Check.That(pro.RefersTo).Contains(target);
+            var target = new CommonSingularNoun("dog");
+            Pronoun pronoun = new PersonalPronoun("it");
+            target.BindReferencer(pronoun);
+            Check.That(target.Referencers).Contains(pronoun).Only();
+            Check.That(pronoun.RefersTo).Contains(target);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void DescribedByTest()
         {
-            var target = CreateNoun();
+            var target = new CommonSingularNoun("dog");
 
             Check.That(target.Descriptors).IsNotNull().And.IsEmpty();
         }
@@ -69,7 +69,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void DirectObjectOfTest()
         {
-            var target = CreateNoun();
+            var target = new CommonSingularNoun("dog");
             IVerbal expected = new PastTenseVerb("walked");
             target.BindAsDirectObjectOf(expected);
             var actual = target.DirectObjectOf;
@@ -82,11 +82,10 @@ namespace LASI.Core.Tests
         [Fact]
         public void IndirectObjectOfTest()
         {
-            var target = CreateNoun();
+            var target = new CommonSingularNoun("dog");
             IVerbal expected = new PastTenseVerb("gave");
-            IVerbal actual;
             target.BindAsIndirectObjectOf(expected);
-            actual = target.IndirectObjectOf;
+            var actual = target.IndirectObjectOf;
             Check.That(actual).IsEqualTo(expected);
         }
 
@@ -96,9 +95,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void IndirectReferencesTest()
         {
-            var target = CreateNoun();
-            IEnumerable<IReferencer> actual;
-            actual = target.Referencers;
+            var target = new CommonSingularNoun("dog");
+            IEnumerable<IReferencer> actual = target.Referencers;
             Check.That(actual).IsNotNull().And.IsEmpty();
         }
 
@@ -108,7 +106,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void PossessedTest()
         {
-            var target = CreateNoun();
+            var target = new CommonSingularNoun("dog");
             IEnumerable<IPossessable> actual;
             actual = target.Possessions;
             Check.That(actual).IsNotNull().And.IsEmpty();
@@ -120,12 +118,12 @@ namespace LASI.Core.Tests
         [Fact]
         public void PossesserTest()
         {
-            var target = CreateNoun(); // TODO: Initialize to an appropriate value
-            IEntity expected = new NounPhrase(new Word[] { new Adjective("Red"), new CommonSingularNoun("Team") });
+            var target = new CommonSingularNoun("dog");
+            var possessor = new NounPhrase(new Adjective("Red"), new CommonSingularNoun("Team"));
 
-            target.Possesser = expected.ToOption<IPossesser>();
+            target.Possesser = possessor;
             var actual = target.Possesser;
-            Check.That(actual).IsEqualTo(expected);//).IsTrue();
+            Check.That(actual).IsEqualTo(possessor);
         }
 
         /// <summary>
@@ -134,7 +132,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void SubjectOfTest()
         {
-            var target = CreateNoun();
+            var target = new CommonSingularNoun("dog");
             IVerbal expected = new SingularPresentVerb("runs");
             IVerbal actual;
             target.BindAsSubjectOf(expected);
@@ -148,11 +146,10 @@ namespace LASI.Core.Tests
         [Fact]
         public void SuperTaxonomicNounTest()
         {
-            var target = CreateNoun();
+            Noun target = new CommonSingularNoun("dog");
             Noun expected = new ProperSingularNoun("Highland");
-            Noun actual;
             target.PrecedingAdjunctNoun = expected;
-            actual = target.PrecedingAdjunctNoun;
+            Noun actual = target.PrecedingAdjunctNoun;
             Check.That(actual).IsEqualTo(expected);
         }
 
@@ -162,7 +159,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void SubTaxonomicNounTest()
         {
-            var target = CreateNoun();
+            var target = new CommonSingularNoun("dog");
             Noun expected = new CommonSingularNoun("food");
             Noun actual;
             target.FollowingAdjunctNoun = expected;
@@ -176,13 +173,13 @@ namespace LASI.Core.Tests
         [Fact]
         public void RefereesTest()
         {
-            var target = CreateNoun();
+            var target = new CommonSingularNoun("dog");
             IEnumerable<IReferencer> actual;
             actual = target.Referencers;
             Check.That(actual).IsEmpty();
             Pronoun pro = new PersonalPronoun("it");
             target.BindReferencer(pro);
-            Check.That(target.Referencers).Contains(pro);
+            Check.That(target.Referencers).Contains(pro).Only();
             Check.That(target.Referencers.All(r => r.RefersTo == target || r.RefersTo.Contains(target))).IsTrue();
         }
 
@@ -192,12 +189,11 @@ namespace LASI.Core.Tests
         [Fact]
         public void QuantifiedByTest()
         {
-            var target = CreateNoun();
-            IQuantifier expected = new Quantifier("3");
-            IQuantifier actual;
-            target.QuantifiedBy = expected;
-            actual = target.QuantifiedBy;
-            Check.That(actual).IsEqualTo(expected);
+            var target = new CommonSingularNoun("dog");
+            var quantifying = new Quantifier("3");
+            target.QuantifiedBy = quantifying;
+            var actual = target.QuantifiedBy;
+            Check.That(actual).IsEqualTo(quantifying);
             Check.That(target.QuantifiedBy.Quantifies).IsEqualTo(target);
         }
 
@@ -205,17 +201,17 @@ namespace LASI.Core.Tests
         [Fact]
         public void DescriptorsTest()
         {
-            var target = CreateNoun();
+            var target = new CommonSingularNoun("dog");
 
-            IEnumerable<IDescriptor> actual;
-            actual = target.Descriptors;
-            Check.That(actual).IsEmpty();
-            IEnumerable<IDescriptor> descriptors = new[] { new Adjective("red"), new Adjective("slow") };
+            Check.That(target.Descriptors).IsEmpty();
+            var descriptors = new[] { new Adjective("red"), new Adjective("slow") };
 
-            foreach (var d in descriptors) { target.BindDescriptor(d); }
-            actual = target.Descriptors;
-
-            Check.That(actual).Contains(descriptors).Only();
+            foreach (var descriptor in descriptors)
+            {
+                target.BindDescriptor(descriptor);
+            }
+            var boundDescriptors = target.Descriptors;
+            Check.That(boundDescriptors).Contains(descriptors).Only();
         }
 
         /// <summary>
@@ -224,10 +220,10 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindReferencerTest()
         {
-            var target = CreateNoun(); // TODO: Initialize to an appropriate value
-            IReferencer pro = new PersonalPronoun("it");
-            target.BindReferencer(pro);
-            Check.That(target.Referencers).Contains(pro);
+            var target = new CommonSingularNoun("dog");
+            var pronoun = new PersonalPronoun("it");
+            target.BindReferencer(pronoun);
+            Check.That(target.Referencers).Contains(pronoun).Only();
             Check.That(target.Referencers.All(r => r.RefersTo == target || r.RefersTo.Contains(target))).IsTrue();
         }
 
@@ -237,7 +233,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindDeterminerTest()
         {
-            var target = CreateNoun();
+            var target = new CommonSingularNoun("dog");
             var determiner = new Determiner("the");
             target.BindDeterminer(determiner);
             Check.That(target.Determiner).IsEqualTo(determiner);
@@ -250,17 +246,11 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindDescriptorTest()
         {
-            var target = CreateNoun();
+            var target = new CommonSingularNoun("dog");
             IDescriptor descriptor = new Adjective("red");
             target.BindDescriptor(descriptor);
-            Check.That(target.Descriptors).Contains(descriptor);
+            Check.That(target.Descriptors).Contains(descriptor).Only();
             Check.That(descriptor.Describes).IsEqualTo(target);
-        }
-
-        private Noun CreateNoun()
-        {
-            Noun target = new CommonSingularNoun("dog");
-            return target;
         }
     }
 }

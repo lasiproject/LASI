@@ -10,7 +10,6 @@ namespace LASI.Core.Analysis.Binding
     /// </summary>
     public class ObjectBinder : IIntraSentenceBinder
     {
-
         /// <summary>
         /// Initializes a new instance of ObjectBinder class.
         /// </summary>
@@ -188,7 +187,6 @@ namespace LASI.Core.Analysis.Binding
                         }
                         Machine.entities.Push(n);
                         BindIfExhaustedOrContinueVia(ToState2);
-
                     })
                     .Case((AdjectivePhrase a) =>
                     {
@@ -250,7 +248,6 @@ namespace LASI.Core.Analysis.Binding
                     })
                     .Default(() => base.Transition(phrase));
             }
-
         }
         private sealed class State2 : State
         {
@@ -355,7 +352,6 @@ namespace LASI.Core.Analysis.Binding
                 this.Transition(Stream.Get());
                 PerformExceptionFallback();
             }
-
         }
 
         private sealed class State3 : State
@@ -417,7 +413,6 @@ namespace LASI.Core.Analysis.Binding
                     Machine.entities.Push(n);
                     Machine.BindBuiltupAdjectivePhrases(n);
                     BindIfExhaustedOrContinueVia(ToState2);
-
                 })
                 .Case((ConjunctionPhrase c) =>
                 {
@@ -432,7 +427,6 @@ namespace LASI.Core.Analysis.Binding
 
         private sealed class State5 : State
         {
-
             public override void Transition(Phrase phrase)
             {
                 try { InternalBind(phrase); }

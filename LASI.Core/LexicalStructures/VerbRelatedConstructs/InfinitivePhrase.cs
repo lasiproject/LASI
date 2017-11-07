@@ -12,15 +12,15 @@ namespace LASI.Core
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the InfinitivePhrase class.
+        /// Initializes a new instance of the <see cref="InfinitivePhrase"/> class.
         /// </summary>
-        /// <param name="words">The words which comprise the InfinitivePhrase.</param>
+        /// <param name="words">The words which comprise the <see cref="InfinitivePhrase"/>.</param>
         public InfinitivePhrase(IEnumerable<Word> words) : base(words) { }
         /// <summary>
-        /// Initializes a new instance of the InfinitivePhrase class.
+        /// Initializes a new instance of the <see cref="InfinitivePhrase"/> class.
         /// </summary>
-        /// <param name="first">The first Word of the InfinitivePhrase.</param>
-        /// <param name="rest">The rest of the Words comprise the InfinitivePhrase.</param>
+        /// <param name="first">The first Word of the <see cref="InfinitivePhrase"/>.</param>
+        /// <param name="rest">The rest of the Words comprise the <see cref="InfinitivePhrase"/>.</param>
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. 
         /// Thus, its purpose is to simplifiy test code.</remarks>
         public InfinitivePhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
@@ -29,29 +29,29 @@ namespace LASI.Core
 
         #region Properties
         /// <summary>
-        ///Gets the IVerbal instance the InfinitivePhrase is the subject of.
+        /// The IVerbal that the <see cref="InfinitivePhrase"/> is the subject of.
         /// </summary>
         public IVerbal SubjectOf { get; private set; }
 
         /// <summary>
-        /// Gets the Activity value of the EntityKind enumeration, the kind always associated with an InfinitivePhrase.
+        /// The Activity value of the EntityKind enumeration, the kind always associated with an <see cref="InfinitivePhrase"/>.
         /// </summary>
         public EntityKind EntityKind => EntityKind.Activity;
 
         /// <summary>
-        ///Gets the IVerbal instance, usually a Verb or VerbPhrase, which the InfinitivePhrase is the direct object of.
+        /// The IVerbal, usually a Verb or VerbPhrase, which the <see cref="InfinitivePhrase"/> is the direct object of.
         /// </summary>
         public IVerbal DirectObjectOf { get; private set; }
 
         /// <summary>
-        ///Gets the IVerbal instance the InfinitivePhrase is the indirect object of.
+        /// The IVerbal that the <see cref="InfinitivePhrase"/> is the indirect object of.
         /// </summary>
         public IVerbal IndirectObjectOf { get; private set; }
 
         /// <summary>
-        /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the InfinitivePhrase.
+        /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the <see cref="InfinitivePhrase"/>.
         /// </summary>
-        /// <param name="referencer">The referencer which refers to the InfinitivePhrase Instance.</param>
+        /// <param name="referencer">The referencer which refers to the <see cref="InfinitivePhrase"/>.</param>
         public void BindReferencer(IReferencer referencer)
         {
             referencers = referencers.Add(referencer);
@@ -59,9 +59,9 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the InfinitivePhrase.
+        /// Binds an IDescriptor, generally an <see cref="Adjective"/> or <see cref="AdjectivePhrase"/>, as a descriptor of the <see cref="InfinitivePhrase"/>.
         /// </summary>
-        /// <param name="descriptor">The IDescriptor instance which will be added to the InfinitivePhrase' descriptors.</param>
+        /// <param name="descriptor">The <see cref="IDescriptor"/> which will be bound as a descriptor of the <see cref="InfinitivePhrase"/>.</param>
         public void BindDescriptor(IDescriptor descriptor)
         {
             descriptors = descriptors.Add(descriptor);
@@ -96,36 +96,36 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the InfinitivePhrase Instance.
+        /// The <see cref="IReferencer"/> instances, generally Pronouns or PronounPhrases, which refer to the <see cref="InfinitivePhrase"/>.
         /// </summary>
         public IEnumerable<IReferencer> Referencers => referencers;
 
         /// <summary>
-        /// Gets all of the IDescriptor constructs, generally Adjectives or AdjectivePhrases, which describe the InfinitivePhrase Instance.
+        /// The IDescriptor constructs, generally <see cref="Adjective"/>s or <see cref="AdjectivePhrase"/>s, which describe the <see cref="InfinitivePhrase"/>.
         /// </summary>
         public IEnumerable<IDescriptor> Descriptors => descriptors;
 
         /// <summary>
-        /// Gets all of the IEntity constructs which the InfinitivePhrase "owns".
+        /// The IEntity constructs which the <see cref="InfinitivePhrase"/> "owns".
         /// </summary>
         public IEnumerable<IPossessable> Possessions => possessions;
 
         /// <summary>
-        /// Adds an IPossessible construct, such as a person place or thing, to the collection of the InfinitivePhrase "Owns",
-        /// and sets its owner to be the InfinitivePhrase.
+        /// Adds an IPossessible construct, such as a person place or thing, to the collection of the <see cref="InfinitivePhrase"/> "Owns",
+        /// and sets its owner to be the <see cref="InfinitivePhrase"/>.
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = Option.Create<IPossesser>(this);
+            possession.Possesser = this;
         }
 
         /// <summary>
-        /// Gets or sets the Entity which "owns" the instance of the InfinitivePhrase.
+        /// The <see cref="IPossesser"/>, generally an <see cref="IEntity"/>, which "owns" the <see cref="InfinitivePhrase"/>.
         /// </summary>
-        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public IPossesser Possesser { get; set; }
 
         #endregion
 

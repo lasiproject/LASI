@@ -209,10 +209,7 @@ namespace LASI.Core
         /// </summary>
         public IDescriptor PostpositiveDescriptor
         {
-            get
-            {
-                return postpositiveDescriptor;
-            }
+            get => postpositiveDescriptor;
             set
             {
                 postpositiveDescriptor = value;

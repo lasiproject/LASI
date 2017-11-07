@@ -32,7 +32,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="first">The first Word of the NounPhrase.</param>
         /// <param name="rest">The rest of the Words comprise the NounPhrase.</param>
-        /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of NounPhrases. 
+        /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of NounPhrases.
         /// Thus, its purpose is to simplify test code.</remarks>
         internal NounPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
@@ -67,7 +67,7 @@ namespace LASI.Core
         public void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = this.ToOption<IPossesser>();
+            possession.Possesser = this;
         }
         /// <summary>
         /// Returns a string representation of the NounPhrase.
@@ -101,6 +101,10 @@ namespace LASI.Core
             IndirectObjectOf = verbal;
         }
 
+        /// <summary>
+        /// Returns a string representation of the <see cref="NounPhrase" />.
+        /// </summary>
+        /// <returns>A string representation of the <see cref="NounPhrase" />.</returns>
         public override string ToString()
         {
             if (!VerboseOutput)
@@ -112,7 +116,7 @@ namespace LASI.Core
             var empty = string.Empty;
             return base.ToString() + string.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}",
                 Possessions.Any() ? "\nPossessions: " + Possessions.Format(p => p.Text + '\n') : empty,
-                from p in Possesser select "\nPossessed By: " + p.Text,
+                Possesser != null ? "\nPossessed By: " + Possesser.Text : empty,
                 OuterAttributive != null ? "\nDefinedby: " + OuterAttributive.Text : empty,
                 InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : empty,
                 aliases.Any() ? "\nClassified as: " + aliases.Format() : empty,
@@ -121,7 +125,6 @@ namespace LASI.Core
                 IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : empty,
                 gender.IsDetermined() ? "\nPrevailing Gender: " + gender : empty
             );
-
         }
         #endregion
 
@@ -146,16 +149,16 @@ namespace LASI.Core
         /// </summary>
         public NounPhrase OuterAttributive
         {
-            get { return outerAttributive; }
-            set { outerAttributive = value != this ? value : null; }
+            get => outerAttributive;
+            set => outerAttributive = value != this ? value : null;
         }
         /// <summary>
         /// Gets or sets another NounPhrase, to the right of current instance, which is functions as an Attributor of current instance.
         /// </summary>
         public NounPhrase InnerAttributive
         {
-            get { return innerAttributive; }
-            set { innerAttributive = value != this ? value : null; }
+            get => innerAttributive;
+            set => innerAttributive = value != this ? value : null;
         }
 
         /// <summary>
@@ -164,29 +167,34 @@ namespace LASI.Core
         public EntityKind EntityKind { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the Entity which "owns" the NounPhrase.
+        /// The Entity which "owns" the NounPhrase.
         /// </summary>
-        public Option<IPossesser> Possesser
+        public IPossesser Possesser
         {
-            get { return possessor; }
+            get => possessor;
             set
             {
                 possessor = value;
                 // Bind entity words of the phrase as possessions of possessor.
 
+                if (value is null) { return; }
+
                 foreach (var entity in Words.OfEntity())
                 {
-                    value.Match().Case((IEntity e) => e.AddPossession(entity)).Default(() => Words.OfEntity().ToList().ForEach(e => e.Possesser = value));
+                    value.Match()
+                        .Case((IEntity e) => e.AddPossession(entity))
+                        .Default(() => Words.OfEntity().ToList().ForEach(e => e.Possesser = value));
                 }
+
             }
         }
 
         /// <summary>
-        /// Gets the <see cref="IVerbal"/> instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
+        /// The <see cref="IVerbal"/> instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
         public virtual IVerbal SubjectOf
         {
-            get { return subjectOf; }
+            get => subjectOf;
             private set
             {
                 subjectOf = value;
@@ -197,16 +205,16 @@ namespace LASI.Core
             }
         }
         /// <summary>
-        /// Gets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
+        /// The <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
         public virtual IVerbal DirectObjectOf => directObjectOf;
 
         /// <summary>
-        /// Gets or sets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
+        /// The <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
         /// </summary>
         public virtual IVerbal IndirectObjectOf
         {
-            get { return indirectObjectOf; }
+            get => indirectObjectOf;
             private set
             {
                 indirectObjectOf = value;
@@ -217,14 +225,15 @@ namespace LASI.Core
             }
         }
 
-        public virtual IEnumerable<Noun> RoleComponents => Words.OfNoun();
+        /// <summary>The components which comprise the role of <see cref="IRoleCompositeLexical{Word,Noun}"/>.</summary>
+        public IEnumerable<Noun> RoleComponents => Words.OfNoun();
         #endregion
 
         #region Fields
         private IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
         private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
-        private Option<IPossesser> possessor = Option.None<IPossesser>();
+        private IPossesser possessor;
         private IVerbal directObjectOf;
         private IVerbal indirectObjectOf;
         private IVerbal subjectOf;

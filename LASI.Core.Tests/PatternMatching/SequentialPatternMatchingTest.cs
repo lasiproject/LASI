@@ -7,7 +7,7 @@ using LASI.Utilities;
 
 namespace LASI.Core.PatternMatching.Tests
 {
-    using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
+    using LASI.Core.Analysis.Binding.Experimental.SequentialPatterns;
     using NFluent;
     using Xunit;
     public class SequentialPatternMatchingTest
@@ -33,8 +33,7 @@ namespace LASI.Core.PatternMatching.Tests
                 {
                     actual = true;
                 });
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
         [Fact]
         public void EnumerableOfLexicalWithoutFiltersOrGuardsAbstractedTypesActionTest1()
@@ -45,8 +44,7 @@ namespace LASI.Core.PatternMatching.Tests
                 {
                     actual = true;
                 });
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
         [Fact]
         public void EnumerableOfLexicalWithoutFiltersOrGuardsAbstractedTypesActionTest2()
@@ -57,8 +55,7 @@ namespace LASI.Core.PatternMatching.Tests
                 {
                     actual = true;
                 });
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
         [Fact]
         public void EnumerableOfLexicalWithGuardFalseActionTest1()
@@ -70,8 +67,7 @@ namespace LASI.Core.PatternMatching.Tests
                 {
                     actual = true;
                 });
-            var expected = false;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsFalse();
         }
         [Fact]
         public void EnumerableOfLexicalWithGuardFalseActionTest2()
@@ -83,8 +79,7 @@ namespace LASI.Core.PatternMatching.Tests
                 {
                     actual = true;
                 });
-            var expected = false;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsFalse();
         }
         [Fact]
         public void EnumerableOfLexicalWithGuardTrueActionTest1()
@@ -96,8 +91,7 @@ namespace LASI.Core.PatternMatching.Tests
                 {
                     actual = true;
                 });
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
         [Fact]
         public void EnumerableOfLexicalWithGuardTrueActionTest2()
@@ -109,8 +103,7 @@ namespace LASI.Core.PatternMatching.Tests
                 {
                     actual = true;
                 });
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
         [Fact]
         public void EnumerableOfLexicalWithIgnoreOnceTypeFilterActionTest1()
@@ -122,8 +115,7 @@ namespace LASI.Core.PatternMatching.Tests
                 {
                     actual = true;
                 });
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
         [Fact]
         public void EnumerableOfLexicalWithIgnoreOnceTypeFilterActionTest2()
@@ -135,8 +127,7 @@ namespace LASI.Core.PatternMatching.Tests
                 {
                     actual = true;
                 });
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
         [Fact]
         public void EnumerableOfLexicalWithIgnoreOnceTypeFilterActionTest3()
@@ -148,8 +139,7 @@ namespace LASI.Core.PatternMatching.Tests
                 {
                     actual = true;
                 });
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
         [Fact]
         public void EnumerableOfLexicalWithoutFiltersOrGuardsExactTypesFuncTest()
@@ -157,8 +147,7 @@ namespace LASI.Core.PatternMatching.Tests
             var actual = false;
             TestTarget.Match()
                 .Case((CommonPluralNoun n1, Conjunction c, CommonPluralNoun n2, Preposition p, Adverb a, PersonalPronoun e) => actual = true);
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
         [Fact]
         public void EnumerableOfLexicalWithoutFiltersOrGuardsAbstractedTypesFuncTest1()
@@ -166,8 +155,7 @@ namespace LASI.Core.PatternMatching.Tests
             var actual = false;
             TestTarget.Match()
                 .Case((IEntity n1, IConjunctive c, CommonNoun n2, IPrepositional p, IAdverbial a, IReferencer e) => actual = true);
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
         [Fact]
         public void EnumerableOfLexicalWithoutFiltersOrGuardsAbstractedTypesFuncTest2()
@@ -175,8 +163,7 @@ namespace LASI.Core.PatternMatching.Tests
             var actual = false;
             TestTarget.Match()
                 .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity e) => actual = true);
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
         [Fact]
         public void EnumerableOfLexicalWithGuardFalse1FuncTest()
@@ -195,8 +182,7 @@ namespace LASI.Core.PatternMatching.Tests
             TestTarget.Match()
                 .When(() => false) // this guard is impossible to satisfy
                 .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity e) => actual = true);
-            var expected = false;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsFalse();
         }
         [Fact]
         public void EnumerableOfLexicalWithGuardTrueFuncTest1()
@@ -205,8 +191,7 @@ namespace LASI.Core.PatternMatching.Tests
             TestTarget.Match()
                 .When(true) // this guard is always satisfied
                 .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity e) => actual = true);
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
         [Fact]
         public void EnumerableOfLexicalWithGuardTrueFuncTest2()
@@ -225,8 +210,7 @@ namespace LASI.Core.PatternMatching.Tests
             TestTarget.Match()
                 .IgnoreOnce<IAdverbial>()
                 .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IEntity e) => actual = true);
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
         [Fact]
         public void EnumerableOfLexicalWithIgnoreOnceTypeFilterFuncTest2()
@@ -235,8 +219,7 @@ namespace LASI.Core.PatternMatching.Tests
             TestTarget.Match()
                 .IgnoreOnce<IAdverbial, IConjunctive>()
                 .Case((IEntity n1, IEntity n2, IPrepositional p, IEntity e) => actual = true);
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
         [Fact]
         public void EnumerableOfLexicalWithIgnoreOnceTypeFilterFuncTest3()
@@ -245,8 +228,7 @@ namespace LASI.Core.PatternMatching.Tests
             TestTarget.Match()
                 .IgnoreOnce<IAdverbial, IConjunctive, IPrepositional>()
                 .Case((IEntity n1, IEntity n2, IEntity e) => actual = true);
-            var expected = true;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsTrue();
         }
     }
 }

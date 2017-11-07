@@ -178,7 +178,6 @@ namespace LASI.App
                 public System.UInt32 dwFlags;
                 public System.UInt32 uCount;
                 public System.UInt32 dwTimeout;
-
             }
             /// <summary>
             /// Causes the application icon to begin flashing in the Windows Taskbar.
@@ -197,7 +196,6 @@ namespace LASI.App
                     FlashWindowEx(ref fInfo);
                 }
                 windowToFlash.StateChanged += (s, e) => StopFlashing(windowToFlash);
-
             }
             /// <summary>
             /// Causes the application icon in the Windows Taskbar to discontinue flashing.

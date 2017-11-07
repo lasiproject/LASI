@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using LASI.Core.Heuristics;
-using LASI.Core.Configuration;
 using LASI.Utilities;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 
@@ -17,9 +11,9 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         static NounMorpher() => ExceptionMapping = Helper.ExcMapping;
 
         /// <summary>Gets all forms of the noun root.</summary>
-        /// <param name="noun">The root of a noun as a string.</param>
+        /// <param name="nounText">The root of a noun as a string.</param>
         /// <returns>All forms of the noun root.</returns>
-        public IEnumerable<string> GetLexicalForms(string noun) => ComputeForms(noun);
+        public IEnumerable<string> GetLexicalForms(string nounText) => ComputeForms(nounText);
 
         /// <summary>Gets all forms of the noun.</summary>
         /// <param name="noun">The of a noun.</param>
@@ -30,11 +24,11 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         /// Returns the root of the given noun string. If no root can be found, the noun string
         /// itself is returned.
         /// </summary>
-        /// <param name="noun">The noun string to find the root of.</param>
+        /// <param name="nounText">The noun string to find the root of.</param>
         /// <returns>
         /// The root of the given noun string. If no root can be found, the noun string itself is returned.
         /// </returns>
-        public string FindRoot(string noun) => CheckSpecialForms(noun).FirstOrDefault() ?? ComputeBaseForm(noun).FirstOrDefault() ?? noun;
+        public string FindRoot(string nounText) => CheckSpecialForms(nounText).FirstOrDefault() ?? ComputeBaseForm(nounText).FirstOrDefault() ?? nounText;
 
         /// <summary>
         /// Returns the root of the given Noun. If no root can be found, the Noun's original text is returned.
@@ -110,7 +104,6 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
                 value: exceptionData
             );
         }
-
 
         private static readonly Dictionary<string, List<string>> ExceptionMapping;
 

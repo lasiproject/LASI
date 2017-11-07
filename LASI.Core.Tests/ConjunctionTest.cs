@@ -6,7 +6,6 @@ using TestMethod = Xunit.FactAttribute;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is A test class for ConjunctionTest and is intended
     ///to contain all ConjunctionTest Unit Tests
@@ -37,7 +36,6 @@ namespace LASI.Core.Tests
             target.JoinedLeft = expected;
             actual = target.JoinedLeft;
             Check.That(expected).IsEqualTo(actual);
-
         }
 
         /// <summary>
@@ -83,7 +81,6 @@ namespace LASI.Core.Tests
             actual = target.JoinedRight;
             Check.That(expected).IsEqualTo(actual);
         }
-
 
 
 

@@ -32,6 +32,5 @@ namespace LASI.Core
             return false;
         }
 
-
     }
 }

@@ -12,7 +12,7 @@ namespace LASI.Core.Analysis.Binding
     /// The Exception which is thrown when an attempt is made to perform VerbPhrase related binding over a sequence of Phrases which contain no VerbPhrases.
     /// </summary>
     [Serializable]
-    public class VerblessPhrasalSequenceException : Exception
+    public sealed class VerblessPhrasalSequenceException : Exception
     {
         /// <summary>
         /// Gets the verbless sequence which caused the exception.
@@ -55,10 +55,13 @@ namespace LASI.Core.Analysis.Binding
         /// <param name="context">
         /// The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.
         /// </param>
-        protected VerblessPhrasalSequenceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public VerblessPhrasalSequenceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
         {
             Sequence = (IEnumerable<ILexical>)info.GetValue(nameof(Sequence), typeof(IEnumerable<ILexical>));
         }
+
+        public VerblessPhrasalSequenceException() { }
+
         /// <summary>
         /// Sets the System.Runtime.Serialization.SerializationInfo with information about the exception.
         /// </summary>

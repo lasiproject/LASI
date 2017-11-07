@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using LASI.Utilities;
 
-namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
+namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
 {
     static class FuncBindingHelper
     {
@@ -700,7 +700,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 elements[7] is T8 &&
                 elements[8] is T9 &&
                 elements[9] is T10;
-
 
     }
 }

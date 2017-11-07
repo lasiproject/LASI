@@ -3,7 +3,6 @@
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is a test class for PreDeterminerTest and is intended
     ///to contain all PreDeterminerTest Unit Tests

@@ -12,9 +12,8 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing.Tests
         public void GetLexicalFormsTest1()
         {
             var adjectiveMorpher = new AdjectiveMorpher();
-            string[] adjectiveForms = { "slow", "slower", "slowest", };
-            foreach (var synthesizedForms in from form in adjectiveForms
-                                             select adjectiveMorpher.GetLexicalForms(form))
+            var adjectiveForms = new[] { "slow", "slower", "slowest" };
+            foreach (var synthesizedForms in adjectiveForms.Select(adjectiveMorpher.GetLexicalForms))
             {
                 Check.That(adjectiveForms.Except(synthesizedForms, StringComparer.OrdinalIgnoreCase)).IsEmpty();
             }
@@ -52,6 +51,5 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing.Tests
                 Check.That(adjectiveForms.Except(synthesizedForms, StringComparer.OrdinalIgnoreCase)).IsEmpty();
             }
         }
-
     }
 }

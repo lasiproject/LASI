@@ -4,7 +4,6 @@ using LASI.Utilities;
 
 namespace LASI.Core
 {
-
     /// <summary>
     /// Represents an adjective phrase which describes an Entity such as a Noun or NounPhrase construct.
     /// </summary>

@@ -223,6 +223,5 @@ namespace LASI.Core
 
         #endregion
         private static readonly StringComparer OrdinalIgnoreCase = StringComparer.OrdinalIgnoreCase;
-
     }
 }

@@ -77,7 +77,6 @@ namespace LASI.Content
                     {
                         outFile.Write(ExtractTextFromPDFBytes(reader.GetPageContent(pageNumber)) + " ");
                     }
-
                 }
             }
             #endregion
@@ -233,7 +232,6 @@ namespace LASI.Content
                 }
                 return false;
             }
-
         }
     }
 }

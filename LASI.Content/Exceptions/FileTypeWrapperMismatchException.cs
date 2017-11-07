@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace LASI.Content.Exceptions
 {
@@ -33,19 +30,31 @@ namespace LASI.Content.Exceptions
         /// The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains contextual information
         /// about the source or destination.
         /// </param>
-        protected FileTypeWrapperMismatchException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context)
+        public FileTypeWrapperMismatchException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             if (info == null)
+            {
                 throw new ArgumentNullException(nameof(info));
-            this.MistmatchedExtension = info.GetString(nameof(MistmatchedExtension));
+            }
+
+            MistmatchedExtension = info.GetString(nameof(MistmatchedExtension));
         }
+
+        public FileTypeWrapperMismatchException(string message, Exception inner) : base(message, inner)
+        {
+        }
+
+
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
             info.AddValue(nameof(MistmatchedExtension), MistmatchedExtension, typeof(string));
-
         }
+
+        public FileTypeWrapperMismatchException()
+        {
+        }
+
         public string MistmatchedExtension { get; }
     }
 }

@@ -253,7 +253,6 @@ namespace LASI.Utilities
         /// </remarks>
         protected internal sealed class None : Option<T>
         {
-
             public override Option<TResult> Select<TResult>(Func<T, TResult> selector) => Option<TResult>.NoneOfT;
 
             public override Option<TResult> SelectMany<TResult>(Func<T, Option<TResult>> selector) => Option<TResult>.NoneOfT;
@@ -269,6 +268,7 @@ namespace LASI.Utilities
             public override bool Equals(T other) => false;
             public override int GetHashCode() => 0;
             public override T Value => throw new InvalidOperationException(ValueAccessErrorMessage);
+
             private const string ValueAccessErrorMessage = "None does not have a value.";
             internal None() : base(false) { }
         }
@@ -300,7 +300,7 @@ namespace LASI.Utilities
 
             public override T Value { get; }
 
-            internal Some(T value) : base(true) => Value = value;
+            internal Some(T value) : base(true) { Value = value; }
         }
     }
 }

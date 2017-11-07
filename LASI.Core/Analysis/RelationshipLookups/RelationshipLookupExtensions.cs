@@ -23,6 +23,5 @@ namespace LASI.Core.Analysis.Relationships
         public static IRelationshipLookup<TEntity, TVerbal> UsingEntityComparer<TEntity, TVerbal>(this IRelationshipLookup<TEntity, TVerbal> lookup, Func<TEntity, TEntity, bool> entityEquator)
             where TEntity : class, IEntity
             where TVerbal : class, IVerbal => new RelationshipLookup<TEntity, TVerbal>(lookup, entityEquator, entityEquator);
-
     }
 }

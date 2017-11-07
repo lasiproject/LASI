@@ -46,7 +46,6 @@ namespace LASI.Core
         }
 
 
-
         /// <summary>
         /// Assigns numeric Weights to each element in the given Document.
         /// </summary>
@@ -55,6 +54,7 @@ namespace LASI.Core
         {
             Task.WaitAll(document.GetWeightingTasks().Select(t => t.Task).ToArray());
         }
+
         /// <summary>
         /// Assigns numeric Weights to each element in the given Document.
         /// </summary>
@@ -62,16 +62,17 @@ namespace LASI.Core
         public static async Task WeightAsync(Document document)
         {
             await new ProcessingTask(() => { Console.Write("X"); },
-               $"{document.Name}: Abstracting References",
-               $"{document.Name}: Abstracted References", 5);
+                $"{document.Name}: Abstracting References",
+                $"{document.Name}: Abstracted References", 5);
             await Task.WhenAll(document.GetWeightingTasks().Select(t => t.Task).ToArray());
         }
+
         private static void NormalizeWeights(IReifiedTextual source)
         {
             if (source.Phrases.Any())
             {
                 var maxWeight = source.Phrases.Max(p => p.Weight);
-                if ((int)maxWeight != 0)
+                if ((int) maxWeight != 0)
                 {
                     foreach (var phrase in source.Phrases)
                     {
@@ -89,15 +90,16 @@ namespace LASI.Core
         {
             var toConsider = from e in source.Words
                                  //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                 .OfEntity().InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IReferencer.
+                                 .OfEntity()
+                                 .InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IReferencer.
                              select e.Match()
-                                  .When((IReferencer r) => r.RefersTo != null)
-                                  .Then((IReferencer r) => r.RefersTo)
-                                  .Case((IEntity x) => x.Lift().ToAggregate()).Result() into y
+                                 .When((IReferencer r) => r.RefersTo != null)
+                                 .Then((IReferencer r) => r.RefersTo)
+                                 .Case((IEntity x) => x.Lift().ToAggregate()).Result()
+                             into y
                              where y != null
                              select y;
             GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 1);
-
         }
 
         /// <summary>
@@ -113,6 +115,7 @@ namespace LASI.Core
                 .InSubjectOrObjectRole().ToList();
             GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 0.5);
         }
+
         private static void WeightSimilarVerbs(IReifiedTextual source)
         {
             var toConsider = source.Words.OfVerb().WithSubjectOrObject();
@@ -139,11 +142,16 @@ namespace LASI.Core
         private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements)
         {
             syntacticElements.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .GroupBy(lexical => new { Type = lexical.GetType(), lexical.Text }).Select(Enumerable.ToList)
+                .GroupBy(lexical => new
+                {
+                    Type = lexical.GetType(),
+                    lexical.Text
+                }).Select(Enumerable.ToList)
                 .ForAll(elements => elements.ForEach(e => e.Weight += elements.Count));
         }
 
-        private static void GroupAndWeight<TLexical>(IEnumerable<TLexical> toConsider, Func<TLexical, TLexical, Similarity> correlate, double scaleBy) where TLexical : class, ILexical
+        private static void GroupAndWeight<TLexical>(IEnumerable<TLexical> toConsider,
+            Func<TLexical, TLexical, Similarity> correlate, double scaleBy) where TLexical : class, ILexical
         {
             var groups =
                 from outer in toConsider
@@ -154,36 +162,15 @@ namespace LASI.Core
                     .AsParallel()
                     .WithDegreeOfParallelism(Concurrency.Max)
                 where !ReferenceEquals(inner, outer) || correlate(inner, outer)
-                group inner by outer into grouped
+                group inner by outer
+                into grouped
                 select grouped.ToList();
 
             groups.ForAll(elements =>
             {
-                elements.ForEach(e => e.Weight += scaleBy * elements.Count);
+                void scaleWeight<T>(T element) where T : TLexical => element.Weight += scaleBy * elements.Count;
+                elements.ForEach(scaleWeight);
             });
         }
-
-        #region Events
-        /// <summary>
-        /// Raised on the start of a step of the overall weighting process.
-        /// </summary>
-        public static event EventHandler<WeightingUpdateEventArgs> PhaseStarted = delegate { };
-
-        /// <summary>
-        /// Raised on the completion of a step of the overall weighting process.
-        /// </summary>
-        public static event EventHandler<WeightingUpdateEventArgs> PhaseFinished = delegate { };
-        #endregion Events
-    }
-
-    /// <summary>
-    /// A class containing information regarding a weighting process level status update.
-    /// </summary>
-    public class WeightingUpdateEventArgs : ReportEventArgs
-    {
-        /// <summary>
-        /// Initializes a new instance of the WeightingUpdateEventArgs class.
-        /// </summary>
-        internal WeightingUpdateEventArgs(string message, double increment) : base(message, increment) { }
     }
 }

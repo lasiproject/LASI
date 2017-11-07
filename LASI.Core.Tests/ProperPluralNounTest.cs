@@ -4,7 +4,6 @@ using Xunit;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is A test class for ProperPluralNounTest and is intended
     ///to contain all ProperPluralNounTest Unit Tests
@@ -35,9 +34,7 @@ namespace LASI.Core.Tests
             target.QuantifiedBy = expected;
             actual = target.QuantifiedBy;
             Check.That(expected).IsEqualTo(actual);
-
         }
-
 
 
     }

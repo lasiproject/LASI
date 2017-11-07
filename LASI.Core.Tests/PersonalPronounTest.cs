@@ -85,7 +85,6 @@ namespace LASI.Core.Tests
             target.BindAsDirectObjectOf(expected);
             var actual = target.DirectObjectOf;
             Check.That(actual.Match((IVerbal x) => x.Text)).IsEqualTo(expected.Text);
-
         }
 
         /// <summary>
@@ -128,7 +127,6 @@ namespace LASI.Core.Tests
             target.BindAsSubjectOf(expected);
             var actual = target.SubjectOf;
             Check.That(actual).IsEqualTo(expected);
-
         }
 
         /// <summary>

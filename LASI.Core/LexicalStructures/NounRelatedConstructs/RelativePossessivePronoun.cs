@@ -16,6 +16,5 @@ namespace LASI.Core
         /// <param name="text">The text content of the RelativePossessivePronoun.</param>
         public RelativePossessivePronoun(string text) : base(text) { }
 
-
     }
 }

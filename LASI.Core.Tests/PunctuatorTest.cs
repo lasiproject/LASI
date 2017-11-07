@@ -4,7 +4,6 @@ using Xunit;
 namespace LASI.Core.Tests
 {
 
-
     /// <summary>
     ///This is A test class for PunctuatorTest and is intended
     ///to contain all PunctuatorTest Unit Tests

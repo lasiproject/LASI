@@ -69,7 +69,6 @@ namespace LASI.App
             foreach (var document in documents)
             {
                 await CreateWeightViewAsync(document);
-
             }
             SetupChartViewControls();
         }
@@ -133,7 +132,6 @@ namespace LASI.App
                 var finishedTask = await Task.WhenAny(tasks);
                 tasks.Remove(finishedTask);
             }
-
         }
 
         private async Task BuildTextViewOfDocument(Document document)
@@ -450,18 +448,11 @@ namespace LASI.App
         /// </summary>
         public IEnumerable<Document> Documents
         {
-            get
-            {
-                return documents;
-            }
-            set
-            {
-                documents = value.ToList();
-            }
+            get => documents;
+            set => documents = value.ToList();
         }
 
         #endregion
 
     }
-
 }

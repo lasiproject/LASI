@@ -27,6 +27,5 @@ namespace LASI.Core
                 complement.PairedWith = this;
             }
         }
-
     }
 }

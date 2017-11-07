@@ -24,7 +24,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.TermBa
         }
         public static LexicalToken<TLexical> operator &(LexicalToken<TLexical> token, Func<TLexical, bool> guard)
         {
-            token.guardFailed = !guard(default(TLexical)); return token;
+            token.guardFailed = !guard(default); return token;
         }
         public static Pattern<object>.TokenTestResult<TLexical> operator |(Pattern<object> tokenTestResult, LexicalToken<TLexical> token) => new Pattern<dynamic>.TokenTestResult<TLexical>(true, tokenTestResult);
         public static Pattern<object>.TokenTestResult<TLexical> operator |(LexicalToken<TLexical> token, Pattern<object> tokenTestResult) => new Pattern<dynamic>.TokenTestResult<TLexical>(true, tokenTestResult);
@@ -56,7 +56,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.TermBa
 
         public class Pattern<TResult>
         {
-            private TResult result = default(TResult);
+            private TResult result = default;
             private readonly ILexical value;
 
             public Pattern(ILexical value)

@@ -64,15 +64,25 @@ namespace LASI.Content
         private static void MapInputDirectories()
         {
             foreach (var docPath in Directory.EnumerateFiles(DocFilesDirectory, "*.doc"))
+            {
                 docFiles = docFiles.Add(new DocFile(docPath));
+            }
             foreach (var docPath in Directory.EnumerateFiles(DocxFilesDirectory, "*.docx"))
+            {
                 docXFiles = docXFiles.Add(new DocXFile(docPath));
+            }
             foreach (var docPath in Directory.EnumerateFiles(TxtFilesDirectory, "*.txt"))
+            {
                 txtFiles = txtFiles.Add(new TxtFile(docPath));
+            }
             foreach (var docPath in Directory.EnumerateFiles(PdfFilesDirectory, "*.pdf"))
+            {
                 pdfFiles = pdfFiles.Add(new PdfFile(docPath));
+            }
             foreach (var docPath in Directory.EnumerateFiles(TaggedFilesDirectory, "*.tagged"))
+            {
                 taggedFiles = taggedFiles.Add(new TaggedFile(docPath));
+            }
         }
         #endregion
 
@@ -431,17 +441,25 @@ namespace LASI.Content
             get
             {
                 foreach (var txt in TxtFiles)
+                {
                     yield return txt;
+                }
                 foreach (var pdf in PdfFiles)
+                {
                     yield return pdf;
+                }
                 foreach (var doc in DocFiles)
+                {
                     yield return doc;
+                }
                 foreach (var docx in DocXFiles)
+                {
                     yield return docx;
+                }
             }
         }
 
-        internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(path => { throw new UnsupportedFileTypeException("unmapped " + path); });
+        internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(path => throw new UnsupportedFileTypeException("unmapped " + path));
 
         #region Fields
 
@@ -497,7 +515,6 @@ namespace LASI.Content
         /// <param name="fileExtension">The file extension which for which to retrieve the appropriate InputFile instantiator function.</param>
         /// <returns>A function which can be invoked to instantiate an InputFile Wrapper corresponding to the given file extension.</returns>
         public Func<string, InputFile> this[string fileExtension] => mapping.ToDictionary().GetValueOrDefault(fileExtension, unsupportedHandler);
-
     }
     #endregion
 }
