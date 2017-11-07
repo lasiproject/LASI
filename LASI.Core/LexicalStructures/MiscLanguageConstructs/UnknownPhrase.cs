@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using LASI.Utilities;
+using System.Linq;
 
 namespace LASI.Core
 {
@@ -14,7 +14,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="composedWords">The words which compose to form the UnknownPhrase.</param>
         public UnknownPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
+            : base(composedWords)
+        {
         }
         /// <summary>
         /// Initializes a new instance of the UnknownPhrase class.

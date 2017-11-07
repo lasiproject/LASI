@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
-using LASI.Utilities;
 
 namespace LASI.App
 {
