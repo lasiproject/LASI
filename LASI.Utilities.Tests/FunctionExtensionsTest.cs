@@ -266,9 +266,9 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void ApplyingArity2ReferentiallyTransparentFunctionReturnsCorrectResult()
         {
-            Func<int, int> f = a => a * 5;
+            Func<int, int, int> f = (a, b) => a * b;
 
-            Check.That(f(2)).IsEqualTo(f.Apply(5));
+            Check.That(f(5, 2)).IsEqualTo(f.Apply(5)(2));
         }
 
         [Fact]
