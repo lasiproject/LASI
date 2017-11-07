@@ -13,7 +13,7 @@ namespace LASI.Core.Analysis.PatternMatching
     public abstract class PredicatedMatchBase<T> where T : ILexical
     {
         /// <summary>
-        /// Initializes a new instance of the PredicatedMatchBase&lt;T;&gt; class.
+        /// Initializes a new instance of the <see cref="PredicatedMatchBase{T}"/> class.
         /// </summary>
         /// <param name="predicateSucceeded">
         /// A value indicating whether or not the preceding When clause succeeded.

@@ -68,15 +68,15 @@ namespace LASI.Core
     /// <code>
     /// var weight = myLexical.Match().Yield&lt;double&gt;()
     ///         .Case((IReferencer r) =&gt; r.ReferredTo.Weight)
-    ///     	.Case((IEntity e) =&gt; e.Weight)
-    ///     	.Case((IVerbal v) =&gt; v.HasSubject()? v.Subject.Weight : 0)
-    /// 	.Result(1);
+    ///         .Case((IEntity e) =&gt; e.Weight)
+    ///         .Case((IVerbal v) =&gt; v.HasSubject()? v.Subject.Weight : 0)
+    ///     .Result(1);
     /// </code></example><example>
     /// <code>
     /// var weight = myLexical.Match().Yield&lt;double&gt;()
-    /// 		.Case((Phrase p) =&gt; p.Words.Average(w =&gt; w.Weight))
-    /// 		.Case((Word w) =&gt; w.Weight)
-    /// 	.Result();
+    ///         .Case((Phrase p) =&gt; p.Words.Average(w =&gt; w.Weight))
+    ///         .Case((Word w) =&gt; w.Weight)
+    ///     .Result();
     /// </code></example>
     /// <para>Patterns may be nested arbitrarily as in the following example</para><example>
     /// <code>
@@ -94,7 +94,7 @@ namespace LASI.Core
     /// <code>
     /// myLexical.Match()
     ///         .Case((Phrase p) =&gt; Console.Write("Phrase: ", p.Text))
-    /// 	    .Case((Word w) =&gt; Console.Write("Word: ", w.Text))
+    ///         .Case((Word w) =&gt; Console.Write("Word: ", w.Text))
     ///     .Default(() =&gt; Console.Write("Not a Word or Phrase"));
     /// </code></example>
     /// </para>
@@ -159,7 +159,7 @@ namespace LASI.Core
         /// flexibility. Specifically it allows a Match&lt;T<see cref="System.Collections.Generic.IEnumerable{T}"/>&gt; expression to be
         /// transformed into one where element type of the resulting enumerable is less derived in the case where a cause clause
         /// yields a result which is a of a base type of TResult. This will transform the match into
-        /// a more general form which yields a <see cref="IEnumerator{TBase}"/>.
+        /// a more general form which yields a <see cref="IEnumerable{TBase}"/>.
         /// </remarks>
         public static Match<TValue, IEnumerable<TResult>> Case<TValue, TCase, TResultEnumerable, TResult>(
             this Match<TValue, TResultEnumerable> match, Func<TCase, IEnumerable<TResult>> func)

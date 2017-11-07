@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using NFluent;
 using Shared.Test.NFluentExtensions;
 using Xunit;
@@ -80,7 +78,7 @@ namespace LASI.Core.Tests
             var composedWords = new[] { new Preposition("on") };
             var target = new PrepositionalPhrase(composedWords);
 
-            Check.That(target.Words).HasSize(composedWords.Count());
+            Check.That(target.Words).HasSize(composedWords.Length);
             Check.That(target).Satisfies(() =>
                 target.Text == "on" && target.ToTheLeftOf == null && target.ToTheRightOf == null && target.BoundObject == null
             );

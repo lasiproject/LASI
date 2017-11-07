@@ -23,15 +23,15 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         /// Returns the base form of the specified adjective. If the word is already in its base
         /// form, the text content of the adjective will simply be returned.
         /// </summary>
-        /// <param name="wordText">A string whose text represents the lexical form of an adjective.</param>
+        /// <param name="adjectiveText">A string whose text represents the lexical form of an adjective.</param>
         /// <returns>
         /// The base form of the given type of word. If the word is already in its base form, the
         /// text content of the adjective will simply be returned.
         /// </returns>
-        public string FindRoot(string wordText)
+        public string FindRoot(string adjectiveText)
         {
             bool exceptional;
-            return FindRootImplementation(wordText, out exceptional);
+            return FindRootImplementation(adjectiveText, out exceptional);
         }
 
         private string FindRootImplementation(string adjective, out bool exceptional)
@@ -60,14 +60,14 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             return adjective;
         }
 
-        private static string CheckExceptionMapping(string adjective)
+        private static string CheckExceptionMapping(string adjectiveText)
         {
-            if (ExceptionMapping.ContainsKey(adjective))
+            if (ExceptionMapping.ContainsKey(adjectiveText))
             {
-                return adjective;
+                return adjectiveText;
             }
             var exceptionBaseForms = from mapping in ExceptionMapping
-                                     where mapping.Value.Contains(adjective, StringComparer.OrdinalIgnoreCase)
+                                     where mapping.Value.Contains(adjectiveText, StringComparer.OrdinalIgnoreCase)
                                      select mapping.Key;
             var exceptionResult = exceptionBaseForms.FirstOrDefault();
             return exceptionResult;
@@ -89,21 +89,21 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         /// Computes and returns the list of all conjugated forms of the adjective specified by the
         /// specified adjective.
         /// </summary>
-        /// <param name="word">The string representation of an adjective.</param>
+        /// <param name="adjectiveText">The string representation of an adjective.</param>
         /// <returns>
         /// The collection of all conjugated forms of the specified adjective, including the
         /// originally the adjective itself.
         /// </returns>
-        public IEnumerable<string> GetLexicalForms(string word)
+        public IEnumerable<string> GetLexicalForms(string adjectiveText)
         {
-            var hyphenIndex = word.IndexOf('-');
+            var hyphenIndex = adjectiveText.IndexOf('-');
             var hyphenatedAppendage = string.Empty;
             if (hyphenIndex > 0)
             {
-                hyphenatedAppendage = word.Substring(hyphenIndex);
+                hyphenatedAppendage = adjectiveText.Substring(hyphenIndex);
             }
             bool exceptional;
-            var rootWithHyphenatedAppendage = FindRootImplementation(word, out exceptional);
+            var rootWithHyphenatedAppendage = FindRootImplementation(adjectiveText, out exceptional);
             var rootHyphenIndex = rootWithHyphenatedAppendage.IndexOf('-');
             var root = rootWithHyphenatedAppendage.Substring(0, rootHyphenIndex > 0 ? rootHyphenIndex : rootWithHyphenatedAppendage.Length);
             yield return root + hyphenatedAppendage;

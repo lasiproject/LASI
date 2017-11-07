@@ -14,7 +14,7 @@ namespace LASI.Core.Analysis.PatternMatching
     public class PredicatedMatch<T> : PredicatedMatchBase<T> where T : ILexical
     {
         /// <summary>
-        /// Initializes a new instance of the PredicatedMatch&lt;T&gt; class which will match
+        /// Initializes a new instance of the Predicated<see cref="Match{T}"/> class which will match
         /// attempt to match against the value of supplied Match if accepted argument is true.
         /// </summary>
         /// <param name="accepted">
@@ -38,7 +38,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="action">
         /// The Action which, if this Case expression is Matched, will be invoked.
         /// </param>
-        /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
+        /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T> Then<TCase>(Action action) where TCase : class, ILexical => Accepted ? expression.Case<TCase>(action) : expression;
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="action">
         /// The Action which, if this Case expression is Matched, will be invoked.
         /// </param>
-        /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
+        /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T> Then<TCase>(Action<TCase> action) where TCase : class, ILexical => Accepted ? expression.Case(action) : expression;
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The Type of the result to be yielded by the Pattern Matching expression. 
         /// </typeparam>
         /// <param name="f">The Action which, if this Case expression is Matched, will be invoked.</param>
-        /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
+        /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T, TResult> Then<TCase, TResult>(Func<TCase, TResult> f) where TCase : class, ILexical => Accepted ? expression.Yield<TResult>().Case(f) : expression.Yield<TResult>();
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="action">
         /// The Action which, if this Case expression is Matched, will be invoked.
         /// </param>
-        /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
+        /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T> Then(Action action) => Accepted ? expression.Case<T>(action) : expression;
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The Action which, if this Case expression is Matched, will be invoked on the value being
         /// matched over.
         /// </param>
-        /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
+        /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T> Then(Action<T> action) => Accepted ? expression.Case(action) : expression;
 
         public Match<T, TResult> Then<TResult>(Func<T, TResult> f) => Accepted ? expression.Yield<TResult>().Case(f) : expression.Yield<TResult>();

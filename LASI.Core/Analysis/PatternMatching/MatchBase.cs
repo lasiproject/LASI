@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LASI.Utilities;
 
 namespace LASI.Core.Analysis.PatternMatching
 {
@@ -27,7 +22,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="value">The value to match against.</param>
         protected MatchBase(T value)
         {
-            UnMatchable = value == null;
+            // TODO: replace with pattern when https://github.com/dotnet/csharplang/issues/766 is resolved.
+            UnMatchable = EqualityComparer<T>.Default.Equals(value, default);
             Value = value;
         }
 
@@ -42,6 +38,9 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </summary>
         protected T Value { get; }
 
+        /// <summary>
+        /// `true` if value being matched cannot be matched by any pattern;  
+        /// </summary>
         protected bool UnMatchable { get; }
         #endregion
     }

@@ -41,7 +41,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </summary>
         /// <typeparam name="TCase">The Type to match with. This expression will be selected, and the provided function invoked, if and only if the predicate has been satisfied and the value being matched over is of this type.</typeparam>
         /// <param name="func">The function whose result will be the result of the Then match expression.</param>
-        /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
+        /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T, TResult> Then<TCase>(Func<TResult> func) where TCase : ILexical => Accepted ? expression.Case<TCase>(func) : expression;
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
@@ -55,7 +55,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <param name="func">The function whose which will be called on the value being matched over to produce the result of the Then expression.</param>
-        /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
+        /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T, TResult> Then(Func<T, TResult> func) => Accepted ? expression.Case(func) : expression;
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <param name="func">The function whose result will be the result of the Then match expression.</param>
-        /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
+        /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T, TResult> Then(Func<TResult> func) => Accepted ? expression.Case<T>(func) : expression;
 
         #endregion

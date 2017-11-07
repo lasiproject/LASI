@@ -74,15 +74,15 @@ namespace LASI.Core.Analysis.PatternMatching
     ///     .Case((IReferencer r) =&gt; r.ReferredTo.Weight)
     ///     .Case((IEntity e) =&gt; e.Weight)
     ///     .Case((IVerbal v) =&gt; v.HasSubject()? v.Subject.Weight : 0)
-    /// 	.Result(1);
+    ///     .Result(1);
     /// </code>
     /// </example>
     /// <example>
     /// <code>
     /// var weight = myLexical.Match()
-    /// 		.Case((Phrase p) =&gt; p.Words.Average(w =&gt; w.Weight))
-    /// 		.Case((Word w) =&gt; w.Weight)
-    /// 	.Result();
+    ///         .Case((Phrase p) =&gt; p.Words.Average(w =&gt; w.Weight))
+    ///         .Case((Word w) =&gt; w.Weight)
+    ///     .Result();
     /// </code>
     /// </example>
     /// <para> Patterns may be nested arbitrarily as in the following example</para>
@@ -155,7 +155,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The predicate to test the value being matched.
         /// </param>
         /// <returns>
-        /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
+        /// The <see cref="PredicatedMatch{T, R}"/> describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
         public PredicatedMatch<T, TResult> When(Func<T, bool> predicate) => new PredicatedMatch<T, TResult>(predicate(Value), this);
@@ -169,7 +169,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The predicate to test the value being matched.
         /// </param>
         /// <returns>
-        /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
+        /// The <see cref="PredicatedMatch{T, R}"/> describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
         public PredicatedMatch<T, TResult> When(Func<bool> when) => new PredicatedMatch<T, TResult>(when(), this);
@@ -187,7 +187,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The predicate to test the value being matched.
         /// </param>
         /// <returns>
-        /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
+        /// The <see cref="PredicatedMatch{T, R}"/> describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
         public PredicatedMatch<T, TResult> When<TCase>(Func<TCase, bool> predicate) where TCase : ILexical =>
@@ -202,7 +202,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The predicate to test the value being matched.
         /// </param>
         /// <returns>
-        /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
+        /// The <see cref="PredicatedMatch{T, R}"/> describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
         public PredicatedMatch<T, TResult> When(bool when) => new PredicatedMatch<T, TResult>(when, this);
@@ -223,7 +223,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// corresponding desired result for a Match Case TPattern.
         /// </param>
         /// <returns>
-        /// The Match&lt;T, R&gt; describing the Match expression so far.
+        /// The <see cref="Match{T, R}"/> describing the Match expression so far.
         /// </returns>
         public Match<T, TResult> Case<TCase>(Func<TResult> func) where TCase : ILexical
         {
@@ -248,7 +248,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// being matched with to produce the desired result for a Match with TPattern.
         /// </param>
         /// <returns>
-        /// The Match&lt;T, R&gt; describing the Match expression so far.
+        /// The <see cref="Match{T, R}"/> describing the Match expression so far.
         /// </returns>
         public Match<T, TResult> Case<TCase>(Func<TCase, TResult> func) where TCase : ILexical
         {
@@ -266,7 +266,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <typeparam name="TCase">The type to match.</typeparam>
         /// <param name="then">The function to apply if the case matched.</param>
         /// <param name="when">The predicate to match.</param>
-        /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
+        /// <returns>The <see cref="Match{T, R}"/> describing the Match expression so far.</returns>
         public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<bool> when) where TCase : ILexical => When(when).Then(then);
 
         public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<TCase, bool> when) where TCase : ILexical => When(when).Then(then);
@@ -292,7 +292,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The value which, if this Case expression is Matched, will be the result of the Pattern Match.
         /// </param>
         /// <returns>
-        /// The Match&lt;T, R&gt; describing the Match expression so far.
+        /// The <see cref="Match{T, R}"/> describing the Match expression so far.
         /// </returns>
         public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : ILexical
         {

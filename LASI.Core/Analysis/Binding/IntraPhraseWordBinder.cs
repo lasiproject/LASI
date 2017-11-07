@@ -1,9 +1,4 @@
-﻿using LASI.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace LASI.Core.Binding
 {
@@ -130,7 +125,8 @@ namespace LASI.Core.Binding
                             }
                             //////Output.WriteLine("Prev: {0}, Next: {1}: , Last Verb: {2}", prevWord, nextWord, LastVerb);
                         }
-                        else {
+                        else
+                        {
                             toLink.BindObject(LastVerb);
                         }
                     }
