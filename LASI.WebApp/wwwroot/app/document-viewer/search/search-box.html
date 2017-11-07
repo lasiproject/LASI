@@ -1,6 +1,0 @@
-﻿<input type="text" ng-model="search.find" uib-typeahead="word as word.text for word in search.getWords()"
-       uib-typeahead-on-select="search.search({ value: search.find }, [search.searchContext])"
-       placeholder="find" ng-keypress="search.keyDown($event)">
-<span class="fa fa-search"
-      ng-click="search.search({ value: search.find }, [search.searchContext])">
-</span>
