@@ -1,13 +1,11 @@
-﻿"projects": [
-  "wrap",
-  "Core",
-  "Content",
-  "Utilities",
-  "Interop",
-  "LASI.WebApp",
-  "LASI.WebApp.Tests"
-], "sdk": {
-  "version": "1.0.0-rc2-20221",
-  "architecture": "x64",
-  "runtime": "clr"
-} }
+{
+  "$schema": "http://json.schemastore.org/global.json",
+  "projects": [
+    "LASI.WebService"
+  ],
+  "sdk": {
+    "architecture": "x64",
+    "runtime": "clr",
+    "version": "2.1.1-preview-007118"
+  }
+}

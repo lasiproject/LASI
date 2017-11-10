@@ -1,44 +1,34 @@
 {
-  "compileOnSave": false,
-  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
-    "baseUrl": "./",
-    "noEmit": true,
-    "inlineSourceMap": true,
     "strict": true,
-    "pretty": true,
-    "noEmitHelpers": true,
-    "importHelpers": true,
+    "allowJs": true,
+    "noEmit": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "pretty": true,
+    "sourceMap": true,
+    "diagnostics": false,
     "traceResolution": false,
-    "allowJs": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "target": "esnext",
+    "noEmitHelpers": true,
+    "importHelpers": true,
     "lib": [
       "esnext",
       "dom"
     ],
-    "downlevelIteration": true,
-    "typeRoots": [
-      "./jspm_packages/npm/@types"
-    ],
-    "types": [],
-    "plugins": [
-      {
-        "name": "tslint-language-service",
-        "autoFixOnSave": true
-      }
-    ]
+    "noImplicitReturns": true,
+    "target": "es2016",
+    "module": "esnext",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "app": [
+        "src"
+      ],
+      "tslib": [
+        "jspm_packages/npm/tslib@1.8.0"
+      ]
+    }
   },
-  "exclude": [
-    "node_modules",
-    "jspm_packages",
-    "*.bundle.js"
-  ],
-  "typeAcquisition": {
-    "enable": false
-  }
+  "compileOnSave": false
 }
