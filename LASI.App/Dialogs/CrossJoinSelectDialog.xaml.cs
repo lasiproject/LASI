@@ -1,9 +1,11 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using LASI.Core;
+using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 
 namespace LASI.App.Dialogs
 {
@@ -20,25 +22,30 @@ namespace LASI.App.Dialogs
         {
             InitializeComponent();
 
-            foreach (var doc in owner.Documents)
+            Top = owner.Top;
+            Left = owner.Left;
+            owner.Documents
+                .Select(CreateCheckBoxForDocument)
+                .ToList()
+                .ForEach(documentsPanel.Children.Add);
+        }
+
+        private CheckBox CreateCheckBoxForDocument(Document document)
+        {
+            var docCheckBox = new CheckBox
             {
-                var docCheckBox = new CheckBox
-                {
-                    Content = doc.Name,
-                    HorizontalAlignment = HorizontalAlignment.Left
-                };
-                docCheckBox.Checked += delegate { SelectedDocuments.Add(doc); };
-                docCheckBox.Unchecked += delegate { SelectedDocuments.Remove(doc); };
-                docCheckBox.Checked += delegate
-                {
-                    okButton.SetBinding(DependencyProperty.Register(nameof(ValidSelection), typeof(bool), typeof(CrossJoinSelectDialog)), new System.Windows.Data.Binding());
-                };
-                docCheckBox.Unchecked += delegate { okButton.IsEnabled = SelectedDocuments.Count > 1; };
-                documentsPanel.Children.Add(docCheckBox);
-            }
+                Content = document.Name,
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+            docCheckBox.Checked += delegate { SelectedDocuments.Add(document); };
+            docCheckBox.Unchecked += delegate { SelectedDocuments.Remove(document); };
+            docCheckBox.Checked += delegate { okButton.SetBinding(DependencyProperty.Register(nameof(ValidSelection), typeof(bool), typeof(CrossJoinSelectDialog)), new System.Windows.Data.Binding()); };
+            docCheckBox.Unchecked += delegate { okButton.IsEnabled = SelectedDocuments.Count > 1; };
+            return docCheckBox;
         }
 
         private bool ValidSelection => okButton.IsEnabled = SelectedDocuments.Count > 1;
+
         private void okButton_Click(object sender, RoutedEventArgs e) => DialogResult = true;
 
         private void cancelButton_Click(object sender, RoutedEventArgs e) => DialogResult = false;
@@ -47,8 +54,8 @@ namespace LASI.App.Dialogs
         {
             if (e.Key == Key.Escape)
             {
-                this.DialogResult = false;
-                this.Close();
+                DialogResult = false;
+                Close();
             }
         }
 

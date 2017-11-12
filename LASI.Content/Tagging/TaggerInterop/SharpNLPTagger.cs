@@ -68,7 +68,7 @@ namespace TaggerInterop
         /// </summary>
         /// <param name="p">The source string.</param>
         /// <returns>A new string with certain characters replaced by aliases to aid in the ease of parsing.</returns>
-        protected string PreProcessText(string p)
+        protected string PreprocessText(string p)
         {
             foreach (var rr in textToNumeralMap)
             {
@@ -556,12 +556,12 @@ namespace TaggerInterop
 
         public string TagTextSource(string source)
         {
-            SourceText = base.PreProcessText(source);
+            SourceText = base.PreprocessText(source);
             return base.ParseViaTaggingMode();
         }
         public async Task<string> TagTextSourceAsync(string source)
         {
-            SourceText = base.PreProcessText(source);
+            SourceText = base.PreprocessText(source);
             return await base.ParseViaTaggingModeAsync();
         }
     }

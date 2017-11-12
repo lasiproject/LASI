@@ -25,7 +25,7 @@ namespace LASI.App.Dialogs
         /// </summary>
         /// <param name="message">The error message to display.</param>
         /// <param name="kind">The <see cref="ErrorKind"/> of the error.</param>
-        public ErrorDialog(string message, ErrorKind kind = ErrorKind.NonFatal)
+        public ErrorDialog(string message, ErrorKind kind = ErrorKind.Nonfatal)
         {
             InitializeComponent();
             Kind = kind;

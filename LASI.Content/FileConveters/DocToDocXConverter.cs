@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Configuration;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using LASI.Core.Heuristics;
 using LASI.Utilities;
-using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace LASI.Content
 {
