@@ -1,34 +1,37 @@
 {
+  "compileOnSave": false,
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
-    "strict": true,
-    "allowJs": true,
     "noEmit": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "inlineSourceMap": true,
+    "strict": true,
     "pretty": true,
-    "sourceMap": true,
-    "diagnostics": false,
-    "traceResolution": false,
     "noEmitHelpers": true,
     "importHelpers": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "traceResolution": false,
+    "allowJs": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "target": "esnext",
     "lib": [
       "esnext",
       "dom"
     ],
-    "noImplicitReturns": true,
-    "target": "es2016",
-    "module": "esnext",
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
-    "baseUrl": ".",
-    "paths": {
-      "app": [
-        "src"
-      ],
-      "tslib": [
-        "jspm_packages/npm/tslib@1.8.0"
-      ]
-    }
+    "downlevelIteration": true,
+    "typeRoots": [
+      "./jspm_packages/npm/@types"
+    ],
+    "types": []
   },
-  "compileOnSave": false
+  "exclude": [
+    "node_modules",
+    "jspm_packages",
+    "*.bundle.js"
+  ],
+  "typeAcquisition": {
+    "enable": false
+  }
 }

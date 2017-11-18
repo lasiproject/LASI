@@ -32,7 +32,6 @@ namespace LASI.WebService
                 .AddJsonOptions(options =>
                 {
                     options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                    options.SerializerSettings.Converters.Add(new TupleJsonConverter());
                 })
                 .AddRazorPagesOptions(options =>
                 {
@@ -40,7 +39,8 @@ namespace LASI.WebService
                     options.Conventions.AuthorizePage("/Account/Logout");
                 });
 
-            services.AddSingleton<System.Collections.Generic.IEnumerable<(string key, int value)>>(provider => new[] { (key: "A", value: 1) });
+            services.AddSingleton<System.Collections.Generic.IEnumerable<(string key, int value)>>(provider => new [] {
+                (key: "A", value : 1) });
 
             // Register no-op EmailSender used by account confirmation and password reset during development
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
@@ -69,10 +69,10 @@ namespace LASI.WebService
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action=Index}/{id?}")
-                .MapRoute(
-                    name: "api",
-                    template: "api/{controller}/{id?}");
+                    template: "{controller}/{action=Index}/{id?}");
+                // .MapRoute(
+                //     name: "api",
+                //     template: "api/{controller}/{id?}");
             });
         }
     }

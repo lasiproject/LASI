@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net471</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-LASI.WebService-6E368E8E-674E-4CB4-A27B-9F303164A365</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>

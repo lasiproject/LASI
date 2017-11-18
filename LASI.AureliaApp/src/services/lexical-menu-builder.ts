@@ -1,4 +1,4 @@
-﻿import $ from 'jquery';
+import $ from 'jquery';
 import {LexicalMenu, ReferencerMenu, ContextMenuDataSource, LexicalMenuBuilder as LexicalMenuBuilderInterface} from 'models';
 import {VerbalMenu} from 'app/models/verbal-menu';
 

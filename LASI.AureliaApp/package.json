@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "LASI",
   "author": "lasi-project",
   "version": "0.0.0",
   "private": true,
@@ -21,14 +21,15 @@
     "ci": "npm run lint && npm run test && npm run build-prod"
   },
   "jspm": {
+    "main": "main.ts",
     "dependencies": {
       "@types/bootstrap": "npm:@types/bootstrap@^3.3.32",
       "@types/deep-freeze": "npm:@types/deep-freeze@^0.1.1",
+      "@types/jquery": "npm:@types/jquery@latest",
       "@types/jquery-contextmenu": "npm:@types/jquery.contextmenu@^1.7.31",
       "@types/typeahead": "npm:@types/typeahead@^0.11.28",
       "aurelia-dialog": "npm:aurelia-dialog@^1.0.0-beta.3.0.1",
       "aurelia-http-client": "npm:aurelia-http-client@^1.0.0",
-      "aurelia-ui-framework": "github:adarshpastakia/aurelia-ui-framework@master",
       "babel": "npm:babel-core@^6.21.0",
       "bootstrap": "github:twbs/bootstrap@^3.3.7",
       "deep-freeze": "npm:deep-freeze@^0.0.1",
@@ -42,7 +43,8 @@
       "typeahead": "github:twitter/typeahead.js@^0.11.1"
     },
     "devDependencies": {
-      "@types/tape": "npm:@types/tape@^4.2.28",
+      "@types/blue-tape": "npm:@types/blue-tape@latest",
+      "@types/tape": "npm:@types/tape@latest",
       "aurelia-testing": "npm:aurelia-testing@^1.0.0-beta.2.0.0",
       "bcrypt-pbkdf": "npm:bcrypt-pbkdf@^1.0.0",
       "css": "github:systemjs/plugin-css@^0.1.33",
@@ -126,7 +128,7 @@
       "zlib": "npm:jspm-nodelibs-zlib@^0.2.0"
     },
     "overrides": {
-      "github:frankwallis/plugin-typescript@7.1.0": {
+      "github:frankwallis/plugin-typescript@7.1.1": {
         "peerDependencies": {
           "typescript": "next"
         }
@@ -180,7 +182,7 @@
       "npm:@types/bootstrap@3.3.36": {
         "dependencies": {}
       },
-      "npm:aurelia-dialog@1.0.0-rc.1.0.3": {
+      "npm:aurelia-dialog@1.0.0-rc.2.0.0": {
         "main": "dist/es2015/index",
         "format": "esm",
         "directories": {
@@ -235,10 +237,7 @@
           "process": "@empty"
         }
       },
-      "npm:moment@2.18.1": {
-        "jspmNodeConversion": false
-      },
-      "npm:moment@2.19.1": {
+      "npm:moment@2.19.2": {
         "jspmNodeConversion": false
       },
       "npm:pbkdf2@3.0.14": {
@@ -292,7 +291,7 @@
     }
   },
   "devDependencies": {
-    "aurelia-types-installer": "^0.3.2",
+    "aurelia-types-installer": "^0.4.0",
     "concurrently": "^3.5.0",
     "jspm": "beta",
     "lite-server": "^2.3.0",
