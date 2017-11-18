@@ -1,12 +1,10 @@
-﻿using LASI.Content.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.Content
+using LASI.Content.Exceptions;
+
+namespace LASI.Content.FileTypes
 {
     /// <summary>
     /// A strongly typed wrapper that encapsulates a tagged file (.tagged), a file with embedded syntactic annotations.

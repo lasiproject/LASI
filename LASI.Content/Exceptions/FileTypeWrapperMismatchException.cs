@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using LASI.Content.FileTypes;
 
 namespace LASI.Content.Exceptions
 {

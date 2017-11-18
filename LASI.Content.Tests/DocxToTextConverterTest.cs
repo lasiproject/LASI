@@ -5,10 +5,12 @@ using NFluent;
 
 namespace LASI.Content.Tests
 {
+    using LASI.Content.FileConveters;
+    using LASI.Content.FileTypes;
     using Shared.Test.NFluentExtensions;
     using Fact = Xunit.FactAttribute;
 
-    public class DocxToTextConverterTest : FileConverterTestBase<DocXFile>
+    public class DocxToTextConverterTest : FileConverterBaseTest<DocXFile>
     {
         public DocxToTextConverterTest() : base("Draft_Environmental_Assessment.docx") { }
 

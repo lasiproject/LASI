@@ -60,6 +60,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ConfigBuilder.cs" />
     <Compile Include="Configuration\IConfig.cs" />
     <Compile Include="Configuration\IMutableConfig.cs" />
     <Compile Include="Configuration\JsonConfig.cs" />

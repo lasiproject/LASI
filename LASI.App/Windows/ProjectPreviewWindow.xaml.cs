@@ -8,6 +8,8 @@ using LASI.App.Dialogs;
 using LASI.App.Extensions;
 using LASI.App.Helpers;
 using LASI.Content;
+using LASI.Content.Exceptions;
+using LASI.Content.FileTypes;
 using LASI.Interop;
 using LASI.Utilities;
 

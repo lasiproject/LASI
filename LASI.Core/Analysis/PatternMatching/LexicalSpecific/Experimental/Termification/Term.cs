@@ -122,7 +122,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
 
     internal class TextualTerm<TResult> : TermWithResultType<TResult>
     {
-        public TextualTerm(string text) : base() => Text = text;
+        public TextualTerm(string text) => Text = text;
 
         public override bool Test(ILexical lexical) => lexical.Text == Text;
 

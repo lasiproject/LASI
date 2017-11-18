@@ -1,9 +1,10 @@
 ﻿using System.Configuration;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using LASI.Content.FileTypes;
 using LASI.Utilities;
 
-namespace LASI.Content
+namespace LASI.Content.FileConveters
 {
     /// <summary>
     /// Converts Microsoft word .doc binary files to modern Microsoft word .docx open XML files.

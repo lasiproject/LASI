@@ -92,11 +92,11 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Content\Configuration.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="Exceptions\ContentFileException.cs" />
     <Compile Include="Exceptions\FileConversionFailureException.cs" />
     <Compile Include="Exceptions\FileManagerNotInitializedException.cs" />
-    <Compile Include="Exceptions\UnmappedLexicalTypeExceptions.cs" />
+    <Compile Include="Exceptions\UnmappedLexicalTypeException.cs" />
     <Compile Include="Exceptions\UnmappedPhraseTypeException.cs" />
     <Compile Include="Exceptions\UnmappedWordTypeException.cs" />
     <Compile Include="Exceptions\UnsupportedFileTypeException.cs" />
@@ -118,7 +118,7 @@
     <Compile Include="FileTypes\XmlFile.cs" />
     <Compile Include="Serialization\Xml\SimpleXmlSerializer.cs" />
     <Compile Include="FileManager.cs" />
-    <Compile Include="FileTypes\FileConverter.cs" />
+    <Compile Include="FileConveters\FileConverter.cs" />
     <Compile Include="Exceptions\FileManagerExceptions.cs" />
     <Compile Include="Tagging\TagmapBases\ITagsetMap.cs" />
     <Compile Include="Tagging\TagParsers\Basis\Experimental\ExperimentalTagParser.cs" />
@@ -147,11 +147,14 @@
   <ItemGroup>
     <Content Include="ic_launcher-web.ico" />
     <Content Include="LasiLogo.ico" />
+    <Content Include="SharpNLPTagger.exe" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="IllustrationOfDependenciesOnFileManager.dgml" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="PartOfSpeechTagExceptions.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LASI.Core\LASI.Core.csproj">

@@ -1,4 +1,6 @@
-﻿namespace LASI.Content.InteropBindings
+﻿using LASI.Content.FileConveters;
+
+namespace LASI.Content
 {
     public static class Configuration
     {

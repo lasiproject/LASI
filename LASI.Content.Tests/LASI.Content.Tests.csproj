@@ -107,7 +107,7 @@
     <Compile Include="DocXFileTest.cs" />
     <Compile Include="DocxToTextConverterTest.cs" />
     <Compile Include="Extensions\NFluent.cs" />
-    <Compile Include="FileConverterTestsBase.cs" />
+    <Compile Include="FileConverterBaseTest.cs" />
     <Compile Include="FileManagerTest.cs" />
     <Compile Include="InputFileTest.cs" />
     <Compile Include="IRawTextSourceTest.cs" />

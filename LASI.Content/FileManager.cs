@@ -1,18 +1,20 @@
-﻿using LASI.Utilities;
-using LASI.Utilities.Specialized.Enhanced.IList.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using TaggerInterop;
-using System.Collections.Immutable;
+using LASI.Content.Exceptions;
+using LASI.Content.FileConveters;
+using LASI.Content.FileTypes;
+using LASI.Utilities;
+using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 
 namespace LASI.Content
 {
     /// <summary>
     /// A static class which encapsulates the operations necessary to manage the working directory of the current user progress.
-    /// Client code must call the Initialize method prior to using any of the second methods in this class. 
+    /// Client code must call the Initialize method prior to using any of the second methods in this class.
     /// </summary>
     public static class FileManager
     {
@@ -92,7 +94,7 @@ namespace LASI.Content
         /// Adds the document indicated by the specified path string to the project
         /// </summary>
         /// <param name="file">The document file to add to the project</param>
-        /// 
+        ///
         /// <returns>An InputFile object which acts as a wrapper around the project relative path of the newly added file.</returns>
         public static TFile AddFile<TFile>(TFile file) where TFile : InputFile => AddFile(file.FullPath) as TFile;
 
@@ -100,7 +102,7 @@ namespace LASI.Content
         /// Adds the document indicated by the specified path string to the project
         /// </summary>
         /// <param name="path">The path string of the document file to add to the project</param>
-        /// 
+        ///
         /// <returns>An InputFile object which acts as a wrapper around the project relative path of the newly added file.</returns>
         public static InputFile AddFile(string path)
         {
@@ -141,8 +143,8 @@ namespace LASI.Content
         #region Existence Checking and Removal
 
         /// <summary>
-        /// Returns a value indicating whether a document with the same name as 
-        /// the that indicated by the given newPath is already part of the project. 
+        /// Returns a value indicating whether a document with the same name as
+        /// the that indicated by the given newPath is already part of the project.
         /// </summary>
         /// <param name="filePath">A partial or full, extension-less or extension-full, file newPath containing the name of the file to check.</param>
         /// <returns>False if a file with the same name, irrespective of its extension, is part of the project. False otherwise.</returns>
@@ -152,7 +154,7 @@ namespace LASI.Content
             return AllDocumentNames.Contains(fileName);
         }
         /// <summary>
-        /// Returns a value indicating whether a file with the same name as that of the given InputFile, irrespective of its extension, is part of the project. 
+        /// Returns a value indicating whether a file with the same name as that of the given InputFile, irrespective of its extension, is part of the project.
         /// </summary>
         /// <param name="inputFile">An Instance of the InputFile class or one of its descendants.</param>
         /// <returns>False if a file with the same name, irrespective of it's extension, is part of the project. False otherwise.</returns>
@@ -359,13 +361,13 @@ namespace LASI.Content
         /// </summary>
         public static string ProjectName { get; private set; }
         /// <summary>
-        /// Gets the list of TaggedFile instances which represent all *.tagged files which are included in the project. 
+        /// Gets the list of TaggedFile instances which represent all *.tagged files which are included in the project.
         /// TaggedFile instances are wrapper objects which provide discrete accessors to relevant *.tagged file properties.
         /// </summary>
         public static IEnumerable<TaggedFile> TaggedFiles => taggedFiles;
 
         /// <summary>
-        /// Gets the list of TextFile instances which represent all *.txt files which are included in the project. 
+        /// Gets the list of TextFile instances which represent all *.txt files which are included in the project.
         /// TextFile instances are wrapper objects which provide discrete accessors to relevant *.txt file properties.
         /// </summary>
         public static IEnumerable<TxtFile> TxtFiles => txtFiles;
@@ -376,7 +378,7 @@ namespace LASI.Content
         public static string AnalysisDirectory => ProjectDirectory + @"\analysis";
 
         /// <summary>
-        /// Gets the list of DocFile instances which represent all *.doc files which are included in the project. 
+        /// Gets the list of DocFile instances which represent all *.doc files which are included in the project.
         /// DocFile instances are wrapper objects which provide discrete accessors to relevant *.doc file properties.
         /// </summary>
         public static IEnumerable<DocFile> DocFiles => docFiles;
@@ -387,7 +389,7 @@ namespace LASI.Content
         public static string DocFilesDirectory => InputFilesDirectory + @"\doc";
 
         /// <summary>
-        /// Gets the list of DocXFile instances which represent all *.docx files which are included in the project. 
+        /// Gets the list of DocXFile instances which represent all *.docx files which are included in the project.
         /// DocXFile instances are wrapper objects which provide discrete accessors to relevant *.docx file properties.
         /// </summary>
         public static IEnumerable<DocXFile> DocXFiles => docXFiles;
@@ -402,7 +404,7 @@ namespace LASI.Content
         /// </summary>
         public static string InputFilesDirectory => ProjectDirectory + @"\input";
         /// <summary>
-        /// Gets the list of PdfFile instances which represent all *.pdf files which are included in the project. 
+        /// Gets the list of PdfFile instances which represent all *.pdf files which are included in the project.
         /// PdfFile instances are wrapper objects which provide discrete accessors to relevant *.pdf file properties.
         /// </summary>
         public static IEnumerable<PdfFile> PdfFiles => pdfFiles;
@@ -477,7 +479,7 @@ namespace LASI.Content
     /// Defines mappings between file extensions and functions which construct their respective wrappers.
     /// </summary>
     /// <remarks>Wrapper types are format enforcing classes derived from InputFile</remarks>
-    /// <seealso cref="LASI.Content.InputFile"/>
+    /// <seealso cref="InputFile"/>
     public class ExtensionWrapperMap
     {
         /// <summary>
@@ -491,7 +493,7 @@ namespace LASI.Content
         /// <summary>
         /// Initializes a new instance of the ExtensionWrapperMap class that will throw for unknown extensions.
         /// </summary>
-        public ExtensionWrapperMap() : this(extension => { throw new UnsupportedFileTypeException(extension); }) { }
+        public ExtensionWrapperMap() : this(extension => throw new UnsupportedFileTypeException(extension)) { }
 
         /// <summary>
         /// Gets all of the file extensions, which are supported.
@@ -518,11 +520,3 @@ namespace LASI.Content
     }
     #endregion
 }
-
-
-
-
-
-
-
-

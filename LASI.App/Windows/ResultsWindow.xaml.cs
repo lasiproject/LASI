@@ -17,6 +17,8 @@ namespace LASI.App
     using Core.Analysis.Heuristics;
     using Extensions;
     using LASI.App.Helpers;
+    using LASI.Content.Exceptions;
+    using LASI.Content.FileTypes;
     using Utilities;
     using Utilities.Specialized.Enhanced.Universal;
     using Visualization;
@@ -48,7 +50,7 @@ namespace LASI.App
 
         /// <summary>
         /// This function associates The buttons which allow the user to modify various aspects of the chart views with their respective functionality.
-        /// This is done to allow the functionality to be exposed only after the charts have been 
+        /// This is done to allow the functionality to be exposed only after the charts have been
         /// </summary>
         private void SetupChartViewControls()
         {

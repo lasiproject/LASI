@@ -1,12 +1,9 @@
-﻿using LASI.Content.Exceptions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using LASI.Content.Exceptions;
 
-namespace LASI.Content
+namespace LASI.Content.FileTypes
 {
     /// <summary>
     /// A strongly typed wrapper that encapsulates a raw text document (.txt).

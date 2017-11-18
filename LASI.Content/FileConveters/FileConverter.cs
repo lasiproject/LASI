@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using LASI.Content.FileTypes;
 
-namespace LASI.Content
+namespace LASI.Content.FileConveters
 {
     /// <summary>
     /// The base class from which file format conversion objects are derived.

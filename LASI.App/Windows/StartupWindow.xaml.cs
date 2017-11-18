@@ -1,7 +1,4 @@
-﻿using LASI.App.Helpers;
-using LASI.Content;
-using LASI.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,8 +6,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Newtonsoft.Json.Linq;
 using LASI.App.Extensions;
+using LASI.App.Helpers;
+using LASI.Content;
+using LASI.Content.Exceptions;
+using LASI.Utilities;
+using Newtonsoft.Json.Linq;
 
 namespace LASI.App
 {
@@ -164,7 +165,7 @@ namespace LASI.App
 
         private async void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            ExpandCreatePanelButton.Click -= CancelButton_Click;            //remove this event handler and 
+            ExpandCreatePanelButton.Click -= CancelButton_Click;            //remove this event handler and
             Resources["createButtonContent"] = "Create";
             mainGrid.AllowDrop = false;
             if ((int)Height == 550)

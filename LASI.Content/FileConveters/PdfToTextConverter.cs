@@ -1,13 +1,12 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
-using System;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using LASI.Utilities;
+using iTextSharp.text.pdf;
 
-namespace LASI.Content
+namespace LASI.Content.FileConveters
 {
+    using LASI.Content.FileTypes;
     using static System.Linq.Enumerable;
     /// <summary>
     /// An input file converter specialized to extract the non optical textual content from a .pdf (Adobe Acrobat) document

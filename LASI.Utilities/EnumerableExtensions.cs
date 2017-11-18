@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using LASI.Utilities.Validation;
 using static System.Linq.Enumerable;
+using static LASI.Utilities.Validation.Validate;
 
 namespace LASI.Utilities
 {
@@ -308,7 +309,7 @@ namespace LASI.Utilities
         /// <exception cref="InvalidOperationException"><paramref name="source" /> is empty</exception>
         public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) where TKey : IComparable<TKey>
         {
-            Validate.NotNull(source, "source", selector, "selector");
+            NotNull(source, "source", selector, "selector");
             Validate.NotEmpty(source, "source");
             return source.OrderByDescending(selector, comparer).First();
         }
@@ -343,7 +344,7 @@ namespace LASI.Utilities
             return source.OrderBy(selector, comparer).First();
         }
 
-        public static IEnumerable<T> NonNull<T>(this IEnumerable<T> source) => source.Where(element => element != null);
+        public static IEnumerable<T> NonNull<T>(this IEnumerable<T> source) => source.Where(element => !ReferenceEquals(element, null));
 
         /// <summary>A sequence of Tuple&lt;T, T,&gt; containing pairs of adjacent elements.</summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
@@ -383,7 +384,7 @@ namespace LASI.Utilities
         /// compare equal under the given projection; otherwise, false.
         /// </returns>
         public static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
-            first.SequenceEqual(second, Equality.Create<TSource>((x, y) => selector(x).Equals(selector(y)), e => selector(e).GetHashCode()));
+            first.SequenceEqual(second, comparer: Equality.Create<TSource>((x, y) => selector(x).Equals(selector(y)), e => selector(e).GetHashCode()));
 
         #region Statistical
 
@@ -395,9 +396,9 @@ namespace LASI.Utilities
         /// <param name="predicate">The predicate used to delineate elements.</param>
         /// <returns>The percentage of values in the sequence which match the specified predicate.</returns>
         public static double PercentWhere<T>(this IEnumerable<T> source, Func<T, bool> predicate) =>
-            source.Aggregate(new { Length = 0, Matched = 0 },
-                    (s, e) => new { Length = s.Length + 1, Matched = s.Matched + (predicate(e) ? 1 : 0) },
-                    tally => (double)tally.Matched / tally.Length) * 100;
+            source.Aggregate((length: 0, matched: 0),
+                    (s, e) => (s.length + 1, s.matched + (predicate(e) ? 1 : 0)),
+                    tally => (double)tally.matched / tally.length) * 100;
 
         /// <summary>Calculates the percentage of true values in the collection of Boolean values.</summary>
         /// <param name="delineated">
@@ -486,7 +487,7 @@ namespace LASI.Utilities
         /// <returns>The sequence starting with <paramref name="seed"/> and ending with the final accumulation.</returns>
         public static IEnumerable<TAccumulate> Scan<T, TAccumulate>(this IEnumerable<T> source, TAccumulate seed, Func<TAccumulate, T, TAccumulate> func)
         {
-            Validate.NotNull(source, nameof(source), func, nameof(func));
+            NotNull(source, nameof(source), func, nameof(func));
             yield return seed;
             var accumulated = seed;
             foreach (var e in source)
@@ -608,7 +609,7 @@ namespace LASI.Utilities
             IEnumerable<TThird> third,
             Func<TFirst, TSecond, TThird, TResult> selector) =>
             first.Zip(second)
-                .With((a, b) => new { a, b })
+                .With((a, b) => (a, b))
                 .Zip(third)
                 .With((ab, c) => selector(ab.a, ab.b, c));
 
@@ -636,7 +637,7 @@ namespace LASI.Utilities
             IEnumerable<T4> fourth,
             Func<T1, T2, T3, T4, TResult> selector) =>
             first
-                .Zip(second, third, (a, b, c) => new { a, b, c })
+                .Zip(second, third, (a, b, c) => (a, b, c))
                 .Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
 
         /// <summary>
@@ -662,7 +663,8 @@ namespace LASI.Utilities
         /// <returns>
         /// A sequence which pair each element of the source sequence with its index in that sequence.
         /// </returns>
-        public static IEnumerable<(T element, int index)> WithIndices<T>(this IEnumerable<T> source) => source.Select((element, index) => (element, index));
+        public static IEnumerable<(T element, int index)> WithIndices<T>(this IEnumerable<T> source) =>
+            source.Select((element, index) => (element, index));
 
         /// <summary>
         /// Invokes each action in the IEnumerable&lt;<see cref="Action"/>&gt;.

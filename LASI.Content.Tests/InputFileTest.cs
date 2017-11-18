@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using LASI.Content.FileTypes;
 using NFluent;
 using Xunit;
 

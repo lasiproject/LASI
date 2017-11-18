@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.IO;
+using LASI.Content.FileTypes;
 
 namespace LASI.Content.Tests
 {
-    public abstract class FileConverterTestBase<TConvertFrom> : IDisposable where TConvertFrom : InputFile
+    public abstract class FileConverterBaseTest<TConvertFrom> : IDisposable where TConvertFrom : InputFile
     {
 #pragma warning disable RECS0108 // Warns about static fields in generic types
         static int TestsRun;
@@ -12,7 +13,7 @@ namespace LASI.Content.Tests
         private readonly string directoryPath;
         private string FilePath => filePath;
 
-        public FileConverterTestBase(string fileName)
+        public FileConverterBaseTest(string fileName)
         {
             var file = new FileInfo($@"..\..\MockUserFiles\{fileName}");
             directoryPath = Directory.CreateDirectory($@"{Directory.GetCurrentDirectory()}\{this.GetType()}\{TestsRun}").FullName;

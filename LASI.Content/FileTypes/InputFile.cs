@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-namespace LASI.Content
+using LASI.Content.Exceptions;
+
+namespace LASI.Content.FileTypes
 {
     /// <summary>
     /// This class serves as a wrapper around a file path, providing for direct access to the individual components of the file path.
@@ -54,20 +53,20 @@ namespace LASI.Content
         /// <summary>
         /// Determines if the wrapped file exists.
         /// </summary>
-        /// <returns> <c>true</c> if the wrapped file exists; otherwise, <c>false</c>.</returns> 
+        /// <returns> <c>true</c> if the wrapped file exists; otherwise, <c>false</c>.</returns>
         public bool Exists() => fileData.Exists();
 
         /// <summary>
         /// Returns a value that indicates whether the specified InputFile is equal to the current InputFile.
         /// </summary>
-        /// <param name="other">The InputFile to compare with.</param> 
-        /// <returns> <c>true</c> if the specified InputFile is equal to the current InputFile; otherwise, <c>false</c>.</returns> 
+        /// <param name="other">The InputFile to compare with.</param>
+        /// <returns> <c>true</c> if the specified InputFile is equal to the current InputFile; otherwise, <c>false</c>.</returns>
         public bool Equals(InputFile other) => fileData == other.fileData;
         /// <summary>
         /// Returns a value that indicates whether the specified object is equal to the current InputFile.
         /// </summary>
-        /// <param name="obj">The object to compare with.</param> 
-        /// <returns> <c>true</c> if the specified object is equal to the current InputFile; otherwise, <c>false</c>.</returns> 
+        /// <param name="obj">The object to compare with.</param>
+        /// <returns> <c>true</c> if the specified object is equal to the current InputFile; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj) => obj is InputFile && Equals(obj as InputFile);
         /// <summary>
         /// Gets the hash code of the InputFile.

@@ -1,10 +1,10 @@
-﻿using LASI.Content.Exceptions;
-using System;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
-using System.IO;
+using LASI.Content.Exceptions;
 
-namespace LASI.Content
+namespace LASI.Content.FileTypes
 {
     /// <summary>
     /// A strongly typed wrapper that encapsulates an XML document (.xml).

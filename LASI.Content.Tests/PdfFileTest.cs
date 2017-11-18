@@ -1,9 +1,11 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
+using LASI.Content.Exceptions;
+using LASI.Content.FileConveters;
+using LASI.Content.FileTypes;
 using NFluent;
 using Shared.Test.NFluentExtensions;
 using Xunit;
-using LASI.Content.Exceptions;
-using System.Threading.Tasks;
 
 namespace LASI.Content.Tests
 {

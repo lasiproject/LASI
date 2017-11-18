@@ -127,11 +127,11 @@
     <Compile Include="Analysis\Melding\MeldingExtensions.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\Applicator.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\CaseTypePredicate.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\CaseTypeWhenPredicate.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\ExactTextPredicate.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\Predicate.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\PredicateBuilder.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\WhenPredicate.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\WhenPredicateT.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\Termification\Term.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\Termification\Tests.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\TokenBased.cs" />
@@ -161,6 +161,7 @@
     <Compile Include="LexicalStructures\Experimental\AggregatePhrase.cs" />
     <Compile Include="LexicalStructures\Experimental\INestableLexical.cs" />
     <Compile Include="LexicalStructures\Experimental\NestableClause.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\SimpleDeclarativeClauseBeginPhrase.cs" />
     <Compile Include="LexicalStructures\Structural\ICompositeLexical.cs" />
     <Compile Include="LexicalStructures\Structural\ILinkedUnitLexical.cs" />
     <Compile Include="LexicalStructures\Structural\IPrepositionLinkable.cs" />
@@ -292,7 +293,6 @@
     <Compile Include="LexicalStructures\BridgingConstructs\Particle.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ProperPluralNoun.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\Punctuator.cs" />
-    <Compile Include="LexicalStructures\MiscLanguageConstructs\SimpleDeclarativePhrase.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\SentenceEnding.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PersonalPronoun.cs" />
     <Compile Include="LexicalStructures\AdverbRelatedConstructs\SuperlativeAdverb.cs" />
@@ -319,10 +319,18 @@
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\ThirdPersonSingularPresentVerb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\PhraseExtensions.cs" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+    <None Include="ClassDiagram3.cd" />
+    <None Include="ClassDiagram4.cd" />
+    <None Include="ClassDiagram6.cd" />
+    <None Include="ClassDiagram8.cd" />
+    <None Include="ClassDiagram9.cd" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
     <Compile Include="DocumentStructures\TextualEnumerable.cs" />
+    <None Include="PrimarySyntacticRoleInterfaces.cd" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -351,6 +359,9 @@
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
       <Name>LASI.Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Analysis\Heuristics\Support\KnownSubordinators.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

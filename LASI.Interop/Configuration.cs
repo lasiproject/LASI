@@ -114,15 +114,15 @@ namespace LASI.Interop
                 ? XElement.Parse(raw)
                 : XElement.Parse(raw).Element(subkey));
 
-            IConfig loadJsonConfig() => new JsonConfig((JObject) (subkey.IsNullOrWhiteSpace()
+            IConfig loadJsonConfig() => new JsonConfig((JObject)(subkey.IsNullOrWhiteSpace()
                 ? JToken.Parse(raw)
                 : JToken.Parse(raw).SelectToken(subkey)));
         }
 
         private static void InitializeComponents(IConfig settings)
         {
-            Core.Configuration.Configuration.Initialize(settings);
-            Content.InteropBindings.Configuration.Initialize(settings);
+            LASI.Core.Configuration.Configuration.Initialize(settings);
+            LASI.Content.Configuration.Initialize(settings);
         }
 
         private static readonly string configFormatError =

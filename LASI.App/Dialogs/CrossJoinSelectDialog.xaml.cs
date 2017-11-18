@@ -27,7 +27,7 @@ namespace LASI.App.Dialogs
             owner.Documents
                 .Select(CreateCheckBoxForDocument)
                 .ToList()
-                .ForEach(documentsPanel.Children.Add);
+                .ForEach(checkBox => documentsPanel.Children.Add(checkBox));
         }
 
         private CheckBox CreateCheckBoxForDocument(Document document)

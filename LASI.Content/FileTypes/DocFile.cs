@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using LASI.Content.FileConveters;
 using LASI.Utilities;
 
-namespace LASI.Content
+namespace LASI.Content.FileTypes
 {
     /// <summary>
     /// A strongly typed wrapper that encapsulates a legacy Word document (.doc).

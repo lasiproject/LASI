@@ -1,12 +1,9 @@
-﻿using LASI.Content.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
-namespace LASI.Content
+using LASI.Content.Exceptions;
+using LASI.Content.FileConveters;
+
+namespace LASI.Content.FileTypes
 {
     /// <summary>
     /// A strongly typed wrapper that encapsulates an Acrobat document (.pdf).

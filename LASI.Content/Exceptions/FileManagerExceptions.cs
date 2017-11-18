@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using LASI.Content.FileTypes;
 using SerializationInfo = System.Runtime.Serialization.SerializationInfo;
 using StreamingContext = System.Runtime.Serialization.StreamingContext;
 
-namespace LASI.Content
+namespace LASI.Content.Exceptions
 {
-
     /// <summary>
     /// The base class for all Exceptions thrown by the FileManager.
     /// </summary>
@@ -76,8 +76,10 @@ namespace LASI.Content
         protected void CollectDirInfo()
         {
             if (FileManager.Initialized && FileManager.TxtFiles.Any())
+            {
                 filesInProjectDirectories = new DirectoryInfo(FileManager.ProjectDirectory).EnumerateFiles("*", SearchOption.AllDirectories)
                                             .Select(di => FileManager.WrapperMap[di.Extension](di.FullName)).DefaultIfEmpty();
+            }
         }
 
         private IEnumerable<InputFile> filesInProjectDirectories = new List<InputFile>();
