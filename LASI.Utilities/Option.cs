@@ -11,7 +11,7 @@ namespace LASI.Utilities
     public static class Option
     {
         /// <summary>
-        /// Lifts the given <paramref name="value"/> into an Option&lt; <typeparamref name="T"/>&gt;.
+        /// Lifts the given <paramref name="value"/> into an <see cref="Option{T}"/>.
         /// </summary>
         /// <typeparam name="T">The type of the value to lift.</typeparam>
         /// <param name="value">The value to lift into an Enumerable.</param>
@@ -90,21 +90,21 @@ namespace LASI.Utilities
         /// <returns>An option containing the result of applying the given selector function to the value represented by the option.</returns>
         public abstract Option<TResult> SelectMany<TResult, TOption>(Func<T, Option<TOption>> optionSelector, Func<T, TOption, TResult> resultSelector);
         /// <summary>
-        /// Applies a predicate to the current option yielding an Option&lt; <typeparamref name="T"/>&gt; that has a value if and only if
+        /// Applies a predicate to the current option yielding an <see cref="Option{T}"/> that has a value if and only if
         /// the current option has a value and that value satisfies the provided predicate.
         /// </summary>
         /// <param name="predicate">The predicate to test.</param>
         /// <returns>
-        /// <c>true</c> if and only if the Option&lt; <typeparamref name="T"/>&gt;'s value matches the provided predicate; otherwise <c>false</c>.
+        /// <c>true</c> if and only if the <see cref="Option{T}"/>'s value matches the provided predicate; otherwise <c>false</c>.
         /// </returns>
         public abstract Option<T> Where(Func<T, bool> predicate);
 
         /// <summary>
-        /// Determines if the specified Option&lt; <typeparamref name="T"/>&gt; is equal to the current instance.
+        /// Determines if the specified <see cref="Option{T}"/> is equal to the current instance.
         /// </summary>
-        /// <param name="other">The Option&lt; <typeparamref name="T"/>&gt; to compare with the current instance.</param>
+        /// <param name="other">The <see cref="Option{T}"/> to compare with the current instance.</param>
         /// <returns>
-        /// <c>true</c> if the specified Option&lt; <typeparamref name="T"/>&gt; is equal to the current instance; otherwise <c>false</c>.
+        /// <c>true</c> if the specified <see cref="Option{T}"/> is equal to the current instance; otherwise <c>false</c>.
         /// </returns>
         public abstract bool Equals(Option<T> other);
         /// <summary>
@@ -126,9 +126,9 @@ namespace LASI.Utilities
         public abstract bool Equals(T other);
 
         /// <summary>
-        /// The hash code of the Option&lt; <typeparamref name="T"/>&gt;.
+        /// The hash code of the <see cref="Option{T}"/>.
         /// </summary>
-        /// <returns>The hash code of the Option&lt; <typeparamref name="T"/>&gt;.</returns>
+        /// <returns>The hash code of the <see cref="Option{T}"/>.</returns>
         public abstract override int GetHashCode();
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace LASI.Utilities
         /// <param name="left">The option to compare.</param>
         /// <param name="right">The value to compare.</param>
         /// <returns><c>true</c> if the option represents a value equal to <paramref name="right"/>; otherwise <c>false</c>.</returns>
-        public static bool operator ==(Option<T> left, T right) => left is Some && left.Value.Equals(right);
+        public static bool operator ==(Option<T> left, T right) => left is Some some && some.Value.Equals(right);
 
         /// <summary>
         /// Performs an inequality comparison between an <see cref="Option{T}"/> and a value of type <typeparamref name="T"/>.
@@ -292,9 +292,10 @@ namespace LASI.Utilities
             public override bool Equals(T other) => Value.Equals(other);
 
             public override bool Equals(object obj) =>
-                obj is Some ? Equals((Some)obj) : obj is Option<Option<T>>.Some ?
-                Equals(((Option<Option<T>>.Some)obj).Value, obj) : obj is T ?
-                Equals((T)obj) : false;
+                obj is Some some ? Equals(some) : obj is Option<Option<T>>.Some s ?
+                Value?.Equals(s?.Value) == true 
+                : obj is T x ?
+                Equals(x) : false;
 
             public override int GetHashCode() => Value.GetHashCode();
 
