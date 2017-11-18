@@ -63,7 +63,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void ModifyWithTest()
         {
-            var target = new AdjectivePhrase(new Word[] { new Adjective("tall") });
+            var target = new AdjectivePhrase(new Adjective("tall"));
             IAdverbial adv = new Adverb("overly");
             target.ModifyWith(adv);
             Check.That(target.AdverbialModifiers).Contains(adv).Only();

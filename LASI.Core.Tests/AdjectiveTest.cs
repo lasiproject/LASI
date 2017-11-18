@@ -51,7 +51,7 @@ namespace LASI.Core.Tests
             target.Describes = expected;
             actual = target.Describes;
             Check.That(expected).IsEqualTo(actual);
-            expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("woman") });
+            expected = new NounPhrase(new Determiner("the"), new CommonSingularNoun("woman"));
             target.Describes = expected;
             actual = target.Describes;
             Check.That(expected).IsEqualTo(actual);

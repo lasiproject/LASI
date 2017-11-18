@@ -31,7 +31,7 @@ namespace LASI.Core.Tests
         {
             var text = "and";
             var target = new Conjunction(text);
-            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("program") });
+            ILexical expected = new NounPhrase(new Determiner("the"), new CommonSingularNoun("program"));
             ILexical actual;
             target.JoinedLeft = expected;
             actual = target.JoinedLeft;
@@ -46,7 +46,7 @@ namespace LASI.Core.Tests
         {
             var text = "and";
             var target = new Conjunction(text);
-            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("program") });
+            ILexical expected = new NounPhrase(new Determiner("the"), new CommonSingularNoun("program"));
             ILexical actual;
             target.JoinedRight = expected;
             actual = target.JoinedRight;

@@ -58,7 +58,7 @@ namespace LASI.Core.Tests
         {
             var text = "about";
             var target = new Particle(text);
-            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonPluralNoun("grounds") });
+            ILexical expected = new NounPhrase(new Determiner("the"), new CommonPluralNoun("grounds"));
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
@@ -87,7 +87,7 @@ namespace LASI.Core.Tests
         {
             var text = "about";
             var target = new Particle(text);
-            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonPluralNoun("grounds") });
+            ILexical expected = new NounPhrase(new Determiner("the"), new CommonPluralNoun("grounds"));
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
@@ -132,7 +132,7 @@ namespace LASI.Core.Tests
         {
             var text = "about";
             var target = new Particle(text);
-            ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonPluralNoun("grounds") });
+            ILexical prepositionalObject = new NounPhrase(new Determiner("the"), new CommonPluralNoun("grounds"));
             target.BindObject(prepositionalObject);
             Check.That(prepositionalObject).IsEqualTo(target.BoundObject);
             IVerbal verbal = new PastTenseVerb("walked");
