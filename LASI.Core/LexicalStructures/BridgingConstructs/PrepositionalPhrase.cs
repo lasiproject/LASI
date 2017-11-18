@@ -74,12 +74,11 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the ILexical construct on the left-hand-side of the Preposition.
         /// </summary>
-        public virtual ILexical ToTheLeftOf {
-            get;
-            set;
-        }  /// <summary>
-           /// Gets the object of the IPrepositional construct.
-           /// </summary>
+        public virtual ILexical ToTheLeftOf { get;set; }
+
+        /// <summary>
+        /// The object of the IPrepositional construct.
+        /// </summary>
         public ILexical BoundObject { get; private set; }
         /// <summary>
         /// Gets or sets the contextually extrapolated role of the PrepositionalPhrase.

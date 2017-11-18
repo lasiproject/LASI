@@ -84,12 +84,12 @@ namespace LASI.Core.Analysis.Relationships
         public override int GetHashCode() => Action.GetHashCode() ^ Receiver.GetHashCode();
 
         /// <summary>
-        /// Gets the Action.
+        /// The Action.
         /// </summary>
         public TVerbal Action { get; }
 
         /// <summary>
-        /// Gets the Receiver of the Action.
+        /// The Receiver of the Action.
         /// </summary>
         public TEntity Receiver { get; }
     }

@@ -13,7 +13,7 @@ namespace LASI.Core
     public interface IDeterminable : ILexical
     {
         /// <summary>
-        /// Gets the Determiner which is bound to the IDterminable.
+        /// The Determiner which is bound to the IDterminable.
         /// </summary>
         Determiner Determiner {
             get;

@@ -22,11 +22,11 @@ namespace LASI.Core
         void BindAsIndirectObjectOf(IVerbal verbal);
 
         /// <summary>
-        /// Gets the <see cref="IVerbal"/> construct the <see cref="IVerbalObject"/> is the direct object of.
+        /// The <see cref="IVerbal"/> construct the <see cref="IVerbalObject"/> is the direct object of.
         /// </summary>
         IVerbal DirectObjectOf { get; }
         /// <summary>
-        /// Gets the <see cref="IVerbal"/> construct the <see cref="IVerbalObject"/> is the indirect object of.
+        /// The <see cref="IVerbal"/> construct the <see cref="IVerbalObject"/> is the indirect object of.
         /// </summary>
         IVerbal IndirectObjectOf { get; }
     }

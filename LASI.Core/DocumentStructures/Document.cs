@@ -167,38 +167,38 @@ namespace LASI.Core
         #region Properties
 
         /// <summary>
-        /// Gets the Sentences of the Document in linear, left to right order.
+        /// The Sentences of the Document in linear, left to right order.
         /// </summary>
         public IEnumerable<Sentence> Sentences => sentences;
 
         /// <summary>
-        /// Gets the Paragraphs of the Document in linear, left to right order.
+        /// The Paragraphs of the Document in linear, left to right order.
         /// </summary>
         public IEnumerable<Paragraph> Paragraphs => paragraphs;
 
         /// <summary>
-        /// Gets the Clauses of the Document in linear, left to right order.
+        /// The Clauses of the Document in linear, left to right order.
         /// </summary>
         public IEnumerable<Clause> Clauses => sentences.Clauses();
 
         /// <summary>
-        /// Gets the Phrases of the Document in linear, left to right order.
+        /// The Phrases of the Document in linear, left to right order.
         /// </summary>
         public IEnumerable<Phrase> Phrases => phrases;
 
         /// <summary>
-        /// Gets the Words of the Document in linear, left to right order.
+        /// The Words of the Document in linear, left to right order.
         /// </summary>
         public IEnumerable<Word> Words => words;
 
         /// <summary>
-        /// Gets The Name of the Document.
+        /// The Name of the Document.
         /// </summary>
         /// <remarks></remarks>
         public string Name { get; }
 
         /// <summary>
-        /// Gets the text content of the Document.
+        /// The text content of the Document.
         /// </summary>
         public string Text => paragraphs.Format(120, p => p.Text + Environment.NewLine);
 
@@ -244,7 +244,7 @@ namespace LASI.Core
                 PageNumber = pageNumber;
             }
             /// <summary>
-            /// Gets the Paragraphs which comprise the Page.
+            /// The Paragraphs which comprise the Page.
             /// </summary>
             public IEnumerable<Paragraph> Paragraphs => from sentence in Sentences.DistinctBy(s => s.Paragraph)
                                                         let rank = Document.paragraphs.IndexOf(sentence.Paragraph)
@@ -258,15 +258,15 @@ namespace LASI.Core
             public override string ToString() => Paragraphs.Format(120, p => p.Text + Environment.NewLine);
 
             /// <summary>
-            /// Gets the Document to which the Page belongs.
+            /// The Document to which the Page belongs.
             /// </summary>
             public Document Document { get; }
             /// <summary>
-            /// Gets the text content of the Page.
+            /// The text content of the Page.
             /// </summary>
             public string Text => ToString();
             /// <summary>
-            /// Gets the Sentences spanned by the Page.
+            /// The Sentences spanned by the Page.
             /// </summary>
             public IEnumerable<Sentence> Sentences { get; }
             /// <summary>
@@ -294,7 +294,7 @@ namespace LASI.Core
             /// </summary>
             public IEnumerable<IVerbal> Verbals => Sentences.SelectMany(s => s.Verbals);
             /// <summary>
-            /// Gets the page number of the Page, that is its index relative to other pages across the document it belongs to.
+            /// The page number of the Page, that is its index relative to other pages across the document it belongs to.
             /// </summary>
             public int PageNumber { get; }
         }

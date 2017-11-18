@@ -12,11 +12,11 @@ namespace LASI.Utilities
     public struct Weight : IComparable<Weight>, IEquatable<Weight>
     {
         /// <summary> Initializes a new instance of the Weight structure with the given raw weight and multiplier. </summary>
-        /// <param name="rawWeight"> The raw weight. </param>
+        /// <param name="raw"> The raw weight. </param>
         /// <param name="multiplier"> The multiplier. </param>
-        public Weight(double rawWeight, double multiplier) : this()
+        public Weight(double raw, double multiplier) : this()
         {
-            Raw = rawWeight;
+            Raw = raw;
             Multiplier = multiplier;
         }
 

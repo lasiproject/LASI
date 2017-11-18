@@ -27,17 +27,17 @@ namespace LASI.Interop
         }
 
         /// <summary>
-        /// Gets the CPU usage % of the machine hosting the application when the sample was taken.
+        /// The CPU usage % of the machine hosting the application when the sample was taken.
         /// </summary>
         public float CpuUsage { get; }
 
         /// <summary>
-        /// Gets the Memory usage % of the machine hosting the application when the sample was taken.
+        /// The Memory usage % of the machine hosting the application when the sample was taken.
         /// </summary>
         public float MemoryUsage { get; }
 
         /// <summary>
-        /// Gets the local time of the machine hosting the application when the sample was taken.
+        /// The local time of the machine hosting the application when the sample was taken.
         /// </summary>
         public DateTimeOffset TimeSnapshotted { get; }
     }

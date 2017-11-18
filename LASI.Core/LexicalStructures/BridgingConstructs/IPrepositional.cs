@@ -15,11 +15,11 @@
         /// </summary>
         ILexical ToTheLeftOf { get; set; }
         /// <summary>
-        /// Gets the object of the IPrepositional construct.
+        /// The object of the IPrepositional construct.
         /// </summary>
         ILexical BoundObject { get; }
         /// <summary>
-        /// Gets the contextually extrapolated role of the IPrepositional Construct.
+        /// The contextually extrapolated role of the IPrepositional Construct.
         /// </summary>
         /// <seealso cref="PrepositionRole"/>
         PrepositionRole Role { get; }

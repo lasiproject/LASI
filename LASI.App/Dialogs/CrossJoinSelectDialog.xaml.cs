@@ -61,7 +61,7 @@ namespace LASI.App.Dialogs
 
 
         /// <summary>
-        /// Gets the documents selected by the user.
+        /// The documents selected by the user.
         /// </summary>
         public List<Document> SelectedDocuments { get; } = new List<Document>();
 

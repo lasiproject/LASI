@@ -15,7 +15,7 @@ namespace LASI.Core.Analysis.Binding
     public sealed class VerblessPhrasalSequenceException : Exception
     {
         /// <summary>
-        /// Gets the verbless sequence which caused the exception.
+        /// The verbless sequence which caused the exception.
         /// </summary>
         public IEnumerable<ILexical> Sequence { get; }
 

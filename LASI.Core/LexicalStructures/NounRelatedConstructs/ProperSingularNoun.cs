@@ -21,7 +21,7 @@ namespace LASI.Core
         }
         Gender? gender = null;
         /// <summary>
-        /// Gets the Gender value indicating the likely gender of the ProperNoun.
+        /// The Gender value indicating the likely gender of the ProperNoun.
         /// </summary>
         public virtual Gender Gender {
             get {

@@ -68,7 +68,7 @@ namespace LASI.Core.Binding.Experimental
         public IEnumerable<IDescriptor> Descriptors => descriptors;
 
         /// <summary>
-        ///Gets the IVerbal instance the AggregateNounPhrase is the subject of.
+        /// The IVerbal instance the AggregateNounPhrase is the subject of.
         /// </summary>
         public IVerbal SubjectOf { get; private set; }
 

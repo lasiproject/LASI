@@ -58,7 +58,7 @@ namespace LASI.Core
         /// </summary>
         public virtual ILexical ToTheLeftOf { get; set; }
         /// <summary>
-        /// Gets the object of the IPrepositional construct.
+        /// The object of the IPrepositional construct.
         /// </summary>
         public ILexical BoundObject { get; private set; }
         /// <summary>

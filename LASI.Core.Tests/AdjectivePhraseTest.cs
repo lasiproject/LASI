@@ -1,10 +1,11 @@
-﻿using LASI;
-using LASI.Core;
-using System;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
-using Xunit;
+using System.Linq;
+using LASI;
+using LASI.Core;
 using NFluent;
+using Xunit;
+
 
 namespace LASI.Core.Tests
 {

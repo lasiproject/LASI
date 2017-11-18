@@ -41,7 +41,7 @@ namespace LASI.Core
             return result;
         }
         /// <summary>
-        /// Gets the Entity which the IPronoun references.
+        /// The Entity which the IPronoun references.
         /// </summary>
         public IAggregateEntity RefersTo => refersTo ?? (refersTo = new AggregateEntity(
             from p in Words.OfReferencer()

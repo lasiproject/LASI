@@ -431,7 +431,7 @@ namespace TaggerInterop
             set;
         }
         /// <summary>
-        /// Gets the TaggerMode of the SharpNLPTagger. 
+        /// The TaggerMode of the SharpNLPTagger. 
         /// </summary>
         public TaggerMode TaggingMode
         {

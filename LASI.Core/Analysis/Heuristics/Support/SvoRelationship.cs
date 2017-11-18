@@ -124,7 +124,7 @@ namespace LASI.Core.Analysis.Heuristics.Support
         /// </summary>
         public IVerbal Verbal { get; }
         /// <summary>
-        /// Gets the weight of the Relationship.
+        /// The weight of the Relationship.
         /// </summary>
         public double Weight => Elements.Sum(e => e?.Weight) ?? 0;
     }

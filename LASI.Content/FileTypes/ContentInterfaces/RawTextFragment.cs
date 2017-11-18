@@ -43,7 +43,7 @@ namespace LASI.Content
         public Task<string> LoadTextAsync() => Task.FromResult(content);
 
         /// <summary>
-        /// Gets the name associated with the RawTextFragment.
+        /// The name associated with the RawTextFragment.
         /// </summary>
         public string Name { get; }
         /// <summary>

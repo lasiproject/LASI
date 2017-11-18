@@ -99,7 +99,7 @@ namespace LASI.Core.Analysis.Melding
         public EntityKind EntityKind => Avatar.EntityKind;
 
         /// <summary>
-        /// Gets the <see cref="IVerbal"/> of which the entity is the subject of.
+        /// The <see cref="IVerbal"/> of which the entity is the subject of.
         /// </summary>
         public IVerbal SubjectOf
         {
@@ -107,12 +107,12 @@ namespace LASI.Core.Analysis.Melding
             private set => subjectsOfVerbals = new AggregateVerbal(value);
         }
         /// <summary>
-        /// Gets the <see cref="IVerbal"/> of which the entity is the direct object of.
+        /// The <see cref="IVerbal"/> of which the entity is the direct object of.
         /// </summary>
         public IVerbal DirectObjectOf => directObjectsOfVerbals;
 
         /// <summary>
-        /// Gets the <see cref="IVerbal"/> of which the entity is the indirect object of.
+        /// The <see cref="IVerbal"/> of which the entity is the indirect object of.
         /// </summary>
         public IVerbal IndirectObjectOf
         {

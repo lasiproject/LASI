@@ -22,7 +22,7 @@
         void AttachObjectViaPreposition(IPrepositional prepositional);
 
         /// <summary>
-        /// Gets the object of the preposition, if present, which is associated with the statement the Verbal is the basis for.
+        /// The object of the preposition, if present, which is associated with the statement the Verbal is the basis for.
         /// </summary>
         ILexical ObjectOfThePreposition { get; }
 

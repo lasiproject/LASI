@@ -356,18 +356,18 @@ namespace LASI.Content
         /// </summary>
         public static string ProjectDirectory { get; private set; }
         /// <summary>
-        /// Gets the name of the current project.
+        /// The name of the current project.
         /// This will be the project name displayed to the user. It corresponds to the project's top level directory
         /// </summary>
         public static string ProjectName { get; private set; }
         /// <summary>
-        /// Gets the list of TaggedFile instances which represent all *.tagged files which are included in the project.
+        /// The list of TaggedFile instances which represent all *.tagged files which are included in the project.
         /// TaggedFile instances are wrapper objects which provide discrete accessors to relevant *.tagged file properties.
         /// </summary>
         public static IEnumerable<TaggedFile> TaggedFiles => taggedFiles;
 
         /// <summary>
-        /// Gets the list of TextFile instances which represent all *.txt files which are included in the project.
+        /// The list of TextFile instances which represent all *.txt files which are included in the project.
         /// TextFile instances are wrapper objects which provide discrete accessors to relevant *.txt file properties.
         /// </summary>
         public static IEnumerable<TxtFile> TxtFiles => txtFiles;
@@ -378,7 +378,7 @@ namespace LASI.Content
         public static string AnalysisDirectory => ProjectDirectory + @"\analysis";
 
         /// <summary>
-        /// Gets the list of DocFile instances which represent all *.doc files which are included in the project.
+        /// The list of DocFile instances which represent all *.doc files which are included in the project.
         /// DocFile instances are wrapper objects which provide discrete accessors to relevant *.doc file properties.
         /// </summary>
         public static IEnumerable<DocFile> DocFiles => docFiles;
@@ -389,7 +389,7 @@ namespace LASI.Content
         public static string DocFilesDirectory => InputFilesDirectory + @"\doc";
 
         /// <summary>
-        /// Gets the list of DocXFile instances which represent all *.docx files which are included in the project.
+        /// The list of DocXFile instances which represent all *.docx files which are included in the project.
         /// DocXFile instances are wrapper objects which provide discrete accessors to relevant *.docx file properties.
         /// </summary>
         public static IEnumerable<DocXFile> DocXFiles => docXFiles;
@@ -404,7 +404,7 @@ namespace LASI.Content
         /// </summary>
         public static string InputFilesDirectory => ProjectDirectory + @"\input";
         /// <summary>
-        /// Gets the list of PdfFile instances which represent all *.pdf files which are included in the project.
+        /// The list of PdfFile instances which represent all *.pdf files which are included in the project.
         /// PdfFile instances are wrapper objects which provide discrete accessors to relevant *.pdf file properties.
         /// </summary>
         public static IEnumerable<PdfFile> PdfFiles => pdfFiles;
@@ -430,7 +430,7 @@ namespace LASI.Content
         #endregion
 
         /// <summary>
-        /// Gets the names of all documents in the current project. Ignoring file extensions.
+        /// The names of all documents in the current project. Ignoring file extensions.
         /// </summary>
         /// <returns>The names of all documents in the current project. Ignoring file extensions.</returns>
         public static IEnumerable<string> AllDocumentNames => AllFiles.Select(file => file.NameSansExt).Distinct(StringComparer.OrdinalIgnoreCase);

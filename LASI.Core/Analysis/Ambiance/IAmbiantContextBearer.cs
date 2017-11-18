@@ -13,7 +13,7 @@
         void Imbue(IAmbiantContext context);
 
         /// <summary>
-        /// Gets the <see cref="IAmbiantContext"/> born by the bearer. 
+        /// The <see cref="IAmbiantContext"/> born by the bearer. 
         /// </summary>
         IAmbiantContext Context { get; }
     }

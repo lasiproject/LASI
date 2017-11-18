@@ -16,12 +16,12 @@ namespace LASI.Core
         void BindSubject(IEntity subject);
 
         /// <summary>
-        /// Gets the collection of IEntity constructs which are bound as subjects of the ISubjetTaker.
+        /// The collection of IEntity constructs which are bound as subjects of the ISubjetTaker.
         /// </summary>
         IEnumerable<IEntity> Subjects { get; }
 
         /// <summary>
-        /// Gets the Aggregate Entity composed of the ISubjectTaker's subjects.
+        /// The Aggregate Entity composed of the ISubjectTaker's subjects.
         /// </summary>
         IAggregateEntity AggregateSubject { get; }
         /// <summary>

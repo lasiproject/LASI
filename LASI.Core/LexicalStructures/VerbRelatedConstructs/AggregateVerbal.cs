@@ -73,16 +73,16 @@ namespace LASI.Core
         public IEnumerable<IAdverbial> AdverbialModifiers => FlattenAbout(v => v.AdverbialModifiers);
 
         /// <summary>
-        /// Gets the aggregate of all Direct objects of the AggregateVerbal.
+        /// The aggregate of all Direct objects of the AggregateVerbal.
         /// </summary>
         public IAggregateEntity AggregateDirectObject => FlattenAbout(v => v.DirectObjects).ToAggregate();
         /// <summary>
-        /// Gets the aggregate of all Indirect objects of the AggregateVerbal.
+        /// The aggregate of all Indirect objects of the AggregateVerbal.
         /// </summary>
         public IAggregateEntity AggregateIndirectObject => FlattenAbout(v => v.IndirectObjects).ToAggregate();
 
         /// <summary>
-        /// Gets the aggregate of all Subjects of the AggregateVerbal.
+        /// The aggregate of all Subjects of the AggregateVerbal.
         /// </summary>
         public IAggregateEntity AggregateSubject => FlattenAbout(v => v.Subjects).ToAggregate();
 

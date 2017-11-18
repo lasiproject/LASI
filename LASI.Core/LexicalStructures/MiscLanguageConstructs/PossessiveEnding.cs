@@ -62,7 +62,7 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Gets the possessables which the PossessiveEnding indicates are owned.
+        /// The possessables which the PossessiveEnding indicates are owned.
         /// </summary>
         public IEnumerable<IPossessable> Possessions => possessions;
 

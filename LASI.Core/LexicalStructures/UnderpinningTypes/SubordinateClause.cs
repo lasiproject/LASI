@@ -18,7 +18,7 @@ namespace LASI.Core
 
         IDescriptor IAttributive<IDescriptor>.AttributedTo => throw new NotImplementedException();
         /// <summary>
-        /// Gets the entity to which the <see cref="SubordinateClause"/> is attributed and or describes.
+        /// The entity to which the <see cref="SubordinateClause"/> is attributed and or describes.
         /// </summary>
         public IEntity AttributedTo => Describes;
 
@@ -66,7 +66,7 @@ namespace LASI.Core
         public IEntity Describes { get; set; }
 
         /// <summary>
-        /// Gets the sequence of IAdverbial constructs which modify the SubordinateClause.
+        /// The sequence of IAdverbial constructs which modify the SubordinateClause.
         /// </summary>
         public IEnumerable<IAdverbial> AdverbialModifiers => adverbialModifiers;
 

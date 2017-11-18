@@ -24,7 +24,7 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Gets the List of IAdverbial modifiers which modify the Adverb.
+        /// The List of IAdverbial modifiers which modify the Adverb.
         /// </summary>
         public IEnumerable<IAdverbial> AdverbialModifiers => adverbialModifiers;
 
@@ -33,7 +33,7 @@ namespace LASI.Core
         /// </summary>
         public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
         /// <summary>
-        /// Gets the Verbal the Adverb modifies.
+        /// The Verbal the Adverb modifies.
         /// </summary>
         public IVerbal AttributedTo => Modifies as IVerbal;
         /// <summary>

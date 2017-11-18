@@ -73,27 +73,27 @@ namespace LASI.Content
         #region Properties
 
         /// <summary>
-        /// Gets the full path of the directory in which the file resides.
+        /// The full path of the directory in which the file resides.
         /// </summary>
         public string Directory { get; }
         /// <summary>
-        /// Gets the extension of the file.
+        /// The extension of the file.
         /// </summary>
         public string Extension { get; }
         /// <summary>
-        /// Gets the name of the file.
+        /// The name of the file.
         /// </summary>
         public string FileName { get; }
         /// <summary>
-        /// Gets the name of the file, not including its extension.
+        /// The name of the file, not including its extension.
         /// </summary>
         public string FileNameSansExt { get; }
         /// <summary>
-        /// Gets the full path of the file.
+        /// The full path of the file.
         /// </summary>
         public string FullPathAndExt { get; }
         /// <summary>
-        /// Gets the full path of the file, not including its extension..
+        /// The full path of the file, not including its extension..
         /// </summary>
         public string FullPathSansExt { get; }
 

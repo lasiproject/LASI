@@ -26,7 +26,7 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Gets the alias string corresponding to the Punctuator.
+        /// The alias string corresponding to the Punctuator.
         /// </summary>
         public string AliasString { get; }
 

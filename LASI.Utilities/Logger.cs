@@ -159,11 +159,11 @@ namespace LASI.Utilities
         }
 
         /// <summary>
-        /// Gets the System.IO.TextWriter object to which all output is currently written.
+        /// The System.IO.TextWriter object to which all output is currently written.
         /// </summary>
         private static TextWriter writer;
         /// <summary>
-        /// Gets the OutputMode indicating where the output is being directed.
+        /// The OutputMode indicating where the output is being directed.
         /// </summary>
         public static Mode OutputMode { get; private set; }
     }

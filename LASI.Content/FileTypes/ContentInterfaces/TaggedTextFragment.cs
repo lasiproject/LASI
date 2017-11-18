@@ -43,7 +43,7 @@ namespace LASI.Content
         /// <returns>A System.Threading.Task.Task which, when awaited, yields a single string containing all of the Tagged Text in the TaggedTextFragment.</returns>
         public Task<string> LoadTextAsync() => Task.FromResult(taggedText);
         /// <summary>
-        /// Gets the name associated with the TaggedTextFragment.
+        /// The name associated with the TaggedTextFragment.
         /// </summary>
         public string Name { get; }
 

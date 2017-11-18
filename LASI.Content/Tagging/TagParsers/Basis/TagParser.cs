@@ -21,7 +21,7 @@ namespace LASI.Content.Tagging
 
 
         /// <summary>
-        /// Gets the newPath of the tagged file which the TaggedFileParser governs.
+        /// The newPath of the tagged file which the TaggedFileParser governs.
         /// </summary>
         public string FilePath
         {
@@ -31,7 +31,7 @@ namespace LASI.Content.Tagging
 
 
         /// <summary>
-        /// Gets the .tagged file object which encapsulates the input file which the TaggedFileParser governs.
+        /// The .tagged file object which encapsulates the input file which the TaggedFileParser governs.
         /// </summary>
         public string TaggedInputData
         {

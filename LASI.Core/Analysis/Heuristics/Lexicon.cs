@@ -124,7 +124,7 @@ namespace LASI.Core
         public static event EventHandler<ResourceLoadEventArgs> ResourceLoading = delegate { };
 
         /// <summary>
-        /// Gets the sequence of strings corresponding to all nouns in the Scrabble Dictionary data source.
+        /// The sequence of strings corresponding to all nouns in the Scrabble Dictionary data source.
         /// </summary>
         public static IEnumerable<string> ScrabbleDictionary => scrabbleDictionary.Value;
 

@@ -31,7 +31,7 @@ namespace LASI.Core
         public SymbolPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
         /// <summary>
-        /// Gets the last punctuation Word in the SymbolPhrase.
+        /// The last punctuation Word in the SymbolPhrase.
         /// </summary>
         public Punctuator LastPunctutionWord {
             get;

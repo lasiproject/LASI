@@ -33,7 +33,7 @@ namespace LASI.Core
         public override string ToString() => base.ToString() + (VerboseOutput && Modifies != null ? $"\nModifies: {Modifies}" : string.Empty);
 
         /// <summary>
-        /// Gets the IVerbal the AdverbPhrase modifies.
+        /// The IVerbal the AdverbPhrase modifies.
         /// </summary>
         public IVerbal AttributedTo { get; }
 
@@ -48,7 +48,7 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Gets the IDescriptor the AdverbPhrase modifies.
+        /// The IDescriptor the AdverbPhrase modifies.
         /// </summary>
         IDescriptor IAttributive<IDescriptor>.AttributedTo { get; }
     }

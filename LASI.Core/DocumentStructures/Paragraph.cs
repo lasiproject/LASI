@@ -40,7 +40,7 @@ namespace LASI.Core
             }
         }
         /// <summary>
-        /// Gets the sequence of Phrases which come after the given phrase through to the end of the Paragraph.
+        /// Returns the sequence of Phrases which come after the given phrase through to the end of the Paragraph.
         /// </summary>
         /// <param name="startAfter">The Phrase which bounds the sequence.</param>
         /// <returns>The sequence of Phrases which come after the given phrase through to the end of the Paragraph.</returns>
@@ -55,36 +55,36 @@ namespace LASI.Core
 
 
         /// <summary>
-        /// Gets the collection of Sentences which comprise the Paragraph.
+        /// The collection of Sentences which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Sentence> Sentences { get; }
 
         /// <summary>
-        /// Gets the collection of Words which comprise the Paragraph.
+        /// The collection of Words which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Word> Words => Sentences.SelectMany(s => s.Words);
 
         /// <summary>
-        /// Gets the collection of Phrases which comprise the Paragraph.
+        /// The collection of Phrases which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Phrase> Phrases => Sentences.SelectMany(s => s.Phrases);
         
         /// <summary>
-        /// Gets the collection of Clauses which comprise the Paragraph.
+        /// The collection of Clauses which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Clause> Clauses => Sentences.SelectMany(s => s.Clauses);
 
         /// <summary>
-        /// Gets the Document the Paragraph belongs to.
+        /// The Document the Paragraph belongs to.
         /// </summary>
         public Document Document { get; private set; }
         /// <summary>
-        /// Gets the ParagraphKind of the Paragraph.
+        /// The ParagraphKind of the Paragraph.
         /// </summary>
         public ParagraphKind ParagraphKind { get; }
 
         /// <summary>
-        /// Gets the textual content of the Paragraph.
+        /// The textual content of the Paragraph.
         /// </summary>
         public string Text => text ?? (text = string.Join(" ", Sentences.Select(s => s.Text)));
 

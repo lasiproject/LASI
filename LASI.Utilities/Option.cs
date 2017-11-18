@@ -126,7 +126,7 @@ namespace LASI.Utilities
         public abstract bool Equals(T other);
 
         /// <summary>
-        /// Gets the hash code of the Option&lt; <typeparamref name="T"/>&gt;.
+        /// The hash code of the Option&lt; <typeparamref name="T"/>&gt;.
         /// </summary>
         /// <returns>The hash code of the Option&lt; <typeparamref name="T"/>&gt;.</returns>
         public abstract override int GetHashCode();

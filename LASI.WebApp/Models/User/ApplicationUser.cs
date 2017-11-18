@@ -121,15 +121,15 @@ namespace LASI.WebApp.Models
         /// </summary>
         public virtual IEnumerable<WorkItem> ActiveWorkItems { get; set; } = Empty<WorkItem>();
         /// <summary>
-        /// Gets the collection of <see cref="UserRole"/>s to which the user belongs.
+        /// The collection of <see cref="UserRole"/>s to which the user belongs.
         /// </summary>
         public virtual ICollection<UserRole> Roles { get; } = new List<UserRole>();
         /// <summary>
-        /// Gets the collection of <see cref="Claim"/>s belonging to the user.
+        /// The collection of <see cref="Claim"/>s belonging to the user.
         /// </summary>
         public virtual ICollection<Claim> Claims { get; } = new List<Claim>();
         /// <summary>
-        /// Gets the collection of <see cref="UserLoginInfo"/>s belonging to the user.
+        /// The collection of <see cref="UserLoginInfo"/>s belonging to the user.
         /// </summary>
         public virtual ICollection<UserLoginInfo> Logins { get; } = new List<UserLoginInfo>();
     }
