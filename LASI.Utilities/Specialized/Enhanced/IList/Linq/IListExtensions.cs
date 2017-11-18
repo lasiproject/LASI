@@ -209,16 +209,12 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         #region Concat
 
         [DebuggerHidden]
-        public static IEnumerable<T> Concat<T>(this IList<T> first, IList<T> second)
+        public static IList<T> Concat<T>(this IList<T> first, IList<T> second)
         {
-            for (var i = 0; i < first.Count; ++i)
-            {
-                yield return first[i];
-            }
-            foreach (var item in second)
-            {
-                yield return item;
-            }
+            var result = new T[first.Count + second.Count];
+            first.CopyTo(result, 0);
+            second.CopyTo(result, first.Count);
+            return result;
         }
         #endregion
 
