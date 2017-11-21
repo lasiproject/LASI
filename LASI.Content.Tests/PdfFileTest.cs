@@ -55,7 +55,7 @@ namespace LASI.Content.Tests
             var target = new PdfFile(TestPdfFilePath);
             var expected = new PdfToTextConverter(target).ConvertFile().LoadText();
             var actual = target.LoadText();
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace LASI.Content.Tests
             var converted = await new PdfToTextConverter(target).ConvertFileAsync();
             var expected = await converted.LoadTextAsync();
             var actual = await target.LoadTextAsync();
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
     }
 }

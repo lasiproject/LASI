@@ -33,7 +33,7 @@ namespace LASI.Core.Tests
             IQuantifier actual;
             target.QuantifiedBy = expected;
             actual = target.QuantifiedBy;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
 

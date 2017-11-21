@@ -14,7 +14,7 @@ namespace LASI.Core
         /// The SentenceEnding which demarcates the Sentence. If not provided, a period will be
         /// assumed, and an instance of SentenceEnding created to represent it.
         /// </param>
-        public Sentence(IEnumerable<Phrase> phrases, SentenceEnding ending) : this(new[] {new Clause(phrases)}, ending) { }
+        public Sentence(IEnumerable<Phrase> phrases, SentenceEnding ending) : this(new [] { new Clause(phrases) }, ending) {}
 
         /// <summary>Initializes a new instance of the Sentence class.</summary>
         /// <param name="clauses">The sequence of Clause elements which comprise the Sentence.</param>
@@ -124,8 +124,8 @@ namespace LASI.Core
 
         /// <summary>Gets the sequence of Phrases which comprise the sentence.</summary>
         public IEnumerable<Phrase> Phrases => from clause in Clauses
-                                              from phrase in clause.Phrases
-                                              select phrase;
+        from phrase in clause.Phrases
+        select phrase;
 
         /// <summary>
         /// Gets the concatenated text content of all of the Words which compose the Sentence.
@@ -149,5 +149,26 @@ namespace LASI.Core
         public bool EndsParagraph { get; private set; }
 
         #endregion Properties
+
+        #region Types
+        public static class Factory
+        {
+            public interface ISentenceBuilder
+            {
+                Sentence WithEnding(SentenceEnding ending);
+            }
+
+            public static ISentenceBuilder Sentence(params Phrase[] phrases) => new Builder(phrases);
+            public static ISentenceBuilder Sentence(params Clause[] clauses) => new Builder(clauses);
+
+            class Builder : ISentenceBuilder
+            {
+                public Builder(params Phrase[] phrases) : this(new [] { new Clause(phrases) }) {}
+                public Builder(params Clause[] clauses) => this.clauses = clauses;
+                public Sentence WithEnding(SentenceEnding ending) => new Sentence(clauses, ending);
+                readonly Clause[] clauses;
+            }
+        }
+        #endregion Types
     }
 }

@@ -215,7 +215,7 @@ namespace LASI.Core.Tests
             IEnumerable<Phrase> actual;
             actual = target.GetPhrasesAfter(startAfter);
 
-            Check.That(expected).ContainsExactly(actual);
+            Check.That(actual).ContainsExactly(expected);
         }
 
         /// <summary>

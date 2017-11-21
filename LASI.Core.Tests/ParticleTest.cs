@@ -47,7 +47,7 @@ namespace LASI.Core.Tests
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace LASI.Core.Tests
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace LASI.Core.Tests
             var expected = PrepositionRole.Undetermined;
             PrepositionRole actual;
             actual = target.Role;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace LASI.Core.Tests
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace LASI.Core.Tests
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace LASI.Core.Tests
             PrepositionRole actual;
             target.Role = expected;
             actual = target.Role;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LASI.Core.Heuristics;
 
 namespace LASI.Core.Analysis.Heuristics.Support
 {
     /// <summary>
-    /// Sometimes an anonymous type simple will not do. So this little class is defined to 
+    /// Sometimes an anonymous type simple will not do. So this little class is defined to
     /// store temporary query data from transposed tables. god it is late. I can't document properly.
     /// </summary>
     public sealed class SvoRelationship : IEquatable<SvoRelationship>
@@ -58,7 +56,7 @@ namespace LASI.Core.Analysis.Heuristics.Support
                 left.Indirect.IsAliasFor(right.Indirect) || left.Indirect.IsSimilarTo(right.Indirect));
         }
 
-        /// <summary>   
+        /// <summary>
         /// Determines if the current SvoRelationship instance is equal to another SvoRelationship instance.
         /// </summary>
         /// <param name="other">The SvoRelationship to compare to.</param>
@@ -127,5 +125,8 @@ namespace LASI.Core.Analysis.Heuristics.Support
         /// The weight of the Relationship.
         /// </summary>
         public double Weight => Elements.Sum(e => e?.Weight) ?? 0;
+
+        public void Deconstruct(out IEntity subject, out IVerbal verbal, out IEntity direct, out IEntity indirect, out ILexical prepositional) =>
+            (subject, verbal, direct, indirect, prepositional) = (Subject, Verbal, Direct, Indirect, Prepositional);
     }
 }

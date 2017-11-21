@@ -268,7 +268,7 @@ namespace LASI.App
             DocumentManager.RemoveAll();
             var LocationSelectDialog = new System.Windows.Forms.OpenFileDialog
             {
-                Filter = $"LASI Project Files|*.lasi",
+                Filter = "LASI Project Files|*.lasi",
                 Multiselect = false
             };
 

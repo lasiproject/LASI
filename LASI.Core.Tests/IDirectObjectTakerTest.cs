@@ -41,7 +41,7 @@ namespace LASI.Core.Tests
 
             var actual = target.AggregateDirectObject;
 
-            Check.That(actual.Except(aggregateObject)).IsEmpty();
+            Check.That(actual).ContainsExactly(aggregateObject).And.Not.IsNull().And.Not.IsEmpty();
         }
 
         /// <summary>

@@ -50,11 +50,11 @@ namespace LASI.Core.Tests
             IEntity actual;
             target.Describes = expected;
             actual = target.Describes;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
             expected = new NounPhrase(new Determiner("the"), new CommonSingularNoun("woman"));
             target.Describes = expected;
             actual = target.Describes;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>

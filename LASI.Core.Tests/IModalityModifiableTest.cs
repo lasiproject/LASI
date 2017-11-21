@@ -27,7 +27,7 @@ namespace LASI.Core.Tests
             ModalAuxilary actual;
             target.Modality = expected;
             actual = target.Modality;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
     }

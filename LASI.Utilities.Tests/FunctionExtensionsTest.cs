@@ -390,7 +390,7 @@ namespace LASI.Utilities.Tests
             var target = new T();
             var expected = target;
             var actual = Identity(target);
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         [Fact]

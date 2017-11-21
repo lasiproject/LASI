@@ -116,7 +116,7 @@ namespace LASI.Core.Tests
             ModalAuxilary actual;
             target.Modality = expected;
             actual = target.Modality;
-            Check.That(expected).Equals(actual);
+            Check.That(actual).Equals(expected);
         }
 
 
@@ -304,7 +304,7 @@ namespace LASI.Core.Tests
             var expected = true;
             bool actual;
             actual = target.HasSubjectOrObject(predicate);
-            Check.That(expected).Equals(actual);
+            Check.That(actual).Equals(expected);
         }
 
 
@@ -323,11 +323,11 @@ namespace LASI.Core.Tests
             var expected = false;
             bool actual;
             actual = target.HasSubject(predicate);
-            Check.That(expected).Equals(actual);
+            Check.That(actual).Equals(expected);
             target.BindSubject(new PersonalPronoun("her"));
             expected = true;
             actual = target.HasSubject(predicate);
-            Check.That(expected).Equals(actual);
+            Check.That(actual).Equals(expected);
         }
 
     }

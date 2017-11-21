@@ -1,10 +1,10 @@
-﻿using LASI.Content;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-using Xunit;
+using LASI.Content;
 using NFluent;
+using Xunit;
+
 
 namespace LASI.Content.Tests
 {
@@ -20,10 +20,12 @@ namespace LASI.Content.Tests
         [Fact]
         public void RawTextFragmentConstructorTest()
         {
-            IEnumerable<string> text = new[] {
+            IEnumerable<string> text = new []
+            {
                 "John enjoyed, with his usual lack of humility, consuming the object in question.",
                 "Some may call him a heathen, but they are mistaken.",
-                "Heathens are far less dangerous than he." };
+                "Heathens are far less dangerous than he."
+            };
             var name = "test fragment";
             var target = new RawTextFragment(text, name);
             Check.That(target.Name).IsEqualTo(name);
@@ -36,14 +38,17 @@ namespace LASI.Content.Tests
         [Fact]
         public void LoadTextTest()
         {
-            IEnumerable<string> text = new[] { "John enjoyed, with his usual lack of humility, consuming the object in question.",
+            IEnumerable<string> text = new []
+            {
+                "John enjoyed, with his usual lack of humility, consuming the object in question.",
                 "Some may call him a heathen, but they are mistaken.",
-                "Heathens are far less dangerous than he." };
+                "Heathens are far less dangerous than he."
+            };
             var name = "test fragment";
             var target = new RawTextFragment(text, name);
             var expected = string.Join("\n", text);
             var actual = target.LoadText();
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -52,15 +57,17 @@ namespace LASI.Content.Tests
         [Fact]
         public void LoadTextAsyncTest()
         {
-            IEnumerable<string> text = new[] {
+            IEnumerable<string> text = new []
+            {
                 "John enjoyed, with his usual lack of humility, consuming the object in question.",
                 "Some may call him a heathen, but they are mistaken.",
-                "Heathens are far less dangerous than he." };
+                "Heathens are far less dangerous than he."
+            };
             var name = "test fragment";
             var target = new RawTextFragment(text, name);
             var expected = string.Join("\n", text);
             var actual = target.LoadTextAsync().Result;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -69,10 +76,12 @@ namespace LASI.Content.Tests
         [Fact]
         public void op_ImplicitTest()
         {
-            IEnumerable<string> text = new[] {
+            IEnumerable<string> text = new []
+            {
                 "John enjoyed, with his usual lack of humility, consuming the object in question.",
                 "Some may call him a heathen, but they are mistaken.",
-                "Heathens are far less dangerous than he." };
+                "Heathens are far less dangerous than he."
+            };
             var name = "test fragment";
             var fragment = new RawTextFragment(text, name);
             var expected = string.Join("\n", text);

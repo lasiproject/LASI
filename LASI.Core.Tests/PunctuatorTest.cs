@@ -33,7 +33,7 @@ namespace LASI.Core.Tests
             var expected = "!";
             string actual;
             actual = target.Text;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace LASI.Core.Tests
             var expected = "!";
             string actual;
             actual = target.Text;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace LASI.Core.Tests
             var target = new Punctuator(punctuation);
             var expected = '.';
             var actual = target.LiteralCharacter;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
     }
 }

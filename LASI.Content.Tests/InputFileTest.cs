@@ -215,7 +215,7 @@ namespace LASI.Content.Tests
             InputFile target = new DocXFile(relativePath);
             var expected = System.IO.Path.GetFullPath(relativePath);
             var actual = target.FullPath;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>

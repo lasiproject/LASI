@@ -20,7 +20,7 @@ namespace LASI.Core.Tests
             double actual;
             target.MetaWeight = expected;
             actual = target.MetaWeight;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         ///// <summary>
@@ -46,7 +46,7 @@ namespace LASI.Core.Tests
             double actual;
             target.Weight = expected;
             actual = target.Weight;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         internal virtual ILexical CreateILexical()

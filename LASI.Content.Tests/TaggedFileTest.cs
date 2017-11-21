@@ -48,7 +48,7 @@ namespace LASI.Content.Tests
             var target = new TaggedFile(VALID_TAGGED_FILE_PATH);
             var expected = File.ReadAllText(VALID_TAGGED_FILE_PATH);
             var actual = target.LoadText();
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>

@@ -8,10 +8,11 @@ using LASI.Core;
 using LASI.Core.Analysis.Heuristics.Support;
 using LASI.Interop;
 using LASI.Utilities;
+using static System.Math;
+using ChartItem = System.Collections.Generic.KeyValuePair<string, float>;
 
 namespace LASI.App
 {
-    using ChartItem = KeyValuePair<string, float>;
     /// <summary>
     /// Provides static methods for formatting and displaying results to the user.
     /// </summary>
@@ -104,7 +105,6 @@ namespace LASI.App
             series.IsSelectionEnabled = true;
         }
 
-
         /// <summary>
         /// Reconfigures all charts to Subjects Pie perspective
         /// </summary>
@@ -192,7 +192,7 @@ namespace LASI.App
             chart.Series.Add(series);
         }
 
-        private static IEnumerable<ChartItem> GetItemSource(this Chart chart) => (chart.Tag as IEnumerable<ChartItem>).Reverse();
+        private static IEnumerable<ChartItem> GetItemSource(this Chart chart) =>(chart.Tag as IEnumerable<ChartItem>).Reverse();
 
         #endregion General Chart Building Methods
 
@@ -203,12 +203,13 @@ namespace LASI.App
         /// <returns>A Task representing the ongoing asynchronous operation.</returns>
         public static async Task DisplayKeyRelationshipsAsync(Document document)
         {
+            var relationships = await GetVerbWiseRelationshipsAsync(document);
             var tab = new TabItem
             {
                 Header = document.Name,
-                Content = new Microsoft.Windows.Controls.DataGrid
+                Content = new DataGrid
                 {
-                    ItemsSource = (await GetVerbWiseRelationshipsAsync(document)).ToGridRowData(),
+                ItemsSource = relationships.ToGridRowData(),
                 }
             };
             WindowManager.ResultsScreen.KeyRelationshipsResultsControl.Items.Add(tab);
@@ -225,17 +226,19 @@ namespace LASI.App
         /// <returns>A sequence of textual Display suitable for direct insertion into a DataGrid.</returns>
         internal static IEnumerable<object> ToGridRowData(this IEnumerable<SvoRelationship> relationships) =>
             from relationship in relationships
-            orderby relationship.Weight descending
-            select new
-            {
-                Subject = relationship.Subject?.Text,
-                Verbal = FormatVerbalText(relationship.Verbal),
-                Direct = FormatObjectText(relationship.Direct),
-                Indirect = FormatObjectText(relationship.Indirect),
-                Weight = Math.Round(relationship.Weight, 2)
-            };
+        orderby relationship.Weight descending
+        select new
+        {
+            Subject = relationship.Subject?.Text,
+            Verbal = FormatVerbalText(relationship.Verbal),
+            Direct = FormatObjectText(relationship.Direct),
+            Indirect = FormatObjectText(relationship.Indirect),
+            Weight = Round(relationship.Weight, 2)
+        };
 
-        private static string FormatObjectText(IEntity o) => (o as IPrepositionLinkable)?.LeftPrepositional?.Text + " " + o?.Text;
+        private static string FormatObjectText(IEntity e) => e is IPrepositionLinkable pl ?
+            pl.LeftPrepositional?.Text + " " + e?.Text :
+            string.Empty;
 
         private static string FormatVerbalText(IVerbal verbal)
         {
@@ -244,33 +247,33 @@ namespace LASI.App
             return $"{prepositionalText} {verbal.Modality?.Text} {verbal.Text} {adverbialText}";
         }
 
-        private static IEnumerable<ChartItem> GetNounWiseRelationshipChartItems(Document document) =>
+        static IEnumerable<ChartItem> GetNounWiseRelationshipChartItems(Document document) =>
             document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .OfNounPhrase()
-                .Meld()
-                .Select(entity => new ChartItem(entity.Text, (float)Math.Round(entity.Weight, 2)))
-                .Distinct();
+            .OfNounPhrase()
+            .Meld()
+            .Select(entity => new ChartItem(entity.Text, (float) Math.Round(entity.Weight, 2)))
+            .Distinct();
 
-        private static Task<IEnumerable<ChartItem>> GetNounWiseDataAsync(Document document) =>
-              Task.Run(() => GetNounWiseRelationshipChartItems(document));
+        static Task<IEnumerable<ChartItem>> GetNounWiseDataAsync(Document document) =>
+            Task.Run(() => GetNounWiseRelationshipChartItems(document));
 
         private static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItems(Document document)
         {
             var verbWiseRelationships = await GetVerbWiseRelationshipsAsync(document);
             var chartItems =
                 from relationship in verbWiseRelationships
-                let key = $@"{relationship.Subject.Text} -> {relationship.Verbal.Text}
+            let key = $@"{relationship.Subject.Text} -> {relationship.Verbal.Text}
                              {(relationship.Direct != null ? " -> " + relationship.Direct.Text : string.Empty)}
                              {(relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty)}"
-                let value = (float)Math.Round(relationship.Weight, 2)
-                select new ChartItem(key, value);
+            let value = (float) Math.Round(relationship.Weight, 2)
+            select new ChartItem(key, value);
             return chartItems.Distinct();
         }
 
-        private static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItemsAsync(Document document) =>
+        static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItemsAsync(Document document) =>
             await Task.Run(() => GetVerbWiseRelationshipChartItems(document));
 
-        private static async Task<IEnumerable<SvoRelationship>> GetVerbWiseRelationshipsAsync(Document document) => await Task.Run(() =>
+        static async Task<IEnumerable<SvoRelationship>> GetVerbWiseRelationshipsAsync(Document document) => await Task.Run(() =>
         {
             var consideredVerbals = document.Phrases.OfVerbal()
                 .WithSubject(subject => subject.Match(
@@ -281,30 +284,30 @@ namespace LASI.App
                 .WithDegreeOfParallelism(Concurrency.Max);
 
             return from verbal in consideredVerbals
-                   select verbal into verbal
-                   from entity in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                   let subject = entity.Match()
-                       .When((IReferencer r) => r.RefersTo.EmptyIfNull().Any())
-                       .Then((IReferencer r) => r.RefersTo)
-                       .Result(entity)
-                   from direct in verbal.DirectObjects.DefaultIfEmpty()
-                   from indirect in verbal.IndirectObjects.DefaultIfEmpty()
-                   where direct != null || indirect != null
-                   where subject.Text != (direct ?? indirect).Text
-                   let relationship = new SvoRelationship(
-                       verbal: verbal,
-                       subject: verbal.AggregateSubject,
-                       direct: verbal.AggregateDirectObject,
-                       indirect: verbal.AggregateIndirectObject
-                   )
-                   group relationship by relationship into g
-                   let relationship = g.Key
-                   orderby relationship.Weight descending
-                   select relationship;
-        });
+            select verbal into verbal
+            from entity in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+            let subject = entity.Match()
+                .When((IReferencer r) => r.RefersTo.EmptyIfNull().Any())
+                .Then((IReferencer r) => r.RefersTo)
+                .Result(entity)
+            from direct in verbal.DirectObjects.DefaultIfEmpty()
+            from indirect in verbal.IndirectObjects.DefaultIfEmpty()
+            where direct != null || indirect != null
+            where subject.Text != (direct ?? indirect).Text
+            let relationship = new SvoRelationship(
+                verbal: verbal,
+                subject: verbal.AggregateSubject,
+                direct: verbal.AggregateDirectObject,
+                indirect: verbal.AggregateIndirectObject
+            )
+            group relationship by relationship into related
+            let relationship = related.Key
+            orderby relationship.Weight descending
+            select relationship;
+        }).ConfigureAwait(false);
 
-        private static ChartKind chartKind;
-        private const int ChartItemLimit = 14;
-        private static readonly IDictionary<Chart, Document> DocumentsByChart = new Dictionary<Chart, Document>();
+        static ChartKind chartKind;
+        const int ChartItemLimit = 14;
+        static readonly IDictionary<Chart, Document> DocumentsByChart = new Dictionary<Chart, Document>();
     }
 }

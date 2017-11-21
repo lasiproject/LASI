@@ -34,7 +34,7 @@ namespace LASI.Core.Tests
             IModalityModifiable actual;
             target.Modifies = expected;
             actual = target.Modifies;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
     }
 }

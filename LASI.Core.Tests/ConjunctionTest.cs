@@ -35,7 +35,7 @@ namespace LASI.Core.Tests
             ILexical actual;
             target.JoinedLeft = expected;
             actual = target.JoinedLeft;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace LASI.Core.Tests
             ILexical actual;
             target.JoinedRight = expected;
             actual = target.JoinedRight;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace LASI.Core.Tests
             ILexical actual;
             target.JoinedLeft = expected;
             actual = target.JoinedLeft;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace LASI.Core.Tests
             ILexical actual;
             target.JoinedRight = expected;
             actual = target.JoinedRight;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
 
