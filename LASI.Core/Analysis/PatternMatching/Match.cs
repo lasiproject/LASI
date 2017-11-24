@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using LASI.Utilities;
 
-namespace LASI.Core.Analysis.PatternMatching
-{
+namespace LASI.Core.Analysis.PatternMatching {
     /// <summary>
     /// Provides for the representation and free form structuring of Type based Pattern Matching expressions which match with a value of
     /// Type T and does not yield a result.
@@ -94,8 +92,7 @@ namespace LASI.Core.Analysis.PatternMatching
     /// </remarks>
     /// <seealso cref="LASI.Core.MatchExtensions">Provides extension methods which allow for the creation of Match expressions.</seealso>
     [DebuggerStepThrough]
-    public sealed class Match<T> : MatchBase<T> where T : ILexical
-    {
+    public sealed class Match<T> : MatchBase<T> where T : ILexical {
         #region Constructors
 
         /// <summary>
@@ -173,10 +170,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </typeparam>
         /// <param name="action">The Action which, if this Case expression is Matched, will be invoked.</param>
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
-        public Match<T> Case<TCase>(Action action) where TCase : ILexical
-        {
-            if (!UnMatchable && Value is TCase && !Matched)
-            {
+        public Match<T> Case<TCase>(Action action) where TCase : ILexical {
+            if (!UnMatchable && Value is TCase && !Matched) {
                 action();
                 Matched = true;
             }
@@ -195,20 +190,16 @@ namespace LASI.Core.Analysis.PatternMatching
         /// PatternMatching expression.
         /// </param>
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
-        public Match<T> Case<TCase>(Action<TCase> action) where TCase : ILexical
-        {
-            if (!UnMatchable && !Matched && Value is TCase c)
-            {
+        public Match<T> Case<TCase>(Action<TCase> action) where TCase : ILexical {
+            if (!UnMatchable && !Matched && Value is TCase c) {
                 action(c);
                 Matched = true;
             }
             return this;
         }
 
-        public Match<T> Case(Action<T> action)
-        {
-            if (!UnMatchable && Value != null && !Matched)
-            {
+        public Match<T> Case(Action<T> action) {
+            if (UnMatchable is false && Matched is false && Value is T) {
                 action(Value);
                 Matched = true;
             }
@@ -223,10 +214,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// Appends the Default expression to the current Pattern Matching expression.
         /// </summary>
         /// <param name="action">The function to invoke if no matches in the expression succeeded.</param>
-        public void Default(Action action)
-        {
-            if (!UnMatchable && !Matched)
-            {
+        public void Default(Action action) {
+            if (!UnMatchable && !Matched) {
                 action();
                 Matched = true;
             }
@@ -236,10 +225,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// Appends the Default expression to the current Pattern Matching expression.
         /// </summary>
         /// <param name="action">The function to invoke on the match Case value if no matches in the expression succeeded.</param>
-        public void Default(Action<T> action)
-        {
-            if (!UnMatchable && !Matched && Value != null)
-            {
+        public void Default(Action<T> action) {
+            if (!UnMatchable && !Matched && Value is object) {
                 action(Value);
                 Matched = true;
             }

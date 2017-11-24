@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using LASI.Utilities.Validation;
 
-namespace LASI.Utilities
-{
+namespace LASI.Utilities {
     /// <summary>
     /// Provides extension methods which assist in formatting <see cref="IEnumerable{T}"/>s for textual display.
     /// </summary>
-    public static class EnumerableFormattingExtensions
-    {
+    public static class EnumerableFormattingExtensions {
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [
         /// element0, element1, ..., elementN ] such that the string representation of each element
@@ -61,8 +59,7 @@ namespace LASI.Utilities
         /// A formated string representation of the IEnumerable sequence with the pattern: [
         /// element0, element1, ..., elementN ].
         /// </returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters)
-        {
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters) {
             Validate.NotNull(source, "source", delimiters, "delimiters");
             return source.Aggregate(new StringBuilder().Append(delimiters.Item1).Append(' '),
                     (builder, e) => builder.Append(e.ToString() + delimiters.Item2 + ' '),
@@ -106,8 +103,7 @@ namespace LASI.Utilities
         /// formated string representation of the IEnumerable sequence with the pattern: [
         /// selector(element0), selector(element1), ..., selector(elementN) ].
         /// </returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, Func<T, string> selector)
-        {
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, Func<T, string> selector) {
             Validate.NotNull(source, "source", selector, "selector", delimiters, "delimiters");
             return source.Select(selector).Format(delimiters);
         }
@@ -182,22 +178,18 @@ namespace LASI.Utilities
         /// delimiters.Item1 selector(element0)delimiters.Item2 selector(element1)delimiter
         /// ...delimiters.Item2 selector(elementN) delimiters.Item3.
         /// </returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength, Func<T, string> selector)
-        {
+        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength, Func<T, string> selector) {
             Validate.NotNull(source, "source", delimiters, "delimiters", selector, "selector");
-            Validate.NotLessThan(lineLength, 1, "lineLength", "Line length must be greater than 0.");
+            lineLength.NotLessThan(1, "lineLength", "Line length must be greater than 0.");
             return source.Aggregate(
-                    new
-                    {
+                    new {
                         AccumulatedLineLength = 0L,
                         Builder = new StringBuilder(delimiters.Item1.ToString())
                     },
-                    (z, element) =>
-                    {
+                    (z, element) => {
                         var text = selector(element) + delimiters.Item2;
                         var appendNewLine = z.AccumulatedLineLength + text.Length + 1 > lineLength;
-                        return new
-                        {
+                        return new {
                             AccumulatedLineLength = appendNewLine ? text.Length : z.AccumulatedLineLength + text.Length + 1,
                             Builder = z.Builder.Append((appendNewLine ? '\n' : ' ') + text)
                         };

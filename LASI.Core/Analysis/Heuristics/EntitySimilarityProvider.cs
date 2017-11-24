@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using LASI.Utilities;
 
-namespace LASI.Core
-{
-    public static partial class Lexicon
-    {
+namespace LASI.Core {
+    public static partial class Lexicon {
         /// <summary>Determines if two IEntity instances are similar.</summary>
         /// <param name="first">The first IEntity</param>
         /// <param name="second">The second IEntity</param>
@@ -34,8 +31,7 @@ namespace LASI.Core
         /// <returns>
         /// <c>true</c> if the given IAggregateEntity instances are similar; otherwise, <c>false</c>.
         /// </returns>
-        private static Similarity IsSimilarTo(this IAggregateEntity first, IAggregateEntity second)
-        {
+        private static Similarity IsSimilarTo(this IAggregateEntity first, IAggregateEntity second) {
             var simResults = from e1 in first
                              from e2 in second
                              select e1.IsSimilarTo(e2);
@@ -48,8 +44,7 @@ namespace LASI.Core
         /// <returns>
         /// <c>true</c> if the provided Noun is similar to the provided NounPhrase; otherwise, <c>false</c>.
         /// </returns>
-        private static Similarity IsSimilarTo(this Noun first, NounPhrase second)
-        {
+        private static Similarity IsSimilarTo(this Noun first, NounPhrase second) {
             var phraseNouns = second.Words.OfNoun().ToList();
             return Similarity.FromBoolean(phraseNouns.Count == 1 && phraseNouns.First().IsSimilarTo(first));
         }
@@ -188,8 +183,7 @@ namespace LASI.Core
         /// <param name="first">The first NounPhrase</param>
         /// <param name="second">The second NounPhrase</param>
         /// <returns>A double value indicating the degree of similarity between two NounPhrases.</returns>
-        private static double GetSimilarityRatio(NounPhrase first, NounPhrase second)
-        {
+        private static double GetSimilarityRatio(NounPhrase first, NounPhrase second) {
             var left = first.Words.OfNoun().ToList();
             if (left.Count == 0) { return 0; }
             var right = second.Words.OfNoun().ToList();
@@ -202,8 +196,7 @@ namespace LASI.Core
 
         // TODO: refactor these two methods. their interaction is very opaque and error prone.
         //       Although they are private, they make maintaining related algorithms difficult.
-        private static Gender DetermineNounPhraseGender(NounPhrase name)
-        {
+        private static Gender DetermineNounPhraseGender(NounPhrase name) {
             var properNouns = name.Words.OfProperNoun();
             var first = properNouns.OfSingular()
                 .FirstOrDefault(n => n.Gender.IsMaleOrFemale());
@@ -215,8 +208,7 @@ namespace LASI.Core
                     : Gender.Undetermined;
         }
 
-        private static Gender DeterminePronounPhraseGender(PronounPhrase pronounPhrase)
-        {
+        private static Gender DeterminePronounPhraseGender(PronounPhrase pronounPhrase) {
             if (pronounPhrase.Words.All(w => w is Determiner)) { return Gender.Undetermined; }
             var genders = pronounPhrase.Words.OfType<ISimpleGendered>().Select(w => w.Gender);
             return pronounPhrase.Words.OfProperNoun().Any(n => !(n is ISimpleGendered))

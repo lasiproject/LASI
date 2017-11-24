@@ -111,6 +111,12 @@
     <Compile Include="Analysis\Binding\Experimental\SequentialPatterns\SequenceMatchCaseClauses.cs" />
     <Compile Include="Analysis\Binding\IIntraSentenceBinder.cs" />
     <Compile Include="Analysis\Binding\IntraSentenceIDescriptorToVerbalSubjectBinder.cs" />
+    <Compile Include="Analysis\Binding\ObjectBinder.cs">
+      <DependentUpon>ObjectBinderV2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Analysis\Binding\ObjectBinder.PhraseStackWrapper.cs">
+      <DependentUpon>ObjectBinderV2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Analysis\Binding\VerblessPhrasalSequenceException.cs" />
     <Compile Include="Analysis\Heuristics\Paths.cs" />
     <Compile Include="Analysis\Heuristics\LookupNameProvider.cs" />
@@ -211,7 +217,6 @@
     <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
     <Compile Include="Analysis\Binding\IntraPhraseWordBinder.cs" />
     <Compile Include="Analysis\Binding\InvalidStateTransitionException.cs" />
-    <Compile Include="Analysis\Binding\ObjectBinder.cs" />
     <Compile Include="Analysis\Binding\PhraseWiseEntityGroupBinder.cs" />
     <Compile Include="Analysis\Binding\PronounBinder.cs" />
     <Compile Include="Analysis\Binding\SubjectBinder.cs" />

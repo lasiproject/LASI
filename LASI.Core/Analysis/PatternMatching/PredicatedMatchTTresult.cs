@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LASI.Core.Analysis.PatternMatching
-{  /// <summary>
-   /// Provides for the representation and free-form structuring of a result yielding Match expression which is predicated by an arbitrary condition.
-   /// </summary>
-   /// <typeparam name="T">The Type of the value which the Pattern Matching expression will match with.</typeparam>
-   /// <typeparam name="TResult">The Type of the result to be yielded by the Pattern Matching expression.</typeparam>
+namespace LASI.Core.Analysis.PatternMatching {  /// <summary>
+                                                /// Provides for the representation and free-form structuring of a result yielding Match expression which is predicated by an arbitrary condition.
+                                                /// </summary>
+                                                /// <typeparam name="T">The Type of the value which the Pattern Matching expression will match with.</typeparam>
+                                                /// <typeparam name="TResult">The Type of the result to be yielded by the Pattern Matching expression.</typeparam>
     [DebuggerStepThrough]
-    public class PredicatedMatch<T, TResult> : PredicatedMatchBase<T> where T : ILexical
-    {
+    public class PredicatedMatch<T, TResult> : PredicatedMatchBase<T> where T : ILexical {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the PredicatedMatchBase&lt;T, TResult&gt; class.
@@ -22,8 +16,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="inner">The Match&lt;T, TResult&gt; which created the current instance.</param>
         [DebuggerStepThrough]
         internal PredicatedMatch(bool predicateSucceeded, Match<T, TResult> inner)
-           : base(predicateSucceeded)
-        {
+           : base(predicateSucceeded) {
             this.expression = inner;
         }
         #endregion
@@ -75,7 +68,7 @@ namespace LASI.Core.Analysis.PatternMatching
         #endregion
 
         #region Fields
-        private Match<T, TResult> expression;
+        readonly Match<T, TResult> expression;
         #endregion
     }
 }

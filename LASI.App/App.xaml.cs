@@ -28,7 +28,7 @@ namespace LASI.App
             LoadPerformancePreference();
             Interop.Configuration.Initialize(new XmlConfig(new XElement(
                     name: "configuration",
-                    content: from element in XElement.Load(@"..\..\App.config").Element("appSettings").Elements()
+                    content: from element in XElement.Load(@"..\..\App.config",LoadOptions.SetBaseUri).Element("appSettings").Elements()
                              let name = element.Attribute("key")
                              let content = element.Attribute("value")
                              where name != null && content != null

@@ -11,7 +11,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
 
         private Pattern<TResult> Invoke<TResult>(Pattern<TResult> pattern, Func<T, TResult> f) => pattern.ApplyWhen(applied, f);
 
-        private MetaTerm<T> applied;
+        readonly MetaTerm<T> applied;
     }
 
     internal class BooleanTerm : Term
