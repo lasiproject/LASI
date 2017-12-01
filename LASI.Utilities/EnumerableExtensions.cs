@@ -187,7 +187,7 @@ namespace LASI.Utilities
         /// <exception cref="InvalidOperationException"><paramref name="source" /> is empty</exception>
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
         {
-            Validate.NotNull(source, "source", selector, "selector");
+            NotNull(source, nameof(source), selector, nameof(selector));
             return source.Distinct(
                 Equality.Create<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
@@ -309,8 +309,8 @@ namespace LASI.Utilities
         /// <exception cref="InvalidOperationException"><paramref name="source" /> is empty</exception>
         public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) where TKey : IComparable<TKey>
         {
-            NotNull(source, "source", selector, "selector");
-            Validate.NotEmpty(source, "source");
+            NotNull(source, nameof(source), selector, nameof(selector));
+            NotEmpty(source, nameof(source));
             return source.OrderByDescending(selector, comparer).First();
         }
 
@@ -339,8 +339,8 @@ namespace LASI.Utilities
         /// <exception cref="InvalidOperationException"><paramref name="source" /> is empty.</exception>
         public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) where TKey : IComparable<TKey>
         {
-            Validate.NotNull(source, "source", selector, "selector");
-            Validate.NotEmpty(source, "source");
+            NotNull(source, nameof(source), selector, nameof(selector));
+            NotEmpty(source, nameof(source));
             return source.OrderBy(selector, comparer).First();
         }
 
@@ -356,9 +356,8 @@ namespace LASI.Utilities
         /// <exception cref="InvalidOperationException"><paramref name="source" /> has exactly one element.</exception>
         public static IEnumerable<(T, T)> PairWise<T>(this IEnumerable<T> source)
         {
-            Validate.NotNull(source, nameof(source));
-            if (source.Count() == 1)
-            { throw new InvalidOperationException("If source is not empty, it must have more than 1 element."); }
+            NotNull(source, nameof(source));
+            NotEmpty(source.Skip(1), nameof(source), "If source is not empty, it must have more than 1 element.");
             var first = source.First();
             foreach (var next in source.Skip(1))
             {
@@ -384,7 +383,7 @@ namespace LASI.Utilities
         /// compare equal under the given projection; otherwise, false.
         /// </returns>
         public static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
-            first.SequenceEqual(second, comparer: Equality.Create<TSource>((x, y) => selector(x).Equals(selector(y)), e => selector(e).GetHashCode()));
+            first.SequenceEqual(second, Equality.Create<TSource>((x, y) => selector(x).Equals(selector(y)), e => selector(e).GetHashCode()));
 
         #region Statistical
 
@@ -454,6 +453,7 @@ namespace LASI.Utilities
         public static bool All(this IEnumerable<bool> source) => source.All(b => b);
 
         #endregion Product
+
         /// <summary> Applies an accumulator over the sequence yielding each intermediate value.
         /// </summary>
         /// <typeparam name="T">
@@ -465,7 +465,7 @@ namespace LASI.Utilities
         ///  <returns>The sequence starting with the first element in <paramref name="source"/> and ending with the final accumulation.</returns>
         public static IEnumerable<T> Scan<T>(this IEnumerable<T> source, Func<T, T, T> func)
         {
-            Validate.NotNull(source, nameof(source), func, nameof(func));
+            NotNull(source, nameof(source), func, nameof(func));
             var accumulated = source.First();
             yield return accumulated;
             foreach (var e in source.Skip(1))
@@ -551,7 +551,8 @@ namespace LASI.Utilities
         /// <typeparam name="TValue">The type of the values.</typeparam>
         /// <param name="source">The IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt; from which to construct the dictionary.</param>
         /// <returns>A dictionary comprised of the contents of the IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt;.</returns>
-        public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source) => source.ToDictionary(e => e.Key, e => e.Value);
+        public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source) =>
+            source.ToDictionary(e => e.Key, e => e.Value);
 
         /// <summary>
         /// Creates a <see cref="Utilities.IVariantDictionary{TKey, T}"/> from the IEnumerable&lt;<see cref="IVariantKeyValuePair{TKey, T}"/>&gt;.

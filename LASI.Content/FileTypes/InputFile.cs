@@ -17,7 +17,10 @@ namespace LASI.Content.FileTypes
         {
             var infile = new System.IO.FileInfo(path);
             if (!infile.Exists)
+            {
                 throw new System.IO.FileNotFoundException("File Not Found.", infile.FullName);
+            }
+
             fileData = new FileData(infile.FullName);
         }
         /// <summary>

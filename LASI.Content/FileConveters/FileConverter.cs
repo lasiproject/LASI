@@ -53,7 +53,7 @@ namespace LASI.Content.FileConveters
         /// <returns>A Task&lt;InputFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
-        public abstract Task<TDestination> ConvertFileAsync();
+        public virtual async Task<TDestination> ConvertFileAsync() => await Task.Run(() => ConvertFile()).ConfigureAwait(false);
 
 
         /// <summary>

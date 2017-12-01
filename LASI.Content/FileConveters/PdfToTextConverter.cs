@@ -32,11 +32,6 @@ namespace LASI.Content.FileConveters
             new PdfParser().ExtractText(Original.FullPath, newPath);
             return new TxtFile(newPath);
         }
-        /// <summary>
-        /// Asynchronously converts the document governed by this instance from .pdf format to .txt ASCII text format.
-        /// </summary>
-        /// <returns>A System.Threading.Tasks.Task&lt;InputFile&gt; which, when awaited yields an InputFile object which wraps the newly created .txt file.</returns>
-        public override async Task<TxtFile> ConvertFileAsync() => await Task.Run(() => ConvertFile()).ConfigureAwait(false);
 
         // Found this on CodeProject.com, no strings attached, it works pretty well but it is not very well written.
 

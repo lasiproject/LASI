@@ -1,12 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
-namespace LASI.Core.Analysis.Binding {
-    public partial class ObjectBinder {
-        #region Helper Classes
-        class PhraseStackWrapper {
-            public PhraseStackWrapper(Stack<Phrase> source) {
+namespace LASI.Core.Analysis.Binding
+{
+    internal sealed partial class ObjectBinder
+    {
+        public class PhraseStackWrapper
+        {
+            public PhraseStackWrapper(Stack<Phrase> source)
+            {
                 stream = new Stack<Phrase>(source);
             }
+
             public Phrase Get() => stream.Pop();
             public bool Any => stream.Any();
             public bool None => !Any;
@@ -15,7 +20,5 @@ namespace LASI.Core.Analysis.Binding {
 
             readonly Stack<Phrase> stream;
         }
-        #endregion
-
     }
 }

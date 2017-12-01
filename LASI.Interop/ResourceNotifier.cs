@@ -26,6 +26,6 @@ namespace LASI.Interop.ResourceManagement
             remove { notificationProvider.ProgressChanging -= value; }
         }
 
-        private SystemResourceNotifier notificationProvider = new SystemResourceNotifier();
+        readonly SystemResourceNotifier notificationProvider = new SystemResourceNotifier();
     }
 }

@@ -59,23 +59,13 @@ namespace LASI.Content.FileConveters
             }
         }
 
-        /// <summary>
-        /// This method invokes the file conversion routine asynchronously, generally in a separate thread.
-        /// Use with the await operator in an async method to retrieve the new file object and specify a continuation function to be executed when the conversion is complete.
-        /// </summary>
-        /// <returns>A Task&lt;InputFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
-        /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
-        /// </returns>
-        public override async Task<DocXFile> ConvertFileAsync() => await Task.Run(() => ConvertFile());
         internal static Utilities.Configuration.IConfig Config { get; set; }
 
-        private static string doc2xPathField;
-        private static string doc2xPath =>
+        static string doc2xPath =>
             doc2xPathField ?? (doc2xPathField = (Config != null ?
             Config["ResourcesDirectory"] + Config["ConvertersDirectory"] :
             ConfigurationManager.AppSettings["ResourcesDirectory"] + ConfigurationManager.AppSettings["ConvertersDirectory"]) + "doc2x.exe");
 
-
-
+        static string doc2xPathField;
     }
 }

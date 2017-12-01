@@ -2,16 +2,10 @@ root = true
 [*.{cs,cshtml}]
 indent_size                                                                  = 4
 indent_style                                                                 = space
-csharp_new_line_before_open_brace                                            = all : suggestion
 trim_trailing_whitespace                                                     = true
-csharp_new_line_before_catch                                                 = true
-csharp_new_line_before_else                                                  = true
-csharp_new_line_before_finally                                               = true
-csharp_new_line_before_members_in_anonymous_types                            = true
-csharp_new_line_before_members_in_object_initializers                        = true
-csharp_new_line_between_query_expression_clauses                             = true
 csharp_prefer_simple_default_expression                                      = true : suggestion
 csharp_preserve_single_line_statements                                       = true
+csharp_preserve_single_line_blocks                                           = tr
 csharp_style_conditional_delegate_call                                       = false : none
 csharp_style_expression_bodied_accessors                                     = true : suggestion
 csharp_style_expression_bodied_constructors                                  = true : suggestion
