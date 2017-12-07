@@ -27,12 +27,12 @@ namespace LASI.Core.Analysis.Heuristics
                     .OfVerbPhrase()
                     .AsParallel()
                     .WithDegreeOfParallelism(Concurrency.Max)
-                    .WithSubject(s => !(s is IReferencer) || (s as IReferencer).RefersTo != null)
+                    .WithSubject(s => s is null || s is IReferencer r && r.RefersTo != null)
                     .Distinct((x, y) => x.IsSimilarTo(y))
                 from entity in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 let subject = entity.Match()
-                     .When((IReferencer r) => r.RefersTo?.Any() ?? false)
-                     .Then((IReferencer r) => r.RefersTo)
+                     .When((IReferencer r) => r.RefersTo?.Any() is true)
+                     .Then(r => r.RefersTo)
                      .Result(entity)
                 from direct in verbal.DirectObjects.DefaultIfEmpty()
                 from indirect in verbal.IndirectObjects.DefaultIfEmpty()
@@ -49,20 +49,20 @@ namespace LASI.Core.Analysis.Heuristics
         /// <param name="source">The Document from which to retrieve results.</param>
         /// <returns>The top results for the given document using a heuristic which emphasizes the occurrence of Entities above
         /// other metrics.</returns>
-        public static IEnumerable<(string, float)> GetTopResultsByEntity(IReifiedTextual source)
+        public static IEnumerable<(string name, float value)> GetTopResultsByEntity(IReifiedTextual source)
         {
             var results = from entity in source.Phrases.OfEntity()
                          .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                           let e = entity.Match()
-                            .When((IReferencer r) => r.RefersTo?.Any() ?? false)
-                            .Then((IReferencer r) => r.RefersTo)
+                            .When((IReferencer r) => r.RefersTo?.Any() is true)
+                            .Then(r => r.RefersTo)
                             .Result(entity)
                           where e != null
-                          group new { Name = e.Text, Value = (float)Math.Round(e.Weight, 2) } by e.Text into byText
+                          group (name: e.Text, value: (float)Math.Round(e.Weight, 2)) by e.Text into byText
                           where byText.Any()
-                          let top = byText.MaxBy(x => x.Value)
-                          orderby top.Value descending
-                          select (top.Name, top.Value);
+                          let top = byText.MaxBy(x => x.value)
+                          orderby top.value descending
+                          select (top.name, top.value);
             return results;
         }
 

@@ -190,8 +190,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The <see cref="PredicatedMatch{T, R}"/> describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
-        public PredicatedMatch<T, TResult> When<TCase>(Func<TCase, bool> predicate) where TCase : ILexical =>
-            new PredicatedMatch<T, TResult>(Value is TCase c && predicate(c), this);
+        public PredicatedMatch<T, TCase, TResult> When<TCase>(Func<TCase, bool> predicate) where TCase : ILexical =>
+            new PredicatedMatch<T, TCase, TResult>(Value is TCase c && predicate(c), this);
 
         /// <summary>
         /// Appends a When expression to the current pattern. This applies a predicate to the value
@@ -267,13 +267,13 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="then">The function to apply if the case matched.</param>
         /// <param name="when">The predicate to match.</param>
         /// <returns>The <see cref="Match{T, R}"/> describing the Match expression so far.</returns>
-        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<bool> when) where TCase : ILexical => When(when).Then(then);
+        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<bool> when) where TCase : ILexical => When<TCase>(e => when()).Then(then);
 
         public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<TCase, bool> when) where TCase : ILexical => When(when).Then(then);
 
         public Match<T, TResult> Case<TCase>(TResult then, Func<TCase, bool> when) where TCase : ILexical => When(when).Then(then);
 
-        public Match<T, TResult> Case(Func<T, TResult> then, Func<T, bool> when) => When(when).Then(then);
+        //public Match<T, TResult> Case(Func<T, TResult> then, Func<T, bool> when) => When(when).Then(then);
 
         public Match<T, TResult> Case<TCase>(Func<TResult> then, Func<TCase, bool> when) where TCase : ILexical => When(when).Then(then);
 

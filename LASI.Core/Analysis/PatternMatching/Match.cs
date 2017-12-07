@@ -153,7 +153,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </typeparam>
         /// <param name="predicate">The predicate to test the value being matched over.</param>
         /// <returns>The Predicated<see cref="Match{T}"/> describing the Match expression so far. This must be followed by a single Then expression.</returns>
-        public PredicatedMatch<T> When<TCase>(Func<TCase, bool> predicate) where TCase : ILexical => new PredicatedMatch<T>(Value is TCase c && predicate(c), this);
+        public PredicatedMatchLifted<T, TCase> When<TCase>(Func<TCase, bool> predicate) where TCase : ILexical => new PredicatedMatchLifted<T, TCase>(Value is TCase c && predicate(c), this);
 
         /// <summary>
         /// Appends a When expression to the current pattern. This applies a predicate to the value being matched such that the subsequent

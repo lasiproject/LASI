@@ -55,20 +55,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T> Then<TCase>(Action<TCase> action) where TCase : class, ILexical => Accepted ? expression.Case(action) : expression;
 
-        /// <summary>
-        /// Appends a Match with Type expression to the current PatternMatching Expression.
-        /// </summary>
-        /// <typeparam name="TCase">
-        /// The Type to match with. This expression will be selected, and the provided action
-        /// invoked, if and only if the predicate has been satisfied and the value being matched over
-        /// is of this type.
-        /// </typeparam>
-        /// <typeparam name="TResult">
-        /// The Type of the result to be yielded by the Pattern Matching expression.
-        /// </typeparam>
-        /// <param name="f">The Action which, if this Case expression is Matched, will be invoked.</param>
-        /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
-        public Match<T, TResult> Then<TCase, TResult>(Func<TCase, TResult> f) where TCase : class, ILexical => Accepted ? expression.Case(f) : expression;
+
 
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
@@ -97,7 +84,9 @@ namespace LASI.Core.Analysis.PatternMatching
 
         #region Fields
 
-        private readonly Match<T> expression;
+        readonly Match<T> expression;
+
+        protected Match<T> Expression => expression;
 
         #endregion Fields
     }

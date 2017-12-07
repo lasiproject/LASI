@@ -90,7 +90,7 @@ namespace LASI.Core.Heuristics
             .When(e => e.SubjectOf.IsClassifier)
             .Then(e => e.SubjectOf.DirectObjects.SelectMany(o => o.Match()
                     .When((IReferencer p) => p.RefersTo.Any())
-                    .Then((IReferencer p) => p.RefersTo.SelectMany(GetLikelyAliases))
+                    .Then(p => p.RefersTo.SelectMany(GetLikelyAliases))
                     .Case((Noun n) => n.GetSynonyms())
                 .Result()))
             .Result(Empty<string>());
