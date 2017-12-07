@@ -42,20 +42,20 @@ namespace LASI.Utilities.Configuration
         /// <summary>Gets the value with the specified name.</summary>
         /// <param name="name">The name of the value to retrieve.</param>
         /// <returns>The value with the specified name.</returns>
-        public string this[string name] => data.ContainsKey(name) ? data[name] : default;
+        public string this[string name] => data.ContainsKey(name) ? data[name] : null;
 
-        private void MakeDictionary(ref IVariantDictionary<string, string> dict, JObject configSource)
+        void MakeDictionary(ref IVariantDictionary<string, string> dict, JObject configSource)
         {
-            dict = (from property in configSource.Properties()
-                    let isAggregate = property.Value is JContainer
-                    select new
-                    {
-                        Name = property.Name,
-                        Value = isAggregate ? property.Value.ToString() : property.Value.ToString()
-                    })
-                   .ToVariantDictionary(p => p.Name.ToString(), p => p.Value.ToString());
+            dict = configSource
+                .Properties()
+                .ToVariantDictionary(p => p.Name, p => p.Value?.ToString());
         }
 
-        private readonly IVariantDictionary<string, string> data;
+        readonly IVariantDictionary<string, string> data;
+    }
+
+    public static class JTokenExtensions
+    {
+        public static void Deconstruct(this JProperty jToken, out string name, out JToken value) => (name, value) = (jToken.Name, jToken.Value);
     }
 }

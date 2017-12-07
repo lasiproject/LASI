@@ -228,7 +228,7 @@ namespace LASI.Core.Analysis.PatternMatching
         public Match<T, TResult> Case<TCase>(Func<TResult> func) where TCase : ILexical
         {
             // Despite the nullary func, TCase must match.
-            if (!UnMatchable && !Matched && Value is TCase)
+            if (HasValueAndContinue && Value is TCase)
             {
                 result = func();
                 Matched = true;
@@ -252,7 +252,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </returns>
         public Match<T, TResult> Case<TCase>(Func<TCase, TResult> func) where TCase : ILexical
         {
-            if (!UnMatchable && !Matched && Value is TCase matched)
+            if (HasValueAndContinue && Value is TCase matched)
             {
                 result = func(matched);
                 Matched = true;
@@ -296,7 +296,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </returns>
         public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : ILexical
         {
-            if (!UnMatchable && !Matched && Value is TPattern)
+            if (HasValueAndContinue && Value is TPattern)
             {
                 this.result = result;
                 Matched = true;
@@ -336,7 +336,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </returns>
         public TResult Result(Func<TResult> defaultValueFactory)
         {
-            if (!UnMatchable && !Matched)
+            if (HasValueAndContinue)
             {
                 result = defaultValueFactory();
                 Matched = true;
@@ -357,7 +357,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </returns>
         public TResult Result(Func<T, TResult> func)
         {
-            if (!UnMatchable && !Matched)
+            if (HasValueAndContinue)
             {
                 result = func(Value);
                 Matched = true;
@@ -377,7 +377,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </returns>
         public TResult Result(TResult defaultValue)
         {
-            if (!UnMatchable && !Matched)
+            if (HasValueAndContinue)
             {
                 result = defaultValue;
                 Matched = true;
@@ -396,6 +396,8 @@ namespace LASI.Core.Analysis.PatternMatching
         #region Operators
 
         public static implicit operator TResult(Match<T, TResult> expression) => expression;
+
+        public static implicit operator Match<T, TResult>(Match<T> @void) => @void.Yield<TResult>();
 
         #endregion
 

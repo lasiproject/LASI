@@ -15,7 +15,13 @@ namespace LASI.Utilities
     {
         public static void Deconstruct<TKey, TValue>(this KeyValuePair<TKey, TValue> pair, out TKey key, out TValue value) => (key, value) = (pair.Key, pair.Value);
         public static void Deconstruct<TKey, TValue>(this IVariantKeyValuePair<TKey, TValue> pair, out TKey key, out TValue value) => (key, value) = (pair.Key, pair.Value);
+        public static IEnumerable<(TKey key, TValue value)> Pairs<TKey, TValue>(this IVariantDictionary<TKey, TValue> pairs) => pairs.Select(x => (x.Key, x.Value));
 
+        public static (bool success, TValue value) TryGet<TKey, TValue>(this IVariantDictionary<TKey, TValue> source, TKey key)
+        {
+            var v = source.ContainsKey(key);
+            return (v, v ? source[key] : default);
+        }
         #region ConcurrentDictionary Extensions
 
         /// <summary>
@@ -563,7 +569,7 @@ namespace LASI.Utilities
 
         #endregion
 
-        private class DefaultingDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
+        class DefaultingDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
         {
             public DefaultingDictionary(IDictionary<TKey, TValue> wrapped, Func<TKey, TValue> defaultValueFactory)
             {

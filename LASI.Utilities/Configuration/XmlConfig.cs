@@ -11,7 +11,7 @@ namespace LASI.Utilities.Configuration
     /// </summary>
     public class XmlConfig : LoadableConfigBase, IConfig
     {
-        private readonly IDictionary<string, string> data;
+        readonly IDictionary<string, string> data;
 
         /// <summary>
         /// Initializes a new instance of the XmlConfig class from the specified XML file.
@@ -22,7 +22,7 @@ namespace LASI.Utilities.Configuration
             data = MakeDictionary(XElement.Parse(ReadConfigDataFromFile(filePath)));
         }
 
-        private IDictionary<string, string> MakeDictionary(XElement xml) => xml.Descendants().ToDictionary(e => e.Name.ToString(), e => e.Value);
+        IDictionary<string, string> MakeDictionary(XElement xml) => xml.Descendants().ToDictionary(e => e.Name.ToString(), e => e.Value);
 
         /// <summary>
         /// Initializes a new instance of the XmlConfig class from the XML data located at the specified <see cref="Uri"/>.

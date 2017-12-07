@@ -450,7 +450,7 @@ namespace LASI.Utilities.Validation
         /// Throws an <see cref="ArgumentNullException"/>.
         /// </summary>
         /// <param name="name">The name of the argument which caused the exception.</param>
-        private static void FailWithArgumentNullException(string name)
+        static void FailWithArgumentNullException(string name)
         {
             throw new ArgumentNullException(name);
         }
@@ -459,7 +459,7 @@ namespace LASI.Utilities.Validation
         /// </summary>
         /// <param name="name">The name of the argument which caused the exception.</param>
         /// <param name="message">A message describing the error.</param>
-        private static void FailWithArgumentNullException(string name, string message)
+        static void FailWithArgumentNullException(string name, string message)
         {
             throw new ArgumentNullException(name, message);
         }
@@ -469,7 +469,7 @@ namespace LASI.Utilities.Validation
         /// <param name="actualValue">The value which caused the exception.</param>
         /// <param name="paramName">The name of the argument which caused the exception.</param>
         /// <param name="message">A message describing the error.</param>
-        private static void FailWithOutOfRangeException<T>(T actualValue, string paramName, string message) where T : IComparable<T>, IEquatable<T>
+        static void FailWithOutOfRangeException<T>(T actualValue, string paramName, string message) where T : IComparable<T>, IEquatable<T>
         {
             throw new ArgumentOutOfRangeException(paramName, actualValue, message);
         }
@@ -478,7 +478,7 @@ namespace LASI.Utilities.Validation
         /// </summary>
         /// <param name="name">The name of the argument which caused the exception.</param>
         /// <param name="message">A message describing the error.</param>
-        private static void FailWithArgumentException(string name, string message)
+        static void FailWithArgumentException(string name, string message)
         {
             throw new ArgumentException(message, name);
         }
@@ -486,7 +486,7 @@ namespace LASI.Utilities.Validation
         /// Throws an <see cref="ArgumentException"/>.
         /// </summary>
         /// <param name="message">A message describing the error.</param>
-        private static void FailWithArgumentException(string message)
+        static void FailWithArgumentException(string message)
         {
             throw new ArgumentException(message);
         }

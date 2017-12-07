@@ -23,7 +23,7 @@ namespace LASI.Core.Analysis.PatternMatching
         protected MatchBase(T value)
         {
             // TODO: replace with pattern when https://github.com/dotnet/csharplang/issues/766 is resolved.
-            UnMatchable = EqualityComparer<T>.Default.Equals(value, default);
+            Matchable = !EqualityComparer<T>.Default.Equals(value, default);
             Value = value;
         }
 
@@ -41,7 +41,10 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <summary>
         /// `true` if value being matched cannot be matched by any pattern;  
         /// </summary>
-        protected bool UnMatchable { get; }
+        protected bool Matchable { get; }
+
+        protected bool HasValueAndContinue => Matchable && !Matched;
+
         #endregion
     }
 }

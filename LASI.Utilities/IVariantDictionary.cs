@@ -17,10 +17,7 @@ namespace LASI.Utilities
         /// <returns>The element that has the specified key in the read-only dictionary.</returns>
         TValue this[TKey key] { get; }
 
-        /// <summary>
-        /// An enumerable collection that contains the values in the read-only dictionary.
-        /// </summary>
-        IEnumerable<TValue> Values { get; }
+        IEnumerable<TKey> Keys { get; }
 
         /// <summary>
         /// Determines whether the read-only dictionary contains an element that has the specified key.

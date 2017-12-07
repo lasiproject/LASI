@@ -70,7 +70,7 @@ namespace LASI.Utilities.Configuration
         }
 
 
-        private static IEnumerable<byte> EnumerateResponseStreamBytes(System.Net.HttpWebResponse response)
+        static IEnumerable<byte> EnumerateResponseStreamBytes(System.Net.HttpWebResponse response)
         {
             unchecked
             {
@@ -106,14 +106,14 @@ namespace LASI.Utilities.Configuration
 
             return result;
         }
-        private static void ValidateFileExistence(string filePath)
+        static void ValidateFileExistence(string filePath)
         {
             if (!File.Exists(filePath))
             {
                 throw new FileNotFoundException("Unable to locate the specified file.", filePath);
             }
         }
-        private static class ErrorMessages
+        static class ErrorMessages
         {
             public const string IllformedJsonDocument = "Unable to parse the data, ensure the source is a well formed JSON document";
             public const string NoRootObject = @"The config source is invalid. Valid config sources must be represented as a single top level JSON object";

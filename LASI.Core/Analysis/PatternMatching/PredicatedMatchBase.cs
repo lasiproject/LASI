@@ -18,7 +18,10 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="predicateSucceeded">
         /// A value indicating whether or not the preceding When clause succeeded.
         /// </param>
-        protected PredicatedMatchBase(bool predicateSucceeded) => Accepted = predicateSucceeded;
+        protected PredicatedMatchBase(bool predicateSucceeded)
+        {
+            Accepted = predicateSucceeded;
+        }
 
         /// <summary>
         /// Gets a value indicating if condition upon which the match is predicated has was satisfied.

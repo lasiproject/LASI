@@ -343,7 +343,7 @@ namespace LASI.Utilities
             return source.OrderBy(selector, comparer).First();
         }
 
-        public static IEnumerable<T> NonNull<T>(this IEnumerable<T> source) => source.Where(element => element != null);
+        public static IEnumerable<T> NonNull<T>(this IEnumerable<T> source) where T : class => source.Where(element => element != null);
 
         /// <summary>A sequence of Tuple&lt;T, T,&gt; containing pairs of adjacent elements.</summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
@@ -542,7 +542,6 @@ namespace LASI.Utilities
         /// </returns>
         public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
             first.Select(selector).SetEqual(second.Select(selector));
-
         /// <summary>
         /// Creates a <see cref="System.Collections.Generic.Dictionary{Key,Value}"/> from the IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt;.
         /// </summary>
@@ -551,6 +550,7 @@ namespace LASI.Utilities
         /// <param name="source">The IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt; from which to construct the dictionary.</param>
         /// <returns>A dictionary comprised of the contents of the IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt;.</returns>
         public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source) => source.ToDictionary(e => e.Key, e => e.Value);
+        public static IEnumerable<(TKey key, TValue value)> Tupled<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source) => source.Select(e => (e.Key, e.Value));
 
         /// <summary>
         /// Creates a <see cref="Utilities.IVariantDictionary{TKey, T}"/> from the IEnumerable&lt;<see cref="IVariantKeyValuePair{TKey, T}"/>&gt;.
@@ -562,6 +562,16 @@ namespace LASI.Utilities
         /// <returns>A dictionary comprised of the contents of the IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt;.</returns>
         public static IVariantDictionary<TKey, T> ToVariantDictionary<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector) =>
             new VariantDictionaryImplementation<TKey, T>(source.ToDictionary(keySelector));
+
+        /// <summary>
+        /// Creates a <see cref="Utilities.IVariantDictionary{TKey, T}"/> from the IEnumerable&lt;<see cref="IVariantKeyValuePair{TKey, T}"/>&gt;.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the elements of source.</typeparam>
+        /// <typeparam name="TKey">The type of the keys.</typeparam>
+        /// <param name="source">The IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt; from which to construct the dictionary.</param>
+        /// <returns>A dictionary comprised of the contents of the IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt;.</returns>
+        public static IVariantDictionary<TKey, TValue> ToVariantDictionary<TValue, TKey>(this IEnumerable<KeyValuePair<TKey, TValue>> source) =>
+            new VariantDictionaryImplementation<TKey, TValue>(source.Select(x => (x.Key, x.Value)));
 
         /// <summary>
         /// Creates a <see cref="Utilities.IVariantDictionary{TKey, T}"/> from the IEnumerable&lt;<see cref="IVariantKeyValuePair{TKey, T}"/>&gt;.

@@ -82,8 +82,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             var hyphenIndex = containingRoot.IndexOf('-');
             var root = FindRoot(hyphenIndex > -1 ? containingRoot.Substring(0, hyphenIndex) : containingRoot);
             var hyphenatedAppendage = hyphenIndex > -1 ? root.Substring(hyphenIndex) : string.Empty;
-            List<string> exceptionalForms;
-            if (!ExceptionMapping.TryGetValue(root, out exceptionalForms))
+            if (ExceptionMapping.TryGet(root) is var t && !t.success)
             {
                 for (var i = 0; i < sufficies.Length; ++i)
                 {
@@ -98,9 +97,9 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
                 }
                 yield break;
             }
-            foreach (var exceptional in exceptionalForms)
+            //foreach (var exceptional in exceptionalForms)
             {
-                yield return exceptional + hyphenatedAppendage;
+                //yield return exceptional + hyphenatedAppendage;
             }
         }
 
@@ -115,7 +114,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
 
         private static readonly string[] endings = { "ly" };
         private static readonly WordNetExceptionDataManager Helper = new WordNetExceptionDataManager("adv.exc");
-        private static readonly IReadOnlyDictionary<string, List<string>> ExceptionMapping = Helper.ExcMapping;
+        private static readonly IVariantDictionary<string, IEnumerable<string>> ExceptionMapping = Helper.ExcMapping.ToVariantDictionary();
 
         private static readonly string[] sufficies = { "" };
 

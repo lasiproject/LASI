@@ -7,8 +7,9 @@ using LASI.Utilities;
 namespace LASI.Core.Analysis.Heuristics.WordMorphing
 {
     using System;
+    using System.Collections.Generic;
     using static System.Configuration.ConfigurationManager;
-    using ExceptionsInfoMapping = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<string>>;
+    using ExceptionsInfoMapping = System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>>;
     internal class WordNetExceptionDataManager
     {
         /// <summary>
@@ -18,41 +19,43 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         internal WordNetExceptionDataManager(string exceptionFileRelativePath)
         {
             this.exceptionsFileRelativePath = exceptionFileRelativePath;
-            excMapping = new Lazy<ExceptionsInfoMapping>(LoadExceptionFile);
+            excMapping = new Lazy<ExceptionsInfoMapping>(() =>
+            {
+                using (var reader =
+                    new StreamReader(
+                    detectEncodingFromByteOrderMarks: true,
+                    encoding: Encoding.ASCII, bufferSize: 4096, stream:
+                        new FileStream(
+                            path: ExceptionsFilePath,
+                            access: FileAccess.Read,
+                            mode: FileMode.Open,
+                            share: FileShare.Read,
+                            options: FileOptions.SequentialScan, bufferSize: 4096
+                        )
+                    )
+                )
+                {
+                    Logger.Log($"Loading Exception Information from : {exceptionsFileRelativePath}\n");
+                    var exceptionFileLines = from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
+                                             select line.SplitRemoveEmpty(' ').Select(word => word.Replace('_', ' ')).ToList();
+                    var results = from line in exceptionFileLines
+                                      //.SelectMany(list => list.Select((item) => Pair.Create(item, list)))
+                                      //.ToLookup(line => line.Select(e => Pair.Create(line[line.Count - 1], line.GetRange(0, line.Count - 1))))
+                                  group line by line.Last()
+                                            into g
+                                  let exceptions = g.SelectMany(x => x).ToList()
+                                  select (g.Key, value: exceptions.AsEnumerable(), exceptions.Count);
+                    //.ToDictionary(e => e.Key, e => e.Select(excs => excs).ToList());
+
+                    var mostComplex = results.MaxBy(r => r.Count);
+                    Logger.Log($"Loaded Exception Information from : {exceptionsFileRelativePath}\nMax most complex line parsed: \"{mostComplex.value} {mostComplex.Key} -> {mostComplex.Count} entries.\"");
+                    return results.ToDictionary(x => x.Key, x => x.value);
+                }
+            });
         }
         private Lazy<ExceptionsInfoMapping> excMapping;
         public ExceptionsInfoMapping ExcMapping => excMapping.Value;
-        private ExceptionsInfoMapping LoadExceptionFile()
-        {
-            using (var reader =
-                new StreamReader(
-                detectEncodingFromByteOrderMarks: true,
-                encoding: Encoding.ASCII, bufferSize: 4096, stream:
-                    new FileStream(
-                        path: ExceptionsFilePath,
-                        access: FileAccess.Read,
-                        mode: FileMode.Open,
-                        share: FileShare.Read,
-                        options: FileOptions.SequentialScan, bufferSize: 4096
-                    )
-                )
-            )
-            {
-                Logger.Log($"Loading Exception Information from : {exceptionsFileRelativePath}\n");
-                var exceptionFileLines = from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
-                                         select line.SplitRemoveEmpty(' ').Select(word => word.Replace('_', ' ')).ToList();
-                var results = exceptionFileLines
-                                        //.SelectMany(list => list.Select((item) => Pair.Create(item, list)))
-                                        //.ToLookup(line => line.Select(e => Pair.Create(line[line.Count - 1], line.GetRange(0, line.Count - 1))))
-                                        .GroupBy(e => e.Last())
-                                        .ToDictionary(e => e.Key, e => e.SelectMany(x => x).ToList());
-                //.ToDictionary(e => e.Key, e => e.Select(excs => excs).ToList());
 
-                var mostComplex = results.MaxBy(r => r.Value.Count);
-                Logger.Log($"Loaded Exception Information from : {exceptionsFileRelativePath}\nMax most complex line parsed: \"{mostComplex.Value} {mostComplex.Key} -> {mostComplex.Value.Count} entries.\"");
-                return results;
-            }
-        }
 
         private static Utilities.Configuration.IConfig Config => Configuration.Paths.Settings;
 

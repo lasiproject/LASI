@@ -8,7 +8,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
     /// <summary>Performs both noun root extraction and noun form generation.</summary>
     public class NounMorpher : IWordMorpher<Noun>
     {
-        static NounMorpher() => ExceptionMapping = Helper.ExcMapping;
+        static NounMorpher() => ExceptionMapping = Helper.ExcMapping.ToVariantDictionary();
 
         /// <summary>Gets all forms of the noun root.</summary>
         /// <param name="nounText">The root of a noun as a string.</param>
@@ -51,19 +51,23 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             var root = FindRoot(hyphenIndex > -1 ? noun.Substring(hyphenIndex + 1) : noun);
             var hyphenatadAppendage = hyphenIndex > -1 ? noun.Substring(0, hyphenIndex + 1) : string.Empty;
             List<string> results;
-            if (!ExceptionMapping.TryGetValue(root, out results))
+            if (ExceptionMapping.TryGet(root) is var t && !t.success)
             {
-                results = new List<string>();
+                var r = new List<string>();
                 for (var i = 0; i < sufficies.Length; i++)
                 {
                     if (root.EndsWith(endings[i]) || endings[i].Length == 0)
                     {
-                        results.Add(hyphenatadAppendage + root.Substring(0, root.Length - endings[i].Length) + sufficies[i]);
+                        r.Add(hyphenatadAppendage + root.Substring(0, root.Length - endings[i].Length) + sufficies[i]);
                         break;
                     }
                 }
+                results = r;
             }
-            else { results = results.Select(r => hyphenatadAppendage + r); }
+            else
+            {
+                results = t.value.Select(r => hyphenatadAppendage + r).ToList();
+            }
             results.Add(hyphenatadAppendage + root);
             return results;
         }
@@ -73,7 +77,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             var result = new List<string>();
             for (var i = 0; i < sufficies.Length; ++i)
             {
-                if (noun.EndsWith(sufficies[i]))
+                if (noun.EndsWith(sufficies[i], System.StringComparison.Ordinal))
                 {
                     result.Add(noun.Substring(0, noun.Length - sufficies[i].Length) + endings[i]);
                     break;
@@ -105,7 +109,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             );
         }
 
-        private static readonly Dictionary<string, List<string>> ExceptionMapping;
+        private static readonly IVariantDictionary<string, IEnumerable<string>> ExceptionMapping;
 
         private static readonly string[] endings = { "", "s", "x", "z", "ch", "sh", "man", "y", };
         private static readonly string[] sufficies = { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };

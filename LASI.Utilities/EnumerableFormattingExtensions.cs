@@ -204,7 +204,7 @@ namespace LASI.Utilities
                     }).Builder.ToString().TrimEnd(' ', delimiters.Item2) + ' ' + delimiters.Item3;
         }
 
-        private static readonly Tuple<char, char, char> DefaultDilimiters = Tuple.Create('[', ',', ']');
-        private static string DefaultSelector<T>(T value) => value.ToString();
+        static readonly Tuple<char, char, char> DefaultDilimiters = Tuple.Create('[', ',', ']');
+        static string DefaultSelector<T>(T value) => value.ToString();
     }
 }

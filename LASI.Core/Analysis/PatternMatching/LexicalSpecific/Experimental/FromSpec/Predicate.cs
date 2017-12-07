@@ -20,7 +20,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
 
         protected virtual Func<bool> ToFunc(ILexical element) => () => Satifies(element);
 
-        protected static Predicate<T> LiftOver(ILexical element, params Predicate<T>[] predicates) => new LiftedPredicate<T>(e => predicates.All(f => f.ToFunc(e)()));
+        protected static Predicate<T> LiftOver(ILexical element, params Predicate<T>[] predicates) => new WhenPredicate(() => element is ILexical) & new LiftedPredicate<T>(e => predicates.All(f => f.ToFunc(e)()));
         /// <summary>
         /// Combines the <see cref="Predicate{T}"/> with another <see cref="Predicate{T}"/> 
         /// yielding a new <see cref="Predicate{T}"/> stipulating the conditions of both.
@@ -39,17 +39,21 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
 
         public static Predicate<T> operator &(Predicate<T> left, WhenPredicate<ILexical> right) => new WhenPredicate<T>(x => left.Combine(right).Satifies(x));
         public static Predicate<T> operator &(WhenPredicate<ILexical> left, Predicate<T> right) => new WhenPredicate<T>(x => left.Combine(right).Satifies(x));
+        public static Predicate<T> operator &(WhenPredicate left, Predicate<T> right) => new WhenPredicate<T>(x => left.Combine(right).Satifies(x));
 
         public static Predicate<T> operator &(ExactTextPredicate<ILexical> left, Predicate<T> right) => new WhenPredicate<T>(x => left.Combine(right).Satifies(x));
         public static Predicate<T> operator &(Predicate<T> left, ExactTextPredicate<ILexical> right) => new WhenPredicate<T>(x => left.Combine(right).Satifies(x));
 
         public static Predicate<T> operator &(Predicate<T> left, Predicate<T> right) => left.Combine(right);
+        public static Predicate<T> operator &(Predicate<T> left, LiftedPredicate<T> right) => left.Combine(right);
 
-        private class LiftedPredicate<TOther> : Predicate<TOther> where TOther : class, ILexical
-        {
-            private readonly Func<TOther, bool> requirement;
-            public LiftedPredicate(Func<TOther, bool> requirement) { this.requirement = requirement; }
-            public override bool Satifies<TLexical>(TLexical element) => element is TOther && requirement(element as TOther);
-        }
+
+    }
+    class LiftedPredicate<T> : Predicate<T> where T : class, ILexical
+    {
+        private readonly Func<T, bool> requirement;
+        public LiftedPredicate(Func<T, bool> requirement) { this.requirement = requirement; }
+        public override bool Satifies<TLexical>(TLexical element) => element is T && requirement(element as T);
+
     }
 }

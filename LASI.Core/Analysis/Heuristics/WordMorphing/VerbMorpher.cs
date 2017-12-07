@@ -109,7 +109,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         };
 
         private static readonly WordNetExceptionDataManager ExcManager = new WordNetExceptionDataManager("verb.exc");
-        private static IReadOnlyDictionary<string, List<string>> exceptionMapping;
+        private static IReadOnlyDictionary<string, IEnumerable<string>> exceptionMapping;
 
         #endregion Exception File Processing
     }

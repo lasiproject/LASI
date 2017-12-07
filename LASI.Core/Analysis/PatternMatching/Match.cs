@@ -122,6 +122,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>A <see cref="Match{T, R}"/> representing the now result yielding Match expression.</returns>
         public Match<T, TResult> Case<TCase, TResult>(Func<TCase, TResult> pattern) where TCase : ILexical => Yield<TResult>().Case(pattern);
 
+        public Match<T, TResult> Case<TResult>(Func<TResult> pattern) => Yield<TResult>().Case(pattern);
+
         /// <summary>
         /// Promotes the current non result returning expression of type Case&lt;T&gt; into a result returning expression of Case&lt;T,
         /// R&gt; Such that subsequent Case expressions appended are now to yield a result value of the supplied Type R.
@@ -176,7 +178,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T> Case<TCase>(Action action) where TCase : ILexical
         {
-            if (!UnMatchable && Value is TCase && !Matched)
+            if (HasValueAndContinue && Value is TCase)
             {
                 action();
                 Matched = true;
@@ -198,7 +200,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T> Case<TCase>(Action<TCase> action) where TCase : ILexical
         {
-            if (!UnMatchable && !Matched && Value is TCase c)
+            if (HasValueAndContinue && Value is TCase c)
             {
                 action(c);
                 Matched = true;
@@ -208,13 +210,14 @@ namespace LASI.Core.Analysis.PatternMatching
 
         public Match<T> Case(Action<T> action)
         {
-            if (!UnMatchable && Value != null && !Matched)
+            if (HasValueAndContinue)
             {
                 action(Value);
                 Matched = true;
             }
             return this;
         }
+
 
         #endregion Case Expressions
 
@@ -226,7 +229,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="action">The function to invoke if no matches in the expression succeeded.</param>
         public void Default(Action action)
         {
-            if (!UnMatchable && !Matched)
+            if (HasValueAndContinue)
             {
                 action();
                 Matched = true;
@@ -239,7 +242,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="action">The function to invoke on the match Case value if no matches in the expression succeeded.</param>
         public void Default(Action<T> action)
         {
-            if (!UnMatchable && !Matched && Value != null)
+            if (HasValueAndContinue)
             {
                 action(Value);
                 Matched = true;

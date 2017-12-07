@@ -53,7 +53,7 @@ namespace LASI.Utilities
     {
         internal static Option<T> FromValue(T value) => ReferenceEquals(value, null) ? NoneOfT : new Some(value);
 
-        private Option(bool hasValue)
+        Option(bool hasValue)
         {
             IsNone = !hasValue;
             IsSome = hasValue;
@@ -269,7 +269,7 @@ namespace LASI.Utilities
             public override int GetHashCode() => 0;
             public override T Value => throw new InvalidOperationException(ValueAccessErrorMessage);
 
-            private const string ValueAccessErrorMessage = "None does not have a value.";
+            const string ValueAccessErrorMessage = "None does not have a value.";
             internal None() : base(false) { }
         }
 
@@ -292,9 +292,8 @@ namespace LASI.Utilities
             public override bool Equals(T other) => Value.Equals(other);
 
             public override bool Equals(object obj) =>
-                obj is Some ? Equals((Some)obj) : obj is Option<Option<T>>.Some ?
-                Equals(((Option<Option<T>>.Some)obj).Value, obj) : obj is T ?
-                Equals((T)obj) : false;
+                obj is Some s ? Equals(s) : obj is Option<Option<T>>.Some wrapped ?
+                Equals(Value, wrapped.Value) : obj is T x && Equals(x);
 
             public override int GetHashCode() => Value.GetHashCode();
 

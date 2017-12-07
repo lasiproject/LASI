@@ -272,25 +272,49 @@ namespace LASI.Core.Tests
         ///A test for HasSubjectOrObject
         /// </summary>
         [Fact]
-        public void HasSubjectOrObjectTest()
+        public void HasSubjectOrObjectMustBeTrueIfThereIsABoundSubjectMatchingThePredicate()
         {
             var target = CreateVerbPhrase1();
             IEntity entity = new CommonPluralNoun("cats");
             target.BindSubject(entity);
-            Func<IEntity, bool> predicate = e => e.Text == "cats";
-            var expected = true;
-            bool actual;
-            actual = target.HasSubjectOrObject(predicate);
-            Check.That(actual).IsEqualTo(expected);
-            target.BindDirectObject(entity);
-            actual = target.HasSubjectOrObject(predicate);
-            Check.That(actual).IsEqualTo(expected);
-            target.BindIndirectObject(entity);
-            actual = target.HasSubjectOrObject(predicate);
-            Check.That(actual).IsEqualTo(expected);
+            var actual = target.HasSubjectOrObject(predicate);
+            Check.That(actual).IsTrue();
+
+            bool predicate(IEntity e) => e.Text == "cats";
         }
 
+        /// <summary>
+        ///A test for HasSubjectOrObject
+        /// </summary>
+        [Fact]
+        public void HasSubjectOrObjectMustBeTrueIfThereIsABoundDirectObjectMatchingThePredicate()
+        {
+            var target = CreateVerbPhrase1();
+            IEntity entity = new CommonPluralNoun("cats");
 
+            target.BindDirectObject(entity);
+            var actual = target.HasSubjectOrObject(predicate);
+            Check.That(actual).IsTrue();
+
+            bool predicate(IEntity e) => e.Text == "cats";
+        }
+
+        /// <summary>
+        ///A test for HasSubjectOrObject
+        /// </summary>
+        [Fact]
+        public void HasSubjectOrObjectMustBeTrueIfThereIsABoundIndirectObjectMatchingThePredicate()
+        {
+            var target = CreateVerbPhrase1();
+            IEntity entity = new CommonPluralNoun("cats");
+
+            target.BindDirectObject(entity);
+            target.BindIndirectObject(entity);
+            var actual = target.HasSubjectOrObject(predicate);
+            Check.That(actual).IsTrue();
+
+            bool predicate(IEntity e) => e.Text == "cats";
+        }
 
         /// <summary>
         ///A test for HasSubject
@@ -301,11 +325,11 @@ namespace LASI.Core.Tests
             var target = CreateVerbPhrase1();
             IEntity entity = new CommonPluralNoun("cats");
             target.BindSubject(entity);
-            Func<IEntity, bool> predicate = e => e.Text == "cats";
             var expected = true;
-            bool actual;
-            actual = target.HasSubject(predicate);
+            var actual = target.HasSubject(predicate);
             Check.That(actual).IsEqualTo(expected);
+
+            bool predicate(IEntity e) => e.Text == "cats";
         }
 
         /// <summary>
@@ -317,7 +341,6 @@ namespace LASI.Core.Tests
             var target = CreateVerbPhrase1();
             IEntity entity = new CommonPluralNoun("cats");
 
-            Func<IEntity, bool> predicate = e => e.Text == "cats";
             var expected = true;
             bool actual;
             target.BindDirectObject(entity);
@@ -326,6 +349,8 @@ namespace LASI.Core.Tests
             target.BindIndirectObject(entity);
             actual = target.HasObject(predicate);
             Check.That(actual).IsEqualTo(expected);
+
+            bool predicate(IEntity e) => e.Text == "cats";
         }
 
 

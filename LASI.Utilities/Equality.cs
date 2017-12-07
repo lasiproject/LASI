@@ -82,7 +82,7 @@ namespace LASI.Utilities
             return new ComparerWithCutomEqualsAndGetHashCode<T>(equals, getHashCode);
         }
 
-        private sealed class ComparerWithCutomEqualsAndNullityBasedHashing<T> : EqualityComparer<T>
+        sealed class ComparerWithCutomEqualsAndNullityBasedHashing<T> : EqualityComparer<T>
         {
             /// <summary>
             /// Initializes a new instance of the
@@ -120,7 +120,7 @@ namespace LASI.Utilities
             /// <returns>A hash code for the specified object.</returns>
             public override int GetHashCode(T obj) => Default.Equals(obj, default) ? 0 : 1;
 
-            private readonly Func<T, T, bool> equals;
+            readonly Func<T, T, bool> equals;
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace LASI.Utilities
         /// var fuzzilyDistinctNps = nps.Distinct(new CustomComparer&lt;Phrase&gt;((x, y) =&gt; x.IsSimilarTo(y), x =&gt; x == null? 0 : 1);
         /// </code>
         /// </example>
-        private sealed class ComparerWithCutomEqualsAndGetHashCode<T> : EqualityComparer<T>
+        sealed class ComparerWithCutomEqualsAndGetHashCode<T> : EqualityComparer<T>
         {
             /// <summary>
             /// Initializes a new instance of the CustomComparer class which will use the provided
@@ -190,8 +190,8 @@ namespace LASI.Utilities
             /// <returns>A hash code for the specified object.</returns>
             public override int GetHashCode(T obj) => getHashCode(obj);
 
-            private readonly Func<T, T, bool> equals;
-            private readonly Func<T, int> getHashCode;
+            readonly Func<T, T, bool> equals;
+            readonly Func<T, int> getHashCode;
         }
     }
 }
