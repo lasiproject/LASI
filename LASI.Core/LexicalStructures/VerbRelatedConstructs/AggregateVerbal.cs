@@ -22,7 +22,7 @@ namespace LASI.Core
     /// </summary>
     /// <see cref="IAggregateVerbal"/>
     /// <seealso cref="IVerbal"/>
-    public class AggregateVerbal : IAggregateVerbal
+    public sealed class AggregateVerbal : IAggregateVerbal
     {
         /// <summary>
         /// Initializes a new instance of the AggregateVerbal class.

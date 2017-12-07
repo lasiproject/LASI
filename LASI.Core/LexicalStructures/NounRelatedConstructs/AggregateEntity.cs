@@ -15,7 +15,7 @@ namespace LASI.Core
     /// <seealso cref="IAggregateEntity"/>
     /// <seealso cref="IAggregateLexical{TLexical}"/>
     /// <seealso cref="IEntity"/>
-    public class AggregateEntity : IAggregateEntity
+    public sealed class AggregateEntity : IAggregateEntity
     {
         #region Constructors
 

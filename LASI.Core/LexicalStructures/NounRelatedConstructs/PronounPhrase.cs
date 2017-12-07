@@ -14,7 +14,7 @@ namespace LASI.Core
     /// <para> It corresponds to NounPhrases which either contain almost exclusively Pronoun Words or which can be contextually  </para>
     /// determined to refer to some previously mentioned entity within a constrained scope.
     /// </summary>
-    public class PronounPhrase : NounPhrase, IReferencer
+    public sealed class PronounPhrase : NounPhrase, IReferencer
     {
         /// <summary>
         /// Initializes a new instance of the PronounPhrase class.
