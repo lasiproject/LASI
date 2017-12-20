@@ -1,7 +1,4 @@
-﻿using LASI.App.Helpers;
-using LASI.Content;
-using LASI.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,19 +6,25 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Newtonsoft.Json.Linq;
 using LASI.App.Extensions;
+using LASI.App.Helpers;
+using LASI.Content;
+using LASI.Utilities;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace LASI.App
 {
     /// <summary>
-    /// Interaction logic for StartupScreen.xaml
+    /// Interaction logic for StartupScreen.xaml 
     /// </summary>
     public partial class StartupWindow : Window
     {
         #region Constructor
+
         /// <summary>
-        /// Initializes a new instance of the StartupScreen class.
+        /// Initializes a new instance of the StartupScreen class. 
         /// </summary>
         public StartupWindow()
         {
@@ -60,7 +63,8 @@ namespace LASI.App
                 Logger.SetToSilent();
             }
         }
-        #endregion
+
+        #endregion Constructor
 
         #region Methods
 
@@ -72,7 +76,7 @@ namespace LASI.App
             {
                 DocumentManager.AddDocument(file.Name, file.FullName);
             }
-            if (!DocumentManager.IsEmpty)
+            if (DocumentManager.HasAny)
             {
                 ExpandCreatePanelButton_Click(ExpandCreatePanelButton, new RoutedEventArgs());
             }
@@ -129,7 +133,7 @@ namespace LASI.App
             }
         }
 
-        #endregion
+        #endregion Initialization Methods
 
         #region Named Event Handlers
 
@@ -149,7 +153,7 @@ namespace LASI.App
             Resources["createButtonContent"] = "Cancel";
             mainGrid.AllowDrop = true;
             await SetUpDefaultDirectory();
-            if (Height == 250)
+            if (Height <= 250)
             {
                 for (var i = 0; i < 270; i += 10)
                 {
@@ -164,7 +168,7 @@ namespace LASI.App
 
         private async void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            ExpandCreatePanelButton.Click -= CancelButton_Click;            //remove this event handler and 
+            ExpandCreatePanelButton.Click -= CancelButton_Click;            //remove this event handler and
             Resources["createButtonContent"] = "Create";
             mainGrid.AllowDrop = false;
             if ((int)Height == 550)
@@ -192,7 +196,7 @@ namespace LASI.App
                 openDialog.ShowDialog(this);
                 if (openDialog.FileNames.Any())
                 {
-                    for (int i = 0; i < openDialog.FileNames.Length; ++i)
+                    for (var i = 0; i < openDialog.FileNames.Length; ++i)
                     {
                         if (!DocumentManager.HasFileWithName(openDialog.SafeFileNames[i]))
                         {
@@ -225,24 +229,29 @@ namespace LASI.App
             }
             if (ValidateProjectName() && ValidateProjectLocationField() && ValidateProjectHasADocument())
             {
+                var serializer = new JsonSerializer
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
+
                 CreateButton.Click -= CompleteSetupAndContinueButton_Click;
                 Resources["CurrentProjectName"] = ProjectNameTextBox.Text;
                 var previewWindow = WindowManager.ProjectPreviewScreen;
                 previewWindow.SetTitle(Resources["CurrentProjectName"] + " - L.A.S.I.");
                 await InitializeFileManager();
-                var lasiFile = new JObject
+                var lasiFile = JObject.FromObject(new
                 {
-                    ["name"] = ProjectNameTextBox.Text,
-                    ["files"] = JArray.FromObject(from file in FileManager.TxtFiles
-                                                  select new JObject
-                                                  {
-                                                      ["name"] = file.FileName,
-                                                      ["path"] = file.FullPath.Replace("\\", "/")
-                                                  })
-                };
+                    Name = ProjectNameTextBox.Text,
+                    Files = from file in FileManager.TxtFiles
+                            select new
+                            {
+                                Name = file.FileName,
+                                Path = file.FullPath.Replace("\\", "/")
+                            }
+                }, serializer);
                 using (var writer = File.CreateText($"{FileManager.ProjectDirectory}{Path.DirectorySeparatorChar}project.lasi"))
                 {
-                    writer.WriteLine(lasiFile.ToString());
+                    writer.WriteLine(lasiFile.ToString(Formatting.Indented));
                 }
                 this.SwapWith(WindowManager.ProjectPreviewScreen);
                 await WindowManager.ProjectPreviewScreen.LoadDocumentPreviewsAsync();
@@ -262,12 +271,13 @@ namespace LASI.App
                 LocationTextBox.Text = locationSelectDialog.SelectedPath + Path.DirectorySeparatorChar;
             }
         }
+
         private async void LoadProjectButton_Click(object sender, RoutedEventArgs e)
         {
             DocumentManager.RemoveAll();
             var LocationSelectDialog = new System.Windows.Forms.OpenFileDialog
             {
-                Filter = $"LASI Project Files|*.lasi",
+                Filter = "LASI Project Files|*.lasi",
                 Multiselect = false
             };
 
@@ -294,7 +304,8 @@ namespace LASI.App
         {
             DragMove();
         }
-        #endregion
+
+        #endregion Named Event Handlers
 
         #region Validation Methods
 
@@ -359,6 +370,7 @@ namespace LASI.App
             }
             return true;
         }
+
         private bool ValidateProjectHasADocument()
         {
             if (DocumentManager.IsEmpty)
@@ -369,13 +381,14 @@ namespace LASI.App
             return true;
         }
 
-        #endregion
+        #endregion Validation Methods
 
         #region Helper Methods
+
         /// <summary>
-        /// Hides all of the provided UIElements.
+        /// Hides all of the provided UIElements. 
         /// </summary>
-        /// <param name="elements">Zero or more UIElements to hide.</param>
+        /// <param name="elements"> Zero or more UIElements to hide. </param>
         private void HideElements(params UIElement[] elements)
         {
             foreach (var e in elements)
@@ -383,10 +396,11 @@ namespace LASI.App
                 e.Visibility = Visibility.Hidden;
             }
         }
+
         /// <summary>
-        /// Shows all of the provided UIElements.
+        /// Shows all of the provided UIElements. 
         /// </summary>
-        /// <param name="elements">Zero or more UIElements to show.</param>
+        /// <param name="elements"> Zero or more UIElements to show. </param>
         private void ShowElements(params UIElement[] elements)
         {
             foreach (var e in elements)
@@ -394,9 +408,11 @@ namespace LASI.App
                 e.Visibility = Visibility.Visible;
             }
         }
-        #endregion
 
-        #endregion
+        #endregion Helper Methods
+
+        #endregion Methods
+
         private IEnumerable<UIElement> ProjectErrorControls
         {
             get
@@ -413,7 +429,7 @@ namespace LASI.App
             public const string NoDocumentsInProject = "You must have documents for your new project";
             public const string ProjectLocationInvalid = "You must enter a valid location for your new project";
             public const string ProjectNameEmpty = "You must enter a name for your new project";
-            public const string ProjectNameInvalid = "The project name you enterred is not valid. Please choose a new project name";
+            public const string ProjectNameInvalid = "The project name you entered is not valid. Please choose a new project name";
         }
     }
 }

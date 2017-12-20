@@ -176,7 +176,6 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void ZipWithHasSameBehaviorAsZip()
         {
-            Func<int, int, int> selector = (x, y) => x + y * y;
             var first = Range(1, 10);
             var second = Range(10, 20);
 
@@ -184,6 +183,8 @@ namespace LASI.Utilities.Tests
             var zipWithed = first.Zip(second).With(selector);
 
             Check.That(expected).ContainsExactly(zipWithed);
+
+            int selector(int x, int y) => x + y * y;
         }
 
         [Fact]

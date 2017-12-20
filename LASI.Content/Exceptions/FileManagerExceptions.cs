@@ -76,8 +76,10 @@ namespace LASI.Content
         protected void CollectDirInfo()
         {
             if (FileManager.Initialized && FileManager.TxtFiles.Any())
+            {
                 filesInProjectDirectories = new DirectoryInfo(FileManager.ProjectDirectory).EnumerateFiles("*", SearchOption.AllDirectories)
                                             .Select(di => FileManager.WrapperMap[di.Extension](di.FullName)).DefaultIfEmpty();
+            }
         }
 
         private IEnumerable<InputFile> filesInProjectDirectories = new List<InputFile>();

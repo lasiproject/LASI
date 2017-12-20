@@ -53,8 +53,9 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NFluent, Version=2.0.0.71, Culture=neutral, PublicKeyToken=18828b37b84b1437, processorArchitecture=MSIL">
-      <HintPath>..\packages\NFluent.2.0.0\lib\net45\NFluent.dll</HintPath>
+    <Reference Include="NFluent, Version=2.1.0.99, Culture=neutral, PublicKeyToken=18828b37b84b1437">
+      <HintPath>..\packages\NFluent.2.1.0\lib\net45\NFluent.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">

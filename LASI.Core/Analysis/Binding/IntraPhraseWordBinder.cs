@@ -28,8 +28,7 @@ namespace LASI.Core.Binding
                 ////Output.WriteLine("\nLast Noun: {0}", LastNoun.Text);
                 */
 
-
-                /*  
+                /*
                  *  if word prior to LastNoun is also a Noun associate them
                  */
 
@@ -39,7 +38,6 @@ namespace LASI.Core.Binding
                     previousAsNoun.FollowingAdjunctNoun = LastNoun;
                 }
 
-
                 /*
                  * Binding determiners to last noun
                  */
@@ -48,7 +46,6 @@ namespace LASI.Core.Binding
                 {
                     LastNoun.BindDeterminer(det1);
                 }
-
 
                 /*
                  * Binding Adjectives to last noun
@@ -62,7 +59,6 @@ namespace LASI.Core.Binding
                     }
                 }
 
-
                 /*
                  *  Binding first possessive pronoun to last noun
                  */
@@ -73,8 +69,6 @@ namespace LASI.Core.Binding
                 }
             }
         }
-
-
 
         /// <summary>
         /// Intra Verb Phrase Binding
@@ -111,10 +105,8 @@ namespace LASI.Core.Binding
                     foreach (var toLink in toLinkerList)
                     {
                         //////Output.WriteLine("To Linker: {0}", toLink.Text);
-                        var prevWord = toLink.PreviousWord as Verb;
-                        var nextWord = toLink.NextWord as Verb;
 
-                        if (prevWord != null && nextWord != null)
+                        if (toLink.PreviousWord is Verb prevWord && toLink.NextWord is Verb nextWord)
                         {
                             toLink.BindObject(nextWord);
                             prevWord.AttachObjectViaPreposition(toLink);
@@ -132,7 +124,7 @@ namespace LASI.Core.Binding
                     }
                 }
 
-                //  Binds all Modal Aux's to last adverb
+                // Binds all Modal Aux's to last adverb
                 var ModalAuxList = vp.Words.OfModal();
                 if (ModalAuxList.Any())
                 {
@@ -157,8 +149,6 @@ namespace LASI.Core.Binding
                     }
                 }
                 */
-
-
             }
         }
     }

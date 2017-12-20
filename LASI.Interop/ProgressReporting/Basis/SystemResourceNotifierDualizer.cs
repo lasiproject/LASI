@@ -4,7 +4,7 @@ namespace LASI.Interop.ContractHelperTypes.Base
 {
     abstract class SystemResourceNotifierDualizer : Progress<Core.ResourceLoadEventArgs>
     {
-        private string messageAdjunct;
+        private readonly string messageAdjunct;
         /// <summary>
         /// Initializes a new instance of the SystemResourceNotifierImplementation class which provides for the basis for the subscription of events corresponding to resource loading.
         /// </summary>

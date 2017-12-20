@@ -22,10 +22,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// effect and simply return the original match.
         /// </param>
         /// <param name="inner">The match which has been predicated.</param>
-        internal PredicatedMatch(bool predicateSucceeded, Match<T> inner) : base(predicateSucceeded)
-        {
-            expression = inner;
-        }
+        internal PredicatedMatch(bool predicateSucceeded, Match<T> inner) : base(predicateSucceeded) => expression = inner;
 
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.

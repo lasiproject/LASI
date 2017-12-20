@@ -12,9 +12,6 @@
         /// </summary>
         /// <param name="text">The text content of the GenericNoun</param>
         protected CommonNoun(string text)
-            : base(text)
-        {
-            EntityKind = EntityKind.Thing;
-        }
+            : base(text) => EntityKind = EntityKind.Thing;
     }
 }

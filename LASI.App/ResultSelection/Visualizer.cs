@@ -29,7 +29,7 @@ namespace LASI.App
         /// </param>
         public static async Task ChangeChartKindAsync(ChartKind chartKind)
         {
-            Visualizer.chartKind = chartKind;
+            Visualizer.ChartKind = chartKind;
             foreach (var pair in DocumentsByChart)
             {
                 var document = pair.Value;
@@ -97,7 +97,7 @@ namespace LASI.App
         /// Sets properties to values common to all data point series created by the Visualizer.
         /// </summary>
         /// <param name="series"></param>
-        private static void ConfigureDataPointSeries(DataPointSeries series)
+        static void ConfigureDataPointSeries(DataPointSeries series)
         {
             series.DependentValuePath = "Value"; // this string is expected by the charting engine
             series.IndependentValuePath = "Key"; // this string is expected by the charting engine
@@ -124,14 +124,17 @@ namespace LASI.App
             }
         }
 
-        private static async Task<Chart> BuildBarChartAsync(Document document)
+        static async Task<Chart> BuildBarChartAsync(Document document)
         {
             var dataPointSource =
-                chartKind == ChartKind.NounPhrasesOnly ?
+                ChartKind is ChartKind.NounPhrasesOnly ?
                 await GetNounWiseDataAsync(document) :
-                chartKind == ChartKind.SubjectVerbObject ?
+                ChartKind is ChartKind.SubjectVerbObject ?
                 await GetVerbWiseRelationshipChartItemsAsync(document) :
-                await GetVerbWiseRelationshipChartItemsAsync(document);
+                ChartKind is ChartKind.SubjectVerb ?
+                await GetVerbWiseRelationshipChartItemsAsync(document) :
+                throw new InvalidOperationException($"Unknown {nameof(LASI.App.ChartKind)}: {ChartKind}");
+            //await GetVerbWiseRelationshipChartItemsAsync(document);
             // Materialize item source so that changing chart types is less expensive.
             var topPoints = dataPointSource
                 .OrderByDescending(point => point.Value)
@@ -156,9 +159,9 @@ namespace LASI.App
             return chart;
         }
 
-        private static async Task<IEnumerable<ChartItem>> CreateChartDataAsync(ChartKind chartKind, Document document)
+        static async Task<IEnumerable<ChartItem>> CreateChartDataAsync(ChartKind kind, Document document)
         {
-            switch (chartKind)
+            switch (kind)
             {
                 case ChartKind.SubjectVerbObject:
                     return await GetVerbWiseRelationshipChartItemsAsync(document);
@@ -169,7 +172,7 @@ namespace LASI.App
             }
         }
 
-        private static IEnumerable<Chart> RetrieveCharts() => WindowManager.ResultsScreen
+        static IEnumerable<Chart> RetrieveCharts() => WindowManager.ResultsScreen
             .FrequencyCharts.Items
             .OfType<TabItem>()
             .Select(tab => tab.Content).OfType<Chart>();
@@ -192,7 +195,7 @@ namespace LASI.App
             chart.Series.Add(series);
         }
 
-        private static IEnumerable<ChartItem> GetItemSource(this Chart chart) => (chart.Tag as IEnumerable<ChartItem>).Reverse();
+        static IEnumerable<ChartItem> GetItemSource(this Chart chart) => (chart.Tag as IEnumerable<ChartItem>).Reverse();
 
         #endregion General Chart Building Methods
 
@@ -235,26 +238,26 @@ namespace LASI.App
                 Weight = Math.Round(relationship.Weight, 2)
             };
 
-        private static string FormatObjectText(IEntity o) => (o as IPrepositionLinkable)?.LeftPrepositional?.Text + " " + o?.Text;
+        static string FormatObjectText(IEntity o) => (o as IPrepositionLinkable)?.LeftPrepositional?.Text + " " + o?.Text;
 
-        private static string FormatVerbalText(IVerbal verbal)
+        static string FormatVerbalText(IVerbal verbal)
         {
             var prepositionalText = verbal.Match((IPrepositionLinkable p) => p.LeftPrepositional?.Text);
             var adverbialText = string.Join(" ", verbal.AdverbialModifiers.Select(m => m.Text));
             return $"{prepositionalText} {verbal.Modality?.Text} {verbal.Text} {adverbialText}";
         }
 
-        private static IEnumerable<ChartItem> GetNounWiseRelationshipChartItems(Document document) =>
+        static IEnumerable<ChartItem> GetNounWiseRelationshipChartItems(Document document) =>
             document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .OfNounPhrase()
                 .Meld()
                 .Select(entity => new ChartItem(entity.Text, (float)Math.Round(entity.Weight, 2)))
                 .Distinct();
 
-        private static Task<IEnumerable<ChartItem>> GetNounWiseDataAsync(Document document) =>
+        static Task<IEnumerable<ChartItem>> GetNounWiseDataAsync(Document document) =>
               Task.Run(() => GetNounWiseRelationshipChartItems(document));
 
-        private static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItems(Document document)
+        static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItems(Document document)
         {
             var verbWiseRelationships = await GetVerbWiseRelationshipsAsync(document);
             var chartItems =
@@ -267,10 +270,10 @@ namespace LASI.App
             return chartItems.Distinct();
         }
 
-        private static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItemsAsync(Document document) =>
+        static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItemsAsync(Document document) =>
             await Task.Run(() => GetVerbWiseRelationshipChartItems(document));
 
-        private static async Task<IEnumerable<SvoRelationship>> GetVerbWiseRelationshipsAsync(Document document) => await Task.Run(() =>
+        static async Task<IEnumerable<SvoRelationship>> GetVerbWiseRelationshipsAsync(Document document) => await Task.Run(() =>
         {
             var consideredVerbals = document.Phrases.OfVerbal()
                 .WithSubject(subject => subject.Match(
@@ -303,8 +306,8 @@ namespace LASI.App
                    select relationship;
         });
 
-        private static ChartKind chartKind;
-        private const int ChartItemLimit = 14;
-        private static readonly IDictionary<Chart, Document> DocumentsByChart = new Dictionary<Chart, Document>();
+        static ChartKind ChartKind;
+        const int ChartItemLimit = 14;
+        static readonly IDictionary<Chart, Document> DocumentsByChart = new Dictionary<Chart, Document>();
     }
 }

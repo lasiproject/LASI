@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using LASI.Utilities;
+using static System.Linq.Enumerable;
 
 namespace LASI.App
 {
@@ -11,91 +12,110 @@ namespace LASI.App
     {
         public static void AddDocument(string fileName, string filePath)
         {
-            var docEntry = new ListViewItem { Tag = filePath, Content = fileName };
-            var button = new Button { Content = "x", Height = 16, Width = 16, Padding = new Thickness(0.5), };
-            button.Click += delegate
+            var docEntry = new ListViewItem
             {
-                runningListDisplay.Items.Remove(docEntry);
-                xButtons.Children.Remove(button);
-                --documentCount;
+                Tag = filePath,
+                Content = fileName
+            };
+            var button = new Button
+            {
+                Content = "x",
+                Height = 16,
+                Width = 16,
+                Padding = new Thickness(0.5)
+            };
+
+            button.Click += (s, e) =>
+            {
+                RunningListDisplay.Items.Remove(docEntry);
+                XButtons.Children.Remove(button);
+                DocumentCount -= 1;
                 if (IsEmpty)
                 {
-                    runningListDisplay.Opacity = 0.25;
+                    RunningListDisplay.Opacity = 0.25;
                 }
-                browseForDocButton.IsEnabled = true;
+                BrowseForDocButton.IsEnabled = true;
             };
-            xButtons.Children.Add(button);
-            runningListDisplay.Items.Add(docEntry);
+            XButtons.Children.Add(button);
+            RunningListDisplay.Items.Add(docEntry);
 
-            itemsAdded.Add(docEntry);
+            ItemsAdded.Add(docEntry);
 
-            lastDocumentPathTextBox.Text = fileName;
-            ++documentCount;
+            LastDocumentPathTextBox.Text = fileName;
+            DocumentCount += 1;
+
             if (CanAdd)
             {
-                runningListDisplay.Opacity = 1.0;
+                RunningListDisplay.Opacity = 1.0;
             }
             else
             {
-                browseForDocButton.IsEnabled = false;
+                BrowseForDocButton.IsEnabled = false;
             }
 
-            NumberOfDocumentsChanged?.Invoke(runningListDisplay, new RoutedPropertyChangedEventArgs<double>(documentCount - 1, documentCount));
+            NumberOfDocumentsChanged(RunningListDisplay, new RoutedPropertyChangedEventArgs<double>(DocumentCount - 1, DocumentCount));
         }
 
         public static IEnumerable<FileInfo> GetValidFilesInPathList(IEnumerable<string> paths)
         {
-            var validFiles = from path in paths
-                             let contentsIfDir = Directory.Exists(path) ? Directory.EnumerateFileSystemEntries(path) : new string[] { }
-                             let dirContentsOrFile = contentsIfDir.Any() ? GetValidFilesInPathList(contentsIfDir) : new[] { new FileInfo(path) }
-                             from file in dirContentsOrFile
-                             where AcceptedFormats.Contains(file.Extension)
-                             select file;
-            return validFiles.Take(MaxDocuments - documentCount);
+            var validFiles =
+                from path in paths
+                let contentsIfDir = Directory.Exists(path)
+                       ? Directory.EnumerateFileSystemEntries(path)
+                       : Empty<string>()
+                let dirContentsOrFile = contentsIfDir.Any()
+                    ? GetValidFilesInPathList(contentsIfDir)
+                    : Repeat(new FileInfo(path), 1)
+                from file in dirContentsOrFile
+                where AcceptedFormats.Contains(file.Extension)
+                select file;
+
+            return validFiles.Take(MaxDocuments - DocumentCount);
         }
 
-        public static bool HasFileWithName(string name) => runningListDisplay.Items.OfType<ListViewItem>().Any(item => item.Content.ToString().Trim().EqualsIgnoreCase(name.Trim()));
+        public static bool HasFileWithName(string name)
+        {
+            return RunningListDisplayItems
+                .Any(matches);
+
+            bool matches(ListViewItem item) => item.Content.ToString().Trim().EqualsIgnoreCase(name.Trim());
+        }
 
         public static void Initialize(ListBox listBox, Panel xbuttons, UIElement browseButton, TextBox lastPathTextBox)
         {
-            runningListDisplay = listBox;
-            xButtons = xbuttons;
-            browseForDocButton = browseButton;
-            lastDocumentPathTextBox = lastPathTextBox;
+            RunningListDisplay = listBox;
+            XButtons = xbuttons;
+            BrowseForDocButton = browseButton;
+            LastDocumentPathTextBox = lastPathTextBox;
         }
 
         public static void RemoveByFileName(string name)
         {
-            var remove = itemsAdded.FirstOrDefault(matchesTargetName);
+            var remove = ItemsAdded.FirstOrDefault(matchesTargetName);
             if (remove != null)
             {
                 RemoveFile(remove);
             }
 
-            NumberOfDocumentsChanged(runningListDisplay, new RoutedPropertyChangedEventArgs<double>(documentCount + 1, documentCount));
+            NumberOfDocumentsChanged(RunningListDisplay, new RoutedPropertyChangedEventArgs<double>(DocumentCount + 1, DocumentCount));
 
             bool matchesTargetName(ListViewItem item) => item.Content.ToString().Substring(0, item.Content.ToString().LastIndexOf('.')) == name;
         }
 
-        public static void RemoveAll() => itemsAdded.ToList().ForEach(RemoveFile);
+        public static void RemoveAll() => ItemsAdded.ToList().ForEach(RemoveFile);
 
-        private static void RemoveFile(ListViewItem remove)
+        static void RemoveFile(ListViewItem remove)
         {
-            itemsAdded.Remove(remove);
-            runningListDisplay.Items.Remove(remove);
-            --documentCount;
+            ItemsAdded.Remove(remove);
+            RunningListDisplay.Items.Remove(remove);
+            DocumentCount -= 1;
         }
 
-
         /// <summary>
-        /// Returns true if the file represented by the given file info is locked by the operating
-        /// system or another application.
+        /// Returns true if the file represented by the given file info is locked by the operating system or another application. 
         /// </summary>
         /// <param name="file"></param>
-        /// <returns>
-        /// <c>true</c> if the file represented by the given file info is locked by the operating
-        /// system or another application; otherwise, <c>false</c>.
-        /// </returns>
+        /// <returns> <c> true </c> if the file represented by the given file info is locked by the operating system or another application; otherwise, <c> false </c>. </returns>
         public static bool AbleToOpen(FileInfo file)
         {
             try
@@ -113,37 +133,41 @@ namespace LASI.App
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether or not there is space for at least one additional
-        /// document in the DocumentManager's working set.
-        /// </summary>
-        public static bool CanAdd => MaxDocuments - documentCount > 0;
+        static IEnumerable<ListViewItem> RunningListDisplayItems => RunningListDisplay.Items.OfType<ListViewItem>();
 
         /// <summary>
-        /// Gets a value indicating whether or not the DocumentManager has any documents in its
-        /// working set.
+        /// Gets a value indicating whether or not there is space for at least one additional document in the DocumentManager's working set. 
         /// </summary>
-        public static bool IsEmpty => documentCount == 0;
+        public static bool CanAdd => MaxDocuments - DocumentCount > 0;
 
         /// <summary>
-        /// e Gets a string array containing all of the file extensions accepted by the DocumentManager.
+        /// Gets a value indicating whether or not the DocumentManager has any documents in its working set. 
         /// </summary>
-        public static IEnumerable<string> AcceptedFormats => acceptedFormats;
+        public static bool IsEmpty => !HasAny;
+
+        /// <summary>
+        /// Gets a value indicating whether or not the DocumentManager has any documents in its working set. 
+        /// </summary>
+        public static bool HasAny => DocumentCount > 0;
+
+        /// <summary>
+        /// e Gets a string array containing all of the file extensions accepted by the DocumentManager. 
+        /// </summary>
+        public static IEnumerable<string> AcceptedFormats { get; } = new[] { ".doc", ".docx", ".txt", ".pdf" };
 
         public const string FileTypeFilter = "Documents File Types|*.doc; *.docx; *.pdf; *.txt";
 
         /// <summary>
-        /// The maximum number of documents which can be added by the user.
+        /// The maximum number of documents which can be added by the user. 
         /// </summary>
         public const int MaxDocuments = 10;
 
-        private static readonly string[] acceptedFormats = { ".doc", ".docx", ".txt", ".pdf" };
-        private static UIElement browseForDocButton;
-        private static int documentCount;
-        private static ICollection<ListViewItem> itemsAdded = new List<ListViewItem>();
-        private static TextBox lastDocumentPathTextBox;
-        private static ListBox runningListDisplay;
-        private static Panel xButtons;
+        static UIElement BrowseForDocButton;
+        static int DocumentCount;
+        static ICollection<ListViewItem> ItemsAdded = new List<ListViewItem>();
+        static TextBox LastDocumentPathTextBox;
+        static ListBox RunningListDisplay;
+        static Panel XButtons;
 
         #region Events
 

@@ -1,0 +1,11 @@
+﻿<template bindable="page, document">
+  <require from="./paragraph.html"></require>
+  <div class="${page.style.cssClass}">
+    <div>title: ${title}</div>
+    <div>
+      <paragraph repeat.for="paragraph in page.paragraphs"
+        paragraph.bind="paragraph"
+        parent-id.bind="document.id"></paragraph>
+    </div>
+  </div>
+</template>

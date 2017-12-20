@@ -4,22 +4,16 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
 {
     internal class AppliedTerm<T> where T : ILexical
     {
-        public AppliedTerm(MetaTerm<T> applied)
-        {
-            this.applied = applied;
-        }
+        public AppliedTerm(MetaTerm<T> applied) => this.applied = applied;
 
         private Pattern<TResult> Invoke<TResult>(Pattern<TResult> pattern, Func<T, TResult> f) => pattern.ApplyWhen(applied, f);
 
-        private MetaTerm<T> applied;
+        private readonly MetaTerm<T> applied;
     }
 
     internal class BooleanTerm : Term
     {
-        public BooleanTerm(bool boolean)
-        {
-            Boolean = boolean;
-        }
+        public BooleanTerm(bool boolean) => Boolean = boolean;
 
         public override bool Test(ILexical lexical) => Boolean;
 
@@ -30,10 +24,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
 
     internal class MetaTerm : Term
     {
-        public MetaTerm(Func<ILexical, bool> test)
-        {
-            this.test = test;
-        }
+        public MetaTerm(Func<ILexical, bool> test) => this.test = test;
 
         public override bool Test(ILexical lexical) => test(lexical);
 
@@ -55,10 +46,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
 
     internal class Pattern<TResult>
     {
-        public Pattern(ILexical lexical)
-        {
-            Lexical = lexical;
-        }
+        public Pattern(ILexical lexical) => Lexical = lexical;
 
         public static TermWithResultType<TResult> operator |(Pattern<TResult> pattern, Term term) => new TermWithResultType<TResult>(term);
 
@@ -102,10 +90,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
 
     internal class TermWithResultType<TResult> : Term
     {
-        public TermWithResultType(Term term)
-        {
-            this.term = term;
-        }
+        public TermWithResultType(Term term) => this.term = term;
 
         public TermWithResultType()
         {
@@ -125,13 +110,9 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
 
     internal class TextualTerm<TResult> : TermWithResultType<TResult>
     {
-        public TextualTerm(string text) : base()
-        {
-            Text = text;
-        }
+        public TextualTerm(string text) : base() => Text = text;
 
         public override bool Test(ILexical lexical) => lexical.Text == Text;
-
 
         public override TermKind Kind => TermKind.Textual;
 

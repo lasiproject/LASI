@@ -1,21 +1,23 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Text;
-using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 using LASI.Utilities;
+using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 
 namespace LASI.Core.Analysis.Heuristics.WordMorphing
 {
     using System;
-    using System.Collections.Generic;
     using static System.Configuration.ConfigurationManager;
     using ExceptionsInfoMapping = System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>>;
+
     internal class WordNetExceptionDataManager
     {
         /// <summary>
         /// Initializes a new instance of the WordMorpher class.
         /// </summary>
-        /// <param name="exceptionFileRelativePath">The path of the file containing WordNet exception information to be loaded by the WordMorpherHelper. This path must be relative to the WordNet Resources Directory.</param>
+        /// <param name="exceptionFileRelativePath">
+        /// The path of the file containing WordNet exception information to be loaded by the WordMorpherHelper. This path must be relative to the WordNet Resources Directory.
+        /// </param>
         internal WordNetExceptionDataManager(string exceptionFileRelativePath)
         {
             this.exceptionsFileRelativePath = exceptionFileRelativePath;
@@ -43,19 +45,21 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
                                       //.ToLookup(line => line.Select(e => Pair.Create(line[line.Count - 1], line.GetRange(0, line.Count - 1))))
                                   group line by line.Last()
                                             into g
-                                  let exceptions = g.SelectMany(x => x).ToList()
-                                  select (g.Key, value: exceptions.AsEnumerable(), exceptions.Count);
+                                  let values = g.SelectMany(x => x).ToList()
+                                  let count = values.Count
+                                  let exceptions = values.AsEnumerable()
+                                  select (key: g.Key, exceptions, count);
                     //.ToDictionary(e => e.Key, e => e.Select(excs => excs).ToList());
 
-                    var mostComplex = results.MaxBy(r => r.Count);
-                    Logger.Log($"Loaded Exception Information from : {exceptionsFileRelativePath}\nMax most complex line parsed: \"{mostComplex.value} {mostComplex.Key} -> {mostComplex.Count} entries.\"");
-                    return results.ToDictionary(x => x.Key, x => x.value);
+                    var mostComplex = results.MaxBy(r => r.count);
+                    Logger.Log($"Loaded Exception Information from : {exceptionsFileRelativePath}\nMax most complex line parsed: \"{mostComplex.exceptions} {mostComplex.key} -> {mostComplex.count} entries.\"");
+                    return results.ToDictionary(x => x.key, x => x.exceptions);
                 }
             });
         }
+
         private Lazy<ExceptionsInfoMapping> excMapping;
         public ExceptionsInfoMapping ExcMapping => excMapping.Value;
-
 
         private static Utilities.Configuration.IConfig Config => Configuration.Paths.Settings;
 
@@ -67,6 +71,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         static string WordnetFileDirectory =>
             ResourcesDirectory + (Config != null ? Config["WordnetFileDirectory"] :
             AppSettings["WordnetFileDirectory"]);
+
         string ExceptionsFilePath => WordnetFileDirectory + exceptionsFileRelativePath;
         private readonly string exceptionsFileRelativePath;
     }

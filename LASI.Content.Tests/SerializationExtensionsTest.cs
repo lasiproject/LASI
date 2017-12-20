@@ -32,6 +32,7 @@ namespace LASI.Content.Serialization.Json.Tests
 
             Check.That(serialized).IsNotNull();
         }
+
         [Fact]
         public void NounPhraseToJObjectYieldsJObjectHavingTextEqualToSourceText()
         {
@@ -68,13 +69,17 @@ namespace LASI.Content.Serialization.Json.Tests
         {
             public static IVerbal TestVerbal => new VerbPhrase(new BaseVerb("walk"), new Adverb("swiftly"));
             public static NounPhrase TestNounPhrase => new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
+
             public static IEnumerable<ILexical> GetLexicalSequence()
             {
                 foreach (var lexical in new[] { new NounPhrase(
                         new ProperPluralNoun("Americans"),
                         new Conjunction("and"),
                         new ProperPluralNoun("Canadians")
-                        )}) yield return lexical;
+                        )})
+                {
+                    yield return lexical;
+                }
             }
 
             public static void RemoveUniquePropertyValues(JContainer test)

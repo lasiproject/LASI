@@ -52,7 +52,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
     class LiftedPredicate<T> : Predicate<T> where T : class, ILexical
     {
         private readonly Func<T, bool> requirement;
-        public LiftedPredicate(Func<T, bool> requirement) { this.requirement = requirement; }
+        public LiftedPredicate(Func<T, bool> requirement) => this.requirement = requirement;
         public override bool Satifies<TLexical>(TLexical element) => element is T && requirement(element as T);
 
     }

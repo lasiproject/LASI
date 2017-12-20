@@ -44,9 +44,6 @@ namespace LASI.Core.Configuration
         /// queries will use as many CPUs as possible up to the maximum value defined by <see cref="ParallelEnumerable"/>.
         /// </summary>
         /// <seealso cref="ParallelEnumerable.WithDegreeOfParallelism{TSource}(ParallelQuery{TSource}, int)"/>
-        static Configuration()
-        {
-            MaxConcurrency = Math.Min(Environment.ProcessorCount, MaxParallelismDefinedByParallelEnumerable);
-        }
+        static Configuration() => MaxConcurrency = Math.Min(Environment.ProcessorCount, MaxParallelismDefinedByParallelEnumerable);
     }
 }

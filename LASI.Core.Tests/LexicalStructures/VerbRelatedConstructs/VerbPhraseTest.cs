@@ -1,7 +1,6 @@
-﻿using LASI.Core;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using LASI.Core;
 using NFluent;
 using Fact = Xunit.FactAttribute;
 
@@ -363,11 +362,12 @@ namespace LASI.Core.Tests
             var target = CreateVerbPhrase1();
             IEntity entity = new CommonPluralNoun("cats");
             target.BindIndirectObject(entity);
-            Func<IEntity, bool> predicate = e => e.Text == "cats";
             var expected = true;
             bool actual;
             actual = target.HasIndirectObject(predicate);
             Check.That(actual).IsEqualTo(expected);
+
+            bool predicate(IEntity e) => e.Text == "cats";
         }
 
         /// <summary>
@@ -379,11 +379,12 @@ namespace LASI.Core.Tests
             var target = CreateVerbPhrase();
             IEntity entity = new CommonPluralNoun("cats");
             target.BindDirectObject(entity);
-            Func<IEntity, bool> predicate = e => e.Text == "cats";
             var expected = true;
             bool actual;
             actual = target.HasDirectObject(predicate);
             Check.That(actual).IsEqualTo(expected);
+
+            bool predicate(IEntity e) => e.Text == "cats";
         }
 
         /// <summary>

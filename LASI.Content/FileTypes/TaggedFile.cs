@@ -22,7 +22,9 @@ namespace LASI.Content
             : base(path)
         {
             if (!Extension.Equals(CanonicalExtension, StringComparison.OrdinalIgnoreCase))
+            {
                 throw new FileTypeWrapperMismatchException<TaggedFile>(Extension);
+            }
         }
 
         /// <summary>

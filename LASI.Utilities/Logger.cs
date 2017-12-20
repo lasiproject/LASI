@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reactive.Linq;
 using LASI.Utilities.Validation;
 
 namespace LASI.Utilities
@@ -15,8 +16,7 @@ namespace LASI.Utilities
         static Logger() => SetToConsole();
 
         /// <summary>
-        /// Sets the current output to the file specified by the given path.
-        /// Defaults to the current working directory of the application.
+        /// Sets the current output to the file specified by the given path. Defaults to the current working directory of the application.
         /// </summary>
         public static void SetToFile(string path)
         {
@@ -30,23 +30,18 @@ namespace LASI.Utilities
 
             var fileStream = new FileStream(path: logPath, mode: FileMode.Append, access: FileAccess.Write, share: FileShare.Write);
 
-            // TODO: Fix race condition which sometimes occurs here. 
-            // Possible fix 1: using async calls. to WriteLine -> WriteLineAsync in all methods overloads of Log.
-            // This will likely cause some mangling of output, but how much remains to be seen. Performance should be
-            // strong.
-            // Possible fix 2: wrap StreamWriter in a Synchronized wrapper by calling TextWriter.Synchronized(writer).
-            // Possible fix 3: use a logging pacakge, such as log4net. While this would provide proven and tested 
-            // abstraction from thread safety issues, it is unclear of the performance implications of using such a library.
-            // something critical to LASI is the abbility to parallelize CPU bound operations, many if not most apps 
-            // using these libraries are NOT cpu bound. The parallelized operations need to be able to log messages freely.
-            // Also, it is another dependency that, at least in the case of log4net, provides countless features that will
-            // not be used. Also I particularly dislike having to create a static logger for every type. It's ugly, and cluttered,
-            // and also the logic behind such granularity is questionable from a conceptual standpoint.
+            // TODO: Fix race condition which sometimes occurs here. Possible fix 1: using async calls. to WriteLine -> WriteLineAsync in all methods overloads of Log. This will likely cause some
+            // mangling of output, but how much remains to be seen. Performance should be strong. Possible fix 2: wrap StreamWriter in a Synchronized wrapper by calling TextWriter.Synchronized(writer).
+            // Possible fix 3: use a logging package, such as log4net. While this would provide proven and tested abstraction from thread safety issues, it is unclear of the performance implications of
+            // using such a library. something critical to LASI is the ability to parallelize CPU bound operations, many if not most apps using these libraries are NOT CPU bound. The parallelized
+            // operations need to be able to log messages freely. Also, it is another dependency that, at least in the case of log4net, provides countless features that will not be used. Also I
+            // particularly dislike having to create a static logger for every type. It's ugly, and cluttered, and also the logic behind such granularity is questionable from a conceptual standpoint.
 
             writer = TextWriter.Synchronized(new StreamWriter(fileStream));
             writer.WriteLine($"LASI Log: {DateTimeOffset.Now}");
 
             var currentDomain = AppDomain.CurrentDomain;
+
             currentDomain.ProcessExit += delegate { writer.Dispose(); };
             currentDomain.DomainUnload += delegate { writer.Dispose(); };
             currentDomain.UnhandledException += delegate { writer.Dispose(); };
@@ -86,8 +81,7 @@ namespace LASI.Utilities
         }
 
         /// <summary>
-        /// Blocks all further output until a call is made to one of the following: 
-        /// SetToConsole, SetToFile, SetToDebug, or SetToStringBuilder.
+        /// Blocks all further output until a call is made to one of the following: SetToConsole, SetToFile, SetToDebug, or SetToStringBuilder.
         /// </summary>
         public static void SetToSilent()
         {
@@ -102,30 +96,27 @@ namespace LASI.Utilities
         public static void Log(string value) => writer.WriteLine(value);
 
         /// <summary>
-        /// Writes a formatted string to the text output stream followed by a line terminator, using the same semantics
-        /// as the System.String.Format(System.String,System.Object) method.
+        /// Writes a formatted string to the text output stream followed by a line terminator, using the same semantics as the System.String.Format(System.String,System.Object) method.
         /// </summary>
         /// <param name="format">A composite format string.</param>
-        /// <param name="arg0">The first object to format and write.</param>
-        /// <param name="arg1">The second object to format and write.</param>
+        /// <param name="arg0">  The first object to format and write.</param>
+        /// <param name="arg1">  The second object to format and write.</param>
         /// <exception cref="System.FormatException">
-        /// format is not a valid composite format string.-or- The index of a format
-        /// item is less than 0 (zero), or greater than or equal to the number of objects
-        /// to be formatted (which, for this method overload, is one).
+        /// format is not a valid composite format string.-or- The index of a format item is less than 0 (zero), or greater than or equal to the number of objects to be formatted (which, for this
+        /// method overload, is one).
         /// </exception>
         public static void Log(string format, object arg0, object arg1) => writer.WriteLine(format, arg0, arg1);
+
         /// <summary>
-        /// Writes a formatted string to the text output stream followed by a line terminator, using the same semantics
-        /// as the <see cref="string.Format(string, object)"/> method.
+        /// Writes a formatted string to the text output stream followed by a line terminator, using the same semantics as the <see cref="string.Format(string, object)"/> method.
         /// </summary>
         /// <param name="format">A composite format string.</param>
-        /// <param name="arg0">The first object to format and write.</param>
-        /// <param name="arg1">The second object to format and write.</param>
-        /// <param name="arg2">The third object to format and write.</param>
+        /// <param name="arg0">  The first object to format and write.</param>
+        /// <param name="arg1">  The second object to format and write.</param>
+        /// <param name="arg2">  The third object to format and write.</param>
         /// <exception cref="System.FormatException">
-        /// format is not a valid composite format string.-or- The index of a format
-        /// item is less than 0 (zero), or greater than or equal to the number of objects
-        /// to be formatted (which, for this method overload, is one).
+        /// format is not a valid composite format string.-or- The index of a format item is less than 0 (zero), or greater than or equal to the number of objects to be formatted (which, for this
+        /// method overload, is one).
         /// </exception>
         public static void Log(string format, object arg0, object arg1, object arg2) => writer.WriteLine(format, arg0, arg1, arg2);
 
@@ -138,7 +129,7 @@ namespace LASI.Utilities
         /// <summary>
         /// Writes the full details of a <see cref="Exception"/> to the text output stream.
         /// </summary>
-        /// <param name="exception">The <see cref="Exception"/> to write to the text output stream.</param>
+        /// <param name="exception">             The <see cref="Exception"/> to write to the text output stream.</param>
         /// <param name="additionalInfoSelector">A function to extract additional details from the exception.</param>
         public static void Log<TException>(TException exception, Func<TException, string> additionalInfoSelector) where TException : Exception
         {
@@ -162,6 +153,7 @@ namespace LASI.Utilities
         /// Gets the System.IO.TextWriter object to which all output is currently written.
         /// </summary>
         static TextWriter writer;
+
         /// <summary>
         /// Gets the OutputMode indicating where the output is being directed.
         /// </summary>

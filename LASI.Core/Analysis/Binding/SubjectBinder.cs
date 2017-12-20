@@ -71,7 +71,9 @@ namespace LASI.Core.Analysis.Binding
                     }
                     //if the last word, you can't find any more subjects
                     if (!sentence.GetPhrasesAfter(i).OfVerbPhrase().Any())
+                    {
                         break;
+                    }
                 }
 
                 //handle case of inverted sentence (http://en.wikipedia.org/wiki/Inverted_sentence)
@@ -126,10 +128,7 @@ namespace LASI.Core.Analysis.Binding
 
         internal class State
         {
-            public State()
-            {
-                S = StateType.Default;
-            }
+            public State() => S = StateType.Default;
             public StateType S
             {
                 get;

@@ -337,7 +337,11 @@ namespace LASI.Content
                 throw;
             }
         }
-        private static void ThrowIfUninitialized() { if (!Initialized) throw new FileManagerNotInitializedException(); }
+        private static void ThrowIfUninitialized() { if (!Initialized)
+            {
+                throw new FileManagerNotInitializedException();
+            }
+        }
 
         #endregion
 

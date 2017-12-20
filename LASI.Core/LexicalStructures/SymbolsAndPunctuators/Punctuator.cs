@@ -20,10 +20,7 @@ namespace LASI.Core
         /// Initializes a new instance of the Punctuator class.
         /// </summary>
         /// <param name="punctuation">The single character string which comprises the Punctuator"</param>
-        public Punctuator(string punctuation) : base(punctuation)
-        {
-            AliasString = SymbolAliasMap.ToAlias(LiteralCharacter);
-        }
+        public Punctuator(string punctuation) : base(punctuation) => AliasString = SymbolAliasMap.ToAlias(LiteralCharacter);
 
         /// <summary>
         /// Gets the alias string corresponding to the Punctuator.

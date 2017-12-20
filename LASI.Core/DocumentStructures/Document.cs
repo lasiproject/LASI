@@ -216,7 +216,7 @@ namespace LASI.Core
 
         private List<Sentence> sentences;
 
-        private List<Paragraph> paragraphs;
+        private readonly List<Paragraph> paragraphs;
 
         private List<Paragraph> listOrBulletParagraphs;
 

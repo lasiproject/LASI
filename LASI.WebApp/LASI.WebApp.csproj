@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="tsconfig.paths.json">
+      <DependentUpon>tsconfig.json</DependentUpon>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="jspm.browser.js">
+      <DependentUpon>jspm.config.js</DependentUpon>
+    </None>
+    <None Update="jspm.dev.js">
+      <DependentUpon>jspm.config.js</DependentUpon>
+    </None>
+    <None Update="jspm.node.js">
+      <DependentUpon>jspm.config.js</DependentUpon>
+    </None>
+    <None Update="src\account.html">
+      <DependentUpon>account.ts</DependentUpon>
+    </None>
+    <None Update="src\app.html">
+      <DependentUpon>app.ts</DependentUpon>
+    </None>
+    <None Update="src\documents.html">
+      <DependentUpon>documents.ts</DependentUpon>
+    </None>
+    <None Update="src\modal.html">
+      <DependentUpon>modal.ts</DependentUpon>
+    </None>
+    <None Update="src\signin.html">
+      <DependentUpon>signin.ts</DependentUpon>
+    </None>
+    <None Update="src\type-ahead\type-ahead.css">
+      <DependentUpon>type-ahead.html</DependentUpon>
+    </None>
+    <None Update="src\type-ahead\type-ahead.html">
+      <DependentUpon>type-ahead.ts</DependentUpon>
+    </None>
+  </ItemGroup>
+
+</Project>

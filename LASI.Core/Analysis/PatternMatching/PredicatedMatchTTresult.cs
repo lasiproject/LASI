@@ -20,10 +20,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </param>
         /// <param name="inner">The Match&lt;T, TResult&gt; which created the current instance.</param>
         internal PredicatedMatch(bool predicateSucceeded, Match<T, TResult> inner)
-           : base(predicateSucceeded)
-        {
-            expression = inner;
-        }
+           : base(predicateSucceeded) => expression = inner;
 
         #endregion Constructors
 

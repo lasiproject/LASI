@@ -16,22 +16,44 @@ namespace LASI.Core
         /// </summary>
         /// <param name="text">The text content of the ProperSingularNoun.</param>
         public ProperSingularNoun(string text)
-            : base(text) {
-            EntityKind = text.All(c => char.IsUpper(c) || c == '.') ? EntityKind.Organization : (gender ?? Gender.Undetermined).IsMaleOrFemale() ? EntityKind.Person : EntityKind;
+            : base(text)
+        {
+            EntityKind = text.All(c => char.IsUpper(c) || c == '.')
+                ? EntityKind.Organization
+                : gender.GetValueOrDefault().IsMaleOrFemale()
+                ? EntityKind.Person
+                : EntityKind;
         }
-        Gender? gender = null;
+        Gender? gender;
         /// <summary>
         /// Gets the Gender value indicating the likely gender of the ProperNoun.
         /// </summary>
-        public virtual Gender Gender {
-            get {
-                gender = gender ?? (this.IsFemaleFirstName() ? Gender.Female :
-                                    this.IsMaleFirstName() ? Gender.Male :
-                                    IsLastName || EntityKind == EntityKind.Organization ||
-                                    EntityKind == EntityKind.Location ||
-                                    EntityKind == EntityKind.Activity ? Gender.Neutral : Gender.Undetermined);
-                return gender.Value;
+        public virtual Gender Gender
+        {
+            get
+            {
+                if (gender is null)
+                {
+                    gender = DetermineGender();
+                }
+
+                return (Gender)gender;
+
+                Gender DetermineGender()
+                {
+                    return this.IsFemaleFirstName()
+                                    ? Gender.Female
+                                    : this.IsMaleFirstName()
+                                    ? Gender.Male
+                                    : IsLastName
+                                    || EntityKind == EntityKind.Organization
+                                    || EntityKind == EntityKind.Location
+                                    || EntityKind == EntityKind.Activity
+                                    ? Gender.Neutral
+                                    : Gender.Undetermined;
+                }
             }
         }
+
     }
 }

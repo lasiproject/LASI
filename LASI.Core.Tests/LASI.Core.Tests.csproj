@@ -68,8 +68,9 @@
       <HintPath>..\ThirdPartyComponents\FileFormatConversion\itextsharp\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="NFluent, Version=2.0.0.71, Culture=neutral, PublicKeyToken=18828b37b84b1437, processorArchitecture=MSIL">
-      <HintPath>..\packages\NFluent.2.0.0\lib\net45\NFluent.dll</HintPath>
+    <Reference Include="NFluent, Version=2.1.0.99, Culture=neutral, PublicKeyToken=18828b37b84b1437">
+      <HintPath>..\packages\NFluent.2.1.0\lib\net45\NFluent.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="OpenNLP, Version=1.0.2529.39671, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

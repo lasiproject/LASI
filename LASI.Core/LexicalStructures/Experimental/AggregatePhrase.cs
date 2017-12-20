@@ -16,10 +16,7 @@ namespace LASI.Core.Binding.Experimental
 
     internal class AggregateNounPhrase : IAggregateLexical<NounPhrase, IEntity>, IEntity
     {
-        protected AggregateNounPhrase(IEnumerable<IEntity> constituents)
-        {
-            this.constituents = constituents.ToList();
-        }
+        protected AggregateNounPhrase(IEnumerable<IEntity> constituents) => this.constituents = constituents.ToList();
 
         public void AddPossession(IPossessable possession)
         {

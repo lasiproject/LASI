@@ -1,0 +1,7 @@
+﻿<template>
+  <input type="text" value.bind="find & throttle debounce" uib-typeahead="word as word.text for word of words"
+    uib-typeahead-on-select.trigger="search({ value: find }, [searchContext])" placeholder="find"
+    onkeypress.trigger="keyDown($event)">
+  <span class="fa fa-search" click.trigger="search({ value: find }, [searchContext])">
+</span>
+</template>

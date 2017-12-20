@@ -76,7 +76,7 @@ namespace LASI.Core
         #region Fields
 
 
-        private HashSet<IAdverbial> adverbialModifiers = new HashSet<IAdverbial>();
+        private readonly HashSet<IAdverbial> adverbialModifiers = new HashSet<IAdverbial>();
 
         #endregion Fields
     }

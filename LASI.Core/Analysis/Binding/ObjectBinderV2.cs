@@ -36,7 +36,7 @@ namespace LASI.Core.Analysis.Binding
             {
                 throw new VerblessPhrasalSequenceException(phrases);
             }
-
+            var x = from Utilities.Logger.Mode e in Enum.GetValues(typeof(Utilities.Logger.Mode)) select e;
             var releventElements = from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                    let result = phrase.Match()
                                            .Case((IPrepositional p) => phrase)

@@ -18,10 +18,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="text">The text content of the RelativePronoun.</param>
         public RelativePronoun(string text)
-            : base(text)
-        {
-            RelativePronounKind = DetermineKind(this);
-        }
+            : base(text) => RelativePronounKind = DetermineKind(this);
 
         #region Methods
         /// <summary>

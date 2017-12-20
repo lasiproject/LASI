@@ -27,6 +27,6 @@ namespace LASI.Interop.ContractHelperTypes.Base
             add { loadingProvider.ProgressChanged += value; }
             remove { loadingProvider.ProgressChanged -= value; }
         }
-        private SystemResourceLoadingNotifier loadingProvider = new SystemResourceLoadingNotifier();
+        private readonly SystemResourceLoadingNotifier loadingProvider = new SystemResourceLoadingNotifier();
     }
 }

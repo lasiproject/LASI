@@ -17,7 +17,11 @@ namespace LASI.Content.Tests
         public DocToDocXConverterTest() : base("Draft_Environmental_Assessment.doc") { }
 
         protected sealed override Func<string, DocFile> SourceFactory => path => new DocFile(path);
+        [Fact]
+        public void SomeTest()
+        {
 
+        }
         /// <summary>
         ///A test for DocToDocXConverter Constructor
         /// </summary>

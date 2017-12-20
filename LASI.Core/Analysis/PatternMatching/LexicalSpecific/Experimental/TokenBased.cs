@@ -33,10 +33,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.TermBa
         {
             private readonly TValue value;
 
-            protected ValueToken(TValue value)
-            {
-                this.value = value;
-            }
+            protected ValueToken(TValue value) => this.value = value;
             public override bool AppliesTo<TCase>(TCase value) => this.value.Equals(value);
             public static Pattern<object>.TokenTestResult<ILexical> operator |(Pattern<object> pattern, ValueToken<TValue> token) => new Pattern<object>.TokenTestResult<ILexical>(false, pattern);
         }
@@ -59,14 +56,11 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.TermBa
             private TResult result = default;
             private readonly ILexical value;
 
-            public Pattern(ILexical value)
-            {
-                this.value = value;
-            }
+            public Pattern(ILexical value) => this.value = value;
             public class TokenTestResult<TCase> where TCase : class, ILexical
             {
                 private bool matched;
-                private Pattern<TResult> pattern;
+                private readonly Pattern<TResult> pattern;
                 private Func<TResult> deferred;
 
                 public TokenTestResult(bool matched, Pattern<TResult> pattern)

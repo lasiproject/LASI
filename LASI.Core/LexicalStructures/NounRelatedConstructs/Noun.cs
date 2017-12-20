@@ -17,12 +17,7 @@ namespace LASI.Core
         /// Initializes a new instance of the Noun class.
         /// </summary>
         /// <param name="text">The text content of the Noun.</param>
-        protected Noun(string text)
-            : base(text)
-        {
-            EntityKind = EntityKind.Undefined;
-            //EstablishKind();
-        }
+        protected Noun(string text) : base(text) { }
 
         #endregion Constructors
 
@@ -135,7 +130,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the EntityKind; Person, Place, Thing, Organization, or Activity; of the Noun.
         /// </summary>
-        public EntityKind EntityKind { get; protected set; }
+        public EntityKind EntityKind { get; protected set; } = EntityKind.Undefined;
 
         /// <summary>
         /// Gets the single Determiner which modifies the noun.

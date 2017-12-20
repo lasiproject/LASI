@@ -514,17 +514,14 @@ namespace LASI.Core.Analysis.Binding
         #region Helper Classes
         private class PhraseStackWrapper
         {
-            public PhraseStackWrapper(Stack<Phrase> source)
-            {
-                stream = new Stack<Phrase>(source);
-            }
+            public PhraseStackWrapper(Stack<Phrase> source) => stream = new Stack<Phrase>(source);
             public Phrase Get() => stream.Pop();
             public bool Any => stream.Any();
             public bool None => !Any;
             public int Count => stream.Count;
             public List<Phrase> ToList() => stream.ToList();
 
-            private Stack<Phrase> stream;
+            private readonly Stack<Phrase> stream;
         }
         #endregion
 

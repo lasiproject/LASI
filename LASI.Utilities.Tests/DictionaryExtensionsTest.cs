@@ -1,16 +1,14 @@
-﻿using LASI.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NFluent;
 
 namespace LASI.Utilities.Tests
 {
     using Fact = Xunit.FactAttribute;
+
     public class DictionaryExtensionsTest
     {
-        private static Dictionary<string, int?> target = new Dictionary<string, int?>
+        private static readonly Dictionary<string, int?> target = new Dictionary<string, int?>
         {
             ["zero"] = null,
             ["one"] = 1,
@@ -34,6 +32,7 @@ namespace LASI.Utilities.Tests
             var (k, v) = pair;
             Check.That((k, v)).IsEqualTo(expected);
         }
+
         [Fact]
         public void GetValueOrDefaultTest()
         {
@@ -42,7 +41,6 @@ namespace LASI.Utilities.Tests
             Check.That(target.GetValueOrDefault("one")).IsEqualTo(1);
             Check.That(target.GetValueOrDefault("one")).IsNotNull();
         }
-
 
         [Fact]
         public void GetValueOrDefaultTest1()
@@ -61,6 +59,7 @@ namespace LASI.Utilities.Tests
             Check.That(target.GetValueOrDefault("four", () => 7)).IsEqualTo(4);
             Check.That(target.GetValueOrDefault("four", () => 7)).IsNotEqualTo(7);
         }
+
         [Fact]
         public void GetValueOrDefaultTest3()
         {
@@ -69,6 +68,7 @@ namespace LASI.Utilities.Tests
                 Check.That(target[keyValuePair.Key]).IsEqualTo(target.GetValueOrDefault(keyValuePair.Key));
             }
         }
+
         [Fact]
         public void ForEachTest()
         {
@@ -79,18 +79,23 @@ namespace LASI.Utilities.Tests
                     case "zero":
                         Check.That(value).IsNull();
                         break;
+
                     case "one":
                         Check.That(value).IsEqualTo(1);
                         break;
+
                     case "two":
                         Check.That(value).IsEqualTo(2);
                         break;
+
                     case "three":
                         Check.That(value).IsEqualTo(3);
                         break;
+
                     case "four":
                         Check.That(value).IsEqualTo(4);
                         break;
+
                     default:
                         throw new Exception("test failed");
                 }

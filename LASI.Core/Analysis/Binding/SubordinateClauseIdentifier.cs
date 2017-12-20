@@ -28,7 +28,10 @@ namespace LASI.Core
         private static bool IsRelativePronounOrSubordinatingConjunction(Word word)
         {
             if (word is Preposition prep)
+            {
                 return !(word is RelativePronoun) || !(prep.Role == PrepositionRole.SubordinatingConjunction);
+            }
+
             return false;
         }
 

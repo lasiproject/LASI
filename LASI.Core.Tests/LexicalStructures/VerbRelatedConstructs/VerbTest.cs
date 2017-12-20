@@ -1,7 +1,7 @@
-﻿using LASI.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LASI.Core;
 using NFluent;
 using Xunit;
 
@@ -319,7 +319,6 @@ namespace LASI.Core.Tests
             Verb target = new PastTenseVerb(text);
             Check.That(target.HasSubject()).IsFalse();
             target.BindSubject(new PersonalPronoun("him"));
-            Func<IEntity, bool> predicate = s => s.Text == "her";
             var expected = false;
             bool actual;
             actual = target.HasSubject(predicate);
@@ -328,6 +327,8 @@ namespace LASI.Core.Tests
             expected = true;
             actual = target.HasSubject(predicate);
             Check.That(expected).Equals(actual);
+
+            bool predicate(IEntity s) => s.Text == "her";
         }
 
     }

@@ -18,9 +18,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="composedWords">The words which compose to form the PrepositionalPhrase.</param>
         public PrepositionalPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
-            Role = PrepositionRole.Undetermined;
-        }
+            : base(composedWords) => Role = PrepositionRole.Undetermined;
         /// <summary>
         /// Initializes a new instance of the PrepositionalPhrase class.
         /// </summary>
@@ -40,11 +38,20 @@ namespace LASI.Core
         public override string ToString() {
             var result = base.ToString();
             if (ToTheLeftOf != null)
+            {
                 result += "\n\tleft linked: " + ToTheLeftOf.Text;
+            }
+
             if (ToTheRightOf != null)
+            {
                 result += "\n\tright linked: " + ToTheRightOf.Text;
+            }
+
             if (BoundObject != null)
+            {
                 result += "\n\tObject: " + BoundObject;
+            }
+
             return result;
         }
 

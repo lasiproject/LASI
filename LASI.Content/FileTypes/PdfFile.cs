@@ -22,7 +22,9 @@ namespace LASI.Content
             : base(fullPath)
         {
             if (!Extension.Equals(CanonicalExtension, StringComparison.OrdinalIgnoreCase))
+            {
                 throw new FileTypeWrapperMismatchException<PdfFile>(Extension);
+            }
         }
 
         /// <summary>

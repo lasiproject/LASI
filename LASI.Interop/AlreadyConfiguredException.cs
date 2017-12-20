@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace LASI.Interop
 {
+    /// <summary>
+    /// Represents errors that occur during application execution.To browse the .NET Framework source code for this type, see the Reference Source. 
+    /// </summary>
     [Serializable]
     public class AlreadyConfiguredException : Exception
     {
@@ -18,9 +21,10 @@ namespace LASI.Interop
         {
         }
 
-        private AlreadyConfiguredException(SerializationInfo info, StreamingContext context) : base(info, context)
+        AlreadyConfiguredException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-        private const string AlreadyConfiguredErrorMessage = "LASI Configuration has already been Initialized. Initialize may only be called once.";
+
+        const string AlreadyConfiguredErrorMessage = "LASI Configuration has already been Initialized. Initialize may only be called once.";
     }
 }

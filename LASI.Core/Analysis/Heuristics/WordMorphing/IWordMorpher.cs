@@ -2,9 +2,9 @@
 namespace LASI.Core.Analysis.Heuristics.WordMorphing
 {
     /// <summary>
-    /// Provides root extraction and derived form generation of words of th specified type.
+    /// Provides root extraction and derived form generation of words of the specified type.
     /// </summary>
-    /// <typeparam name="TWord">Any type which derives from LASI.Core.Word</typeparam>
+    /// <typeparam name="TWord">Any type which derives from <see cref="LASI.Core.Word"/>.</typeparam>
     /// <seealso cref="NounMorpher"/>
     /// <seealso cref="VerbMorpher"/>
     /// <seealso cref="AdverbMorpher"/>

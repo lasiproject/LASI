@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LASI.Core.Heuristics;
 
 namespace LASI.Core.Analysis.Heuristics.Support
 {
     /// <summary>
-    /// Sometimes an anonymous type simple will not do. So this little class is defined to 
-    /// store temporary query data from transposed tables. god it is late. I can't document properly.
+    /// Sometimes an anonymous type simple will not do. So this little class is defined to store temporary query data from transposed tables. god it is late. I can't document properly.
     /// </summary>
     public sealed class SvoRelationship : IEquatable<SvoRelationship>
     {
         /// <summary>
         /// Initializes a new instance of the SvoRelationship class.
         /// </summary>
-        /// <param name="subject">The subject component of the relationship.</param>
-        /// <param name="verbal">The verbal component of the relationship.</param>
-        /// <param name="direct">The direct object component of the relationship.</param>
+        /// <param name="subject"> The subject component of the relationship.</param>
+        /// <param name="verbal">  The verbal component of the relationship.</param>
+        /// <param name="direct">  The direct object component of the relationship.</param>
         /// <param name="indirect">The indirect object component of the relationship.</param>
         public SvoRelationship(IEntity subject, IVerbal verbal, IEntity direct, IEntity indirect)
         {
@@ -27,29 +24,30 @@ namespace LASI.Core.Analysis.Heuristics.Support
             Direct = direct;
             Indirect = indirect;
         }
+
         /// <summary>
         /// Determines if two SvoRelationship instances are considered unequal.
         /// </summary>
-        /// <param name="left">The first SvoRelationship instance.</param>
+        /// <param name="left"> The first SvoRelationship instance.</param>
         /// <param name="right">The second SvoRelationship instance.</param>
-        /// <returns> <c>true</c> if the SvoRelationship instances are considered unequal; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if the SvoRelationship instances are considered unequal; otherwise, <c>false</c>.</returns>
         public static bool operator !=(SvoRelationship left, SvoRelationship right) => !(left == right);
 
         /// <summary>
         /// Determines if two SvoRelationship instances are considered equal.
         /// </summary>
-        /// <param name="left">The first SvoRelationship instance.</param>
+        /// <param name="left"> The first SvoRelationship instance.</param>
         /// <param name="right">The second SvoRelationship instance.</param>
-        /// <returns> <c>true</c> if the SvoRelationship instances are considered equal; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if the SvoRelationship instances are considered equal; otherwise, <c>false</c>.</returns>
         public static bool operator ==(SvoRelationship left, SvoRelationship right)
         {
-            if (ReferenceEquals(left, null))
+            if (left is null)
             {
-                return ReferenceEquals(right, null);
+                return right is null;
             }
-            if (ReferenceEquals(right, null))
+            if (right is null)
             {
-                return ReferenceEquals(left, null);
+                return left is null;
             }
             return left.Verbal.IsSimilarTo(right.Verbal) && (ReferenceEquals(left.Subject, right.Subject) ||
                 left.Subject.IsAliasFor(right.Subject) || left.Subject.IsSimilarTo(right.Subject)) &&
@@ -58,18 +56,18 @@ namespace LASI.Core.Analysis.Heuristics.Support
                 left.Indirect.IsAliasFor(right.Indirect) || left.Indirect.IsSimilarTo(right.Indirect));
         }
 
-        /// <summary>   
+        /// <summary>
         /// Determines if the current SvoRelationship instance is equal to another SvoRelationship instance.
         /// </summary>
         /// <param name="other">The SvoRelationship to compare to.</param>
-        /// <returns> <c>true</c> if the current Relationship is equal to the supplied SvoRelationship.</returns>
+        /// <returns><c>true</c> if the current Relationship is equal to the supplied SvoRelationship.</returns>
         public bool Equals(SvoRelationship other) => other != null && this == other;
 
         /// <summary>
         /// Determines if the current SvoRelationship instance is equal to the specified System.Object.
         /// </summary>
         /// <param name="obj">The System.Object to compare to.</param>
-        /// <returns> <c>true</c> if the current SvoRelationship is equal to the specified System.Object.</returns>
+        /// <returns><c>true</c> if the current SvoRelationship is equal to the specified System.Object.</returns>
         public override bool Equals(object obj) => this == obj as SvoRelationship;
 
         /// <summary>
@@ -123,9 +121,13 @@ namespace LASI.Core.Analysis.Heuristics.Support
         /// Gets or sets the Verbal component of the SvoRelationship.
         /// </summary>
         public IVerbal Verbal { get; }
+
         /// <summary>
         /// Gets the weight of the Relationship.
         /// </summary>
         public double Weight => Elements.Sum(e => e?.Weight) ?? 0;
+
+        public void Deconstruct(out IEntity subject, out IVerbal verbal, out IEntity direct, out IEntity indirect, out ILexical prepositional) =>
+            (subject, verbal, direct, indirect, prepositional) = (Subject, Verbal, Direct, Indirect, Prepositional);
     }
 }

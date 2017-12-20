@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using LASI;
 using LASI.Content.Tagging;
 using LASI.Core;
 using LASI.Utilities;
@@ -18,37 +13,29 @@ namespace LASI.Content
         #region Constructors
 
         /// <summary>
-        /// Initialized a new instance of the TaggedFilerParser class to parse the contents of the
-        /// specified file.
+        /// Initialized a new instance of the TaggedFilerParser class to parse the contents of the specified file.
         /// </summary>
-        /// <param name="file">
-        /// The wrapper which encapsulates the newPath information for the pre-POS-tagged file to parse.
-        /// </param>
+        /// <param name="file">The wrapper which encapsulates the newPath information for the pre-POS-tagged file to parse.</param>
         public TaggedSourceParser(ITaggedTextSource file)
         {
             TaggedInputData = file.LoadText().Trim();
         }
 
-        #endregion Construtors
+        #endregion Constructors
 
         #region Methods
 
         /// <summary>
-        /// Builds a <see cref="LASI.Core.Document"/> instance from of all of
-        /// the textual constructs in the tagged source.
+        /// Builds a <see cref="LASI.Core.Document"/> instance from of all of the textual constructs in the tagged source.
         /// </summary>
-        /// <returns>
-        /// A <see cref="LASI.Core.Document"/> instance representing the textual constructs of the tagged file parsed by the TaggedSourceParser.
-        /// </returns>
+        /// <returns>A <see cref="LASI.Core.Document"/> instance representing the textual constructs of the tagged file parsed by the TaggedSourceParser.</returns>
         public override Document LoadDocument() => LoadDocument(null);
+
         /// <summary>
-        /// Builds a <see cref="LASI.Core.Document"/> instance from of all of
-        /// the textual constructs in the tagged source.
+        /// Builds a <see cref="LASI.Core.Document"/> instance from of all of the textual constructs in the tagged source.
         /// </summary>
         /// <param name="title">The title to give to the constructed document.</param>
-        /// <returns>
-        /// A <see cref="LASI.Core.Document"/> instance representing the textual constructs of the tagged file parsed by the TaggedSourceParser.
-        /// </returns>
+        /// <returns>A <see cref="LASI.Core.Document"/> instance representing the textual constructs of the tagged file parsed by the TaggedSourceParser.</returns>
         public virtual Document LoadDocument(string title) => new Document(
             title: title ?? "Untitled",
             paragraphs: LoadParagraphs()
@@ -57,17 +44,13 @@ namespace LASI.Content
         public virtual async Task<Document> LoadDocumentAsync(string title) => await Task.Run(() => LoadDocument(title)).ConfigureAwait(false);
 
         /// <summary>
-        /// Returns the strongly typed representations of the sentences, componentPhrases,and words
-        /// extracted from the tagged file the TaggedSourceParser governs.
+        /// Returns the strongly typed representations of the sentences, componentPhrases,and words extracted from the tagged file the TaggedSourceParser governs.
         /// </summary>
-        /// <returns>
-        /// The strongly typed constructs which represent the text of the document, aggregated into paragraphs.
-        /// </returns>
+        /// <returns>The strongly typed constructs which represent the text of the document, aggregated into paragraphs.</returns>
         public override IEnumerable<Paragraph> LoadParagraphs() => ParseParagraphs(PreProcessText(TaggedInputData.Trim())).Select(BuildParagraph);
 
         /// <summary>
-        /// Pre-processes the line read from the file by replacing some instances of problematic
-        /// text such as square brackets, with tokens that are easier to reliably parse.
+        /// Pre-processes the line read from the file by replacing some instances of problematic text such as square brackets, with tokens that are easier to reliably parse.
         /// </summary>
         /// <param name="text">The string containing raw SharpNLP tagged-text to process.</param>
         /// <returns>The string containing the processed text.</returns>
@@ -76,13 +59,11 @@ namespace LASI.Content
                                                                     .RemoveSubstrings("<enumeration>", "</enumeration>");
 
         /// <summary>
-        /// Asynchronously Pre-processes the line read from the file by replacing some instances of
-        /// problematic text such as square brackets, with tokens that are easier to reliably parse.
+        /// Asynchronously Pre-processes the line read from the file by replacing some instances of problematic text such as square brackets, with tokens that are easier to reliably parse.
         /// </summary>
         /// <param name="text">The string containing raw SharpNLP tagged-text to process.</param>
         /// <returns>The string containing the processed text.</returns>
         protected virtual async Task<string> PreProcessTextAsync(string text) => await Task.FromResult(PreProcessText(text));
-
 
         protected virtual Func<Phrase> CreatePhraseExpression(TaggedText taggedPhraseElement)
         {
@@ -105,17 +86,11 @@ namespace LASI.Content
         }
 
         /// <summary>
-        /// Parses a string of text containing tagged words e.g. "LASI/NNP can/MD sniff-out/VBP
-        /// the/DT problem/NN" into a collection of Part of Speech subtyped LASI.Algorithm.Word
-        /// instances which represent them.
+        /// Parses a string of text containing tagged words e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN" into a collection of Part of Speech subtyped LASI.Algorithm.Word instances which
+        /// represent them.
         /// </summary>
-        /// <param name="text">
-        /// A string containing tagged words from which to instantiate <see cref="Word"/> instances.
-        /// </param>
-        /// <returns>
-        /// The collection of Part of Speech subtyped <see cref="Word"/> instances each
-        /// corresponding to a tagged word element.
-        /// </returns>
+        /// <param name="text">A string containing tagged words from which to instantiate <see cref="Word"/> instances.</param>
+        /// <returns>The collection of Part of Speech subtyped <see cref="Word"/> instances each corresponding to a tagged word element.</returns>
         protected virtual List<Word> CreateWords(string text)
         {
             var parsedWords = new List<Word>();
@@ -152,15 +127,11 @@ namespace LASI.Content
         }
 
         /// <summary>
-        /// Parses a string of text containing tagged words, e.g. "LASI/NNP can/MD sniff-out/VBP
-        /// the/DT problem/NN", and returns of the collection containing, for each word, the
-        /// function which will create the Part of Speech subtyped <see cref="Word"/> instance representing that word.
+        /// Parses a string of text containing tagged words, e.g. "LASI/NNP can/MD sniff-out/VBP the/DT problem/NN", and returns of the collection containing, for each word, the function which will
+        /// create the Part of Speech subtyped <see cref="Word"/> instance representing that word.
         /// </summary>
         /// <param name="text">A string containing tagged words.</param>
-        /// <returns>
-        /// The List of constructor function instances which, when invoked, create the instances
-        /// <see cref="Word"/> which represent each word in the source
-        /// </returns>
+        /// <returns>The List of constructor function instances which, when invoked, create the instances <see cref="Word"/> which represent each word in the source</returns>
         protected virtual List<Lazy<Word>> CreateWordExpressions(string text)
         {
             var wordExpressions = new List<Lazy<Word>>();
@@ -208,7 +179,6 @@ namespace LASI.Content
             return new Paragraph(hasBulletOrHeading ? ParagraphKind.Enumeration : ParagraphKind.Default, sentenceChunks.Select(BuildSentence).ToList());
         }
 
-
         private Sentence BuildSentence(string sentence)
         {
             var accumulatedClauses = new List<Clause>();
@@ -238,6 +208,7 @@ namespace LASI.Content
                             accumulatedPhrases = new List<Phrase> { currentPhrase };
                         }
                         break;
+
                     case TokenDelimiter.WordContent:
                         var words = CreateWords(chunk);
 
@@ -266,16 +237,19 @@ namespace LASI.Content
                             accumulatedPhrases.Add(new UnknownPhrase(words));
                         }
                         break;
+
                     default: break;
                 }
             }
             return new Sentence(accumulatedClauses, sentenceEnding);
         }
+
         TokenDelimiter FindNextTokenDelimiter(string chunk)
         {
             var c = chunk.Cast<char?>().SkipWhile(k => k != ' ' && k != '/').FirstOrDefault();
             return c == ' ' ? TokenDelimiter.PhraseContent : c == '/' ? TokenDelimiter.WordContent : TokenDelimiter.NoContent;
         }
+
         private enum TokenDelimiter
         {
             NoContent = 0,

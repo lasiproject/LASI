@@ -1,8 +1,6 @@
-﻿using LASI;
-using LASI.Core;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using LASI.Core;
 using LASI.Utilities;
 using NFluent;
 using Xunit;
@@ -16,7 +14,7 @@ namespace LASI.Core.Tests
     public class NounPhraseTest
     {
         /// <summary>
-        ///A test for NounPhrase Constructorf
+        ///A test for NounPhrase Constructor
         /// </summary>
         [Fact]
         public void NounPhraseConstructorTest()
@@ -26,15 +24,8 @@ namespace LASI.Core.Tests
                 new Conjunction("and"),
                 new ProperPluralNoun("Canadians")
             };
-            Check.ThatCode(() => new NounPhrase(composedWords))
-                .DoesNotThrow().And.WhichResult()
-                .HasFieldsWithSameValues(new
-                {
-                    Words = composedWords
-                });
-
+            Check.That(new NounPhrase(composedWords).Words).Contains(composedWords);
         }
-
 
         /// <summary>
         ///A test for BindDescriptor
@@ -60,7 +51,6 @@ namespace LASI.Core.Tests
             Check.That(target.Referencers).Contains(pro);
             Check.That(pro.RefersTo).Contains(target);
         }
-
 
         /// <summary>
         ///A test for Equals
@@ -179,7 +169,6 @@ namespace LASI.Core.Tests
             Check.That(target.ToString()).IsEqualTo(expected);
         }
 
-
         /// <summary>
         ///A test for Referees
         /// </summary>
@@ -196,7 +185,6 @@ namespace LASI.Core.Tests
             actual = target.Referencers;
             Check.That(actual).Contains(expected);
         }
-
 
         /// <summary>
         ///A test for Possessed
@@ -239,9 +227,6 @@ namespace LASI.Core.Tests
             Check.That(actual).IsEqualTo(expected);
         }
 
-
-
-
         /// <summary>
         ///A test for Descriptors
         /// </summary>
@@ -256,8 +241,6 @@ namespace LASI.Core.Tests
             target.BindDescriptor(descriptor);
             Check.That(target.Descriptors).Contains(descriptor);
         }
-
-
 
         /// <summary>
         ///A test for BindReferencer

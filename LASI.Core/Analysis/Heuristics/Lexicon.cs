@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using LASI.Core.Heuristics.WordNet;
-using System.Collections.Immutable;
 using LASI.Core.Configuration;
+using LASI.Core.Heuristics.WordNet;
 using LASI.Utilities;
 
 namespace LASI.Core
 {
     /// <summary>
-    /// Provides Comprehensive static facilities for Synonym Identification, Word and Phrase
-    /// Comparison, Gender Stratification, and Named Entity Recognition.
+    /// Provides Comprehensive static facilities for Synonym Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition. 
     /// </summary>
     public static partial class Lexicon
     {
         #region Public Methods
+
         /// <summary>
-        /// Clears all synonym caches
+        /// Clears all synonym caches 
         /// </summary>
         public static void ClearAllCachedSynonymData()
         {
@@ -29,69 +29,51 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Clears the cache of Adjective synonym data.
+        /// Clears the cache of Adjective synonym data. 
         /// </summary>
         public static void ClearAdjectiveCache() => cachedAdjectiveData.Clear();
 
         /// <summary>
-        /// Clears the cache of Adverb synonym data.
+        /// Clears the cache of Adverb synonym data. 
         /// </summary>
         public static void ClearAdverbCache() => cachedAdverbData.Clear();
 
         /// <summary>
-        /// Clears the cache of Noun synonym data.
+        /// Clears the cache of Noun synonym data. 
         /// </summary>
         public static void ClearNounCache() => cachedNounData.Clear();
 
         /// <summary>
-        /// Clears the cache of Verb synonym data.
+        /// Clears the cache of Verb synonym data. 
         /// </summary>
         public static void ClearVerbCache() => cachedVerbData.Clear();
 
         /// <summary>
-        /// Returns the synonyms for the provided Noun.
+        /// Returns the synonyms for the provided Noun. 
         /// </summary>
-        /// <param name="noun">
-        /// The Noun to lookup.
-        /// </param>
-        /// <returns>
-        /// The synonyms for the provided Noun.
-        /// </returns>
+        /// <param name="noun"> The Noun to lookup. </param>
+        /// <returns> The synonyms for the provided Noun. </returns>
         public static IEnumerable<string> GetSynonyms(this Noun noun) => cachedNounData.GetOrAdd(noun.Text, key => NounLookup[key]);
 
         /// <summary>
-        /// Returns the synonyms for the provided Verb.
+        /// Returns the synonyms for the provided Verb. 
         /// </summary>
-        /// <param name="verb">
-        /// The Verb to lookup.
-        /// </param>
-        /// <returns>
-        /// The synonyms for the provided Verb.
-        /// </returns>
+        /// <param name="verb"> The Verb to lookup. </param>
+        /// <returns> The synonyms for the provided Verb. </returns>
         public static IEnumerable<string> GetSynonyms(this Verb verb) => cachedVerbData.GetOrAdd(verb.Text, key => VerbLookup[key]);
 
-
         /// <summary>
-        /// Returns the synonyms for the provided Adjective.
+        /// Returns the synonyms for the provided Adjective. 
         /// </summary>
-        /// <param name="adjective">
-        /// The Adjective to lookup.
-        /// </param>
-        /// <returns>
-        /// The synonyms for the provided Adjective.
-        /// </returns>
+        /// <param name="adjective"> The Adjective to lookup. </param>
+        /// <returns> The synonyms for the provided Adjective. </returns>
         public static IEnumerable<string> GetSynonyms(this Adjective adjective) => cachedAdjectiveData.GetOrAdd(adjective.Text, key => AdjectiveLookup[key]);
 
-
         /// <summary>
-        /// Returns the synonyms for the provided Adverb.
+        /// Returns the synonyms for the provided Adverb. 
         /// </summary>
-        /// <param name="adverb">
-        /// The Adverb to lookup.
-        /// </param>
-        /// <returns>
-        /// The synonyms for the provided Adverb.
-        /// </returns>
+        /// <param name="adverb"> The Adverb to lookup. </param>
+        /// <returns> The synonyms for the provided Adverb. </returns>
         public static IEnumerable<string> GetSynonyms(this Adverb adverb) => cachedAdverbData.GetOrAdd(adverb.Text, key => AdverbLookup[key]);
 
         #endregion Public Methods
@@ -114,24 +96,21 @@ namespace LASI.Core
         #region Properties
 
         /// <summary>
-        /// Raised when a data set resource finishes loading.
+        /// Raised when a data set resource finishes loading. 
         /// </summary>
         public static event EventHandler<ResourceLoadEventArgs> ResourceLoaded = delegate { };
 
         /// <summary>
-        /// Raised when a resource starts loading.
+        /// Raised when a resource starts loading. 
         /// </summary>
         public static event EventHandler<ResourceLoadEventArgs> ResourceLoading = delegate { };
 
         /// <summary>
-        /// Gets the sequence of strings corresponding to all nouns in the Scrabble Dictionary data source.
+        /// Gets the sequence of strings corresponding to all nouns in the Scrabble Dictionary data source. 
         /// </summary>
         public static IEnumerable<string> ScrabbleDictionary => scrabbleDictionary.Value;
 
-        #endregion
-
-        #region Events
-        #endregion
+        #endregion Properties
 
         private static NameProvider NameData => nameData.Value;
 
@@ -148,9 +127,8 @@ namespace LASI.Core
         // Resource Data File Paths
 
         /// <summary>
-        /// Similarity threshold for lexical element comparisons. If the computed ratio of a
-        /// similarity comparison is &gt;= the threshold, then the similarity comparison result will
-        /// be considered as True in a boolean expression context.
+        /// Similarity threshold for lexical element comparisons. If the computed ratio of a similarity comparison is &gt;= the threshold, then the similarity comparison result will be considered as
+        /// True in a boolean expression context.
         /// </summary>
         internal const double SimilarityThreshold = 0.6;
 
@@ -221,7 +199,8 @@ namespace LASI.Core
         private static Lazy<WordNetLookup<Adverb>> lazyAdverbLookup =
             new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(Paths.WordNet.Adverb, AdjectiveLookup)), isThreadSafe: true);
 
-        #endregion
+        #endregion Private Fields
+
         private static readonly StringComparer OrdinalIgnoreCase = StringComparer.OrdinalIgnoreCase;
     }
 }
