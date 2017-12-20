@@ -80,7 +80,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Utilities", "LASI.Util
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Interop", "LASI.Interop\LASI.Interop.csproj", "{06B96679-9758-4B15-8E75-0F46416E68B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.WebService", "LASI.WebService\LASI.WebService.csproj", "{6828D477-F82B-416E-A960-14DC6227586D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LASI.WebService", "LASI.WebService\LASI.WebService.csproj", "{6828D477-F82B-416E-A960-14DC6227586D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LASI.WebService.Tests", "LASI.WebService.Tests\LASI.WebService.Tests.csproj", "{E098A920-61C8-497E-8492-EF9835FDA69B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.WebApp", "LASI.WebApp\LASI.WebApp.csproj", "{3AB7C69C-34C2-4410-B41F-265C2BC2D8FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,6 +139,14 @@ Global
 		{6828D477-F82B-416E-A960-14DC6227586D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6828D477-F82B-416E-A960-14DC6227586D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6828D477-F82B-416E-A960-14DC6227586D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E098A920-61C8-497E-8492-EF9835FDA69B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E098A920-61C8-497E-8492-EF9835FDA69B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E098A920-61C8-497E-8492-EF9835FDA69B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E098A920-61C8-497E-8492-EF9835FDA69B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AB7C69C-34C2-4410-B41F-265C2BC2D8FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AB7C69C-34C2-4410-B41F-265C2BC2D8FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AB7C69C-34C2-4410-B41F-265C2BC2D8FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AB7C69C-34C2-4410-B41F-265C2BC2D8FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

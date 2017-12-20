@@ -12,8 +12,8 @@ namespace LASI.WebService.Pages.Account.Manage
 {
     public class ResetAuthenticatorModel : PageModel
     {
-        UserManager<ApplicationUser> _userManager;
-        ILogger<ResetAuthenticatorModel> _logger;
+        readonly UserManager<ApplicationUser> _userManager;
+        readonly ILogger<ResetAuthenticatorModel> _logger;
 
         public ResetAuthenticatorModel(
             UserManager<ApplicationUser> userManager,

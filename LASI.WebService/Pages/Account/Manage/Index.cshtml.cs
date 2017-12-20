@@ -1,18 +1,15 @@
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using LASI.WebService.Data;
+using LASI.WebService.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using LASI.WebService.Data;
-using LASI.WebService.Services;
 
 namespace LASI.WebService.Pages.Account.Manage
 {
-    public partial class IndexModel : PageModel
+    public class IndexModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -104,6 +101,7 @@ namespace LASI.WebService.Pages.Account.Manage
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
+
         public async Task<IActionResult> OnPostSendVerificationEmailAsync()
         {
             if (!ModelState.IsValid)
