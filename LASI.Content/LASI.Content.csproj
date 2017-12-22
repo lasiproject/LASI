@@ -100,6 +100,7 @@
     <Compile Include="FileTypes\ContentInterfaces\IRawTextSource.cs" />
     <Compile Include="FileTypes\ContentInterfaces\RawTextFragment.cs" />
     <Compile Include="FileTypes\ContentInterfaces\TaggedTextFragment.cs" />
+    <Compile Include="FileTypes\InputFile{T}.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Serialization\Json\SerializationExtensions.cs" />
     <Compile Include="Serialization\Json\SimpleJsonSerializer.cs" />

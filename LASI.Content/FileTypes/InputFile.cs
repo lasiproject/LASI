@@ -64,13 +64,13 @@ namespace LASI.Content.FileTypes
         /// </summary>
         /// <param name="other">The InputFile to compare with.</param>
         /// <returns> <c>true</c> if the specified InputFile is equal to the current InputFile; otherwise, <c>false</c>.</returns>
-        public bool Equals(InputFile other) => fileData == other.fileData;
+        public virtual bool Equals(InputFile other) => fileData == other.fileData;
         /// <summary>
         /// Returns a value that indicates whether the specified object is equal to the current InputFile.
         /// </summary>
         /// <param name="obj">The object to compare with.</param>
         /// <returns> <c>true</c> if the specified object is equal to the current InputFile; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj) => obj is InputFile f && Equals(f);
+        public sealed override bool Equals(object obj) => obj is InputFile f && Equals(f);
         /// <summary>
         /// Gets the hash code of the InputFile.
         /// </summary>

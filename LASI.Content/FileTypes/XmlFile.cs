@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
 using LASI.Content.Exceptions;
@@ -9,19 +8,14 @@ namespace LASI.Content.FileTypes
     /// <summary>
     /// A strongly typed wrapper that encapsulates an XML document (.xml).
     /// </summary>
-    sealed class XmlFile : InputFile
+    public sealed class XmlFile : InputFile<XmlFile>
     {
         /// <summary>
         /// Initializes a new instance of the GenericXMLFile class for the given path.
         /// </summary>
         /// <param name="path">The path to a .xml file.</param>
         /// <exception cref="FileTypeWrapperMismatchException{TWrapper}">Thrown if the provided path does not end in the .xml extension.</exception>
-        public XmlFile(string path)
-            : base(path)
-        {
-            if (!Extension.Equals(".xml", StringComparison.OrdinalIgnoreCase))
-                throw new FileTypeWrapperMismatchException<XmlFile>(Extension);
-        }
+        public XmlFile(string path) : base(path) { }
 
         /// <summary>
         /// Returns a single string containing all of the text in the PdfFile.

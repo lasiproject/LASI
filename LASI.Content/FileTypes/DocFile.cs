@@ -1,30 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using LASI.Content.FileConveters;
-using LASI.Utilities;
-using LASI.Utilities.Validation;
-using FileTypeWrapperMismatchException = LASI.Content.Exceptions.FileTypeWrapperMismatchException<LASI.Content.FileTypes.DocFile>;
 
 namespace LASI.Content.FileTypes
 {
     /// <summary>
     /// A strongly typed wrapper that encapsulates a legacy Word document (.doc).
     /// </summary>
-    public sealed class DocFile : InputFile
+    public sealed class DocFile : InputFile<DocFile>
     {
         /// <summary>
         /// Initializes a new instance of the DocFile class for the given path.
         /// </summary>
         /// <param name="path">The path to a .doc file.</param>
-        /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .doc extension.</exception>
-        public DocFile(string path) : base(path)
-        {
-            Validate.Equals(Extension, CanonicalExtension);
-            if (!Extension.EqualsIgnoreCase(CanonicalExtension))
-            {
-                throw new FileTypeWrapperMismatchException(Extension);
-            }
-        }
-
+        /// <exception cref="Exceptions.FileTypeWrapperMismatchException{TWrapper}">Thrown if the provided path does not end in the .doc extension.</exception>
+        public DocFile(string path) : base(path) { }
 
         /// <summary>
         /// Returns a single string containing all of the text in the DocFile.
@@ -37,7 +27,7 @@ namespace LASI.Content.FileTypes
             {
                 return todocXConverter.ConvertFile().LoadText();
             }
-            catch (System.IO.IOException e)
+            catch (IOException e)
             {
                 throw CreateFileConversionFailureException("DOCX", e);
             }
@@ -54,7 +44,7 @@ namespace LASI.Content.FileTypes
                 var docx = await toDocXConverter.ConvertFileAsync().ConfigureAwait(false);
                 return await docx.LoadTextAsync().ConfigureAwait(false);
             }
-            catch (System.IO.IOException e)
+            catch (IOException e)
             {
                 throw CreateFileConversionFailureException("DOCX", e);
             }

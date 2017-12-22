@@ -1,36 +1,23 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
-using LASI.Content.Exceptions;
 
 namespace LASI.Content.FileTypes
 {
     /// <summary>
     /// A strongly typed wrapper that encapsulates a raw text document (.txt).
     /// </summary>
-    public sealed class TxtFile : InputFile
+    public sealed class TxtFile : InputFile<TxtFile>
     {
-        /// <summary>
-        /// Initializes a new instance of the TxtFile class for the given path.
-        /// </summary>
-        /// <param name="path">The path of the .txt file.</param>
-        /// <exception cref="FileTypeWrapperMismatchException{TWrapper}">Thrown if the provided path does not end in the .txt extension.</exception>
-        public TxtFile(string path)
-            : base(path)
-        {
-            if (!Extension.Equals(CanonicalExtension, StringComparison.OrdinalIgnoreCase))
-            {
-                throw new FileTypeWrapperMismatchException<TxtFile>(Extension);
-            }
-        }
+        public TxtFile(string path) : base(path) { }
 
         /// <summary>
         /// Gets a single string containing all of the text in the TxtFile.
         /// </summary>
         /// <returns>A single string containing all of the text in the TxtFile.</returns>
-        public override string LoadText()
+        public sealed override string LoadText()
         {
             using (var reader = File.OpenText(FullPath))
+
             {
                 return reader.ReadToEnd();
             }
@@ -39,7 +26,7 @@ namespace LASI.Content.FileTypes
         /// Asynchronously gets a single string containing all of the text in the TxtFile.
         /// </summary>
         /// <returns>A single string containing all of the text in the TxtFile.</returns>
-        public override async Task<string> LoadTextAsync()
+        public sealed override async Task<string> LoadTextAsync()
         {
             using (var reader = File.OpenText(FullPath))
             {
@@ -50,6 +37,6 @@ namespace LASI.Content.FileTypes
         /// <summary>
         /// The canonical file extension for the associated input file format.
         /// </summary>
-        public override string CanonicalExtension { get; } = ".txt";
+        public sealed override string CanonicalExtension { get; } = ".txt";
     }
 }
