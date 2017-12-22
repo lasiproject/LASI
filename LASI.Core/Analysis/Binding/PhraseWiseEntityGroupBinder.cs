@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 
 namespace LASI.Core {
@@ -14,32 +13,42 @@ namespace LASI.Core {
         /// <param name="sentence">
         /// The Sentence to bind within.
         /// </param>
-        public void Bind (Sentence sentence) {
-            var betwixt = FindAllBetwixt (sentence);
-            var aggregatedNounPhrases = new List<NounPhrase> ();
-            foreach (var b in betwixt) {
-                var conjunctionPhraseCount = b.TillNextNounPhrase.OfConjunctionPhrase ().Count ();
-                var symbolPhraseCount = b.TillNextNounPhrase.OfType<SymbolPhrase> ().Count ();
-                if (conjunctionPhraseCount + symbolPhraseCount != b.TillNextNounPhrase.Count && b.TillNextNounPhrase.Count < 3) {
-                    aggregatedNounPhrases.Add (b.NounPhrase);
-                    if (aggregatedNounPhrases.Count > 2) {
-                        entityGroups.Add (new AggregateEntity (aggregatedNounPhrases));
+        public void Bind(Sentence sentence)
+        {
+            var betwixt = FindAllBetwixt(sentence);
+            var aggregatedNounPhrases = new List<NounPhrase>();
+            foreach (var b in betwixt)
+            {
+                var symbolicPhraseOrConjunctiveCount = b.TillNextNounPhrase.Count(isSymbolPhraseOrConjuctive);
+                if (symbolicPhraseOrConjunctiveCount != b.TillNextNounPhrase.Count && b.TillNextNounPhrase.Count < 3)
+                {
+                    aggregatedNounPhrases.Add(b.NounPhrase);
+                    if (aggregatedNounPhrases.Count > 2)
+                    {
+                        entityGroups.Add(new AggregateEntity(aggregatedNounPhrases));
                     }
-                } else {
-                    aggregatedNounPhrases = new List<NounPhrase> ();
+                }
+                else
+                {
+                    aggregatedNounPhrases = new List<NounPhrase>();
                 }
             }
+
+            bool isSymbolPhraseOrConjuctive(Phrase phrase) => phrase is IConjunctive || phrase is SymbolPhrase;
         }
 
-        private static List<NpWithBetween> FindAllBetwixt (Sentence sentence) {
-            var betwixtAll = new List<NpWithBetween> ();
-            var nPS = sentence.Phrases.OfNounPhrase ();
-            while (nPS.Any ()) {
-                var first = nPS.First ();
-                var nss = sentence.GetPhrasesAfter (first).OfNounPhrase ();
-                if (nss.Any ()) {
-                    var betwixt = nPS.First ().Between (nss.First ()).ToList ();
-                    betwixtAll.Add (new NpWithBetween (first, betwixt));
+        private static List<NpWithBetween> FindAllBetwixt(Sentence sentence)
+        {
+            var betwixtAll = new List<NpWithBetween>();
+            var nPS = sentence.Phrases.OfNounPhrase();
+            while (nPS.Any())
+            {
+                var first = nPS.First();
+                var nss = sentence.GetPhrasesAfter(first).OfNounPhrase();
+                if (nss.Any())
+                {
+                    var betwixt = nPS.First().Between(nss.First()).ToList();
+                    betwixtAll.Add(new NpWithBetween(first, betwixt));
                 }
                 nPS = sentence.GetPhrasesAfter (first).OfNounPhrase ();
             }
@@ -54,8 +63,11 @@ namespace LASI.Core {
 
         private readonly IList<IAggregateEntity> entityGroups = new List<IAggregateEntity> ();
 
-        internal struct NpWithBetween {
-            internal NpWithBetween (NounPhrase nounPhrase, IReadOnlyList<Phrase> tillNextNounPhrase) : this () {
+        private readonly struct NpWithBetween
+        {
+            internal NpWithBetween(NounPhrase nounPhrase, IReadOnlyList<Phrase> tillNextNounPhrase)
+                : this()
+            {
                 NounPhrase = nounPhrase;
                 TillNextNounPhrase = tillNextNounPhrase;
             }

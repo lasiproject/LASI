@@ -21,11 +21,12 @@
         #region Methods
 
         /// <summary>
-        /// Binds an ILexical construct as the object of the ToLinker. 
+        /// Binds an ILexical construct as the object of the ToLinker.
         /// Lexical constructs include word, Phrase, and Clause Types.
         /// </summary>
         /// <param name="prepositionalObject">The ILexical construct as the object of the Particle.</param>
-        public void BindObject(ILexical prepositionalObject) {
+        public void BindObject(ILexical prepositionalObject)
+        {
             BoundObject = prepositionalObject;
         }
 
@@ -36,21 +37,24 @@
         /// <summary>
         /// Gets or sets the ILexical construct on the right-hand-side of the Preposition.
         /// </summary>
-        public ILexical ToTheRightOf {
+        public ILexical ToTheRightOf
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the ILexical construct on the left-hand-side of the Preposition.
         /// </summary>
-        public ILexical ToTheLeftOf {
+        public ILexical ToTheLeftOf
+        {
             get;
             set;
         }
         /// <summary>
-        /// Gets the object of the IPrepositional construct.
+        /// The object of the IPrepositional construct.
         /// </summary>
-        public ILexical BoundObject {
+        public ILexical BoundObject
+        {
             get;
             protected set;
         }
@@ -58,7 +62,8 @@
         /// Gets or sets the contextually extrapolated Prepositional Role of the Particle.
         /// </summary>
         /// <seealso cref="PrepositionRole"/>
-        public PrepositionRole Role {
+        public PrepositionRole Role
+        {
             get;
             set;
         }

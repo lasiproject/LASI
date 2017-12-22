@@ -7,86 +7,93 @@ using System.Linq;
 using LASI.Core.Configuration;
 using LASI.Core.Heuristics.WordNet;
 using LASI.Utilities;
+using ConcurrentSetDictionary = System.Collections.Concurrent.ConcurrentDictionary<string, System.Collections.Immutable.IImmutableSet<string>>;
 
 namespace LASI.Core
 {
     /// <summary>
-    /// Provides Comprehensive static facilities for Synonym Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition. 
+    /// Provides Comprehensive static facilities for Synonym Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
     /// </summary>
     public static partial class Lexicon
     {
         #region Public Methods
 
         /// <summary>
-        /// Clears all synonym caches 
+        /// Clears all synonym caches
         /// </summary>
         public static void ClearAllCachedSynonymData()
         {
-            ClearNounCache();
-            ClearVerbCache();
-            ClearAdjectiveCache();
-            ClearAdverbCache();
+            cachedAdjectiveData.Clear();
+            cachedAdverbData.Clear();
+            cachedNounData.Clear();
+            cachedVerbData.Clear();
         }
 
         /// <summary>
-        /// Clears the cache of Adjective synonym data. 
+        /// Clears the cache of Adjective synonym data.
         /// </summary>
         public static void ClearAdjectiveCache() => cachedAdjectiveData.Clear();
 
         /// <summary>
-        /// Clears the cache of Adverb synonym data. 
+        /// Clears the cache of Adverb synonym data.
         /// </summary>
         public static void ClearAdverbCache() => cachedAdverbData.Clear();
 
         /// <summary>
-        /// Clears the cache of Noun synonym data. 
+        /// Clears the cache of Noun synonym data.
         /// </summary>
         public static void ClearNounCache() => cachedNounData.Clear();
 
         /// <summary>
-        /// Clears the cache of Verb synonym data. 
+        /// Clears the cache of Verb synonym data.
         /// </summary>
         public static void ClearVerbCache() => cachedVerbData.Clear();
 
         /// <summary>
-        /// Returns the synonyms for the provided Noun. 
+        /// Returns the synonyms for the provided Noun.
         /// </summary>
         /// <param name="noun"> The Noun to lookup. </param>
         /// <returns> The synonyms for the provided Noun. </returns>
         public static IEnumerable<string> GetSynonyms(this Noun noun) => cachedNounData.GetOrAdd(noun.Text, key => NounLookup[key]);
 
         /// <summary>
-        /// Returns the synonyms for the provided Verb. 
+        /// Returns the synonyms for the provided Verb.
         /// </summary>
         /// <param name="verb"> The Verb to lookup. </param>
         /// <returns> The synonyms for the provided Verb. </returns>
         public static IEnumerable<string> GetSynonyms(this Verb verb) => cachedVerbData.GetOrAdd(verb.Text, key => VerbLookup[key]);
 
         /// <summary>
-        /// Returns the synonyms for the provided Adjective. 
+        /// Returns the synonyms for the provided Adjective.
         /// </summary>
         /// <param name="adjective"> The Adjective to lookup. </param>
         /// <returns> The synonyms for the provided Adjective. </returns>
         public static IEnumerable<string> GetSynonyms(this Adjective adjective) => cachedAdjectiveData.GetOrAdd(adjective.Text, key => AdjectiveLookup[key]);
 
         /// <summary>
-        /// Returns the synonyms for the provided Adverb. 
+        /// Returns the synonyms for the provided Adverb.
         /// </summary>
         /// <param name="adverb"> The Adverb to lookup. </param>
         /// <returns> The synonyms for the provided Adverb. </returns>
         public static IEnumerable<string> GetSynonyms(this Adverb adverb) => cachedAdverbData.GetOrAdd(adverb.Text, key => AdverbLookup[key]);
 
+
+        static IImmutableSet<string> GetSynonymsCore<TWord>(TWord word, ConcurrentSetDictionary cache, WordNetLookup<TWord> lookup) where TWord : Word => cache.GetOrAdd(word.Text, key => lookup[key]);
+
         #endregion Public Methods
 
-        private static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> wordNetLookup) where TWord : Word
+        static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> wordNetLookup) where TWord : Word
         {
             var resourceName = typeof(TWord).Name + " Association Map";
-            ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedMiliseconds = 0 });
+            ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0)
+            {
+                ElapsedMiliseconds = 0
+            });
             System.Diagnostics.Stopwatch timer;
             wordNetLookup.ProgressChanged += ResourceLoading;
             Action load = wordNetLookup.Load;
             load.WithTimer(out timer)();
-            ResourceLoaded(wordNetLookup, new ResourceLoadEventArgs(resourceName, 1 / 5f)
+            ResourceLoaded(wordNetLookup, new ResourceLoadEventArgs(resourceName, increment: 1 / 5f)
             {
                 ElapsedMiliseconds = timer.ElapsedMilliseconds
             });
@@ -96,33 +103,33 @@ namespace LASI.Core
         #region Properties
 
         /// <summary>
-        /// Raised when a data set resource finishes loading. 
+        /// Raised when a data set resource finishes loading.
         /// </summary>
         public static event EventHandler<ResourceLoadEventArgs> ResourceLoaded = delegate { };
 
         /// <summary>
-        /// Raised when a resource starts loading. 
+        /// Raised when a resource starts loading.
         /// </summary>
         public static event EventHandler<ResourceLoadEventArgs> ResourceLoading = delegate { };
 
         /// <summary>
-        /// Gets the sequence of strings corresponding to all nouns in the Scrabble Dictionary data source. 
+        /// The sequence of strings corresponding to all nouns in the Scrabble Dictionary data source.
         /// </summary>
         public static IEnumerable<string> ScrabbleDictionary => scrabbleDictionary.Value;
 
         #endregion Properties
 
-        private static NameProvider NameData => nameData.Value;
+        static NameProvider NameData => nameData.Value;
 
-        private static WordNetLookup<Adjective> AdjectiveLookup => lazyAdjectiveLookup.Value;
+        static WordNetLookup<Adjective> AdjectiveLookup => lazyAdjectiveLookup.Value;
 
-        private static WordNetLookup<Adverb> AdverbLookup => lazyAdverbLookup.Value;
+        static WordNetLookup<Adverb> AdverbLookup => lazyAdverbLookup.Value;
 
-        private static WordNetLookup<Noun> NounLookup => lazyNounLookup.Value;
+        static WordNetLookup<Noun> NounLookup => lazyNounLookup.Value;
 
-        private static WordNetLookup<Verb> VerbLookup => lazyVerbLookup.Value;
+        static WordNetLookup<Verb> VerbLookup => lazyVerbLookup.Value;
 
-        #region Private Fields
+        #region Fields
 
         // Resource Data File Paths
 
@@ -132,32 +139,16 @@ namespace LASI.Core
         /// </summary>
         internal const double SimilarityThreshold = 0.6;
 
-        private static ConcurrentDictionary<string, IImmutableSet<string>> cachedAdjectiveData =
-            new ConcurrentDictionary<string, IImmutableSet<string>>(
-                concurrencyLevel: Concurrency.Max,
-                capacity: 40960
-            );
+        static ConcurrentSetDictionary cachedAdjectiveData = CreateConcurrentSetDictionary();
 
-        private static ConcurrentDictionary<string, IImmutableSet<string>> cachedAdverbData =
-            new ConcurrentDictionary<string, IImmutableSet<string>>(
-                concurrencyLevel: Concurrency.Max,
-                capacity: 40960
-            );
+        static ConcurrentSetDictionary cachedAdverbData = CreateConcurrentSetDictionary();
 
         // Synonym LexicalLookup Caches
-        private static ConcurrentDictionary<string, IImmutableSet<string>> cachedNounData =
-            new ConcurrentDictionary<string, IImmutableSet<string>>(
-                concurrencyLevel: Concurrency.Max,
-                capacity: 40960
-            );
+        static ConcurrentSetDictionary cachedNounData = CreateConcurrentSetDictionary();
 
-        private static ConcurrentDictionary<string, IImmutableSet<string>> cachedVerbData =
-            new ConcurrentDictionary<string, IImmutableSet<string>>(
-                concurrencyLevel: Concurrency.Max,
-                capacity: 40960
-            );
+        static ConcurrentSetDictionary cachedVerbData = CreateConcurrentSetDictionary();
 
-        private static Lazy<NameProvider> nameData = new Lazy<NameProvider>(() =>
+        static Lazy<NameProvider> nameData = new Lazy<NameProvider>(() =>
         {
             var resourceName = "Name Data";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
@@ -171,7 +162,7 @@ namespace LASI.Core
         }, isThreadSafe: true);
 
         // scrabble dictionary Internal Lookups
-        private static Lazy<IEnumerable<string>> scrabbleDictionary = new Lazy<IEnumerable<string>>(() =>
+        static Lazy<IEnumerable<string>> scrabbleDictionary = new Lazy<IEnumerable<string>>(() =>
         {
             var resourceName = "Scrabble Dictionary";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
@@ -187,20 +178,26 @@ namespace LASI.Core
             return words;
         }, isThreadSafe: true);
 
-        private static Lazy<WordNetLookup<Noun>> lazyNounLookup =
-            new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(Paths.WordNet.Noun)), isThreadSafe: true);
+        static Lazy<WordNetLookup<Noun>> lazyNounLookup = CreateLazyWordNetLookup(() => new NounLookup(Paths.WordNet.Noun));
 
-        private static Lazy<WordNetLookup<Verb>> lazyVerbLookup =
-            new Lazy<WordNetLookup<Verb>>(() => LazyLoad(new VerbLookup(Paths.WordNet.Verb)), isThreadSafe: true);
+        static Lazy<WordNetLookup<Verb>> lazyVerbLookup = CreateLazyWordNetLookup(() => new VerbLookup(Paths.WordNet.Verb));
 
-        private static Lazy<WordNetLookup<Adjective>> lazyAdjectiveLookup =
-            new Lazy<WordNetLookup<Adjective>>(() => LazyLoad(new AdjectiveLookup(Paths.WordNet.Adjective)), isThreadSafe: true);
+        static Lazy<WordNetLookup<Adjective>> lazyAdjectiveLookup = CreateLazyWordNetLookup(() => new AdjectiveLookup(Paths.WordNet.Adjective));
 
-        private static Lazy<WordNetLookup<Adverb>> lazyAdverbLookup =
-            new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(Paths.WordNet.Adverb, AdjectiveLookup)), isThreadSafe: true);
+        static Lazy<WordNetLookup<Adverb>> lazyAdverbLookup = CreateLazyWordNetLookup(() => new AdverbLookup(Paths.WordNet.Adverb, AdjectiveLookup));
 
-        #endregion Private Fields
+        static ConcurrentSetDictionary CreateConcurrentSetDictionary() => new ConcurrentDictionary<string, IImmutableSet<string>>(
+            concurrencyLevel: Concurrency.Max,
+            capacity: 40960
+        );
+
+        static Lazy<WordNetLookup<TWord>> CreateLazyWordNetLookup<TWord>(Func<WordNetLookup<TWord>> factory) where TWord : Word => new Lazy<WordNetLookup<TWord>>(
+            valueFactory: () => LazyLoad(factory()),
+            isThreadSafe: true
+        );
 
         private static readonly StringComparer OrdinalIgnoreCase = StringComparer.OrdinalIgnoreCase;
+
+        #endregion
     }
 }

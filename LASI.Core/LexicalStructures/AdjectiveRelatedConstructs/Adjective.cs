@@ -38,7 +38,7 @@ namespace LASI.Core
         public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
 
         /// <summary>
-        /// Gets the Entity the Adjective modifies.
+        /// The Entity the Adjective modifies.
         /// </summary>
         public IEntity AttributedTo => Describes;
 

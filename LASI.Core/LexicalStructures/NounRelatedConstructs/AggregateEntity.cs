@@ -119,19 +119,19 @@ namespace LASI.Core
         #region Properties
 
         /// <summary>
-        /// Gets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the aggregate entity instance.
+        /// The Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the aggregate entity instance.
         /// </summary>
         public EntityKind EntityKind { get; }
         /// <summary>
-        /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the aggregate entity is the DIRECT object of.
+        /// The IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the aggregate entity is the DIRECT object of.
         /// </summary>
         public IVerbal DirectObjectOf { get; private set; }
         /// <summary>
-        /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the aggregate entity is the INDIRECT object of.
+        /// The IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the aggregate entity is the INDIRECT object of.
         /// </summary>
         public IVerbal IndirectObjectOf { get; private set; }
         /// <summary>
-        /// Gets the IVerbal instance, generally a Verb or VerbPhrase, which the aggregate entity is the subject of.
+        /// The IVerbal instance, generally a Verb or VerbPhrase, which the aggregate entity is the subject of.
         /// </summary>
         public IVerbal SubjectOf { get; private set; }
         /// <summary>

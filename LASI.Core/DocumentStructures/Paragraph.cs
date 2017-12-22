@@ -40,7 +40,7 @@ namespace LASI.Core
             }
         }
         /// <summary>
-        /// Gets the sequence of Phrases which come after the given phrase through to the end of the Paragraph.
+        /// Returns the sequence of Phrases which come after the given phrase through to the end of the Paragraph.
         /// </summary>
         /// <param name="startAfter">The Phrase which bounds the sequence.</param>
         /// <returns>The sequence of Phrases which come after the given phrase through to the end of the Paragraph.</returns>

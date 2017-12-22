@@ -34,9 +34,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindObjectOfPrepositionTest()
         {
-            IEnumerable<Word> composedWords = new[] { new Particle("about") };
-            var target = new ParticlePhrase(composedWords);
-            ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("house") });
+            var target = new ParticlePhrase(new Particle("about"));
+            ILexical prepositionalObject = new NounPhrase(new Determiner("the"), new CommonSingularNoun("house"));
             target.BindObject(prepositionalObject);
             Check.That(target.BoundObject).IsEqualTo(prepositionalObject);
         }
@@ -47,13 +46,12 @@ namespace LASI.Core.Tests
         [Fact]
         public void OnLeftSideTest()
         {
-            IEnumerable<Word> composedWords = new[] { new Particle("away") };
-            var target = new ParticlePhrase(composedWords);
+            var target = new ParticlePhrase(new Particle("away"));
             ILexical expected = new PastTenseVerb("gave");
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -62,13 +60,12 @@ namespace LASI.Core.Tests
         [Fact]
         public void OnRightSideTest()
         {
-            IEnumerable<Word> composedWords = new[] { new Particle("away") };
-            var target = new ParticlePhrase(composedWords);
+            var target = new ParticlePhrase(new Particle("away"));
             ILexical expected = new Preposition("for");
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
 
@@ -79,13 +76,12 @@ namespace LASI.Core.Tests
         [Fact]
         public void ToTheRightOfTest()
         {
-            IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
-            var target = new ParticlePhrase(composedWords);
-            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("world") });
+            var target = new ParticlePhrase(new Particle("off"), new Preposition("of"));
+            ILexical expected = new NounPhrase(new Determiner("the"), new CommonSingularNoun("world"));
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -94,13 +90,12 @@ namespace LASI.Core.Tests
         [Fact]
         public void ToTheLeftOfTest()
         {
-            IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
-            var target = new ParticlePhrase(composedWords);
-            ILexical expected = new PronounPhrase(new[] { new PersonalPronoun("they") });
+            var target = new ParticlePhrase(new Particle("off"), new Preposition("of"));
+            ILexical expected = new PronounPhrase(new PersonalPronoun("they"));
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -109,13 +104,12 @@ namespace LASI.Core.Tests
         [Fact]
         public void RoleTest()
         {
-            IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
-            var target = new ParticlePhrase(composedWords);
+            var target = new ParticlePhrase(new Particle("off"), new Preposition("of"));
             var expected = PrepositionRole.Undetermined;
             PrepositionRole actual;
             target.Role = expected;
             actual = target.Role;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -124,9 +118,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindObjectTest()
         {
-            IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
-            var target = new ParticlePhrase(composedWords);
-            ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("world") });
+            var target = new ParticlePhrase(new Particle("off"), new Preposition("of"));
+            ILexical prepositionalObject = new NounPhrase(new Determiner("the"), new CommonSingularNoun("world"));
             target.BindObject(prepositionalObject);
             Check.That(target.BoundObject).IsEqualTo(prepositionalObject);
             IVerbal linkedVerbal = new VerbPhrase(new PastTenseVerb("jumped"));

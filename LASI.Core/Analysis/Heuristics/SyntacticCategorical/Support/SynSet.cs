@@ -16,7 +16,7 @@ namespace LASI.Core.Heuristics.WordNet
         }
 
         /// <summary>
-        /// Gets the ID of the Synset.
+        /// The ID of the Synset.
         /// </summary>
         public int Id { get; }
 
@@ -26,7 +26,7 @@ namespace LASI.Core.Heuristics.WordNet
         public IEnumerable<string> Words { get; }
 
         /// <summary>
-        /// Gets the IDs of all sets referenced by the Synset.
+        /// The IDs of all sets referenced by the Synset.
         /// </summary>
         public ISet<int> ReferencedSets { get; }
 
@@ -40,7 +40,7 @@ namespace LASI.Core.Heuristics.WordNet
         private Lazy<ILookup<TLinkKind, int>> referencedSetsByLinkType;
 
         /// <summary>
-        /// Gets the <see cref="ILookup{TKey, TElement}"/> that maps the Ids of all other Synsets which are referenced from the current Synset based on the manner in which they are referenced.
+        /// The <see cref="ILookup{TKey, TElement}"/> that maps the Ids of all other Synsets which are referenced from the current Synset based on the manner in which they are referenced.
         /// </summary>
         public ILookup<TLinkKind, int> RelatedSetIdsByRelationKind => referencedSetsByLinkType.Value;
 
@@ -68,7 +68,7 @@ namespace LASI.Core.Heuristics.WordNet
         /// Returns a single string representing the Synset.
         /// </summary>
         /// <returns>A single string representing the Synset.</returns>
-        public override string ToString() => "[" + Id + "] " + Words.Format(Tuple.Create(' ', ',', ' '));
+        public override string ToString() => "[" + Id + "] " + Words.Format((' ', ',', ' '));
 
         public static bool operator ==(Synset<TLinkKind> left, Synset<TLinkKind> right)
         {

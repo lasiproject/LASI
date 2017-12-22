@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-namespace LASI.Content
+using LASI.Content.Exceptions;
+
+namespace LASI.Content.FileTypes
 {
     /// <summary>
     /// This class serves as a wrapper around a file path, providing for direct access to the individual components of the file path.
@@ -25,53 +24,53 @@ namespace LASI.Content
             fileData = new FileData(infile.FullName);
         }
         /// <summary>
-        /// Gets the full file path, including the file name and extension of the file.
+        /// The full file path, including the file name and extension of the file.
         /// </summary>
         public string FullPath => fileData.FullPathAndExt;
 
         /// <summary>
-        /// Gets the file path, including the file name, but not the extension, of the file.
+        /// The file path, including the file name, but not the extension, of the file.
         /// </summary>
         public string PathSansExt => fileData.FullPathSansExt;
 
         /// <summary>
-        /// Gets the filename, including its extension.
+        /// The filename, including its extension.
         /// </summary>
         public string FileName => fileData.FileName;
 
         /// <summary>
-        /// Gets the filename, not including its extension.
+        /// The filename, not including its extension.
         /// </summary>
         public string NameSansExt => fileData.FileNameSansExt;
 
         /// <summary>
-        /// Gets the extension of the file.
+        /// The extension of the file.
         /// </summary>
         public string Extension => fileData.Extension;
 
         /// <summary>
-        /// Gets the full path of the directory in which the file resides.
+        /// The full path of the directory in which the file resides.
         /// </summary>
         public string Directory => fileData.Directory;
 
         /// <summary>
         /// Determines if the wrapped file exists.
         /// </summary>
-        /// <returns> <c>true</c> if the wrapped file exists; otherwise, <c>false</c>.</returns> 
+        /// <returns> <c>true</c> if the wrapped file exists; otherwise, <c>false</c>.</returns>
         public bool Exists() => fileData.Exists();
 
         /// <summary>
         /// Returns a value that indicates whether the specified InputFile is equal to the current InputFile.
         /// </summary>
-        /// <param name="other">The InputFile to compare with.</param> 
-        /// <returns> <c>true</c> if the specified InputFile is equal to the current InputFile; otherwise, <c>false</c>.</returns> 
-        public bool Equals(InputFile other) => fileData == other.fileData;
+        /// <param name="other">The InputFile to compare with.</param>
+        /// <returns> <c>true</c> if the specified InputFile is equal to the current InputFile; otherwise, <c>false</c>.</returns>
+        public virtual bool Equals(InputFile other) => fileData == other.fileData;
         /// <summary>
         /// Returns a value that indicates whether the specified object is equal to the current InputFile.
         /// </summary>
-        /// <param name="obj">The object to compare with.</param> 
-        /// <returns> <c>true</c> if the specified object is equal to the current InputFile; otherwise, <c>false</c>.</returns> 
-        public override bool Equals(object obj) => obj is InputFile && Equals(obj as InputFile);
+        /// <param name="obj">The object to compare with.</param>
+        /// <returns> <c>true</c> if the specified object is equal to the current InputFile; otherwise, <c>false</c>.</returns>
+        public sealed override bool Equals(object obj) => obj is InputFile f && Equals(f);
         /// <summary>
         /// Gets the hash code of the InputFile.
         /// </summary>
@@ -94,7 +93,7 @@ namespace LASI.Content
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the InputFile.</returns>
         public abstract Task<string> LoadTextAsync();
         /// <summary>
-        /// Gets the simple file name of the InputFile. This does not include its extension.
+        /// The simple file name of the InputFile. This does not include its extension.
         /// </summary>
         public string Name => NameSansExt;
 
@@ -126,6 +125,7 @@ namespace LASI.Content
         /// <returns> <c>true</c> if the InputFile on the left is not equal to the InputFile on the right.</returns>
         public static bool operator !=(InputFile left, InputFile right) => !(left == right);
 
-        protected FileConversionFailureException CreateFileConversionFailureException(string targetExtension, Exception e) => new FileConversionFailureException(FullPath, this.CanonicalExtension, targetExtension, e);
+        protected FileConversionFailureException CreateFileConversionFailureException(string targetExtension, Exception e) =>
+            new FileConversionFailureException(FullPath, CanonicalExtension, targetExtension, e);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using LASI.Content.Exceptions;
+using LASI.Content.FileConveters;
+using LASI.Content.FileTypes;
 using NFluent;
 using Shared.Test.NFluentExtensions;
 using Xunit;
@@ -49,13 +51,13 @@ namespace LASI.Content.Tests
         /// <summary>
         ///A test for LoadText
         /// </summary>
-        [Fact(Skip = "This test is obsolete. It consistently exhibits a race, due to parallel test execution by different PROCESSES never observed in the application proper, which is a single process.")]
+        [Fact(Skip = "This test is obsolete.It consistently exhibits a race, due to parallel test execution by different PROCESSES never observed in the application proper, which is a single process.")]
         public void LoadTextTest()
         {
             var target = new PdfFile(TestPdfFilePath);
             var expected = new PdfToTextConverter(target).ConvertFile().LoadText();
             var actual = target.LoadText();
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -69,7 +71,7 @@ namespace LASI.Content.Tests
             var converted = await new PdfToTextConverter(target).ConvertFileAsync();
             var expected = await converted.LoadTextAsync();
             var actual = await target.LoadTextAsync();
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace LASI.Utilities.Tests
         {
             var target = Range(0, 4);
             var expected = "< 0; 1; 2; 3 >";
-            var actual = target.Format(Tuple('<', ';', '>'));
+            var actual = target.Format(('<', ';', '>'));
             Check.That(actual).Equals(expected);
         }
 
@@ -52,7 +52,7 @@ namespace LASI.Utilities.Tests
         {
             var target = Range(0, 4);
             var expected = "{ System.Int32; System.Int32; System.Int32; System.Int32 }";
-            var actual = target.Format(Tuple('{', ';', '}'), e => e.GetType().FullName);
+            var actual = target.Format(('{', ';', '}'), e => e.GetType().FullName);
             Check.That(actual).Equals(expected);
         }
 
@@ -61,7 +61,7 @@ namespace LASI.Utilities.Tests
         {
             var target = Range(0, 4).Select(x => x.GetType().FullName);
             var expected = "{ System.Int32;\nSystem.Int32;\nSystem.Int32;\nSystem.Int32 }";
-            var actual = target.Format(Tuple('{', ';', '}'), 20);
+            var actual = target.Format(('{', ';', '}'), 20);
             Check.That(actual).Equals(expected);
         }
 
@@ -70,7 +70,7 @@ namespace LASI.Utilities.Tests
         {
             var target = Range(0, 4);
             var expected = "{ System.Int32;\nSystem.Int32;\nSystem.Int32;\nSystem.Int32 }";
-            var actual = target.Format(Tuple('{', ';', '}'), 20, x => x.GetType().FullName);
+            var actual = target.Format(('{', ';', '}'), 20, x => x.GetType().FullName);
             Check.That(actual).Equals(expected);
         }
 
@@ -220,12 +220,12 @@ namespace LASI.Utilities.Tests
                 third: new[] { 11, 24, 25, 5 },
                 selector: (x, y, z) => x + y + z,
                 expected: new[] { 14, 31, 36 });
-        }
 
-        private static void Zip3TestHelper<T1, T2, T3, TResult>(T1[] first, T2[] second, T3[] third, Func<T1, T2, T3, TResult> selector, TResult[] expected)
-        {
-            var result = first.Zip(second, third, selector).ToArray();
-            Check.That(result).ContainsExactly(expected);
+            void Zip3TestHelper<T1, T2, T3, TResult>(T1[] first, T2[] second, T3[] third, Func<T1, T2, T3, TResult> selector, TResult[] expected)
+            {
+                var result = first.Zip(second, third, selector).ToArray();
+                Check.That(result).ContainsExactly(expected);
+            }
         }
 
         [Fact]
@@ -294,6 +294,12 @@ namespace LASI.Utilities.Tests
                 fourth: new[] { 14, 31, 36, 1 },
                 selector: (a, b, c, d) => a + b + c + d,
                 expected: new[] { 28, 62, 72 });
+
+            void Zip4TestHelper<T1, T2, T3, T4, TResult>(T1[] first, T2[] second, T3[] third, T4[] fourth, Func<T1, T2, T3, T4, TResult> selector, TResult[] expected)
+            {
+                var result = first.Zip(second, third, fourth, selector);
+                Check.That(result).ContainsExactly(expected);
+            }
         }
 
         [Fact]
@@ -346,22 +352,6 @@ namespace LASI.Utilities.Tests
             var indices = Range(10, 20).WithIndices().Select(e => e.index).ToList();
             Check.That(indices).ContainsExactly(Range(0, indices.Count));
         }
-
-        #endregion
-
-        #region Generic Helpers
-
-        private static void Zip4TestHelper<T1, T2, T3, T4, TResult>(T1[] first, T2[] second, T3[] third, T4[] fourth, Func<T1, T2, T3, T4, TResult> selector, TResult[] expected)
-        {
-            var result = first.Zip(second, third, fourth, selector);
-            Check.That(result).ContainsExactly(expected);
-        }
-
-        #endregion
-
-        #region Helper Factories
-
-        private static Tuple<T1, T2, T3> Tuple<T1, T2, T3>(T1 x, T2 y, T3 z) => System.Tuple.Create(x, y, z);
 
         #endregion
     }

@@ -13,7 +13,7 @@ namespace LASI.Core
         /// </summary>
         public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
         /// <summary>
-        /// Gets the Entity the AdjectivePhrase modifies.
+        /// The Entity the AdjectivePhrase modifies.
         /// </summary>
         public IEntity AttributedTo => Describes;
         /// <summary>
@@ -41,11 +41,11 @@ namespace LASI.Core
 
 
         /// <summary>
-        /// Gets the collection of Adverbial constructs which modify the AdjectivePhrase.
+        /// The collection of Adverbial constructs which modify the AdjectivePhrase.
         /// </summary>
         public virtual IEnumerable<IAdverbial> AdverbialModifiers => adverbialModifiers;
         /// <summary>
-        /// Gets the Entity which the AdjectivePhrase describes.
+        /// The Entity which the AdjectivePhrase describes.
         /// </summary>
         public virtual IEntity Describes { get; set; }
 

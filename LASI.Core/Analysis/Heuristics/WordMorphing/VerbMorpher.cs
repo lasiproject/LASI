@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
+using static System.StringComparison;
 
 namespace LASI.Core.Analysis.Heuristics.WordMorphing
 {
     /// <summary>Performs both verb root extraction and verb conjugation generation.</summary>
     public static class VerbMorpher
     {
-
         /// <summary>Gets all forms of the verb root.</summary>
         /// <param name="verb">The root of a verb as a string.</param>
         /// <returns>All forms of the verb root.</returns>
@@ -22,9 +22,9 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             var results = GetWithSpecialForms(root);
             if (!results.Any())
             {
-                results = from ending in SufficesByEnding.Keys
-                          where ending.Length == 0 || beforeHyphen.EndsWithInsensitive(ending)
-                          from suffix in SufficesByEnding[ending]
+                results = from ending in sufficesByEnding.Keys
+                          where ending.Length == 0 || beforeHyphen.EndsWith(ending, OrdinalIgnoreCase)
+                          from suffix in sufficesByEnding[ending]
                           select beforeHyphen.Substring(0, beforeHyphen.Length - ending.Length) + suffix + afterHyphen;
             }
             return results.Append(beforeHyphen).Distinct();
@@ -40,21 +40,18 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         /// </returns>
         public static IEnumerable<string> FindRoots(string verb)
         {
-#pragma warning disable CS0618 // Type or member is obsolete
             var result = GetRootIfSpecialForm(verb) ?? ComputeRoot(verb);
-#pragma warning restore CS0618 // Type or member is obsolete
             yield return result ?? verb;
         }
 
-        [Obsolete("Figure out wtf I was on.", error: false)]
-        static string ComputeRoot(string verb)
+        private static string ComputeRoot(string verb)
         {
             var hyphenIndex = verb.IndexOf('-');
             var afterHyphen = hyphenIndex > -1 ? verb.Substring(hyphenIndex) : string.Empty;
             var results = new List<string>();
             for (var i = Endings.Length - 1; i >= 0; --i)
             {
-                if (verb.EndsWithInsensitive(Sufficies[i]))
+                if (verb.EndsWith(Sufficies[i], OrdinalIgnoreCase))
                 {
                     checked
                     {
@@ -62,24 +59,21 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
                         {
                             var possibleRoot = verb.Substring(0, verb.Length - Sufficies[i].Length);
 
-                            if (Endings[i].IsNullOrWhiteSpace() || possibleRoot.EndsWithInsensitive(Endings[i]))
+                            if (Endings[i].IsNullOrWhiteSpace() || possibleRoot.EndsWith(Endings[i], CurrentCulture))
                             {
                                 return possibleRoot + afterHyphen;
                             }
                         }
-                        catch (StackOverflowException e)
-                        {
-                            Logger.Log(e);
-                        }
+                        catch (StackOverflowException e) { Logger.Log(e); }
                     }
                 }
             }
             return verb;
         }
 
-        static string GetRootIfSpecialForm(string verb) => ExceptionMapping.FirstOrDefault(kv => kv.Value.Contains(verb) || kv.Key == verb).Key;
+        private static string GetRootIfSpecialForm(string verb) => ExceptionMapping.FirstOrDefault(kv => kv.Value.Contains(verb) || kv.Key == verb).Key;
 
-        static IEnumerable<string> GetWithSpecialForms(string verb)
+        private static IEnumerable<string> GetWithSpecialForms(string verb)
         {
             foreach (var kv in ExceptionMapping)
             {
@@ -94,19 +88,19 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
 
         static VerbMorpher() => ExceptionMapping = ExcManager.ExcMapping;
 
+
         static readonly string[] Endings = { "", "y", "e", "", " e", "", "e", "" };
 
         static readonly string[] Sufficies = { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" };
 
-        static readonly IDictionary<string, IEnumerable<string>> SufficesByEnding = new Dictionary<string, IEnumerable<string>>
+        private static readonly IDictionary<string, IEnumerable<string>> sufficesByEnding = new Dictionary<string, IEnumerable<string>>
         {
             [""] = new[] { "s", "es", "ed", "ing" },
             ["e"] = new[] { "es", "ed", "ing" },
             ["y"] = new[] { "ies" },
         };
 
-        static readonly WordNetExceptionDataManager ExcManager = new WordNetExceptionDataManager("verb.exc");
-
+        private static readonly WordNetExceptionDataManager ExcManager = new WordNetExceptionDataManager("verb.exc");
         static IReadOnlyDictionary<string, IEnumerable<string>> ExceptionMapping;
 
         #endregion Exception File Processing

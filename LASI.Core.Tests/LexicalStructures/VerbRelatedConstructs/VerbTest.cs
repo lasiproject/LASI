@@ -38,7 +38,7 @@ namespace LASI.Core.Tests
         {
             var text = "insulate";
             Verb target = new BaseVerb(text);
-            var prepositionObject = new NounPhrase(new[] { new PersonalPronoun("them") });
+            var prepositionObject = new NounPhrase(new PersonalPronoun("them"));
             IPrepositional prep = new Preposition("for");
             prep.BindObject(prepositionObject);
             target.AttachObjectViaPreposition(prep);
@@ -53,7 +53,7 @@ namespace LASI.Core.Tests
         {
             var text = "gave";
             Verb target = new PastTenseVerb(text);
-            IEntity directObject = new NounPhrase(new Word[] { new Determiner("a"), new CommonSingularNoun("cake") });
+            IEntity directObject = new NounPhrase(new Determiner("a"), new CommonSingularNoun("cake"));
             target.BindDirectObject(directObject);
 
             Check.That(target.DirectObjects).Contains(directObject).And.HasSize(1);
@@ -116,7 +116,7 @@ namespace LASI.Core.Tests
             ModalAuxilary actual;
             target.Modality = expected;
             actual = target.Modality;
-            Check.That(expected).Equals(actual);
+            Check.That(actual).Equals(expected);
         }
 
 
@@ -304,7 +304,7 @@ namespace LASI.Core.Tests
             var expected = true;
             bool actual;
             actual = target.HasSubjectOrObject(predicate);
-            Check.That(expected).Equals(actual);
+            Check.That(actual).Equals(expected);
         }
 
 
@@ -322,7 +322,7 @@ namespace LASI.Core.Tests
             var expected = false;
             bool actual;
             actual = target.HasSubject(predicate);
-            Check.That(expected).Equals(actual);
+            Check.That(actual).Equals(expected);
             target.BindSubject(new PersonalPronoun("her"));
             expected = true;
             actual = target.HasSubject(predicate);

@@ -1,11 +1,12 @@
-﻿using LASI.Utilities;
-using NFluent;
-using Shared.Test.NFluentExtensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using LASI.Content.FileTypes;
+using LASI.Utilities;
+using NFluent;
+using Shared.Test.NFluentExtensions;
 using Xunit;
 
 namespace LASI.Content.Tests

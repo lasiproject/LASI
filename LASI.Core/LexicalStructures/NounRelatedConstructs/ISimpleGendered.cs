@@ -9,7 +9,7 @@ namespace LASI.Core
     public interface ISimpleGendered : IEntity
     {
         /// <summary>
-        /// Gets the Gender of the ISimpleGendered.
+        /// The Gender of the ISimpleGendered.
         /// </summary>
         Gender Gender { get; }
     }

@@ -37,7 +37,7 @@
         };
 
         /// <summary>
-        /// Gets the maximum allowed Concurrency level for Parallel operations.
+        /// The maximum allowed Concurrency level for Parallel operations.
         /// </summary>
         public static int Max
         {

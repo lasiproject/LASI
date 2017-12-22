@@ -26,7 +26,7 @@ namespace LASI.Core.Tests
         public void BindIndirectObjectTest()
         {
             var target = CreateIInderectObjectTaker();
-            IEntity indirectObject = new NounPhrase(new Word[] { new PossessivePronoun("my"), new CommonSingularNoun("friend") });
+            IEntity indirectObject = new NounPhrase(new PossessivePronoun("my"), new CommonSingularNoun("friend"));
             target.BindIndirectObject(indirectObject);
             Check.That(indirectObject).Satisfies(target.IndirectObjects.Contains).And.Satisfies(target.AggregateIndirectObject.Contains);
         }
@@ -42,7 +42,7 @@ namespace LASI.Core.Tests
                 new AggregateEntity(new IEntity[] {
                     new PersonalPronoun("him"),
                     new ProperSingularNoun("Patrick"),
-                    new NounPhrase(new Word[] { new ProperSingularNoun("Brittany") })
+                    new NounPhrase(new ProperSingularNoun("Brittany"))
                 });
             actual = target.AggregateIndirectObject;
             Assert.True(target.AggregateIndirectObject.SequenceEqual(actual));
@@ -58,7 +58,7 @@ namespace LASI.Core.Tests
             IEnumerable<IEntity> actual = new IEntity[] {
                     new PersonalPronoun("him"),
                     new ProperSingularNoun("Patrick"),
-                    new NounPhrase(new Word[] { new ProperSingularNoun("Brittany") })
+                    new NounPhrase(new ProperSingularNoun("Brittany") )
                 };
             actual = target.IndirectObjects;
             Assert.True(target.IndirectObjects.SequenceEqual(actual));

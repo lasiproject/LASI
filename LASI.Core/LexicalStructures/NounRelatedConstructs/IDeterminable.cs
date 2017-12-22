@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
-    /// Represents a lexical construct, usually a Noun or NounPhrase which can be qualified by a determiner. Along with the other interfaces in the Syntactic Interfaces Library, the Quantifiable interface provides for generalization and abstraction over many otherwise disparate element types and Type heirarchies.
+    /// Represents a lexical construct, usually a Noun or NounPhrase which can be qualified by a determiner. Along with the other interfaces in the Syntactic Interfaces Library, the Quantifiable interface provides for generalization and abstraction over many otherwise disparate element types and Type hierarchies.
     /// </summary>
     /// <see cref="LASI.Core.Determiner"/>
     public interface IDeterminable : ILexical
     {
         /// <summary>
-        /// Gets the Determiner which is bound to the IDterminable.
+        /// The Determiner which is bound to the IDterminable.
         /// </summary>
-        Determiner Determiner {
+        Determiner Determiner
+        {
             get;
         }
         /// <summary>

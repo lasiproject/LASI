@@ -5,6 +5,7 @@ using NFluent;
 namespace LASI.Content.Tests
 {
     using Exceptions;
+    using LASI.Content.FileTypes;
     using Fact = Xunit.FactAttribute;
 
     /// <summary>
@@ -47,7 +48,7 @@ namespace LASI.Content.Tests
             var target = new TaggedFile(VALID_TAGGED_FILE_PATH);
             var expected = File.ReadAllText(VALID_TAGGED_FILE_PATH);
             var actual = target.LoadText();
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>

@@ -9,7 +9,7 @@ namespace LASI.Utilities
     public static class Option
     {
         /// <summary>
-        /// Lifts the given <paramref name="value"/> into an Option&lt; <typeparamref name="T"/>&gt;.
+        /// Lifts the given <paramref name="value"/> into an <see cref="Option{T}"/>.
         /// </summary>
         /// <typeparam name="T">The type of the value to lift.</typeparam>
         /// <param name="value">The value to lift into an Enumerable.</param>
@@ -95,7 +95,7 @@ namespace LASI.Utilities
         public abstract Option<T> Where(Func<T, bool> predicate);
 
         /// <summary>
-        /// Determines if the specified Option&lt; <typeparamref name="T"/>&gt; is equal to the current instance.
+        /// Determines if the specified <see cref="Option{T}"/> is equal to the current instance.
         /// </summary>
         /// <param name="other">The Option&lt; <typeparamref name="T"/>&gt; to compare with the current instance.</param>
         /// <returns><c>true</c> if the specified Option&lt; <typeparamref name="T"/>&gt; is equal to the current instance; otherwise <c>false</c>.</returns>
@@ -116,9 +116,9 @@ namespace LASI.Utilities
         public abstract bool Equals(T other);
 
         /// <summary>
-        /// Gets the hash code of the Option&lt; <typeparamref name="T"/>&gt;.
+        /// The hash code of the <see cref="Option{T}"/>.
         /// </summary>
-        /// <returns>The hash code of the Option&lt; <typeparamref name="T"/>&gt;.</returns>
+        /// <returns>The hash code of the <see cref="Option{T}"/>.</returns>
         public abstract override int GetHashCode();
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace LASI.Utilities
         /// <param name="left"> The option to compare.</param>
         /// <param name="right">The value to compare.</param>
         /// <returns><c>true</c> if the option represents a value equal to <paramref name="right"/>; otherwise <c>false</c>.</returns>
-        public static bool operator ==(Option<T> left, T right) => left is Some && left.Value.Equals(right);
+        public static bool operator ==(Option<T> left, T right) => left is Some some && some.Value.Equals(right);
 
         /// <summary>
         /// Performs an inequality comparison between an <see cref="Option{T}"/> and a value of type <typeparamref name="T"/>.

@@ -18,7 +18,7 @@ namespace LASI.Core
         /// </summary>
         IEnumerable<IDescriptor> Descriptors { get; }
         /// <summary>
-        /// Gets the Kind of Entity; Person, Place, Thing, Organization, Activity, etc.; that the Entity represents.
+        /// The Kind of Entity; Person, Place, Thing, Organization, Activity, etc.; that the Entity represents.
         /// </summary>
         EntityKind EntityKind { get; }
     }

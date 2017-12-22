@@ -22,7 +22,7 @@ namespace LASI.Content
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the IRawTextSource.</returns>
         Task<string> LoadTextAsync();
         /// <summary>
-        /// Gets the name associated with the IRawTextSource.
+        /// The name associated with the IRawTextSource.
         /// </summary>
         string Name { get; }
     }

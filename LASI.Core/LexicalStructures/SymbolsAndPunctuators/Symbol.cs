@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Utilities.Validation;
 using System.Text;
 using LASI.Utilities;
+using LASI.Utilities.Validation;
+
 
 namespace LASI.Core
 {
@@ -19,7 +20,7 @@ namespace LASI.Core
         /// <param name="literalSymbol">The text of the Symbol.</param>
         public Symbol(string literalSymbol) : base(SymbolAliasMap.FromAlias(literalSymbol)) => LiteralCharacter = Text.Length == 1 ? Text[0] : '\0';
         /// <summary>
-        /// Gets the literal punctuation character of the <see cref="Punctuator"/>.
+        /// The literal punctuation character of the <see cref="Punctuator"/>.
         /// </summary>
         public char LiteralCharacter { get; }
         /// <summary>
@@ -49,7 +50,7 @@ namespace LASI.Core
         /// </summary>
         protected static class SymbolAliasMap
         {
-            private static readonly IDictionary<string, string> aliasMap = new Dictionary<string, string>
+            private static readonly IReadOnlyDictionary<string, string> aliasMap = new Dictionary<string, string>
             {
                 ["COMMA"] = ",",
                 ["LEFT_SQUARE_BRACKET"] = "[",

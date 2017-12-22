@@ -120,12 +120,12 @@ namespace LASI.Core
         public Document Document { get; private set; }
 
         /// <summary>
-        /// Gets the concatenated text content of all of the words which comprise the Phrase.
+        /// The concatenated text content of all of the words which comprise the Phrase.
         /// </summary>
         public string Text => text ?? (text = string.Join(" ", Words.Select(w => w.Text)));
 
         /// <summary>
-        /// Gets the collection of words which comprise the Phrase.
+        /// The collection of words which comprise the Phrase.
         /// </summary>
         public IEnumerable<Word> Words { get; }
 

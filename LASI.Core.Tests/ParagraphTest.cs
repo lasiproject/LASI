@@ -18,22 +18,22 @@ namespace LASI.Core.Tests
         public void ToStringTest()
         {
             var phrases1 = new Phrase[] {
-                new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
-                new VerbPhrase(new Word[] { new PastTenseVerb("found") }),
-                new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") })
+                new NounPhrase(new ProperSingularNoun("LASI") ),
+                new VerbPhrase(new PastTenseVerb("found") ),
+                new NounPhrase(new ProperPluralNoun("TIMIS") )
             };
             var sentences = new Sentence[3];
             sentences[0] = new Sentence(phrases1, SentenceEnding.Period);
             var phrases2 = new Phrase[] {
-                new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
-                new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }),
-                new NounPhrase(new Word[] { new ProperPluralNoun("them") })
+                new NounPhrase(new ProperSingularNoun("LASI") ),
+                new VerbPhrase(new PastTenseVerb("SNIFd") ),
+                new NounPhrase(new ProperPluralNoun("them") )
             };
             sentences[1] = new Sentence(phrases2, SentenceEnding.Period);
             var phrases3 = new Phrase[] {
-                new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
-                new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
-                new NounPhrase(new Word[] { new ProperPluralNoun("awesome") })
+                new NounPhrase(new ProperSingularNoun("Richard") ),
+                new VerbPhrase(new PastTenseVerb("did") ),
+                new NounPhrase(new ProperPluralNoun("awesome") )
             };
             sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
@@ -52,22 +52,22 @@ namespace LASI.Core.Tests
         public void TextTest()
         {
             var phrases1 = new Phrase[] {
-                new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
-                new VerbPhrase(new Word[] { new PastTenseVerb("found")}),
-                new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS")})
+                new NounPhrase(new ProperSingularNoun("LASI") ),
+                new VerbPhrase(new PastTenseVerb("found")),
+                new NounPhrase(new ProperPluralNoun("TIMIS"))
             };
             var sentences = new Sentence[3];
             sentences[0] = new Sentence(phrases1, SentenceEnding.Period);
             var phrases2 = new Phrase[] {
-                new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
-                new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }),
-                new NounPhrase(new Word[] { new ProperPluralNoun("them") })
+                new NounPhrase(new ProperSingularNoun("LASI") ),
+                new VerbPhrase(new PastTenseVerb("SNIFd") ),
+                new NounPhrase(new ProperPluralNoun("them") )
             };
             sentences[1] = new Sentence(phrases2, SentenceEnding.Period);
             var phrases3 = new Phrase[] {
-                new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
-                new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
-                new NounPhrase(new Word[] { new ProperPluralNoun("awesome") })
+                new NounPhrase(new ProperSingularNoun("Richard") ),
+                new VerbPhrase(new PastTenseVerb("did") ),
+                new NounPhrase(new ProperPluralNoun("awesome") )
             };
             sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
@@ -86,22 +86,22 @@ namespace LASI.Core.Tests
         public void EstablishParentTest()
         {
             var phrases1 = new Phrase[] {
-                   new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
-                   new VerbPhrase(new Word[] { new PastTenseVerb("found")}),
-                   new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS")})
+                   new NounPhrase(new ProperSingularNoun("LASI") ),
+                   new VerbPhrase(new PastTenseVerb("found")),
+                   new NounPhrase(new ProperPluralNoun("TIMIS"))
                };
             var sentences = new Sentence[3];
             sentences[0] = new Sentence(phrases1, SentenceEnding.Period);
             var phrases2 = new Phrase[] {
-                   new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
-                   new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }),
-                   new NounPhrase(new Word[] { new ProperPluralNoun("them") })
+                   new NounPhrase(new ProperSingularNoun("LASI") ),
+                   new VerbPhrase(new PastTenseVerb("SNIFd") ),
+                   new NounPhrase(new ProperPluralNoun("them") )
                };
             sentences[1] = new Sentence(phrases2, SentenceEnding.Period);
             var phrases3 = new Phrase[] {
-                   new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
-                   new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
-                   new NounPhrase(new Word[] { new ProperPluralNoun("awesome") })
+                   new NounPhrase(new ProperSingularNoun("Richard") ),
+                   new VerbPhrase(new PastTenseVerb("did") ),
+                   new NounPhrase(new ProperPluralNoun("awesome") )
                };
             sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
@@ -215,7 +215,7 @@ namespace LASI.Core.Tests
             IEnumerable<Phrase> actual;
             actual = target.GetPhrasesAfter(startAfter);
 
-            Check.That(expected).ContainsExactly(actual);
+            Check.That(actual).ContainsExactly(expected);
         }
 
         /// <summary>

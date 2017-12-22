@@ -38,7 +38,7 @@
 
 
         /// <summary>
-        /// Gets the object of the IPrepositional construct.
+        /// The object of the IPrepositional construct.
         /// </summary>
         public ILexical BoundObject
         {

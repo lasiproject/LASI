@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using LASI.Utilities.Validation;
 using static System.Linq.Enumerable;
+using static LASI.Utilities.Validation.Validate;
 
 namespace LASI.Utilities
 {
@@ -140,7 +141,7 @@ namespace LASI.Utilities
         /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
         {
-            Validate.NotNull(source, "source", selector, "selector");
+            NotNull(source, nameof(source), selector, nameof(selector));
             return source.Distinct(
                 Equality.Create<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
@@ -253,8 +254,8 @@ namespace LASI.Utilities
         /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
         public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) where TKey : IComparable<TKey>
         {
-            Validate.NotNull(source, "source", selector, "selector");
-            Validate.NotEmpty(source, "source");
+            NotNull(source, nameof(source), selector, nameof(selector));
+            NotEmpty(source, nameof(source));
             return source.OrderByDescending(selector, comparer).First();
         }
 
@@ -283,12 +284,12 @@ namespace LASI.Utilities
         /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty.</exception>
         public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) where TKey : IComparable<TKey>
         {
-            Validate.NotNull(source, "source", selector, "selector");
-            Validate.NotEmpty(source, "source");
+            NotNull(source, nameof(source), selector, nameof(selector));
+            NotEmpty(source, nameof(source));
             return source.OrderBy(selector, comparer).First();
         }
 
-        public static IEnumerable<T> NonNull<T>(this IEnumerable<T> source) where T : class => source.Where(element => element != null);
+        public static IEnumerable<T> NonNull<T>(this IEnumerable<T> source) => source.Where(element => !ReferenceEquals(element, null));
 
         /// <summary>
         /// A sequence of Tuple&lt;T, T,&gt; containing pairs of adjacent elements.
@@ -300,9 +301,8 @@ namespace LASI.Utilities
         /// <exception cref="InvalidOperationException"><paramref name="source"/> has exactly one element.</exception>
         public static IEnumerable<(T, T)> PairWise<T>(this IEnumerable<T> source)
         {
-            Validate.NotNull(source, nameof(source));
-            if (source.Count() == 1)
-            { throw new InvalidOperationException("If source is not empty, it must have more than 1 element."); }
+            NotNull(source, nameof(source));
+            NotEmpty(source.Skip(1), nameof(source), "If source is not empty, it must have more than 1 element.");
             var first = source.First();
 
             foreach (var next in source.Skip(1))
@@ -348,9 +348,9 @@ namespace LASI.Utilities
         /// <param name="predicate">The predicate used to delineate elements.</param>
         /// <returns>The percentage of values in the sequence which match the specified predicate.</returns>
         public static double PercentWhere<T>(this IEnumerable<T> source, Func<T, bool> predicate) =>
-            source.Aggregate(new { Length = 0, Matched = 0 },
-                    (s, e) => new { Length = s.Length + 1, Matched = s.Matched + (predicate(e) ? 1 : 0) },
-                    tally => (double)tally.Matched / tally.Length) * 100;
+            source.Aggregate((length: 0, matched: 0),
+                    (s, e) => (s.length + 1, s.matched + (predicate(e) ? 1 : 0)),
+                    tally => (double)tally.matched / tally.length) * 100;
 
         /// <summary>
         /// Calculates the percentage of true values in the collection of Boolean values.
@@ -430,7 +430,7 @@ namespace LASI.Utilities
         /// <returns>The sequence starting with the first element in <paramref name="source"/> and ending with the final accumulation.</returns>
         public static IEnumerable<T> Scan<T>(this IEnumerable<T> source, Func<T, T, T> func)
         {
-            Validate.NotNull(source, nameof(source), func, nameof(func));
+            NotNull(source, nameof(source), func, nameof(func));
             var accumulated = source.First();
             yield return accumulated;
             foreach (var e in source.Skip(1))
@@ -450,7 +450,7 @@ namespace LASI.Utilities
         /// <returns>The sequence starting with <paramref name="seed"/> and ending with the final accumulation.</returns>
         public static IEnumerable<TAccumulate> Scan<T, TAccumulate>(this IEnumerable<T> source, TAccumulate seed, Func<TAccumulate, T, TAccumulate> func)
         {
-            Validate.NotNull(source, nameof(source), func, nameof(func));
+            NotNull(source, nameof(source), func, nameof(func));
             yield return seed;
             var accumulated = seed;
             foreach (var e in source)

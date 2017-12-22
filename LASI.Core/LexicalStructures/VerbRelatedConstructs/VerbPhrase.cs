@@ -200,7 +200,7 @@ namespace LASI.Core
         public IAggregateEntity AggregateIndirectObject => indirectObjects.ToAggregate();
 
         /// <summary>
-        /// Gets the collection of IAdverbial modifiers which modify the VerbPhrase.
+        /// The collection of IAdverbial modifiers which modify the VerbPhrase.
         /// </summary>
         public IEnumerable<IAdverbial> AdverbialModifiers => modifiers;
 
@@ -234,17 +234,17 @@ namespace LASI.Core
         public bool IsClassifier => isClassifier ?? (isClassifier = DetermineIsClassifier()) ?? false;
 
         /// <summary>
-        /// Gets the subjects of the VerbPhrase.
+        /// The subjects of the VerbPhrase.
         /// </summary>
         public IEnumerable<IEntity> Subjects => subjects;
 
         /// <summary>
-        /// Gets the direct objects of the VerbPhrase.
+        /// The direct objects of the VerbPhrase.
         /// </summary>
         public IEnumerable<IEntity> DirectObjects => directObjects;
 
         /// <summary>
-        /// Gets the indirect objects of the VerbPhrase.
+        /// The indirect objects of the VerbPhrase.
         /// </summary>
         public IEnumerable<IEntity> IndirectObjects => indirectObjects;
 
@@ -255,13 +255,13 @@ namespace LASI.Core
         public ILexical ObjectOfThePreposition { get; protected set; }
 
         /// <summary>
-        /// Gets the IPrepositional object which links the VerbPhrase to the ObjectOfThePreoposition.
+        /// The IPrepositional object which links the VerbPhrase to the ObjectOfThePreoposition.
         /// </summary>
         public IPrepositional PrepositionalToObject { get; protected set; }
         /// <summary>Gets all of the Direct and Indirect objects of the VerbPhrase.</summary>
         public IEnumerable<IEntity> DirectAndIndirectObjects => DirectObjects.Concat(IndirectObjects);
         /// <summary>
-        /// Gets the string representation of the <see cref="VerbPhrase"/>'s prevalent form.
+        /// The string representation of the <see cref="VerbPhrase"/>'s prevalent form.
         /// </summary>
         public string PrevailingForm { get; }
         /// <summary>

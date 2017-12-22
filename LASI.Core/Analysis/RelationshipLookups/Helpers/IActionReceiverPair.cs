@@ -5,12 +5,12 @@
         where TEntity : IEntity
     {
         /// <summary>
-        /// Gets the Action.
+        /// The Action.
         /// </summary>
         TVerbal Action { get; }
 
         /// <summary>
-        /// Gets the Receiver of the Action.
+        /// The Receiver of the Action.
         /// </summary>
         TEntity Receiver { get; }
     }

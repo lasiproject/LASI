@@ -22,7 +22,7 @@ namespace LASI.Content
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the tagged text in the ITaggedTextSource.</returns>
         Task<string> LoadTextAsync();
         /// <summary>
-        /// Gets the name associated with the ITaggedTextSource.
+        /// The name associated with the ITaggedTextSource.
         /// </summary>
         string Name { get; }
     }

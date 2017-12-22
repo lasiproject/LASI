@@ -10,22 +10,25 @@ namespace LASI.Content
     {
         #region Constructors
 
-       
+
         /// <summary>
         /// Constructs a new instance from the given parameters.
         /// </summary>
         /// <param name="fileNameWithPathAndExt">The complete path, filename, and file extension of the file as single, non escaped, string.</param>
         public FileData(string fileNameWithPathAndExt)
-            : this() {
+        {
             Directory = fileNameWithPathAndExt.Substring(0, fileNameWithPathAndExt.LastIndexOf('\\') + 1);
             FileName = fileNameWithPathAndExt.Substring(fileNameWithPathAndExt.LastIndexOf('\\') + 1);
 
 
-            try {
+            try
+            {
                 Extension = FileName.Substring(FileName.LastIndexOf('.'));
                 FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
                 FullPathSansExt = Directory + FileNameSansExt;
-            } catch (ArgumentOutOfRangeException) {
+            }
+            catch (ArgumentOutOfRangeException)
+            {
                 Extension = string.Empty;
                 FileNameSansExt = FileName;
                 FullPathSansExt = Directory + FileNameSansExt;
@@ -40,9 +43,9 @@ namespace LASI.Content
         /// <summary>
         /// Determines if the wrapped path exists.
         /// </summary>
-        /// <returns> <c>true</c> if the wrapped path exists; otherwise, <c>false</c>.</returns> 
+        /// <returns> <c>true</c> if the wrapped path exists; otherwise, <c>false</c>.</returns>
         public bool Exists() => System.IO.File.Exists(FullPathAndExt);
-        
+
         /// <summary>
         /// Returns a string representation of the FileData, containing its directory path and full name.
         /// </summary>
@@ -51,14 +54,14 @@ namespace LASI.Content
 
         /// <summary>
         /// Determines if the current instance is equal to the given FileData.
-        /// </summary> 
+        /// </summary>
         /// <param name="other">The FileData to equate to the current instance.</param>
         /// <returns> <c>true</c> if the two instances should be considered equal; otherwise, <c>false</c>.</returns>
         public bool Equals(FileData other) => this == other;
 
         /// <summary>
         /// Determines if the current instance is equal to the given object.
-        /// </summary> 
+        /// </summary>
         /// <param name="obj">The object to equate to the current instance.</param>
         /// <returns> <c>true</c> if the two instances should be considered equal; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj) => obj is FileData && this.Equals((FileData)obj);
@@ -73,27 +76,27 @@ namespace LASI.Content
         #region Properties
 
         /// <summary>
-        /// Gets the full path of the directory in which the file resides.
+        /// The full path of the directory in which the file resides.
         /// </summary>
         public string Directory { get; }
         /// <summary>
-        /// Gets the extension of the file.
+        /// The extension of the file.
         /// </summary>
         public string Extension { get; }
         /// <summary>
-        /// Gets the name of the file.
+        /// The name of the file.
         /// </summary>
         public string FileName { get; }
         /// <summary>
-        /// Gets the name of the file, not including its extension.
+        /// The name of the file, not including its extension.
         /// </summary>
         public string FileNameSansExt { get; }
         /// <summary>
-        /// Gets the full path of the file.
+        /// The full path of the file.
         /// </summary>
         public string FullPathAndExt { get; }
         /// <summary>
-        /// Gets the full path of the file, not including its extension..
+        /// The full path of the file, not including its extension..
         /// </summary>
         public string FullPathSansExt { get; }
 

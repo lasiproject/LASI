@@ -133,7 +133,7 @@ namespace LASI.Core
         public EntityKind EntityKind { get; protected set; } = EntityKind.Undefined;
 
         /// <summary>
-        /// Gets the single Determiner which modifies the noun.
+        /// The single Determiner which modifies the noun.
         /// </summary>
         public Determiner Determiner { get; protected set; }
 

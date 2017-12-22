@@ -14,7 +14,7 @@ namespace LASI.Core
         /// <param name="indirectObject">The IEntity to bind as an indirect object.</param>
         void BindIndirectObject(IEntity indirectObject);
         /// <summary>
-        /// Gets the sequence of IEntity constructs which are indirect objects of the IInderectObjectTaker.
+        /// The sequence of IEntity constructs which are indirect objects of the IInderectObjectTaker.
         /// </summary> 
         IEnumerable<IEntity> IndirectObjects
         {

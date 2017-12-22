@@ -34,7 +34,7 @@ namespace LASI.Core.Tests
             IEntity actual;
             target.Determines = expected;
             actual = target.Determines;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
     }

@@ -1,8 +1,8 @@
-﻿using LASI.Content;
-using System;
-using System.Threading.Tasks;
-using Xunit;
+﻿using System;
+using LASI.Content.FileConveters;
+using LASI.Content.FileTypes;
 using NFluent;
+using Xunit;
 
 namespace LASI.Content.Tests
 {
@@ -11,7 +11,7 @@ namespace LASI.Content.Tests
     ///This is a test class for PdfToTextConverterTest and is intended
     ///to contain all PdfToTextConverterTest Unit Tests
     /// </summary>
-    public class PdfToTextConverterTest : FileConverterTestBase<PdfFile>
+    public class PdfToTextConverterTest : FileConverterBaseTest<PdfFile>
     {
         public PdfToTextConverterTest() : base("Draft_Environmental_Assessment.pdf") { }
 

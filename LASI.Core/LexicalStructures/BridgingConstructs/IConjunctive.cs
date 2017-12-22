@@ -9,14 +9,16 @@
         /// <summary>
         /// Gets or sets the ILexical element on the Right of the conjunctive.
         /// </summary>
-        ILexical JoinedRight {
+        ILexical JoinedRight
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the ILexical element on the Left of the conjunctive.
         /// </summary>
-        ILexical JoinedLeft {
+        ILexical JoinedLeft
+        {
             get;
             set;
         }

@@ -8,10 +8,11 @@ using LASI.Core;
 using LASI.Core.Analysis.Heuristics.Support;
 using LASI.Interop;
 using LASI.Utilities;
+using static System.Math;
+using ChartItem = System.Collections.Generic.KeyValuePair<string, float>;
 
 namespace LASI.App
 {
-    using ChartItem = KeyValuePair<string, float>;
     /// <summary>
     /// Provides static methods for formatting and displaying results to the user.
     /// </summary>
@@ -103,7 +104,6 @@ namespace LASI.App
             series.IndependentValuePath = "Key"; // this string is expected by the charting engine
             series.IsSelectionEnabled = true;
         }
-
 
         /// <summary>
         /// Reconfigures all charts to Subjects Pie perspective
@@ -206,12 +206,13 @@ namespace LASI.App
         /// <returns>A Task representing the ongoing asynchronous operation.</returns>
         public static async Task DisplayKeyRelationshipsAsync(Document document)
         {
+            var relationships = await GetVerbWiseRelationshipsAsync(document);
             var tab = new TabItem
             {
                 Header = document.Name,
-                Content = new Microsoft.Windows.Controls.DataGrid
+                Content = new DataGrid
                 {
-                    ItemsSource = (await GetVerbWiseRelationshipsAsync(document)).ToGridRowData(),
+                    ItemsSource = relationships.ToGridRowData(),
                 }
             };
             WindowManager.ResultsScreen.KeyRelationshipsResultsControl.Items.Add(tab);
@@ -235,10 +236,12 @@ namespace LASI.App
                 Verbal = FormatVerbalText(relationship.Verbal),
                 Direct = FormatObjectText(relationship.Direct),
                 Indirect = FormatObjectText(relationship.Indirect),
-                Weight = Math.Round(relationship.Weight, 2)
+                Weight = Round(relationship.Weight, 2)
             };
 
-        static string FormatObjectText(IEntity o) => (o as IPrepositionLinkable)?.LeftPrepositional?.Text + " " + o?.Text;
+        private static string FormatObjectText(IEntity e) => e is IPrepositionLinkable pl ?
+            pl.LeftPrepositional?.Text + " " + e?.Text :
+            string.Empty;
 
         static string FormatVerbalText(IVerbal verbal)
         {
@@ -249,13 +252,13 @@ namespace LASI.App
 
         static IEnumerable<ChartItem> GetNounWiseRelationshipChartItems(Document document) =>
             document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .OfNounPhrase()
-                .Meld()
-                .Select(entity => new ChartItem(entity.Text, (float)Math.Round(entity.Weight, 2)))
-                .Distinct();
+            .OfNounPhrase()
+            .Meld()
+            .Select(entity => new ChartItem(entity.Text, (float)Math.Round(entity.Weight, 2)))
+            .Distinct();
 
         static Task<IEnumerable<ChartItem>> GetNounWiseDataAsync(Document document) =>
-              Task.Run(() => GetNounWiseRelationshipChartItems(document));
+            Task.Run(() => GetNounWiseRelationshipChartItems(document));
 
         static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItems(Document document)
         {
@@ -300,13 +303,13 @@ namespace LASI.App
                        direct: verbal.AggregateDirectObject,
                        indirect: verbal.AggregateIndirectObject
                    )
-                   group relationship by relationship into g
-                   let relationship = g.Key
+                   group relationship by relationship into related
+                   let relationship = related.Key
                    orderby relationship.Weight descending
                    select relationship;
-        });
+        }).ConfigureAwait(false);
 
-        static ChartKind ChartKind;
+        static ChartKind ChartKind { get; set; }
         const int ChartItemLimit = 14;
         static readonly IDictionary<Chart, Document> DocumentsByChart = new Dictionary<Chart, Document>();
     }

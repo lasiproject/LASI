@@ -132,7 +132,7 @@ namespace LASI.Core
         /// </summary>
         public IEnumerable<IReferencer> Referencers => boundPronouns;
         /// <summary>
-        /// Gets the <see cref="IVerbal"/> which the Pronoun references.
+        /// The <see cref="IVerbal"/> which the Pronoun references.
         /// </summary>
         public virtual IAggregateEntity RefersTo { get; private set; }
 
@@ -141,12 +141,12 @@ namespace LASI.Core
         /// </summary>
         public IVerbal SubjectOf { get; private set; }
         /// <summary>
-        /// Gets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
+        /// The <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
         /// </summary>
         public IVerbal DirectObjectOf { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
+        /// The <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
         /// </summary>
         public IVerbal IndirectObjectOf { get; private set; }
         /// <summary>
@@ -154,17 +154,17 @@ namespace LASI.Core
         /// </summary>
         public IPossesser Possesser { get; set; }
         /// <summary>
-        /// Gets the EntityKind of the Pronoun.
+        /// The EntityKind of the Pronoun.
         /// </summary>
         public virtual EntityKind EntityKind { get; private set; }
         /// <summary>
-        /// Gets the PronounKind of the Pronoun.
+        /// The PronounKind of the Pronoun.
         /// </summary>
         public Kind PronounKind { get; protected set; }
 
 
         /// <summary>
-        /// Gets the gender of the Pronoun.
+        /// The gender of the Pronoun.
         /// </summary>
         public virtual Gender Gender => this.IsFemale() ? Gender.Female : this.IsMale() ? Gender.Male : this.IsNeutral() ? Gender.Neutral : Gender.Undetermined;
 

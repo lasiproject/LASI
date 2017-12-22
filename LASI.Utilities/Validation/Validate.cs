@@ -152,7 +152,7 @@ namespace LASI.Utilities.Validation
         /// In order to validate that the given sequence contains at least one element, a portion of sequence must be materialized. If the sequence is described by a stateful or transient iterator,
         /// there is no guarantee that it will not be empty when it is actually consumed. The validation is described by the <see cref="Enumerable.Any{TSource}(IEnumerable{TSource})"/> method.
         /// </remarks>
-        public static void NotEmpty<T>(this IEnumerable<T> value, string name = "value", string message = "Sequence cannot be empty")
+        public static void NotEmpty<T>(IEnumerable<T> value, string name = "value", string message = "Sequence cannot be empty")
         {
             if (!value.Any())
             {
@@ -172,7 +172,7 @@ namespace LASI.Utilities.Validation
         /// In order to validate that the given sequence contains at least one element, a portion of sequence must be materialized. If the sequence is described by a stateful or transient iterator,
         /// there is no guarantee that it will not be empty when it is actually consumed. The validation is described by the <see cref="Enumerable.Any{TSource}(IEnumerable{TSource})"/> method.
         /// </remarks>
-        public static void NeitherNullNorEmpty<T>(this IEnumerable<T> value, string name, string message = null)
+        public static void NeitherNullNorEmpty<T>(IEnumerable<T> value, string name, string message = null)
         {
             NotNull(value, name, message);
             NotEmpty(value, name, message);

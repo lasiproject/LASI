@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using NFluent;
-using NFluent.Helpers;
-using NFluent.Extensions;
 using NFluent.Extensibility;
 
-namespace LASI.Content.Tests.Extensions
+namespace LASI.Utilities.Tests.Extensions
 {
-    public static class NFluent
+    public static class CheckExtensions
     {
         public static ICheckLink<ICheck<SUT>> Satisfies<SUT>(this ICheck<SUT> check, Func<SUT, bool> requirement)
         {

@@ -11,7 +11,7 @@ namespace LASI.Core
     public interface ILexical : IWeightable
     {
         /// <summary>
-        /// Gets the textual content of the Lexical element.
+        /// The textual content of the Lexical element.
         /// </summary>
         string Text { get; }
     }

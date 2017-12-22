@@ -4,8 +4,9 @@ using System.Text;
 using System.Threading.Tasks;
 using iTextSharp.text.pdf;
 
-namespace LASI.Content
+namespace LASI.Content.FileConveters
 {
+    using LASI.Content.FileTypes;
     using static System.Linq.Enumerable;
 
     /// <summary>

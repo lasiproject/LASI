@@ -1,9 +1,4 @@
-using LASI.App.Dialogs;
-using LASI.Content;
-using LASI.Content.Serialization.Xml;
-using LASI.Core;
-using LASI.Core.Heuristics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -11,23 +6,26 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using LASI.Interop;
+using LASI.App.Dialogs;
+using LASI.Content;
 using LASI.Content.Serialization;
-using LASI.App.Extensions;
+using LASI.Core;
+using LASI.Interop;
 
 namespace LASI.App
 {
-    using Visualization;
     using Core.Analysis.Heuristics;
-    using Interop.ResourceManagement;
+    using Extensions;
+    using LASI.App.Helpers;
+    using LASI.Content.Exceptions;
+    using LASI.Content.FileTypes;
     using Utilities;
     using Utilities.Specialized.Enhanced.Universal;
-    using FlowDocument = System.Windows.Documents.FlowDocument;
+    using Visualization;
     using DocumentRun = System.Windows.Documents.Run;
-    using FlowDocumentPageViewer = FlowDocumentPageViewer;
     using FileInfo = System.IO.FileInfo;
-    using LASI.App.Helpers;
-    using Extensions;
+    using FlowDocument = System.Windows.Documents.FlowDocument;
+    using FlowDocumentPageViewer = FlowDocumentPageViewer;
 
     /// <summary>
     /// Interaction logic for ResultsWindow.xaml
@@ -52,7 +50,7 @@ namespace LASI.App
 
         /// <summary>
         /// This function associates The buttons which allow the user to modify various aspects of the chart views with their respective functionality.
-        /// This is done to allow the functionality to be exposed only after the charts have been 
+        /// This is done to allow the functionality to be exposed only after the charts have been
         /// </summary>
         private void SetupChartViewControls()
         {
@@ -88,7 +86,10 @@ namespace LASI.App
             var weightedListPanel = new StackPanel();
             var grid = new Grid();
             grid.Children.Add(new ScrollViewer { Content = weightedListPanel });
-            foreach (var label in nounPhraseLabels) { weightedListPanel.Children.Add(label); }
+            foreach (var label in nounPhraseLabels)
+            {
+                weightedListPanel.Children.Add(label);
+            }
 
             var tab = new TabItem { Header = document.Name, Content = grid };
 
@@ -156,7 +157,7 @@ namespace LASI.App
                                         Tag = phrase,
                                         Foreground = colorizer[phrase],
                                         Background = Brushes.White,
-                                        ToolTip = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', '\n', ' '))
+                                        ToolTip = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format((' ', '\n', ' '))
                                     }).ToList();
 
 
@@ -350,11 +351,7 @@ namespace LASI.App
         }
         private async void documentJoinButton_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new CrossJoinSelectDialog(this)
-            {
-                Left = this.Left,
-                Top = this.Top,
-            };
+            var dialog = new CrossJoinSelectDialog(this);
             if (dialog.ShowDialog() ?? false)
             {
                 var joinedRelationshipResults = await new CrossDocumentJoiner().GetCommonResultsAsnyc(dialog.SelectedDocuments);
@@ -404,12 +401,13 @@ namespace LASI.App
 
         private async Task AddNewDocument(FileInfo file)
         {
+            var (name, fullName) = file;
             addDocumentMenuItem.IsEnabled = DocumentManager.CanAdd;
-            DocumentManager.AddDocument(file.Name, file.FullName);
-            currentOperationLabel.Content = $"Converting {file.Name}";
+            DocumentManager.AddDocument(name, fullName);
+            currentOperationLabel.Content = $"Converting {name}";
             currentOperationFeedbackCanvas.Visibility = Visibility.Visible;
             currentOperationProgressBar.Value = 0;
-            await ProcessNewDocument(file.FullName);
+            await ProcessNewDocument(fullName);
         }
 
         #endregion
@@ -442,7 +440,7 @@ namespace LASI.App
 
         #region Properties and Fields
 
-        private ICollection<Document> documents = new List<Document>();
+        private IList<Document> documents = new List<Document>();
         /// <summary>
         /// Gets or sets the list of LASI.Algorithm.Document objects in the current project.
         /// </summary>
@@ -454,5 +452,10 @@ namespace LASI.App
 
         #endregion
 
+    }
+
+    static class Deconstruction
+    {
+        public static void Deconstruct(this FileInfo file, out string name, out string fullName) => (name, fullName) = (file.Name, file.FullName);
     }
 }

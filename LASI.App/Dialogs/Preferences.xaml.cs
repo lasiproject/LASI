@@ -122,7 +122,7 @@ namespace LASI.App.Dialogs
             }
         }
         /// <summary>
-        /// Gets the PerformanceLevel corresponding to the selected user preference.
+        /// The PerformanceLevel corresponding to the selected user preference.
         /// </summary>
         public PerformanceProfile PerformanceMode { get; private set; }
 

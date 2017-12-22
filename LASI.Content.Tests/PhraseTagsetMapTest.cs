@@ -1,10 +1,10 @@
-﻿using LASI.Content.Tagging;
-using System;
-using System.Linq;
-using LASI.Core;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using LASI.Content;
+using LASI.Content.Tagging;
+using LASI.Core;
 using NFluent;
 using Fact = Xunit.FactAttribute;
 
@@ -69,7 +69,7 @@ namespace LASI.Content.Tests
         public void ItemTest2()
         {
             var target = CreatePhraseTagsetMap();
-            Phrase phrase = new NounPhrase(new Word[] { new PersonalPronoun("he") });
+            Phrase phrase = new NounPhrase(new PersonalPronoun("he"));
             string actual;
             actual = target[phrase];
             Check.That("NP").IsEqualTo(actual);

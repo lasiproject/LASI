@@ -61,12 +61,12 @@ namespace LASI.Core.Analysis
         public override int GetHashCode() => Performer.GetHashCode() ^ Receiver.GetHashCode();
 
         /// <summary>
-        /// Gets the Performer.
+        /// The Performer.
         /// </summary>
         public TPerformer Performer { get; }
 
         /// <summary>
-        /// Gets the Receiver.
+        /// The Receiver.
         /// </summary>
         public TReceiver Receiver { get; }
     }

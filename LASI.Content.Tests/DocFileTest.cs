@@ -1,9 +1,9 @@
 ﻿using System.IO;
-using Xunit;
-using NFluent;
-using Shared.Test;
-using Shared.Test.NFluentExtensions;
 using LASI.Content.Exceptions;
+using LASI.Content.FileTypes;
+using NFluent;
+using Shared.Test.NFluentExtensions;
+using Xunit;
 
 namespace LASI.Content.Tests
 {

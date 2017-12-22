@@ -2,7 +2,7 @@
 using SerializationInfo = System.Runtime.Serialization.SerializationInfo;
 using StreamingContext = System.Runtime.Serialization.StreamingContext;
 
-namespace LASI.Content
+namespace LASI.Content.Exceptions
 {
     /// <summary>
     /// The exception thrown when a conversion between document file formats fails.

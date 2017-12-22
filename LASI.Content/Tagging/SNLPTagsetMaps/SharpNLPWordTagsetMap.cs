@@ -31,19 +31,19 @@ namespace LASI.Content.Tagging
             ["?"] = _ => SentenceEnding.QuestionMark, //? sentence ending
             ["``"] = _ => new SingleQuote(), //Single quote * should be remapped
             ["''"] = _ => new DoubleQuote(), //Double Quotation Mark punctuation
-            [","] = t => new Punctuator(t),//Comma punctuation
+            [","] = t => new Punctuator(t), //Comma punctuation
             [";"] = t => new Punctuator(t), //Semicolon punctuation
             [":"] = t => new Punctuator(t), //Colon punctuation
             ["LS"] = t => new Punctuator(t), //List item marker
             ["-LRB-"] = t => new Punctuator(t), //Left Round Bracket
-            ["-RRB-"] = t => new Punctuator(t),  //Right Round Bracket
+            ["-RRB-"] = t => new Punctuator(t), //Right Round Bracket
             ["-LSB-"] = t => new Punctuator(t), //Left Square Bracket
-            ["-RSB-"] = t => new Punctuator(t),  //Right Square Bracket
+            ["-RSB-"] = t => new Punctuator(t), //Right Square Bracket 
             ["-LCB-"] = t => new Punctuator(t), //Left Curly Bracket
-            ["-RCB-"] = t => new Punctuator(t),  //Right Curly Bracket
+            ["-RCB-"] = t => new Punctuator(t), //Right Curly Bracket
             //Determiner mappings
-            ["CD"] = t => new Quantifier(t),//Cardinal number
-            ["DT"] = t => new Determiner(t),//Determiner
+            ["CD"] = t => new Quantifier(t), //Cardinal number
+            ["DT"] = t => new Determiner(t), //Determiner
             ["EX"] = t => new Existential(t), //Existential 'there'
             ["FW"] = t => new ForeignWord(t), //Foreign word
             ["IN"] = t => new Preposition(t), //Preposition or subordinating conjunction

@@ -84,7 +84,7 @@ namespace LASI.Utilities.Tests
         }
 
         [Fact]
-        public void EqualsIgnoreCaseTest2(char lowerIndex)
+        public void EqualsIgnoreCaseTest2()
         {
             var random = new Random();
             int rand() => random.Next(MinValue, MaxValue + 1);

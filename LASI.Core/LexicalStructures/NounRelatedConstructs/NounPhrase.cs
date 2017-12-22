@@ -162,7 +162,7 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Gets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
+        /// The Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
         /// </summary>
         public EntityKind EntityKind { get; protected set; }
 

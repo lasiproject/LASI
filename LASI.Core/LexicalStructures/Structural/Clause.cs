@@ -78,25 +78,25 @@ namespace LASI.Core
         public Paragraph ParentParagraph => Sentence?.Paragraph;
 
         /// <summary>
-        /// Gets the punctuation, if any, which ends the clause.
+        /// The punctuation, if any, which ends the clause.
         /// </summary>
         public Punctuator EndingPunctuation { get; }
 
         /// <summary>
-        /// Gets the collection of Phrases which the Clause contains.
+        /// The collection of Phrases which the Clause contains.
         /// </summary>
         public IEnumerable<Phrase> Phrases { get; }
 
         /// <summary>
-        /// Gets the concatenated text content of all of the Phrases which compose the Clause.
+        /// The concatenated text content of all of the Phrases which compose the Clause.
         /// </summary>
         /// <summary>
-        /// Gets the collection of Words which the Clause contains.
+        /// The collection of Words which the Clause contains.
         /// </summary>
         public IEnumerable<Word> Words => Phrases.SelectMany(r => r.Words);
 
         /// <summary>
-        /// Gets the concatenated text content of all of the Phrases which compose the Clause.
+        /// The concatenated text content of all of the Phrases which compose the Clause.
         /// </summary>
         public string Text => string.Join(" ", Phrases.Select(p => p.Text));
 
@@ -111,12 +111,12 @@ namespace LASI.Core
         public double MetaWeight { get; set; }
 
         /// <summary>
-        /// Gets the components which comprise the <see cref="Clause"/>, an ICompositeLexical&lt;<see cref="Phrase"/>&gt;.
+        /// The components which comprise the <see cref="Clause"/>, an ICompositeLexical&lt;<see cref="Phrase"/>&gt;.
         /// </summary>
         public IEnumerable<Phrase> Components => Phrases;
 
         /// <summary>
-        /// Gets the Sentence which contains The Clause.
+        /// The Sentence which contains The Clause.
         /// </summary>
         public Sentence Sentence { get; private set; }
 
@@ -130,8 +130,8 @@ namespace LASI.Core
         /// </summary>
         public IPrepositional RightPrepositional { get; private set; }
 
-
         public Clause Previous { get; private set; }
+        
         public Clause Next { get; private set; }
     }
 }

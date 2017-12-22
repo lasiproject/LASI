@@ -248,6 +248,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="SplashScreen.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -280,6 +281,8 @@
     <None Include="Resources\StandaloneFileConverters\libzlibwapi.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Resource Include="favicon.ico" />
+    <Resource Include="MiscImages\LasiLogoLarge.ico" />
     <Content Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\acronyms">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

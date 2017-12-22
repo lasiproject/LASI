@@ -1,10 +1,11 @@
-﻿using LASI;
-using LASI.Core;
-using System;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
-using Xunit;
+using System.Linq;
+using LASI;
+using LASI.Core;
 using NFluent;
+using Xunit;
+
 
 namespace LASI.Core.Tests
 {
@@ -62,7 +63,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void ModifyWithTest()
         {
-            var target = new AdjectivePhrase(new Word[] { new Adjective("tall") });
+            var target = new AdjectivePhrase(new Adjective("tall"));
             IAdverbial adv = new Adverb("overly");
             target.ModifyWith(adv);
             Check.That(target.AdverbialModifiers).Contains(adv).Only();

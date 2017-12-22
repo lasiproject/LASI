@@ -1,8 +1,9 @@
-﻿using NFluent;
-using Xunit;
-using System.IO;
-using Shared.Test.NFluentExtensions;
+﻿using System.IO;
 using LASI.Content.Exceptions;
+using LASI.Content.FileTypes;
+using NFluent;
+using Shared.Test.NFluentExtensions;
+using Xunit;
 
 namespace LASI.Content.Tests
 {

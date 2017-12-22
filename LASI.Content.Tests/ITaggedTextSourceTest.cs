@@ -19,7 +19,7 @@ namespace LASI.Content.Tests
             var expected = ExpectedText;
             string actual;
             actual = target.LoadTextAsync().Result;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace LASI.Content.Tests
             var expected = ExpectedText;
             string actual;
             actual = target.LoadText();
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>

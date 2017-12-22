@@ -6,7 +6,8 @@ using LASI.Core.Heuristics;
 namespace LASI.Core.Analysis.Heuristics.Support
 {
     /// <summary>
-    /// Sometimes an anonymous type simple will not do. So this little class is defined to store temporary query data from transposed tables. god it is late. I can't document properly.
+    /// Sometimes an anonymous type simple will not do. So this little class is defined to
+    /// store temporary query data from transposed tables. god it is late. I can't document properly.
     /// </summary>
     public sealed class SvoRelationship : IEquatable<SvoRelationship>
     {
@@ -123,7 +124,7 @@ namespace LASI.Core.Analysis.Heuristics.Support
         public IVerbal Verbal { get; }
 
         /// <summary>
-        /// Gets the weight of the Relationship.
+        /// The weight of the Relationship.
         /// </summary>
         public double Weight => Elements.Sum(e => e?.Weight) ?? 0;
 

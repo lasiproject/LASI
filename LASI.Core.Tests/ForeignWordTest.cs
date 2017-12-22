@@ -35,7 +35,7 @@ namespace LASI.Core.Tests
             Type actual;
             target.UsedAsType = expected;
             actual = target.UsedAsType;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
     }

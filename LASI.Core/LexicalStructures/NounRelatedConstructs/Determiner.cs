@@ -30,7 +30,7 @@ namespace LASI.Core
         /// </summary>
         public IEntity Determines { get; set; }
         /// <summary>
-        /// Gets the DeterminerKind value of the current instance.
+        /// The DeterminerKind value of the current instance.
         /// </summary>
         public DeterminerKind DeterminerKind { get; }
     }

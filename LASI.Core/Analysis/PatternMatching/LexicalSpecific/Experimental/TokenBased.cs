@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.TermBased
 {
@@ -59,9 +55,9 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.TermBa
             public Pattern(ILexical value) => this.value = value;
             public class TokenTestResult<TCase> where TCase : class, ILexical
             {
-                private bool matched;
-                private readonly Pattern<TResult> pattern;
-                private Func<TResult> deferred;
+                bool matched;
+                readonly Pattern<TResult> pattern;
+                Func<TResult> deferred;
 
                 public TokenTestResult(bool matched, Pattern<TResult> pattern)
                 {
@@ -104,8 +100,8 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.TermBa
                 //    return new TokenTestResult<TCase>(token.AppliesTo(pattern.ToString()), pattern.pattern);
                 //}
             }
-            static VerbalToken Verbal = new VerbalToken();
-            static EntityToken Entity = new EntityToken();
+            static VerbalToken Verbal { get; } = new VerbalToken();
+            static EntityToken Entity { get; } = new EntityToken();
             //static class PatternTestingTokenTestingTest
             //{
 

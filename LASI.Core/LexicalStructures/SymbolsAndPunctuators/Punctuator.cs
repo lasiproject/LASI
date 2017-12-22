@@ -23,7 +23,7 @@ namespace LASI.Core
         public Punctuator(string punctuation) : base(punctuation) => AliasString = SymbolAliasMap.ToAlias(LiteralCharacter);
 
         /// <summary>
-        /// Gets the alias string corresponding to the Punctuator.
+        /// The alias string corresponding to the Punctuator.
         /// </summary>
         public string AliasString { get; }
 

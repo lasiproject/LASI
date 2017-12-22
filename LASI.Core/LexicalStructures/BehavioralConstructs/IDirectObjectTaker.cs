@@ -12,7 +12,7 @@
         /// <param name="directObject">The IEntity to bind as a direct object.</param>
         void BindDirectObject(IEntity directObject);
         /// <summary>
-        /// Gets the sequence of IEntity constructs which are direct objects of the IDirectObjectTaker.
+        /// The sequence of IEntity constructs which are direct objects of the IDirectObjectTaker.
         /// </summary>
         System.Collections.Generic.IEnumerable<IEntity> DirectObjects { get; }
         /// <summary>

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using LASI.Content.FileTypes;
 using SerializationInfo = System.Runtime.Serialization.SerializationInfo;
 using StreamingContext = System.Runtime.Serialization.StreamingContext;
 
-namespace LASI.Content
+namespace LASI.Content.Exceptions
 {
-
     /// <summary>
     /// The base class for all Exceptions thrown by the FileManager.
     /// </summary>

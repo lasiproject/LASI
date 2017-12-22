@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
+using static System.StringComparison;
 
 namespace LASI.Core.Analysis.Heuristics.WordMorphing
 {

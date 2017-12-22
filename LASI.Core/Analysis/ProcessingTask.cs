@@ -89,7 +89,7 @@ namespace LASI.Core
         public double PercentCompleted { get; }
 
         /// <summary>
-        /// Gets the work the ProcessingTask will perform.
+        /// The work the ProcessingTask will perform.
         /// </summary>
         public Task Task { get; }
     }

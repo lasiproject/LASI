@@ -8,7 +8,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
 
         private Pattern<TResult> Invoke<TResult>(Pattern<TResult> pattern, Func<T, TResult> f) => pattern.ApplyWhen(applied, f);
 
-        private readonly MetaTerm<T> applied;
+        readonly MetaTerm<T> applied;
     }
 
     internal class BooleanTerm : Term
@@ -110,7 +110,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
 
     internal class TextualTerm<TResult> : TermWithResultType<TResult>
     {
-        public TextualTerm(string text) : base() => Text = text;
+        public TextualTerm(string text) => Text = text;
 
         public override bool Test(ILexical lexical) => lexical.Text == Text;
 

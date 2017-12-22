@@ -126,17 +126,17 @@ namespace LASI.Core
         public IAggregateEntity AggregateIndirectObject => indirectObjects.ToAggregate();
 
         /// <summary>
-        /// Gets the subjects of the Verb.
+        /// The subjects of the Verb.
         /// </summary>
         public IEnumerable<IEntity> Subjects => subjects;
 
         /// <summary>
-        /// Gets the indirect objects of the Verb.
+        /// The indirect objects of the Verb.
         /// </summary>
         public virtual IEnumerable<IEntity> IndirectObjects => indirectObjects;
 
         /// <summary>
-        /// Gets the direct objects of the Verb.
+        /// The direct objects of the Verb.
         /// </summary>
         public virtual IEnumerable<IEntity> DirectObjects => directObjects;
         /// <summary>Gets all of the Direct and Indirect objects of the Verb.</summary>
@@ -152,18 +152,13 @@ namespace LASI.Core
         /// </summary>
         public ModalAuxilary Modality { get; set; }
 
-        ///// <summary>
-        ///// Gets the VerbTense of the Verb.
-        ///// </summary>
-        //public VerbForm VerbForm { get; }
-
         /// <summary>
-        /// Gets the object of the Verb's preposition. This can be any ILexical construct including a word, phrase, or clause.
+        /// The object of the Verb's preposition. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>
         public ILexical ObjectOfThePreposition { get; protected set; }
 
         /// <summary>
-        /// Gets the IPrepositional object which links the Verb to the ObjectOfThePreoposition.
+        /// The IPrepositional object which links the Verb to the ObjectOfThePreoposition.
         /// </summary>
         public IPrepositional PrepositionalToObject { get; protected set; }
         /// <summary>

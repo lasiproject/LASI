@@ -1,9 +1,5 @@
-﻿using LASI.Core.Heuristics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
+
 namespace LASI.Core
 {
     /// <summary>
@@ -26,7 +22,7 @@ namespace LASI.Core
         }
         Gender? gender;
         /// <summary>
-        /// Gets the Gender value indicating the likely gender of the ProperNoun.
+        /// The Gender value indicating the likely gender of the ProperNoun.
         /// </summary>
         public virtual Gender Gender
         {

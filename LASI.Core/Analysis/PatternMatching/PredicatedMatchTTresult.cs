@@ -54,12 +54,8 @@ namespace LASI.Core.Analysis.PatternMatching
 
         #endregion Methods
 
-        #region Fields
-
         readonly Match<T, TResult> expression;
 
         protected Match<T, TResult> Expression => expression;
-
-        #endregion Fields
     }
 }

@@ -3,7 +3,7 @@
 namespace LASI.Core.Analysis.PatternMatching
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TCase">

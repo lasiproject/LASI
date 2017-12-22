@@ -23,7 +23,7 @@
 //            //        .Select(e => e.Phrase);
 //        }
 //        /// <summary>
-//        /// Gets the paragraph the binder operates over.
+//        /// The paragraph the binder operates over.
 //        /// </summary>
 //        public Paragraph Paragraph { get; }
 //    }

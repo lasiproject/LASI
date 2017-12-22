@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-using LASI.Utilities.Validation;
 using static System.Linq.Enumerable;
 
 namespace LASI.Utilities
@@ -14,6 +12,10 @@ namespace LASI.Utilities
         public VariantDictionaryImplementation(IEnumerable<(Tkey key, TValue value)> wrapped)
         {
             represenation = new Dictionary<Tkey, TValue>(wrapped.ToDictionary(x => x.key, x => x.value));
+        }
+        public VariantDictionaryImplementation(IReadOnlyDictionary<Tkey, TValue> wrapped)
+        {
+            represenation = wrapped;
         }
 
         public int Count => represenation.Count;

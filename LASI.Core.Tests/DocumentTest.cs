@@ -4,7 +4,7 @@ using System.Linq;
 using LASI.Utilities;
 using NFluent;
 using Xunit;
-
+using static LASI.Core.Sentence.Factory;
 namespace LASI.Core.Tests
 {
 
@@ -26,7 +26,7 @@ namespace LASI.Core.Tests
         {
             IEnumerable<Paragraph> allParagrpahs = new[] {
                 new Paragraph(ParagraphKind.Default,
-                    new Sentence(new Clause[] {
+                    Sentence(
                         new Clause(
                             new NounPhrase(
                                 new PersonalPronoun("We")
@@ -38,8 +38,8 @@ namespace LASI.Core.Tests
                             new NounPhrase(
                                 new Adjective("blue"),
                                 new CommonSingularNoun("team"))
-                            )}, SentenceEnding.ExclamationPoint),
-                        new Sentence(new Clause[] {
+                            )).WithEnding(SentenceEnding.ExclamationPoint),
+                        Sentence(
                             new Clause(
                             new PronounPhrase(
                                 new PersonalPronoun("We")),
@@ -49,10 +49,10 @@ namespace LASI.Core.Tests
                             ),
                         new NounPhrase(new PersonalPronoun("this")),
                         new AdverbPhrase(new Adverb("quickly")))
-                    }, SentenceEnding.ExclamationPoint)
+                    ).WithEnding(SentenceEnding.ExclamationPoint)
                 ),
                 new Paragraph(ParagraphKind.Default,
-                    new Sentence(new Clause[] {
+                    Sentence(
                         new Clause(
                             new NounPhrase(new PersonalPronoun("We")),
                             new VerbPhrase(new BaseVerb("are")),
@@ -62,7 +62,7 @@ namespace LASI.Core.Tests
                             new PronounPhrase(new PersonalPronoun("they")),
                             new VerbPhrase(new BaseVerb("are")),
                             new NounPhrase(new CommonPluralNoun("jerks"))
-                    )}, SentenceEnding.ExclamationPoint)
+                    )).WithEnding(SentenceEnding.ExclamationPoint)
                 )
             };
             return allParagrpahs.ToList();
@@ -97,16 +97,17 @@ namespace LASI.Core.Tests
         {
             var target = CreateUnboundUnweightedTestDocument();
             IEnumerable<IVerbal> expected = new IVerbal[]{
-                    new VerbPhrase(new Word[] {
+                        new VerbPhrase(
                                 new ModalAuxilary("must"),
                                 new BaseVerb("attack")
-                            }),new BaseVerb("attack"),
-                            new VerbPhrase(new Word[] {
+                            ),
+                            new BaseVerb("attack"),
+                            new VerbPhrase(
                                 new ModalAuxilary("must"),
                                 new BaseVerb("do")
-                            }),new BaseVerb("do"),
-                    new VerbPhrase(new[] {new BaseVerb("are")
-                }),
+                            ),new BaseVerb("do"),
+                        new VerbPhrase(new BaseVerb("are")
+                    ),
 
             };
             IEnumerable<IVerbal> actual;
@@ -125,23 +126,24 @@ namespace LASI.Core.Tests
         {
             var target = CreateUnboundUnweightedTestDocument();
             IEnumerable<IEntity> expected = new IEntity[]{
-                new NounPhrase(new Word[] {
+                            new NounPhrase(
                                 new PersonalPronoun("We")
-                            }), new PersonalPronoun("We"),
-                            new NounPhrase(new Word[] {
-                                new Adjective("blue"),
-                                new CommonSingularNoun("team") }
-                                ),
-                             new CommonSingularNoun("team") ,
-                             new NounPhrase(new Word[]{
-                            new PersonalPronoun("We")}),
+                            ), 
                             new PersonalPronoun("We"),
-                            new NounPhrase(new Word[]{
+                            new NounPhrase(
+                                new Adjective("blue"),
+                                new CommonSingularNoun("team")
+                            ),
+                            new CommonSingularNoun("team") ,
+                            new NounPhrase(
+                            new PersonalPronoun("We")),
+                            new PersonalPronoun("We"),
+                            new NounPhrase(
                             new PersonalPronoun("this")
-                        }),  new PersonalPronoun("this"),
-                        new PronounPhrase(new []{new PersonalPronoun("We")}),
-                        new PronounPhrase(new []{new PersonalPronoun("they")}),
-                        new NounPhrase(new []{new CommonPluralNoun("jerks")}),
+                        ),  new PersonalPronoun("this"),
+                        new PronounPhrase(new PersonalPronoun("We")),
+                        new PronounPhrase(new PersonalPronoun("they")),
+                        new NounPhrase(new CommonPluralNoun("jerks")),
             };
             IEnumerable<IEntity> actual;
             actual = target.Entities;
@@ -188,37 +190,35 @@ namespace LASI.Core.Tests
         public void SentencesTest()
         {
             var firstParagraphSentences = new Sentence[] {
-                    new Sentence(new Clause[] {
-                        new Clause(new Phrase[] {
-                            new NounPhrase(new Word[] {
+                    Sentence(
+                        new Clause(
+                            new NounPhrase(
                                 new PersonalPronoun("We")
-                            }),
-                            new VerbPhrase(new Word[] {
+                            ),
+                            new VerbPhrase(
                                 new ModalAuxilary("must"),
                                 new BaseVerb("attack")
-                            }),
-                            new NounPhrase(new Word[] {
+                            ),
+                            new NounPhrase(
                                 new Adjective("blue"),
-                                new CommonSingularNoun("team") }
-                                )}
-                            )}, SentenceEnding.ExclamationPoint),
-                        new Sentence(new Clause[]{new Clause( new Phrase[]{
-                            new NounPhrase(new Word[]{
-                                new PersonalPronoun("We")}),
-                            new VerbPhrase(new Word[] {
+                                new CommonSingularNoun("team")
+                            )
+                        )
+                    ).WithEnding(SentenceEnding.ExclamationPoint),
+                        Sentence(new Clause(
+                            new NounPhrase(
+                                new PersonalPronoun("We")),
+                            new VerbPhrase(
                                 new ModalAuxilary("must"),
                                 new BaseVerb("do")
-                            }),
-                        new NounPhrase(new Word[]{
-                            new PersonalPronoun("this")
-                        }),
-                        new AdverbPhrase(new Word [] {
-                            new Adverb("quickly")
-                        })
-                    })}, SentenceEnding.ExclamationPoint)
+                            ),
+                            new NounPhrase(new PersonalPronoun("this")),
+                            new AdverbPhrase(new Adverb("quickly"))
+                        )
+                    ).WithEnding(SentenceEnding.ExclamationPoint)
                 };
 
-            var target = new Document(new[] { new Paragraph(ParagraphKind.Default, firstParagraphSentences) });
+            var target = new Document(new Paragraph(ParagraphKind.Default, firstParagraphSentences));
             IEnumerable<Sentence> actual;
             actual = target.Sentences;
             for (var i = 0; i < actual.Count(); ++i)
@@ -257,7 +257,7 @@ namespace LASI.Core.Tests
             var expected = "testname";
             string actual;
             actual = target.Name;
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace LASI.Core.Tests
         public void ClausesTest()
         {
             var firstParagraphSentences = new Sentence[] {
-                    new Sentence(new Clause[] {
+                    Sentence(
                         new Clause(
                             new NounPhrase(
                                 new PersonalPronoun("We")
@@ -280,8 +280,10 @@ namespace LASI.Core.Tests
                                 new Adjective("blue"),
                                 new CommonSingularNoun("team")
                                 )
-                            )}, SentenceEnding.ExclamationPoint),
-                        new Sentence(new Clause[] { new Clause(
+                            )
+                        ).WithEnding(SentenceEnding.ExclamationPoint),
+                    Sentence(
+                        new Clause(
                             new NounPhrase(
                                 new PersonalPronoun("We")
                             ),
@@ -295,7 +297,7 @@ namespace LASI.Core.Tests
                         new AdverbPhrase(
                             new Adverb("quickly")
                         ))
-                    }, SentenceEnding.ExclamationPoint)
+                    ).WithEnding(SentenceEnding.ExclamationPoint)
                 };
 
             var target = new Document(new[] { new Paragraph(ParagraphKind.Default, firstParagraphSentences) });
@@ -316,7 +318,7 @@ namespace LASI.Core.Tests
             var expected = string.Join(string.Empty, target.GetType(), ": ", target.Name, "\nParagraphs:\n", target.Paragraphs.Format());
             string actual;
             actual = target.ToString();
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>

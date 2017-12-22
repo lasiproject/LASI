@@ -8,7 +8,7 @@ namespace LASI.Core.Analysis.Binding
     /// <summary>
     /// Attempts to establish bindings between verbals and their objects at the Phrase level.
     /// </summary>
-    public class ObjectBinder : IIntraSentenceBinder
+    internal sealed partial class ObjectBinder : IIntraSentenceBinder
     {
         /// <summary>
         /// Initializes a new instance of ObjectBinder class.
@@ -69,7 +69,7 @@ namespace LASI.Core.Analysis.Binding
                 }
             }
         }
-        IEnumerable<State> States
+        private IEnumerable<State> States
         {
             get
             {
@@ -81,7 +81,7 @@ namespace LASI.Core.Analysis.Binding
                 yield return state5;
             }
         }
-        private void BindDirect()
+        void BindDirect()
         {
             foreach (var e in entities)
             {
@@ -91,7 +91,7 @@ namespace LASI.Core.Analysis.Binding
             ConjunctNounPhrases.Clear();
             directBound = true;
         }
-        private void BindIndirect()
+        void BindIndirect()
         {
             foreach (var e in entities)
             {
@@ -100,7 +100,7 @@ namespace LASI.Core.Analysis.Binding
             entities.Clear();
             ConjunctNounPhrases.Clear();
         }
-        private void BindBuiltupAdjectivePhrases(NounPhrase phrase)
+        void BindBuiltupAdjectivePhrases(NounPhrase phrase)
         {
             foreach (var adjp in this.lastAdjectivals)
             {
@@ -111,30 +111,30 @@ namespace LASI.Core.Analysis.Binding
         #endregion
 
         #region Fields
-        private IVerbalObject directObject;
-        private bool directBound;
-        private VerbPhrase bindingTarget;
-        private Stack<Phrase> source;
-        private PhraseStackWrapper inputStream;
-        private List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
-        private List<NounPhrase> ConjunctNounPhrases = new List<NounPhrase>();
-        private Stack<NounPhrase> entities = new Stack<NounPhrase>();
-        private State0 state0;
-        private State1 state1;
-        private State2 state2;
-        private State3 state3;
-        private State4 state4;
-        private State5 state5;
-        private ConjunctionPhrase lastConjunctive;
-        private IPrepositional lastPrepositional;
+        IVerbalObject directObject;
+        bool directBound;
+        VerbPhrase bindingTarget;
+        Stack<Phrase> source;
+        PhraseStackWrapper inputStream;
+        List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
+        List<NounPhrase> ConjunctNounPhrases = new List<NounPhrase>();
+        Stack<NounPhrase> entities = new Stack<NounPhrase>();
+        State0 state0;
+        State1 state1;
+        State2 state2;
+        State3 state3;
+        State4 state4;
+        State5 state5;
+        ConjunctionPhrase lastConjunctive;
+        IPrepositional lastPrepositional;
         #endregion
 
 
         #region State Classes
 
-        private sealed class State0 : State
+        sealed class State0 : State
         {
-            public State0(ObjectBinder machine) : base(machine, "s0") { }
+            public State0(ObjectBinder machine) : base(machine, nameof(state0)) { }
 
             public override void Transition(Phrase phrase)
             {
@@ -148,7 +148,7 @@ namespace LASI.Core.Analysis.Binding
                 }
             }
 
-            private void InternalBind(Phrase phrase)
+            protected override void InternalBind(Phrase phrase)
             {
                 phrase.Match()
                     .Case((PrepositionalPhrase p) =>
@@ -201,7 +201,7 @@ namespace LASI.Core.Analysis.Binding
                     .Default(() => base.Transition(phrase));
             }
 
-            private void WhenSbar(Phrase phrase)
+            void WhenSbar(Phrase phrase)
             {
                 var subordinateClauseConstituents = new List<Phrase> { phrase };
                 for (var r = Stream.Count > 0 ? Stream.Get() : null; r != null && !(r.Words.First() is Punctuator) && Stream.Count > 0; r = Stream.Get())
@@ -214,15 +214,15 @@ namespace LASI.Core.Analysis.Binding
             }
         }
 
-        private sealed class State1 : State
+        sealed class State1 : State
         {
-            public State1(ObjectBinder machine) : base(machine, "s1") { }
+            public State1(ObjectBinder machine) : base(machine, nameof(state1)) { }
             public override void Transition(Phrase phrase)
             {
                 try { InternalBind(phrase); } catch (InvalidOperationException) { PerformExceptionFallback(); }
             }
 
-            private void InternalBind(Phrase phrase)
+            protected override void InternalBind(Phrase phrase)
             {
                 phrase.Match()
                     .Case((VerbPhrase v) =>
@@ -249,9 +249,9 @@ namespace LASI.Core.Analysis.Binding
                     .Default(() => base.Transition(phrase));
             }
         }
-        private sealed class State2 : State
+        sealed class State2 : State
         {
-            public State2(ObjectBinder machine) : base(machine, "s2") { }
+            public State2(ObjectBinder machine) : base(machine, nameof(state2)) { }
             public override void Transition(Phrase phrase)
             {
                 try
@@ -264,7 +264,7 @@ namespace LASI.Core.Analysis.Binding
                 }
             }
 
-            private void InternalBind(Phrase phrase)
+            protected override void InternalBind(Phrase phrase)
             {
                 phrase.Match()
                     .Case((ConjunctionPhrase c) =>
@@ -339,7 +339,7 @@ namespace LASI.Core.Analysis.Binding
                    .Default(() => base.Transition(phrase));
             }
 
-            private void WhenSbar()
+            void WhenSbar()
             {
                 while (Stream.Count > 1)
                 {
@@ -354,7 +354,7 @@ namespace LASI.Core.Analysis.Binding
             }
         }
 
-        private sealed class State3 : State
+        sealed class State3 : State
         {
             public override void Transition(Phrase phrase)
             {
@@ -368,7 +368,7 @@ namespace LASI.Core.Analysis.Binding
                 }
             }
 
-            private void InternalBind(Phrase phrase)
+            protected override void InternalBind(Phrase phrase)
             {
                 phrase.Match()
                 .Case((AdjectivePhrase a) =>
@@ -388,10 +388,10 @@ namespace LASI.Core.Analysis.Binding
                 })
                .Default(() => base.Transition(phrase));
             }
-            public State3(ObjectBinder machine) : base(machine, "s3") { }
+            public State3(ObjectBinder machine) : base(machine, nameof(state3)) { }
         }
 
-        private sealed class State4 : State
+        sealed class State4 : State
         {
             public override void Transition(Phrase phrase)
             {
@@ -404,7 +404,7 @@ namespace LASI.Core.Analysis.Binding
                     PerformExceptionFallback();
                 }
             }
-            private void InternalBind(Phrase phrase)
+            protected override void InternalBind(Phrase phrase)
             {
                 phrase.Match()
                 .Case((NounPhrase n) =>
@@ -422,21 +422,24 @@ namespace LASI.Core.Analysis.Binding
                 })
                .Default(() => base.Transition(phrase));
             }
-            public State4(ObjectBinder machine) : base(machine, "s4") { }
+            public State4(ObjectBinder machine) : base(machine, nameof(state4)) { }
         }
 
-        private sealed class State5 : State
+        sealed class State5 : State
         {
             public override void Transition(Phrase phrase)
             {
-                try { InternalBind(phrase); }
+                try
+                {
+                    InternalBind(phrase);
+                }
                 catch (InvalidOperationException)
                 {
                     PerformExceptionFallback();
                 }
             }
 
-            private void InternalBind(Phrase phrase)
+            protected override void InternalBind(Phrase phrase)
             {
                 phrase.Match()
                 .Case((AdjectivePhrase a) =>
@@ -457,9 +460,9 @@ namespace LASI.Core.Analysis.Binding
             }
 
 
-            public State5(ObjectBinder machine) : base(machine, "s5") { }
+            public State5(ObjectBinder machine) : base(machine, nameof(state5)) { }
         }
-        private abstract class State
+        abstract class State
         {
             protected void ToState0() => Machine.state0.Transition(Stream.Get());
             protected void ToState1() => Machine.state1.Transition(Stream.Get());
@@ -467,6 +470,8 @@ namespace LASI.Core.Analysis.Binding
             protected void ToState3() => Machine.state3.Transition(Stream.Get());
             protected void ToState4() => Machine.state4.Transition(Stream.Get());
             protected void ToState5() => Machine.state5.Transition(Stream.Get());
+
+            protected abstract void InternalBind(Phrase phrase);
 
             protected State(ObjectBinder machine, string name)
             {
@@ -506,24 +511,9 @@ namespace LASI.Core.Analysis.Binding
             }
 
             protected string Name { get; }
-            public ObjectBinder Machine { get; }
-            protected internal PhraseStackWrapper Stream { get; set; }
+            protected ObjectBinder Machine { get; }
+            public PhraseStackWrapper Stream { get; set; }
         }
-        #endregion
-
-        #region Helper Classes
-        private class PhraseStackWrapper
-        {
-            public PhraseStackWrapper(Stack<Phrase> source) => stream = new Stack<Phrase>(source);
-            public Phrase Get() => stream.Pop();
-            public bool Any => stream.Any();
-            public bool None => !Any;
-            public int Count => stream.Count;
-            public List<Phrase> ToList() => stream.ToList();
-
-            private readonly Stack<Phrase> stream;
-        }
-        #endregion
-
+        #endregion State Classes
     }
 }

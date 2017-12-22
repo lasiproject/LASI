@@ -19,11 +19,11 @@ namespace LASI.Content
         public TaggedText(string text, string tag) { Text = text; Tag = tag.Trim(); }
 
         /// <summary>
-        /// Gets the English text of a tagged word.
+        /// The English text of a tagged word.
         /// </summary>
         public string Text { get; }
         /// <summary>
-        /// Gets the text of the pos tag associated with the piece of text.
+        /// The text of the pos tag associated with the piece of text.
         /// </summary>
         public string Tag { get; }
     }

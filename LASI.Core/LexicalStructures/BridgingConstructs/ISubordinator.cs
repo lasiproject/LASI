@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// <para> Represents a Lexical construct which has the effect of subordinating the elements which follow it. This behavior has many concrete forms. </para>
@@ -16,7 +10,8 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Lexical construct which is subordinated by the Subordinator.
         /// </summary>
-        ILexical Subordinates {
+        ILexical Subordinates
+        {
             get;
             set;
         }

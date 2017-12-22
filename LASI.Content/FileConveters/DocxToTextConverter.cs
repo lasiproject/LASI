@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using LASI.Content.FileTypes;
 using LASI.Utilities;
 
-namespace LASI.Content
+namespace LASI.Content.FileConveters
 {
     /// <summary>
     /// An input file converter specialized to extract the written content from a .docx (Microsoft word 2003+ open XML file format)
@@ -102,7 +100,7 @@ namespace LASI.Content
         /// <summary>
         /// This method invokes the file conversion routine asynchronously, generally in a separate thread.
         /// Use with the await operator in an async method to retrieve the new file object and specify a
-        /// continuation function to be executed when the conversion is complete. 
+        /// continuation function to be executed when the conversion is complete.
         /// </summary>
         /// <returns>A The A Task&lt;TextFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()

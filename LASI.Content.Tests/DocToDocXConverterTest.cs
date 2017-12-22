@@ -1,9 +1,10 @@
-﻿using LASI.Content;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Xunit;
+using LASI.Content.FileConveters;
+using LASI.Content.FileTypes;
 using NFluent;
+using Xunit;
 
 namespace LASI.Content.Tests
 {
@@ -12,7 +13,7 @@ namespace LASI.Content.Tests
     ///This is A test class for DocToDocXConverterTest and is intended
     ///to contain all DocToDocXConverterTest Unit Tests
     /// </summary>
-    public class DocToDocXConverterTest : FileConverterTestBase<DocFile>
+    public class DocToDocXConverterTest : FileConverterBaseTest<DocFile>
     {
         public DocToDocXConverterTest() : base("Draft_Environmental_Assessment.doc") { }
 

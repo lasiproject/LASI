@@ -1,7 +1,7 @@
 ﻿
-// This file is used by Code Analysis to maintain SuppressMessage 
+// This file is used by Code Analysis to maintain SuppressMessage
 // attributes that are applied to this project.
-// Project-level suppressions either have no target or are given 
+// Project-level suppressions either have no target or are given
 // a specific target and scoped to a namespace, type, member, etc.
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Language", "CSE0003:Use expression-bodied members", Justification = "Avoid any cosmetic changes to this class.", Scope = "member", Target = "~M:TaggerInterop.SharpNLPTagger.ParseViaTaggingMode~System.String")]
@@ -32,4 +32,4 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "RCS1194:Implement exception constructors.", Justification = "Exception class is sealed and should not be extended outside of its assembly. Inside said assembly, it does not need these additional constructors.", Scope = "type", Target = "~T:LASI.Content.Tagging.UntaggedWordException")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "RCS1194:Implement exception constructors.", Justification = "Exception class is sealed and should not be extended outside of its assembly. Inside said assembly, it does not need these additional constructors.", Scope = "type", Target = "~T:LASI.Content.Tagging.UnmappedWordTypeException")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancies in Symbol Declarations", "RECS0154:Parameter is never used", Justification = "This warning is false. The parameter is indeed used. It provides the initializing value for the corresponding readonly property. This appears to arise from a code analysis bug. It is only triggered with expression-bodied constructors.", Scope = "member", Target = "~M:LASI.Content.Tagging.TextNode.#ctor(System.String)")]
-
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "ET001:Type name does not match file name", Justification = "<Pending>", Scope = "type", Target = "~T:LASI.Content.Exceptions.FileManagerException")]

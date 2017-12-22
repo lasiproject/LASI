@@ -24,7 +24,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             var expected = "bird";
             string actual;
             actual = target.FindRoot(conjugated);
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             var expected = "octopus";
             string actual;
             actual = target.FindRoot(nounForm);
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
         /// <summary>
         ///A test for FindRoot
@@ -51,7 +51,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             var expected = "pass-through";
             string actual;
             actual = target.FindRoot(nounForm);
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             var expected = "octopus";
             string actual;
             actual = target.FindRoot(noun);
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
         /// <summary>
         ///A test for FindRoot
@@ -78,7 +78,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             var expected = "octopi-hunter";
             string actual;
             actual = target.FindRoot(nounForm);
-            Check.That(expected).IsEqualTo(actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>

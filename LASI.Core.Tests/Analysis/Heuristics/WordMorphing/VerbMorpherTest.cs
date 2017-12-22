@@ -20,7 +20,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         public void GetConjugationsTest()
         {
             var root = "walk";
-            var expected = new[] {"walked", "walks", "walking"};
+            var expected = new[] { "walked", "walks", "walking" };
             var actual = VerbMorpher.GetConjugations(root);
             foreach (var a in actual)
             {
@@ -38,8 +38,8 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         [Fact]
         public void FindRootTest()
         {
-            var conjugated = new[] {"walked", "walking", "walks"};
-            var expected = new[] {"walk"}.ToList();
+            var conjugated = new[] { "walked", "walking", "walks" };
+            var expected = new[] { "walk" }.ToList();
             var actual = new List<string>();
             foreach (var c in conjugated)
             {

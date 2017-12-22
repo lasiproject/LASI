@@ -58,12 +58,12 @@ namespace LASI.Core
         #region Properties
 
         /// <summary>
-        /// Gets the text content of the word instance.
+        /// The text content of the word instance.
         /// </summary>
         public string Text { get; }
 
         /// <summary>
-        /// Gets the document instance to which the word belongs.
+        /// The document instance to which the word belongs.
         /// </summary>
         public Document Document => Phrase?.Document;
         /// <summary>
@@ -87,7 +87,7 @@ namespace LASI.Core
         /// </summary>
         public Phrase Phrase { get; private set; }
         /// <summary>
-        /// Gets the Sentence the word belongs to.
+        /// The Sentence the word belongs to.
         /// </summary>
         public Sentence Sentence => Phrase?.Sentence;
         /// <summary>

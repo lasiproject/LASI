@@ -85,7 +85,7 @@ namespace LASI.Core
         /// </summary>
         public IEnumerable<IPossessable> Possessions => possessions;
         /// <summary>
-        /// Gets the collection of referencers which are bound as referring to the PresentParticiple.
+        /// The collection of referencers which are bound as referring to the PresentParticiple.
         /// </summary>
         public IEnumerable<IReferencer> Referencers => referencers;
         /// <summary>

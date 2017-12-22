@@ -9,22 +9,24 @@ using System.Windows.Input;
 using LASI.App.Extensions;
 using LASI.App.Helpers;
 using LASI.Content;
+using LASI.Content.Exceptions;
 using LASI.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using static System.Double;
 
 namespace LASI.App
 {
     /// <summary>
-    /// Interaction logic for StartupScreen.xaml 
+    /// Interaction logic for StartupScreen.xaml
     /// </summary>
     public partial class StartupWindow : Window
     {
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the StartupScreen class. 
+        /// Initializes a new instance of the StartupScreen class.
         /// </summary>
         public StartupWindow()
         {
@@ -153,7 +155,7 @@ namespace LASI.App
             Resources["createButtonContent"] = "Cancel";
             mainGrid.AllowDrop = true;
             await SetUpDefaultDirectory();
-            if (Height <= 250)
+            if (Math.Abs(Height - 250) < Epsilon)
             {
                 for (var i = 0; i < 270; i += 10)
                 {
@@ -386,7 +388,7 @@ namespace LASI.App
         #region Helper Methods
 
         /// <summary>
-        /// Hides all of the provided UIElements. 
+        /// Hides all of the provided UIElements.
         /// </summary>
         /// <param name="elements"> Zero or more UIElements to hide. </param>
         private void HideElements(params UIElement[] elements)
@@ -398,7 +400,7 @@ namespace LASI.App
         }
 
         /// <summary>
-        /// Shows all of the provided UIElements. 
+        /// Shows all of the provided UIElements.
         /// </summary>
         /// <param name="elements"> Zero or more UIElements to show. </param>
         private void ShowElements(params UIElement[] elements)
