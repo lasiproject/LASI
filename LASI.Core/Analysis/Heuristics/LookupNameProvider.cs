@@ -5,10 +5,14 @@ using LASI.Core.Configuration;
 using LASI.Utilities;
 using static System.StringComparer;
 
-namespace LASI.Core {
-    sealed class NameProvider {
-        public NameProvider() {
-            var fileData = Task.Run(async () => new {
+namespace LASI.Core
+{
+    sealed class NameProvider
+    {
+        public NameProvider()
+        {
+            var fileData = Task.Run(async () => new
+            {
                 FemaleNames = await ReadLinesAsync(Paths.Names.Female),
                 MaleNames = await ReadLinesAsync(Paths.Names.Male),
                 LastNames = await ReadLinesAsync(Paths.Names.Last)
@@ -77,8 +81,10 @@ namespace LASI.Core {
         /// </returns>
         public bool IsMaleFirst(string text) => MaleNames.Contains(text);
 
-        private static async Task<ImmutableSortedSet<string>> ReadLinesAsync(string fileName) {
-            using (var reader = new System.IO.StreamReader(fileName)) {
+        private static async Task<ImmutableSortedSet<string>> ReadLinesAsync(string fileName)
+        {
+            using (var reader = new System.IO.StreamReader(fileName))
+            {
                 return (await reader.ReadToEndAsync())
                     .SplitRemoveEmpty('\r', '\n')
                     .Select(s => s.Trim())
@@ -106,8 +112,10 @@ namespace LASI.Core {
         /// </summary>
         public ImmutableSortedSet<string> GenderAmbiguousNames { get; }
 
-        public ImmutableSortedSet<string> AllNames {
-            get {
+        public ImmutableSortedSet<string> AllNames
+        {
+            get
+            {
                 var builder = FemaleNames.ToBuilder();
                 builder.UnionWith(MaleNames);
                 builder.UnionWith(GenderAmbiguousNames);

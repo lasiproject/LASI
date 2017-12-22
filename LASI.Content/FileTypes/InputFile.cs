@@ -70,7 +70,7 @@ namespace LASI.Content.FileTypes
         /// </summary>
         /// <param name="obj">The object to compare with.</param>
         /// <returns> <c>true</c> if the specified object is equal to the current InputFile; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj) => obj is InputFile && Equals(obj as InputFile);
+        public override bool Equals(object obj) => obj is InputFile f && Equals(f);
         /// <summary>
         /// Gets the hash code of the InputFile.
         /// </summary>
@@ -125,6 +125,7 @@ namespace LASI.Content.FileTypes
         /// <returns> <c>true</c> if the InputFile on the left is not equal to the InputFile on the right.</returns>
         public static bool operator !=(InputFile left, InputFile right) => !(left == right);
 
-        protected FileConversionFailureException CreateFileConversionFailureException(string targetExtension, Exception e) => new FileConversionFailureException(FullPath, this.CanonicalExtension, targetExtension, e);
+        protected FileConversionFailureException CreateFileConversionFailureException(string targetExtension, Exception e) =>
+            new FileConversionFailureException(FullPath, CanonicalExtension, targetExtension, e);
     }
 }

@@ -43,7 +43,7 @@ namespace LASI.Content.FileTypes
         {
             using (var reader = File.OpenText(FullPath))
             {
-                return await reader.ReadToEndAsync();
+                return await reader.ReadToEndAsync().ConfigureAwait(false);
             }
         }
 

@@ -35,8 +35,8 @@ namespace LASI.Content.FileTypes
         public override async Task<string> LoadTextAsync()
         {
             var converter = new PdfToTextConverter(this);
-            var converted = await converter.ConvertFileAsync();
-            return await converted.LoadTextAsync();
+            var converted = await converter.ConvertFileAsync().ConfigureAwait(false);
+            return await converted.LoadTextAsync().ConfigureAwait(false);
         }
 
         public override string CanonicalExtension => ".pdf";

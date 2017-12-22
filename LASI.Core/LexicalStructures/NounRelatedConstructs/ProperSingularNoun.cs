@@ -1,9 +1,5 @@
-﻿using LASI.Core.Heuristics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
+
 namespace LASI.Core
 {
     /// <summary>
@@ -16,15 +12,18 @@ namespace LASI.Core
         /// </summary>
         /// <param name="text">The text content of the ProperSingularNoun.</param>
         public ProperSingularNoun(string text)
-            : base(text) {
+            : base(text)
+        {
             EntityKind = text.All(c => char.IsUpper(c) || c == '.') ? EntityKind.Organization : (gender ?? Gender.Undetermined).IsMaleOrFemale() ? EntityKind.Person : EntityKind;
         }
         Gender? gender = null;
         /// <summary>
         /// The Gender value indicating the likely gender of the ProperNoun.
         /// </summary>
-        public virtual Gender Gender {
-            get {
+        public virtual Gender Gender
+        {
+            get
+            {
                 gender = gender ?? (this.IsFemaleFirstName() ? Gender.Female :
                                     this.IsMaleFirstName() ? Gender.Male :
                                     IsLastName || EntityKind == EntityKind.Organization ||

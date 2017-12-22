@@ -4,7 +4,8 @@ using System.Linq;
 using LASI.Utilities;
 using LASI.Utilities.Validation;
 
-namespace LASI.Core {
+namespace LASI.Core
+{
     /// <summary>
     /// <para>A data structure containing all of the paragraph, sentence, clause, phrase, and word objects which comprise a single document.</para>
     /// <para>Provides overlapping direct and indirect access to all of its children,</para>
@@ -17,7 +18,8 @@ namespace LASI.Core {
     /// <seealso cref="Paragraph" />
     /// <seealso cref="Sentence" />
     /// <seealso cref="IReifiedTextual" />
-    public class Document : IReifiedTextual {
+    public class Document : IReifiedTextual
+    {
         #region Constructors
 
         /// <summary>
@@ -25,7 +27,8 @@ namespace LASI.Core {
         /// </summary>
         /// <param name="title">The title of the document.</param>
         /// <param name="paragraphs">The collection of paragraphs which contain all text in the document.</param>
-        public Document(string title, IEnumerable<Paragraph> paragraphs) {
+        public Document(string title, IEnumerable<Paragraph> paragraphs)
+        {
             Name = title;
 
             this.paragraphs = paragraphs
@@ -77,24 +80,28 @@ namespace LASI.Core {
         /// <returns>
         /// The contents of the Document aggregated into a sequences of Page objects based on the line length and lines per page supplied.
         /// </returns>
-        public IEnumerable<Page> Paginate(int lineLength, int linesPerPage, Func<string, double> measureText) {
+        public IEnumerable<Page> Paginate(int lineLength, int linesPerPage, Func<string, double> measureText)
+        {
             Validate.NotLessThan(lineLength, 1, nameof(lineLength), "The supplied line length cannot be less than 0");
             Validate.NotLessThan(linesPerPage, 1, nameof(linesPerPage), "The supplied number of lines per page cannot be less than 0");
             var measuredParagraphs =
                from paragraph in Paragraphs
                let lines = (int)Math.Floor(measureText(paragraph.Text) / lineLength)
                let actualLines = Math.Abs(lines + Math.Round(measureText(paragraph.Text), 1, MidpointRounding.AwayFromZero) % lineLength) > double.Epsilon ? 1 : 0
-               select new {
+               select new
+               {
                    Paragraph = paragraph,
                    LinesUsed = actualLines
                };
             var pagesCreated = 0;
             var paragraphsToSkip = 0;
-            while (paragraphsToSkip < measuredParagraphs.Count()) {
+            while (paragraphsToSkip < measuredParagraphs.Count())
+            {
                 var totalLines = 0;
                 var pragraphs = measuredParagraphs
                     .Skip(paragraphsToSkip)
-                    .TakeWhile((paragraph, index) => {
+                    .TakeWhile((paragraph, index) =>
+                    {
                         var forceOutput = totalLines == 0 && paragraph.LinesUsed > linesPerPage;
                         totalLines += paragraph.LinesUsed;
                         return totalLines <= linesPerPage || forceOutput;
@@ -147,8 +154,10 @@ namespace LASI.Core {
         private IEnumerable<ILexical> LexicalConstituentEnumerator =>
             ListConsituent(words).Concat(ListConsituent(phrases)).Concat(ListConsituent(clauses.ToList()));
 
-        private IEnumerable<ILexical> ListConsituent(IReadOnlyList<ILexical> constituentList) {
-            for (var i = 0; i < constituentList.Count; ++i) {
+        private IEnumerable<ILexical> ListConsituent(IReadOnlyList<ILexical> constituentList)
+        {
+            for (var i = 0; i < constituentList.Count; ++i)
+            {
                 yield return constituentList[i];
             }
         }
@@ -213,21 +222,23 @@ namespace LASI.Core {
 
         #endregion Fields
 
-        #region Classes 
+        #region Classes
 
         #region Page
 
         /// <summary>
         /// Represents a page of a document. Pages are somewhat arbitrary segments of a <see cref="Document"/> that contain some contiguous subset of its content.
         /// </summary>
-        public sealed class Page : IReifiedTextual {
+        public sealed class Page : IReifiedTextual
+        {
             /// <summary>
             /// Initializes a new instance of the Page class.
             /// </summary>
             /// <param name="paragraphs">The Paragraphs which comprise the Page.</param>
             /// <param name="document">The Document to which the Page belongs.</param>
             /// <param name="pageNumber">The page number of the Page within its document.</param>
-            internal Page(IEnumerable<Paragraph> paragraphs, Document document, int pageNumber) {
+            internal Page(IEnumerable<Paragraph> paragraphs, Document document, int pageNumber)
+            {
                 Document = document;
                 Sentences = paragraphs.Sentences();
                 PageNumber = pageNumber;
@@ -295,16 +306,20 @@ namespace LASI.Core {
         /// <summary>
         /// Handles the setup and management of the interdependent links between elements within the Document.
         /// </summary>
-        private static class Reifier {
-            public static void Reifiy(Document document) {
+        private static class Reifier
+        {
+            public static void Reifiy(Document document)
+            {
                 AssignMembers(document);
-                foreach (var paragraph in document.paragraphs) {
+                foreach (var paragraph in document.paragraphs)
+                {
                     paragraph.EstablishTextualLinks(document);
                 }
                 LinksAdjacentElements(document);
             }
 
-            private static void AssignMembers(Document document) {
+            private static void AssignMembers(Document document)
+            {
                 document.sentences = document.paragraphs.Sentences().Where(sentence => sentence.Words.OfVerb().Any()).ToList();
 
                 document.clauses = document.sentences.Clauses().ToList();
@@ -317,31 +332,39 @@ namespace LASI.Core {
             /// <summary>
             /// Establishes the linear linkages between all adjacent words and phrases in the Document.
             /// </summary>
-            private static void LinksAdjacentElements(Document document) {
+            private static void LinksAdjacentElements(Document document)
+            {
                 LinksAdjacentWords(document);
                 LinksAdjacentPhrases(document);
             }
 
-            private static void LinksAdjacentWords(Document document) {
+            private static void LinksAdjacentWords(Document document)
+            {
                 var words = document.words;
-                if (words.Count > 1) {
+                if (words.Count > 1)
+                {
                     var indexOfLast = 0;
-                    for (var i = 1; i < words.Count; ++i) {
+                    for (var i = 1; i < words.Count; ++i)
+                    {
                         words[i].PreviousWord = words[i - 1];
                         words[i - 1].NextWord = words[i];
                         indexOfLast = i;
                     }
-                    if (indexOfLast > 0) {
+                    if (indexOfLast > 0)
+                    {
                         var lastWord = words[indexOfLast];
                         lastWord.PreviousWord = words[indexOfLast - 1];
                     }
                 }
             }
 
-            private static void LinksAdjacentPhrases(Document document) {
+            private static void LinksAdjacentPhrases(Document document)
+            {
                 var phrases = document.phrases;
-                if (phrases.Count > 1) {
-                    for (var i = 1; i < phrases.Count; ++i) {
+                if (phrases.Count > 1)
+                {
+                    for (var i = 1; i < phrases.Count; ++i)
+                    {
                         phrases[i].PreviousPhrase = phrases[i - 1];
                         phrases[i - 1].NextPhrase = phrases[i];
                     }
@@ -351,6 +374,6 @@ namespace LASI.Core {
 
         #endregion Reifier
 
-        #endregion Classes 
+        #endregion Classes
     }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LASI.Utilities;
 
 namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSpec
@@ -22,7 +19,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
 
         protected static Predicate<T> LiftOver(ILexical element, params Predicate<T>[] predicates) => new LiftedPredicate<T>(e => predicates.All(f => f.ToFunc(e)()));
         /// <summary>
-        /// Combines the <see cref="Predicate{T}"/> with another <see cref="Predicate{T}"/> 
+        /// Combines the <see cref="Predicate{T}"/> with another <see cref="Predicate{T}"/>
         /// yielding a new <see cref="Predicate{T}"/> stipulating the conditions of both.
         /// </summary>
         /// <typeparam name="TOther">The Type stipulation of the other Predicate</typeparam>

@@ -52,7 +52,7 @@ namespace LASI.Content.FileTypes
                       1024, FileOptions.Asynchronous),
                   Encoding.Default, true, 1024, false))
             {
-                return await reader.ReadToEndAsync();
+                return await reader.ReadToEndAsync().ConfigureAwait(false);
             }
         }
 

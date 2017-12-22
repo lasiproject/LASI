@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LASI.Content.Exceptions;
 using LASI.Content.FileConveters;
+using FileTypeWrapperMismatchException = LASI.Content.Exceptions.FileTypeWrapperMismatchException<LASI.Content.FileTypes.DocXFile>;
 
 namespace LASI.Content.FileTypes
 {
@@ -14,13 +14,13 @@ namespace LASI.Content.FileTypes
         /// Initializes a new instance of the DocXFile class for the given path.
         /// </summary>
         /// <param name="path">The path to a .docx file.</param>
-        /// <exception cref="FileTypeWrapperMismatchException{TWrapper}">Thrown if the provided path does not end in the .docx extension.</exception>
+        /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .docx extension.</exception>
         public DocXFile(string path)
             : base(path)
         {
             if (!Extension.Equals(CanonicalExtension, StringComparison.OrdinalIgnoreCase))
             {
-                throw new FileTypeWrapperMismatchException<DocXFile>(Extension);
+                throw new FileTypeWrapperMismatchException(Extension);
             }
         }
 
@@ -32,7 +32,7 @@ namespace LASI.Content.FileTypes
         public override string LoadText()
         {
             var converter = new DocxToTextConverter(this);
-            return (converter.ConvertFile() as TxtFile).LoadText();
+            return converter.ConvertFile().LoadText();
         }
         /// <summary>
         /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the DocXFile.
@@ -41,7 +41,8 @@ namespace LASI.Content.FileTypes
         public override async Task<string> LoadTextAsync()
         {
             var converter = new DocxToTextConverter(this);
-            return await (await converter.ConvertFileAsync() as TxtFile).LoadTextAsync();
+            var txtFile = await converter.ConvertFileAsync().ConfigureAwait(false);
+            return await txtFile.LoadTextAsync().ConfigureAwait(false);
         }
 
         public override string CanonicalExtension => ".docx";

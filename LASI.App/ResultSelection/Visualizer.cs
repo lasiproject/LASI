@@ -11,11 +11,13 @@ using LASI.Utilities;
 using static System.Math;
 using ChartItem = System.Collections.Generic.KeyValuePair<string, float>;
 
-namespace LASI.App {
+namespace LASI.App
+{
     /// <summary>
     /// Provides static methods for formatting and displaying results to the user.
     /// </summary>
-    public static class Visualizer {
+    public static class Visualizer
+    {
         #region Chart Transposing Methods
 
         /// <summary>
@@ -26,9 +28,11 @@ namespace LASI.App {
         /// <param name="chartKind">
         /// The ChartKind value determining the what data set is to be displayed.
         /// </param>
-        public static async Task ChangeChartKindAsync(ChartKind chartKind) {
+        public static async Task ChangeChartKindAsync(ChartKind chartKind)
+        {
             Visualizer.ChartKind = chartKind;
-            foreach (var pair in DocumentsByChart) {
+            foreach (var pair in DocumentsByChart)
+            {
                 var document = pair.Value;
                 var chart = pair.Key;
                 var data = await CreateChartDataAsync(chartKind, document);
@@ -46,10 +50,12 @@ namespace LASI.App {
         /// </summary>
         /// <param name="document">The document whose contents are to be charted.</param>
         /// <returns>A Task representing the ongoing asynchronous operation.</returns>
-        public static async Task InitChartDisplayAsync(Document document) {
+        public static async Task InitChartDisplayAsync(Document document)
+        {
             var chart = await BuildBarChartAsync(document);
             DocumentsByChart.Add(chart, document);
-            var tab = new TabItem {
+            var tab = new TabItem
+            {
                 Header = document.Name,
                 Content = chart,
                 Tag = chart
@@ -63,8 +69,10 @@ namespace LASI.App {
         /// Reconfigures all charts to Subjects Bar perspective
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
-        public static void ToBarChartsAsync() {
-            foreach (var chart in RetrieveCharts()) {
+        public static void ToBarChartsAsync()
+        {
+            foreach (var chart in RetrieveCharts())
+            {
                 var barSeries = new BarSeries { ItemsSource = chart.GetItemSource() };
                 ConfigureDataPointSeries(barSeries);
                 ResetChartContent(chart, barSeries);
@@ -75,8 +83,10 @@ namespace LASI.App {
         /// Reconfigures all charts to Subjects Column perspective
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
-        public static void ToColumnChartsAsync() {
-            foreach (var chart in RetrieveCharts()) {
+        public static void ToColumnChartsAsync()
+        {
+            foreach (var chart in RetrieveCharts())
+            {
                 var items = chart.GetItemSource();
                 var series = new ColumnSeries { ItemsSource = items };
                 ConfigureDataPointSeries(series);
@@ -88,7 +98,8 @@ namespace LASI.App {
         /// Sets properties to values common to all data point series created by the Visualizer.
         /// </summary>
         /// <param name="series"></param>
-        private static void ConfigureDataPointSeries(DataPointSeries series) {
+        private static void ConfigureDataPointSeries(DataPointSeries series)
+        {
             series.DependentValuePath = "Value"; // this string is expected by the charting engine
             series.IndependentValuePath = "Key"; // this string is expected by the charting engine
             series.IsSelectionEnabled = true;
@@ -98,19 +109,23 @@ namespace LASI.App {
         /// Reconfigures all charts to Subjects Pie perspective
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
-        public static void ToPieChartsAsync() {
-            foreach (var chart in RetrieveCharts()) {
+        public static void ToPieChartsAsync()
+        {
+            foreach (var chart in RetrieveCharts())
+            {
                 var items = chart.GetItemSource();
                 var pieSeries = new PieSeries { ItemsSource = items };
                 ConfigureDataPointSeries(pieSeries);
-                pieSeries.IsMouseCaptureWithinChanged += delegate {
+                pieSeries.IsMouseCaptureWithinChanged += delegate
+                {
                     pieSeries.ToolTip = (((pieSeries.SelectedItem as DataPoint))).DependentValue;
                 };
                 ResetChartContent(chart, pieSeries);
             }
         }
 
-        private static async Task<Chart> BuildBarChartAsync(Document document) {
+        private static async Task<Chart> BuildBarChartAsync(Document document)
+        {
             var dataPointSource =
                 ChartKind == ChartKind.NounPhrasesOnly ?
                 await GetNounWiseDataAsync(document) :
@@ -119,15 +134,18 @@ namespace LASI.App {
             var topPoints = dataPointSource
                 .OrderByDescending(point => point.Value)
                 .Take(ChartItemLimit).ToList();
-            var series = new BarSeries {
+            var series = new BarSeries
+            {
                 ItemsSource = topPoints,
                 Tag = document,
             };
             ConfigureDataPointSeries(series);
-            series.MouseMove += (sender, e) => {
+            series.MouseMove += (sender, e) =>
+            {
                 series.ToolTip = (e.Source as DataPoint).IndependentValue;
             };
-            var chart = new Chart {
+            var chart = new Chart
+            {
                 Title = $"Key Subjects in {document.Name}",
                 Tag = topPoints
             };
@@ -136,8 +154,10 @@ namespace LASI.App {
             return chart;
         }
 
-        private static async Task<IEnumerable<ChartItem>> CreateChartDataAsync(ChartKind chartKind, Document document) {
-            switch (chartKind) {
+        private static async Task<IEnumerable<ChartItem>> CreateChartDataAsync(ChartKind chartKind, Document document)
+        {
+            switch (chartKind)
+            {
                 case ChartKind.SubjectVerbObject:
                     return await GetVerbWiseRelationshipChartItemsAsync(document);
                 case ChartKind.NounPhrasesOnly:
@@ -164,7 +184,8 @@ namespace LASI.App {
         /// <param name="series">
         /// The DataPointSeries containing the data points which the chart will contain.
         /// </param>
-        public static void ResetChartContent(Chart chart, DataPointSeries series) {
+        public static void ResetChartContent(Chart chart, DataPointSeries series)
+        {
             chart.Series.Clear();
             chart.Series.Add(series);
         }
@@ -178,11 +199,14 @@ namespace LASI.App {
         /// </summary>
         /// <param name="document">The document for which to build relationships.</param>
         /// <returns>A Task representing the ongoing asynchronous operation.</returns>
-        public static async Task DisplayKeyRelationshipsAsync(Document document) {
+        public static async Task DisplayKeyRelationshipsAsync(Document document)
+        {
             var relationships = await GetVerbWiseRelationshipsAsync(document);
-            var tab = new TabItem {
+            var tab = new TabItem
+            {
                 Header = document.Name,
-                Content = new DataGrid {
+                Content = new DataGrid
+                {
                     ItemsSource = relationships.ToGridRowData(),
                 }
             };
@@ -201,7 +225,8 @@ namespace LASI.App {
         internal static IEnumerable<object> ToGridRowData(this IEnumerable<SvoRelationship> relationships) =>
             from relationship in relationships
             orderby relationship.Weight descending
-            select new {
+            select new
+            {
                 Subject = relationship.Subject?.Text,
                 Verbal = FormatVerbalText(relationship.Verbal),
                 Direct = FormatObjectText(relationship.Direct),
@@ -213,7 +238,8 @@ namespace LASI.App {
             pl.LeftPrepositional?.Text + " " + e?.Text :
             string.Empty;
 
-        private static string FormatVerbalText(IVerbal verbal) {
+        private static string FormatVerbalText(IVerbal verbal)
+        {
             var prepositionalText = verbal.Match((IPrepositionLinkable p) => p.LeftPrepositional?.Text);
             var adverbialText = string.Join(" ", verbal.AdverbialModifiers.Select(m => m.Text));
             return $"{prepositionalText} {verbal.Modality?.Text} {verbal.Text} {adverbialText}";
@@ -229,7 +255,8 @@ namespace LASI.App {
         static Task<IEnumerable<ChartItem>> GetNounWiseDataAsync(Document document) =>
             Task.Run(() => GetNounWiseRelationshipChartItems(document));
 
-        private static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItems(Document document) {
+        private static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItems(Document document)
+        {
             var verbWiseRelationships = await GetVerbWiseRelationshipsAsync(document);
             var chartItems =
                 from relationship in verbWiseRelationships
@@ -244,7 +271,8 @@ namespace LASI.App {
         static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItemsAsync(Document document) =>
             await Task.Run(() => GetVerbWiseRelationshipChartItems(document));
 
-        static async Task<IEnumerable<SvoRelationship>> GetVerbWiseRelationshipsAsync(Document document) => await Task.Run(() => {
+        static async Task<IEnumerable<SvoRelationship>> GetVerbWiseRelationshipsAsync(Document document) => await Task.Run(() =>
+        {
             var consideredVerbals = document.Phrases.OfVerbal()
                 .WithSubject(subject => subject.Match(
                     (IReferencer r) => r.RefersTo != null,

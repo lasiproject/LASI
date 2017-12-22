@@ -12,7 +12,8 @@
         /// </summary>
         /// <param name="text">The text content of the Conjunction.</param>
         public Conjunction(string text)
-            : base(text) {
+            : base(text)
+        {
         }
 
         #endregion
@@ -22,7 +23,8 @@
         /// <summary>
         /// Gets or sets the Word, Phrase, or Clause on the Right hand side of Conjunction.
         /// </summary>
-        public ILexical JoinedRight {
+        public ILexical JoinedRight
+        {
             get;
             set;
         }
@@ -30,7 +32,8 @@
         /// <summary>
         /// Gets or sets the Word, Phrase, or Clause on the Left hand side of Conjunction.
         /// </summary>
-        public ILexical JoinedLeft {
+        public ILexical JoinedLeft
+        {
             get;
             set;
         }

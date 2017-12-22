@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LASI.Core {
+namespace LASI.Core
+{
 
     /// <summary>
     /// This class is currently experimental and is not a tier in the Document objects created by the
     /// tagged file parsers Represents a clause which provides descriptive quantitative or
     /// qualitative specification.
     /// </summary>
-    public class SubordinateClause : Clause, IDescriptor, IAdverbial {
+    public class SubordinateClause : Clause, IDescriptor, IAdverbial
+    {
 
         #region Constructors
 

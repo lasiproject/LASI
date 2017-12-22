@@ -1,9 +1,7 @@
-﻿using LASI.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LASI.Utilities;
 
 namespace LASI.Core.Heuristics.WordNet
 {
@@ -29,7 +27,7 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         public ISet<int> ReferencedSets { get; }
         /// <summary>
-        /// Returns the IDs of all other Synsets which are referenced from the current Synset in the indicated fashion. 
+        /// Returns the IDs of all other Synsets which are referenced from the current Synset in the indicated fashion.
         /// </summary>
         /// <param name="linkKinds">The kinds of external set relationships to consider return.</param>
         /// <returns>The IDs of all other Synsets which are referenced from the current Synset in the indicated fashion.</returns>
@@ -66,7 +64,7 @@ namespace LASI.Core.Heuristics.WordNet
         /// Returns a single string representing the Synset.
         /// </summary>
         /// <returns>A single string representing the Synset.</returns>
-        public override string ToString() => "[" + Id + "] " + Words.Format(Tuple.Create(' ', ',', ' '));
+        public override string ToString() => "[" + Id + "] " + Words.Format((' ', ',', ' '));
 
         public static bool operator ==(Synset<TLinkKind> left, Synset<TLinkKind> right)
         {

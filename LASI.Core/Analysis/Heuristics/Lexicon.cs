@@ -10,17 +10,20 @@ using LASI.Utilities;
 using static System.StringComparer;
 using ConcurrentSetDictionary = System.Collections.Concurrent.ConcurrentDictionary<string, System.Collections.Immutable.IImmutableSet<string>>;
 
-namespace LASI.Core {
+namespace LASI.Core
+{
     /// <summary>
     /// Provides Comprehensive static facilities for Synonym Identification, Word and Phrase
     /// Comparison, Gender Stratification, and Named Entity Recognition.
     /// </summary>
-    public static partial class Lexicon {
+    public static partial class Lexicon
+    {
         #region Public Methods
         /// <summary>
         /// Clears all synonym caches
         /// </summary>
-        public static void ClearAllCachedSynonymData() {
+        public static void ClearAllCachedSynonymData()
+        {
             cachedAdjectiveData.Clear();
             cachedAdverbData.Clear();
             cachedNounData.Clear();
@@ -77,16 +80,19 @@ namespace LASI.Core {
 
         #endregion Public Methods
 
-        static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> wordNetLookup) where TWord : Word {
+        static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> wordNetLookup) where TWord : Word
+        {
             var resourceName = typeof(TWord).Name + " Association Map";
-            ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0) {
+            ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0)
+            {
                 ElapsedMiliseconds = 0
             });
             System.Diagnostics.Stopwatch timer;
             wordNetLookup.ProgressChanged += ResourceLoading;
             Action load = wordNetLookup.Load;
             load.WithTimer(out timer)();
-            ResourceLoaded(wordNetLookup, new ResourceLoadEventArgs(resourceName, increment: 1 / 5f) {
+            ResourceLoaded(wordNetLookup, new ResourceLoadEventArgs(resourceName, increment: 1 / 5f)
+            {
                 ElapsedMiliseconds = timer.ElapsedMilliseconds
             });
             return wordNetLookup;
@@ -144,19 +150,22 @@ namespace LASI.Core {
 
         static ConcurrentSetDictionary cachedVerbData = CreateConcurrentSetDictionary();
 
-        static Lazy<NameProvider> nameData = new Lazy<NameProvider>(() => {
+        static Lazy<NameProvider> nameData = new Lazy<NameProvider>(() =>
+        {
             var resourceName = "Name Data";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             var timer = System.Diagnostics.Stopwatch.StartNew();
             var nameProvider = new NameProvider();
-            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) {
+            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0)
+            {
                 ElapsedMiliseconds = timer.ElapsedMilliseconds
             });
             return nameProvider;
         }, isThreadSafe: true);
 
         // scrabble dictionary Internal Lookups
-        static Lazy<IEnumerable<string>> scrabbleDictionary = new Lazy<IEnumerable<string>>(() => {
+        static Lazy<IEnumerable<string>> scrabbleDictionary = new Lazy<IEnumerable<string>>(() =>
+        {
             var resourceName = "Scrabble Dictionary";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             System.Diagnostics.Stopwatch timer;

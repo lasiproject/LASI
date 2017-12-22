@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Defines the role requirements for Descriptive constructs which descriptively modify Entity constructs.
-    /// Along with the other interfaces in the Syntactic Interfaces Library, the IDescriptor interface provides 
+    /// Along with the other interfaces in the Syntactic Interfaces Library, the IDescriptor interface provides
     /// for cross-axial generalization over lexical types.
     /// </summary>
     /// <seealso cref="IEntity"/>
@@ -11,7 +11,8 @@
         /// <summary>
         /// Gets or sets the Entity which the Descriptor instance describes.
         /// </summary>
-        IEntity Describes {
+        IEntity Describes
+        {
             get;
             set;
         }

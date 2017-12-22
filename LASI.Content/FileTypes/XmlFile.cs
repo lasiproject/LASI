@@ -51,7 +51,7 @@ namespace LASI.Content.FileTypes
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the PdfFile.</returns>
         public override async Task<string> LoadTextAsync()
         {
-            using (var reader = XmlReader.Create(new StreamReader(new System.IO.FileStream(
+            using (var reader = XmlReader.Create(new StreamReader(new FileStream(
                   FullPath,
                   FileMode.Open,
                   FileAccess.Read,
@@ -64,7 +64,7 @@ namespace LASI.Content.FileTypes
                       IgnoreWhitespace = true
                   }))
             {
-                return await reader.ReadContentAsStringAsync();
+                return await reader.ReadContentAsStringAsync().ConfigureAwait(false);
             }
         }
 
