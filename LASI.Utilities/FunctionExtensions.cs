@@ -76,6 +76,42 @@ namespace LASI.Utilities
         /// </returns>
         public static Func<T1, T3> AndThen<T2, T1, T3>(this Func<T1, T2> f, Func<T2, T3> g) => x => g(f(x));
 
+        /// <summary>
+        /// Composes a pair of curried predicates having the form
+        /// <typeparamref name="T1"/> => <typeparamref name="T2"/> => <see cref="bool"/> using short-circuiting logical and (<c>&amp;&amp;</c>).
+        /// </summary>
+        /// <typeparam name="T1">The type of the parameter of both <paramref name="f"/> and <paramref name="g"/>.
+        /// </typeparam>
+        /// <typeparam name="T2">
+        /// The type of the parameter of both
+        /// <c><paramref name="f"/>(<typeparamref name="T1"/>)</c> and <c><paramref name="g"/>(<typeparamref name="T1"/>)</c>.
+        /// </typeparam>
+        /// <param name="f">A function having the form <typeparamref name="T1"/> => <typeparamref name="T2"/> => <see cref="bool"/>.</param>
+        /// <param name="g">A function having the form <typeparamref name="T1"/> => <typeparamref name="T2"/> => <see cref="bool"/>.</param>
+        /// <returns><c><paramref name="f"/>(<typeparamref name="T1"/>)(<typeparamref name="T2"/>) &amp;&amp; <paramref name="g"/>(<typeparamref name="T1"/>)(<typeparamref name="T2"/>)</c>.</returns>
+        public static Func<T1, Func<T2, bool>> And<T1, T2>(this Func<T1, Func<T2, bool>> f, Func<T1, Func<T2, bool>> g) => CombinePredicate(f, g, x => y => x && y);
+
+        /// <summary>
+        /// Composes a pair of curried predicates having the form
+        /// <typeparamref name="T1"/> => <typeparamref name="T2"/> => <see cref="bool"/> using short-circuiting logical or (<c>||</c>).
+        /// </summary>
+        /// <typeparam name="T1">The type of the parameter of both <paramref name="f"/> and <paramref name="g"/>.
+        /// </typeparam>
+        /// <typeparam name="T2">
+        /// The type of the parameter of both
+        /// <c><paramref name="f"/>(<typeparamref name="T1"/>)</c> and <c><paramref name="g"/>(<typeparamref name="T1"/>)</c>.
+        /// </typeparam>
+        /// <param name="f">A function having the form <typeparamref name="T1"/> => <typeparamref name="T2"/> => <see cref="bool"/>.</param>
+        /// <param name="g">A function having the form <typeparamref name="T1"/> => <typeparamref name="T2"/> => <see cref="bool"/>.</param>
+        /// <returns><c><paramref name="f"/>(<typeparamref name="T1"/>)(<typeparamref name="T2"/>) || <paramref name="g"/>(<typeparamref name="T1"/>)(<typeparamref name="T2"/>)</c>.</returns>
+        public static Func<T1, Func<T2, bool>> Or<T1, T2>(this Func<T1, Func<T2, bool>> f, Func<T1, Func<T2, bool>> g) => CombinePredicate(f, g, x => y => x || y);
+
+        static Func<T1, Func<T2, bool>> CombinePredicate<T1, T2>(
+            Func<T1, Func<T2, bool>> f,
+            Func<T1, Func<T2, bool>> g,
+            Func<bool, Func<bool, bool>> op) =>
+            x => y => op(f(x)(y))(g(x)(y));
+
         #region Experimental
 
         public static Action<T> AndThen<T>(this Action<T> a1, Action<T> a2) => x => { a1(x); a2(x); };
@@ -502,6 +538,10 @@ namespace LASI.Utilities
         public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, Action<T8>>>>>>>> Curry<T1, T2, T3, T4, T5, T6, T7, T8>
             (this Action<T1, T2, T3, T4, T5, T6, T7, T8> fn) => a => b => c => d => e => f => g => h => fn(a, b, c, d, e, f, g, h);
 
+        #region Lifted Negation
+        public static Func<T1, bool> Negate<T1>(this Func<T1, bool> f) => x => !f(x);
+        public static Func<T1, Func<T2, bool>> Negate<T1, T2>(this Func<T1, Func<T2, bool>> f) => x => f(x).Negate();
+        public static Func<T1, T2, bool> Negate<T1, T2>(this Func<T1, T2, bool> f) => (x, y) => !f(x, y);
         #endregion
 
         #region Partial Application
@@ -695,8 +735,8 @@ namespace LASI.Utilities
         public static T Identity<T>(T value) => value;
 
         /// <summary>
-        /// Binds a new <see cref="System.Diagnostics.Stopwatch"/>to <paramref name="stopwatch"/> 
-        /// and sets up an invocation context such that after a call to <paramref name="function"/> it will track the elapsed execution time. 
+        /// Binds a new <see cref="System.Diagnostics.Stopwatch"/>to <paramref name="stopwatch"/>
+        /// and sets up an invocation context such that after a call to <paramref name="function"/> it will track the elapsed execution time.
         /// </summary>
         /// <typeparam name="TResult">The type of the value returned by the function.</typeparam>
         /// <param name="function">the function to time.</param>
@@ -715,8 +755,8 @@ namespace LASI.Utilities
              };
         }
         /// <summary>
-        /// Binds a new <see cref="System.Diagnostics.Stopwatch"/>to <paramref name="stopwatch"/> 
-        /// and sets up an invocation context such that after a call to <paramref name="function"/> it will track the elapsed execution time. 
+        /// Binds a new <see cref="System.Diagnostics.Stopwatch"/>to <paramref name="stopwatch"/>
+        /// and sets up an invocation context such that after a call to <paramref name="function"/> it will track the elapsed execution time.
         /// </summary>
         /// <typeparam name="T">The type of argument of the function.</typeparam>
         /// <typeparam name="TResult">The type of the value returned by the function</typeparam>
@@ -748,4 +788,5 @@ namespace LASI.Utilities
             };
         }
     }
+    #endregion
 }

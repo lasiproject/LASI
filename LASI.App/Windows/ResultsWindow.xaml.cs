@@ -157,7 +157,7 @@ namespace LASI.App
                                         Tag = phrase,
                                         Foreground = colorizer[phrase],
                                         Background = Brushes.White,
-                                        ToolTip = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', '\n', ' '))
+                                        ToolTip = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format((' ', '\n', ' '))
                                     }).ToList();
 
 

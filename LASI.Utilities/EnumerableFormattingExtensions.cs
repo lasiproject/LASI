@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using LASI.Utilities.Validation;
 
-namespace LASI.Utilities {
+namespace LASI.Utilities
+{
     /// <summary>
     /// Provides extension methods which assist in formatting <see cref="IEnumerable{T}"/>s for textual display.
     /// </summary>
-    public static class EnumerableFormattingExtensions {
+    public static class EnumerableFormattingExtensions
+    {
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [
         /// element0, element1, ..., elementN ] such that the string representation of each element
@@ -22,7 +24,7 @@ namespace LASI.Utilities {
         /// A formated string representation of the IEnumerable sequence with the pattern: [
         /// element0, element1, ..., elementN ].
         /// </returns>
-        public static string Format<T>(this IEnumerable<T> source) => source.Format(DefaultDilimiters);
+        public static string Format<T>(this IEnumerable<T> source) => source.Format(DefaultDeimiters);
 
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [
@@ -41,7 +43,7 @@ namespace LASI.Utilities {
         /// A formated string representation of the IEnumerable sequence with the pattern: [
         /// element0, element1, ..., elementN ].
         /// </returns>
-        public static string Format<T>(this IEnumerable<T> source, long lineLength) => source.Format(DefaultDilimiters, lineLength);
+        public static string Format<T>(this IEnumerable<T> source, long lineLength) => source.Format(DefaultDeimiters, lineLength);
 
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [
@@ -52,18 +54,20 @@ namespace LASI.Utilities {
         /// <param name="source">
         /// An IEnumerable sequence containing 0 or more Elements of type T.
         /// </param>
-        /// <param name="delimiters">
+        /// <param name="deimiters">
         /// The triple of delimiters specifying the beginning, separating, and ending characters.
         /// </param>
         /// <returns>
         /// A formated string representation of the IEnumerable sequence with the pattern: [
         /// element0, element1, ..., elementN ].
         /// </returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters) {
-            Validate.NotNull(source, "source", delimiters, "delimiters");
-            return source.Aggregate(new StringBuilder().Append(delimiters.Item1).Append(' '),
-                    (builder, e) => builder.Append(e.ToString() + delimiters.Item2 + ' '),
-                    result => result.ToString().TrimEnd(' ', '\n', delimiters.Item2) + ' ' + delimiters.Item3);
+        public static string Format<T>(this IEnumerable<T> source, (char beginning, char separator, char ending) deimiters)
+        {
+            var (beginning, separator, ending) = deimiters;
+            Validate.NotNull(source, "source", deimiters, "delimiters");
+            return source.Aggregate(new StringBuilder().Append(beginning).Append(' '),
+                    (builder, e) => builder.Append(e.ToString() + separator + ' '),
+                    result => result.ToString().TrimEnd(' ', '\n', separator) + ' ' + ending);
         }
 
         /// <summary>
@@ -82,7 +86,8 @@ namespace LASI.Utilities {
         /// A a formated string representation of the IEnumerable sequence with the pattern: [
         /// selector(element0), selector(element1), ..., selector(elementN) ].
         /// </returns>
-        public static string Format<T>(this IEnumerable<T> source, Func<T, string> selector) => source.Format(DefaultDilimiters, selector);
+        public static string Format<T>(this IEnumerable<T> source, Func<T, string> selector) =>
+            source.Format(DefaultDeimiters, selector);
 
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [
@@ -93,7 +98,7 @@ namespace LASI.Utilities {
         /// <param name="source">
         /// An IEnumerable sequence containing 0 or more Elements of type T.
         /// </param>
-        /// <param name="delimiters">
+        /// <param name="deimiters">
         /// The triple of delimiters specifying the beginning, separating, and ending characters.
         /// </param>
         /// <param name="selector">
@@ -103,9 +108,10 @@ namespace LASI.Utilities {
         /// formated string representation of the IEnumerable sequence with the pattern: [
         /// selector(element0), selector(element1), ..., selector(elementN) ].
         /// </returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, Func<T, string> selector) {
-            Validate.NotNull(source, "source", selector, "selector", delimiters, "delimiters");
-            return source.Select(selector).Format(delimiters);
+        public static string Format<T>(this IEnumerable<T> source, (char beginning, char separator, char ending) deimiters, Func<T, string> selector)
+        {
+            Validate.NotNull(source, "source", selector, "selector", deimiters, "delimiters");
+            return source.Select(selector).Format(deimiters);
         }
 
         /// <summary>
@@ -118,7 +124,7 @@ namespace LASI.Utilities {
         /// <param name="source">
         /// An IEnumerable sequence containing 0 or more Elements of type T.
         /// </param>
-        /// <param name="delimiters">
+        /// <param name="deimiters">
         /// The triple of delimiters specifying the beginning, separating, and ending characters.
         /// </param>
         /// <param name="lineLength">
@@ -128,7 +134,8 @@ namespace LASI.Utilities {
         /// A formated string representation of the IEnumerable sequence with the pattern: [
         /// element0, element1, ..., elementN ].
         /// </returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength) => source.Format(delimiters, lineLength, DefaultSelector);
+        public static string Format<T>(this IEnumerable<T> source, (char beginning, char separator, char ending) deimiters, long lineLength) =>
+            source.Format(deimiters, lineLength, DefaultSelector);
 
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [
@@ -150,7 +157,8 @@ namespace LASI.Utilities {
         /// A formated string representation of the IEnumerable sequence with the pattern: [
         /// selector(element0), selector(element1), ..., selector(elementN) ].
         /// </returns>
-        public static string Format<T>(this IEnumerable<T> source, long lineLength, Func<T, string> selector) => source.Format(DefaultDilimiters, lineLength, selector);
+        public static string Format<T>(this IEnumerable<T> source, long lineLength, Func<T, string> selector) =>
+            source.Format(DefaultDeimiters, lineLength, selector);
 
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern:
@@ -168,7 +176,7 @@ namespace LASI.Utilities {
         /// <param name="lineLength">
         /// Indicates the number of characters after which a line break is to be inserted.
         /// </param>
-        /// <param name="delimiters">
+        /// <param name="deimiters">
         /// A three item tuple delimiters which will be used to format the result.
         /// </param>
         /// <param name="selector">
@@ -178,25 +186,29 @@ namespace LASI.Utilities {
         /// delimiters.Item1 selector(element0)delimiters.Item2 selector(element1)delimiter
         /// ...delimiters.Item2 selector(elementN) delimiters.Item3.
         /// </returns>
-        public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength, Func<T, string> selector) {
-            Validate.NotNull(source, "source", delimiters, "delimiters", selector, "selector");
+        public static string Format<T>(
+            this IEnumerable<T> source,
+            (char beginning, char separator, char ending) deimiters,
+            long lineLength,
+            Func<T, string> selector)
+        {
+            Validate.NotNull(source, "source", deimiters, "delimiters", selector, "selector");
             lineLength.NotLessThan(1, "lineLength", "Line length must be greater than 0.");
-            return source.Aggregate(
-                    new {
-                        AccumulatedLineLength = 0L,
-                        Builder = new StringBuilder(delimiters.Item1.ToString())
-                    },
-                    (z, element) => {
-                        var text = selector(element) + delimiters.Item2;
-                        var appendNewLine = z.AccumulatedLineLength + text.Length + 1 > lineLength;
-                        return new {
-                            AccumulatedLineLength = appendNewLine ? text.Length : z.AccumulatedLineLength + text.Length + 1,
-                            Builder = z.Builder.Append((appendNewLine ? '\n' : ' ') + text)
-                        };
-                    }).Builder.ToString().TrimEnd(' ', delimiters.Item2) + ' ' + delimiters.Item3;
+            return source.Aggregate((accumulatedLineLength: 0L, builder: new StringBuilder(deimiters.beginning.ToString())),
+                    (z, element) =>
+                    {
+                        var text = selector(element) + deimiters.separator;
+                        var appendNewLine = z.accumulatedLineLength + text.Length + 1 > lineLength;
+                        return
+                        (
+                            accumulatedLineLength: appendNewLine ? text.Length : z.accumulatedLineLength + text.Length + 1,
+                            builder: z.builder.Append((appendNewLine ? '\n' : ' ') + text)
+                        );
+                    }).builder.ToString().TrimEnd(' ', deimiters.separator) + ' ' + deimiters.ending;
         }
 
-        private static readonly Tuple<char, char, char> DefaultDilimiters = Tuple.Create('[', ',', ']');
+        private static readonly (char beginning, char separator, char ending) DefaultDeimiters = ('[', ',', ']');
+
         private static string DefaultSelector<T>(T value) => value.ToString();
     }
 }
