@@ -5,7 +5,7 @@ using System.Linq;
 namespace LASI.Utilities.Validation
 {
     /// <summary>
-    /// Provides helper methods for value validation. 
+    /// Provides helper methods for value validation.
     /// </summary>
     [System.Diagnostics.DebuggerStepThrough]
     public static class Validate
@@ -13,7 +13,7 @@ namespace LASI.Utilities.Validation
         #region Nullity Validation
 
         /// <summary>
-        /// Validates the specified value, raising a <see cref="ArgumentNullException"/> if it is null. 
+        /// Validates the specified value, raising a <see cref="ArgumentNullException"/> if it is null.
         /// </summary>
         /// <typeparam name="T"> The type of the value to validate. </typeparam>
         /// <param name="value"> The value to validate. </param>
@@ -28,23 +28,23 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified value, raising a <see cref="ArgumentNullException"/> if it is null. 
+        /// Validates the specified value, raising a <see cref="ArgumentNullException"/> if it is null.
         /// </summary>
         /// <typeparam name="T"> The type of the value. </typeparam>
         /// <param name="value">   The value to validate. </param>
         /// <param name="name">    The name of the value. </param>
         /// <param name="message"> A message that provides additional detail as to why the value may not be null. </param>
         /// <exception cref="ArgumentNullException"> One of the values was null. </exception>
-        public static void NotNull<T>(T value, string name, string message)
+        public static void NotNull<T>(T value, string name, string message) where T : class
         {
-            if (ReferenceEquals(value, null))
+            if (value is null)
             {
                 FailWithArgumentNullException(name, message);
             }
         }
 
         /// <summary>
-        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them are null. 
+        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them are null.
         /// </summary>
         /// <typeparam name="T1"> The type of the first value. </typeparam>
         /// <typeparam name="T2"> The type of the second value. </typeparam>
@@ -60,7 +60,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them are null. 
+        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them are null.
         /// </summary>
         /// <typeparam name="T1"> The type of the first value. </typeparam>
         /// <typeparam name="T2"> The type of the second value. </typeparam>
@@ -82,7 +82,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them are null. 
+        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them are null.
         /// </summary>
         /// <typeparam name="T1"> The type of the first value. </typeparam>
         /// <typeparam name="T2"> The type of the second value. </typeparam>
@@ -108,7 +108,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them are null. 
+        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them are null.
         /// </summary>
         /// <typeparam name="T1"> The type of the first value. </typeparam>
         /// <typeparam name="T2"> The type of the second value. </typeparam>
@@ -142,7 +142,7 @@ namespace LASI.Utilities.Validation
         #region Arity Validation
 
         /// <summary>
-        /// Validates that the specified IEnumerable value, raising an <see cref="ArgumentException"/> if it is empty. 
+        /// Validates that the specified IEnumerable value, raising an <see cref="ArgumentException"/> if it is empty.
         /// </summary>
         /// <typeparam name="T"> The type of the elements in the sequence. </typeparam>
         /// <param name="value">   The sequence to validate. </param>
@@ -183,7 +183,7 @@ namespace LASI.Utilities.Validation
         #region Range Validation
 
         /// <summary>
-        /// Validates the specified value, raising a System.ArgumentOutOfRangeException if it is less than the specified minimum. 
+        /// Validates the specified value, raising a System.ArgumentOutOfRangeException if it is less than the specified minimum.
         /// </summary>
         /// <typeparam name="T"> The type of the value to validate. </typeparam>
         /// <param name="value">   The value to validate. </param>
@@ -206,7 +206,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified value, raising a System.ArgumentOutOfRangeException if it is greater than the specified maximum. 
+        /// Validates the specified value, raising a System.ArgumentOutOfRangeException if it is greater than the specified maximum.
         /// </summary>
         /// <typeparam name="T"> The type of the value to validate. </typeparam>
         /// <param name="value">   The value to validate. </param>
@@ -228,7 +228,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified value, raising a System.ArgumentOutOfRangeException if it is greater than the specified maximum or less than the specified minimum. 
+        /// Validates the specified value, raising a System.ArgumentOutOfRangeException if it is greater than the specified maximum or less than the specified minimum.
         /// </summary>
         /// <typeparam name="T"> The type of the value to validate. </typeparam>
         /// <param name="value">   The value to validate. </param>
@@ -244,7 +244,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified value exists in the specified set of values, throwing a <see cref="ArgumentException"/> if does is not. 
+        /// Validates that the specified value exists in the specified set of values, throwing a <see cref="ArgumentException"/> if does is not.
         /// </summary>
         /// <typeparam name="T"> The type of the value to validate. </typeparam>
         /// <param name="collection"> The collection in which must contain the value. </param>
@@ -257,7 +257,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified value exists in the specified set of values using the specified <see cref="IEqualityComparer{T}"/>, throwing a <see cref="ArgumentException"/> if it is not. 
+        /// Validates that the specified value exists in the specified set of values using the specified <see cref="IEqualityComparer{T}"/>, throwing a <see cref="ArgumentException"/> if it is not.
         /// </summary>
         /// <typeparam name="T"> The type of the value to validate. </typeparam>
         /// <param name="collection"> The collection in which must contain the value. </param>
@@ -274,7 +274,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified value is not present in the specified set of values, throwing a <see cref="ArgumentException"/> if it exists. 
+        /// Validates that the specified value is not present in the specified set of values, throwing a <see cref="ArgumentException"/> if it exists.
         /// </summary>
         /// <typeparam name="T"> The type of the value to validate. </typeparam>
         /// <param name="collection"> The collection in which must contain the value. </param>
@@ -287,7 +287,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified value is not present in the specified set of values, throwing a <see cref="ArgumentException"/> if it exists. 
+        /// Validates that the specified value is not present in the specified set of values, throwing a <see cref="ArgumentException"/> if it exists.
         /// </summary>
         /// <typeparam name="T"> The type of the value to validate. </typeparam>
         /// <param name="collection"> The collection which must not contain any of the <paramref name="values"/>. </param>
@@ -303,7 +303,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified value is not present in the specified set of values using the specified <see cref="IEqualityComparer{T}"/>, throwing a <see cref="ArgumentException"/> if it exists. 
+        /// Validates that the specified value is not present in the specified set of values using the specified <see cref="IEqualityComparer{T}"/>, throwing a <see cref="ArgumentException"/> if it exists.
         /// </summary>
         /// <typeparam name="T"> The type of the value to validate. </typeparam>
         /// <param name="collection"> The collection in which must not contain the value. </param>
@@ -324,7 +324,7 @@ namespace LASI.Utilities.Validation
         #region Conditional Validation
 
         /// <summary>
-        /// Validates that at least one of the specified conditions holds, raising a <see cref="ArgumentException"/> if both are false. 
+        /// Validates that at least one of the specified conditions holds, raising a <see cref="ArgumentException"/> if both are false.
         /// </summary>
         /// <param name="conditionOne"> The first condition to test. </param>
         /// <param name="conditionTwo"> The second condition to test. </param>
@@ -338,7 +338,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c> false </c> throwing an <see cref="ArgumentException"/> exception otherwise. 
+        /// Validates that the specified condition is <c> false </c> throwing an <see cref="ArgumentException"/> exception otherwise.
         /// </summary>
         /// <param name="condition"> The condition to validate. </param>
         /// <param name="message">   A message detailing error information. </param>
@@ -351,7 +351,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c> false </c> throwing a <typeparamref name="TFailWith"/> exception otherwise. 
+        /// Validates that the specified condition is <c> false </c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
         /// </summary>
         /// <typeparam name="TFailWith"> The type of the exception to throw on failure. </typeparam>
         /// <param name="condition"> The condition to validate. </param>
@@ -364,7 +364,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c> false </c> throwing a <typeparamref name="TFailWith"/> exception otherwise. 
+        /// Validates that the specified condition is <c> false </c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
         /// </summary>
         /// <typeparam name="TFailWith"> The type of the exception to throw on failure. </typeparam>
         /// <param name="condition"> The condition to validate. </param>
@@ -378,7 +378,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c> false </c> throwing a <typeparamref name="TFailWith"/> exception otherwise. 
+        /// Validates that the specified condition is <c> false </c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
         /// </summary>
         /// <typeparam name="TFailWith"> The type of the exception to throw on failure. </typeparam>
         /// <param name="condition"> The condition to validate. </param>
@@ -393,7 +393,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c> true </c> throwing an <see cref="ArgumentException"/> exception otherwise. 
+        /// Validates that the specified condition is <c> true </c> throwing an <see cref="ArgumentException"/> exception otherwise.
         /// </summary>
         /// <param name="condition"> The condition to validate. </param>
         /// <param name="message">   A message detailing error information. </param>
@@ -406,7 +406,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c> true </c> throwing a <typeparamref name="TFailWith"/> exception otherwise. 
+        /// Validates that the specified condition is <c> true </c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
         /// </summary>
         /// <typeparam name="TFailWith"> The type of the exception to throw on failure. </typeparam>
         /// <param name="condition"> The condition to validate. </param>
@@ -419,7 +419,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c> true </c> throwing a <typeparamref name="TFailWith"/> exception otherwise. 
+        /// Validates that the specified condition is <c> true </c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
         /// </summary>
         /// <typeparam name="TFailWith"> The type of the exception to throw on failure. </typeparam>
         /// <param name="condition"> The condition to validate. </param>
@@ -433,7 +433,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c> true </c> throwing a <typeparamref name="TFailWith"/> exception otherwise. 
+        /// Validates that the specified condition is <c> true </c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
         /// </summary>
         /// <typeparam name="TFailWith"> The type of the exception to throw on failure. </typeparam>
         /// <param name="condition"> The condition to validate. </param>
@@ -452,7 +452,7 @@ namespace LASI.Utilities.Validation
         #region Exception Helpers
 
         /// <summary>
-        /// Throws an <see cref="ArgumentNullException"/>. 
+        /// Throws an <see cref="ArgumentNullException"/>.
         /// </summary>
         /// <param name="name"> The name of the argument which caused the exception. </param>
         static void FailWithArgumentNullException(string name)
@@ -461,7 +461,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentNullException"/>. 
+        /// Throws an <see cref="ArgumentNullException"/>.
         /// </summary>
         /// <param name="name">    The name of the argument which caused the exception. </param>
         /// <param name="message"> A message describing the error. </param>
@@ -471,7 +471,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/>. 
+        /// Throws an <see cref="ArgumentException"/>.
         /// </summary>
         /// <param name="actualValue"> The value which caused the exception. </param>
         /// <param name="paramName">   The name of the argument which caused the exception. </param>
@@ -482,7 +482,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/>. 
+        /// Throws an <see cref="ArgumentException"/>.
         /// </summary>
         /// <param name="name">    The name of the argument which caused the exception. </param>
         /// <param name="message"> A message describing the error. </param>
@@ -492,7 +492,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/>. 
+        /// Throws an <see cref="ArgumentException"/>.
         /// </summary>
         /// <param name="message"> A message describing the error. </param>
         static void FailWithArgumentException(string message)

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using LASI.Core.LexicalStructures;
-using LASI.Utilities;
 
 namespace LASI.Core
 {
@@ -130,8 +128,14 @@ namespace LASI.Core
         /// </summary>
         public IPrepositional RightPrepositional { get; private set; }
 
+        /// <summary>
+        /// The previous <see cref="Clause"/> in the structure.
+        /// </summary>
         public Clause Previous { get; private set; }
-        
+
+        /// <summary>
+        /// The next <see cref="Clause"/> in the structure.
+        /// </summary>
         public Clause Next { get; private set; }
     }
 }

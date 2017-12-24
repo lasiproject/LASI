@@ -1,9 +1,8 @@
-﻿using LASI.Core;
-using LASI.Utilities.Specialized.Enhanced.IList.Linq;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
+using LASI.Core;
+using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 using static System.Windows.Media.Brushes;
 using Item = System.Windows.Controls.MenuItem;
 using Menu = System.Windows.Controls.ContextMenu;
@@ -102,12 +101,12 @@ namespace LASI.App.Visualization
                         from element in neighboringElements
                         let lexical = element.Tag as ILexical
                         where lexical?.Equals(verbal.ObjectOfThePreposition) == true
-                        select (element, new { Background = colorMapping[lexical], Foreground = Red });
+                        select (element, background: colorMapping[lexical], foreground: Red);
 
-                    foreach (var (element, colorization) in associatedElements)
+                    foreach (var (element, background, foreground) in associatedElements)
                     {
-                        element.Foreground = colorization.Foreground;
-                        element.Background = colorization.Background;
+                        element.Foreground = foreground;
+                        element.Background = background;
                     }
                 };
                 return indicatePreopositionalObjects;
@@ -150,11 +149,11 @@ namespace LASI.App.Visualization
             {
                 var associatedElements = from lexical in associatedLexicalElements
                                          join element in neighboringElements on lexical equals element.Tag
-                                         select new { Element = element, NewForegroundColor = colorMapping[element.Tag as ILexical] };
-                foreach (var a in associatedElements)
+                                         select (element, newForegroundColor: colorMapping[element.Tag as ILexical]);
+                foreach (var (element, newForegroundColor) in associatedElements)
                 {
-                    a.Element.Foreground = a.NewForegroundColor;
-                    a.Element.Background = Red;
+                    element.Foreground = newForegroundColor;
+                    element.Background = Red;
                 }
             }
             private static class Text

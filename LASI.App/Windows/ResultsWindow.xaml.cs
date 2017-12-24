@@ -40,7 +40,7 @@ namespace LASI.App
         {
             InitializeComponent();
             currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
-            this.Closed += (s, e) => Application.Current.Shutdown();
+            Closed += (sender, e) => Application.Current.Shutdown();
         }
         #endregion
 
@@ -126,7 +126,7 @@ namespace LASI.App
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task object representing the ongoing asynchronous operation.</returns>
         public async Task BuildTextViewsForAllDocumentsAsync()
-        {  // This is for the lexial relationships tab
+        {  // This is for the lexical relationships tab
             var tasks = documents.Select(document => BuildTextViewOfDocument(document)).ToList();
             while (tasks.Any())
             {
@@ -200,8 +200,8 @@ namespace LASI.App
         {
             try
             {
-                this.currentOperationProgressBar = progressBar;
-                this.currentOperationLabel = progressLabel;
+                currentOperationProgressBar = progressBar;
+                currentOperationLabel = progressLabel;
                 var chosenFile = await AttemptToAddNewDocument(docPath);
                 var docName = chosenFile.NameSansExt;
                 var doc = await ProcessNewDocDocument(docName);
@@ -323,20 +323,20 @@ namespace LASI.App
         {
             SharedFunctionality.OpenManualWithInstalledViewer(this);
         }
-        private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e)
+        private void OpenLicensesMenuItem_Click_1(object sender, RoutedEventArgs e)
         {
             var componentsDisplay = new ComponentInfoDialog
             {
 
                 Owner = this
             };
-            componentsDisplay.Reposition(this.Top / 2, this.Left / 2).ShowDialog();
+            componentsDisplay.Reposition(Top / 2, Left / 2).ShowDialog();
         }
         private void HelpAbout_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             Process.Start(LASI.App.App.Config["ProjectWebsite"]);
         }
-        private async void exportButton_Click(object sender, RoutedEventArgs e)
+        private async void ExportButton_Click(object sender, RoutedEventArgs e)
         {
             await Task.WhenAll(from document in documents
                                let outfilePath = System.IO.Path.Combine(
@@ -349,7 +349,7 @@ namespace LASI.App
             var exportDialog = new ExportResultsDialog();
             exportDialog.ShowDialog();
         }
-        private async void documentJoinButton_Click(object sender, RoutedEventArgs e)
+        private async void DocumentJoinButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new CrossJoinSelectDialog(this);
             if (dialog.ShowDialog() ?? false)
@@ -392,7 +392,7 @@ namespace LASI.App
         {
             await SharedFunctionality.HandleDropAddAsync(this, e, AddNewDocument);
         }
-        private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e)
+        private void OpenPreferencesMenuItem_Click(object sender, RoutedEventArgs e)
         {
             SharedFunctionality.DisplayPreferencesWindow(this);
         }
@@ -430,7 +430,7 @@ namespace LASI.App
 
         private void OpenPreferences_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
-            openPreferencesMenuItem_Click(sender, e);
+            OpenPreferencesMenuItem_Click(sender, e);
         }
 
         private void OpenManual_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)

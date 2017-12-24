@@ -116,7 +116,7 @@ namespace LASI.App
                 var items = chart.GetItemSource();
                 var pieSeries = new PieSeries { ItemsSource = items };
                 ConfigureDataPointSeries(pieSeries);
-                pieSeries.IsMouseCaptureWithinChanged += delegate
+                pieSeries.IsMouseCaptureWithinChanged += (sender, e) =>
                 {
                     pieSeries.ToolTip = (((pieSeries.SelectedItem as DataPoint))).DependentValue;
                 };
@@ -172,10 +172,13 @@ namespace LASI.App
             }
         }
 
-        static IEnumerable<Chart> RetrieveCharts() => WindowManager.ResultsScreen
-            .FrequencyCharts.Items
+        static IEnumerable<Chart> RetrieveCharts() => WindowManager
+            .ResultsScreen
+            .FrequencyCharts
+            .Items
             .OfType<TabItem>()
-            .Select(tab => tab.Content).OfType<Chart>();
+            .Select(tab => tab.Content)
+            .OfType<Chart>();
 
         #endregion Chart Transposing Methods
 
@@ -250,12 +253,14 @@ namespace LASI.App
             return $"{prepositionalText} {verbal.Modality?.Text} {verbal.Text} {adverbialText}";
         }
 
-        static IEnumerable<ChartItem> GetNounWiseRelationshipChartItems(Document document) =>
-            document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-            .OfNounPhrase()
-            .Meld()
-            .Select(entity => new ChartItem(entity.Text, (float)Math.Round(entity.Weight, 2)))
-            .Distinct();
+        static IEnumerable<ChartItem> GetNounWiseRelationshipChartItems(Document document) => document
+                .Phrases
+                .AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max)
+                .OfNounPhrase()
+                .Meld()
+                .Select(entity => new ChartItem(entity.Text, (float)Round(entity.Weight, 2)))
+                .Distinct();
 
         static Task<IEnumerable<ChartItem>> GetNounWiseDataAsync(Document document) =>
             Task.Run(() => GetNounWiseRelationshipChartItems(document));

@@ -90,7 +90,7 @@
                         Header="View _Manual"
                         InputGestureText="Ctrl+M" />
                     <MenuItem Click="HelpAbout_MenuItem_Click" Header="About LASI" />
-                    <MenuItem Click="openLicensesMenuItem_Click_1" Header="Component Info" />
+                    <MenuItem Click="OpenLicensesMenuItem_Click_1" Header="Component Info" />
                 </MenuItem>
                 <Separator HorizontalAlignment="Stretch" />
             </Menu>
@@ -181,7 +181,7 @@
                     VerticalAlignment="Center"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
-                    Click="documentJoinButton_Click"
+                    Click="DocumentJoinButton_Click"
                     Content="Join&#10;docs"
                     FontSize="10"
                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -196,7 +196,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Background="#FFEBEBEB"
-                    Click="exportButton_Click"
+                    Click="ExportButton_Click"
                     Content="Export"
                     FontSize="9"
                     Visibility="Hidden" />

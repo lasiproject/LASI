@@ -19,29 +19,30 @@ namespace LASI.Core.Heuristics.WordNet
     internal sealed class NounLookup : WordNetLookup<Noun>
     {
         /// <summary>
-        /// Initializes a new instance of the NounProvider class. 
+        /// Initializes a new instance of the NounProvider class.
         /// </summary>
         /// <param name="path"> The path of the WordNet database file containing the synonym data for nouns. </param>
         public NounLookup(string path) => filePath = path;
 
         /// <summary>
-        /// Parses the contents of the underlying WordNet database file. 
+        /// Parses the contents of the underlying WordNet database file.
         /// </summary>
         internal override void Load()
         {
             var setsEnumerated = 0;
             //var setsSampled = 0;
             var indexedSynsets = LoadData()
-                .Zip(Range(1, TotalLines)).With((line, i) => new { Set = CreateSet(line), LineNumber = i });
+                .Select(CreateSet)
+                .Zip(Range(1, TotalLines), (set, lineNumber) => (set, lineNumber));
             try
             {
-                foreach (var indexed in indexedSynsets)
+                foreach (var (set, lineNumber) in indexedSynsets)
                 {
                     ++setsEnumerated;
-                    setsById[indexed.Set.Id] = indexed.Set;
-                    if (indexed.LineNumber % 821 == 0)
+                    setsById[set.Id] = set;
+                    if (lineNumber % 821 == 0)
                     {
-                        OnReport(new EventArgs($"Loaded Noun Data - Set: {indexed.LineNumber} / {TotalLines}", ProgressAmount * 2));
+                        OnReport(new EventArgs($"Loaded Noun Data - Set: {lineNumber} / {TotalLines}", ProgressAmount * 2));
                     }
                 }
             }

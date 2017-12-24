@@ -2,9 +2,9 @@
 using System.Linq;
 using LASI.Utilities;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
-using static System.StringComparison;
 
-namespace LASI.Core.Analysis.Heuristics.WordMorphing {
+namespace LASI.Core.Analysis.Heuristics.WordMorphing
+{
     /// <summary>Performs both noun root extraction and noun form generation.</summary>
     public class NounMorpher : IWordMorpher<Noun>
     {
@@ -39,9 +39,11 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing {
         /// </returns>
         public string FindRoot(Noun noun) => FindRoot(noun.Text);
 
-        private IEnumerable<string> ComputeForms(string noun) {
+        private IEnumerable<string> ComputeForms(string noun)
+        {
             var exceptionals = ExceptionMapping.GetValueOrDefault(noun);
-            if (exceptionals != null) {
+            if (exceptionals != null)
+            {
                 return exceptionals;
             }
             var hyphenIndex = noun.LastIndexOf('-');
@@ -70,7 +72,8 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing {
             return results;
         }
 
-        private IEnumerable<string> ComputeBaseForm(string noun) {
+        private IEnumerable<string> ComputeBaseForm(string noun)
+        {
             var result = new List<string>();
             for (var i = 0; i < sufficies.Length; ++i)
             {
@@ -83,7 +86,8 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing {
             return result;
         }
 
-        private IEnumerable<string> CheckSpecialForms(string noun) {
+        private IEnumerable<string> CheckSpecialForms(string noun)
+        {
             var hyphenIndex = noun.LastIndexOf('-');
             var match = hyphenIndex > -1 ? noun.Substring(hyphenIndex + 1) : noun;
             return from exception in ExceptionMapping
@@ -96,7 +100,8 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing {
 
         #region Exception File Processing
 
-        private static ExceptionEntry ProcessLine(string exceptionLine) {
+        private static ExceptionEntry ProcessLine(string exceptionLine)
+        {
             var exceptionData = exceptionLine.SplitRemoveEmpty('\r', '\n').Select(s => s.Trim().Replace('_', ' ')).ToList();
             return new ExceptionEntry(
                 key: exceptionData[exceptionData.Count - 1],

@@ -18,9 +18,10 @@ namespace LASI.Core.Binding.Experimental
         public static void Bind(IEnumerable<Word> words)
         {
             var splitPoints =
-                from e in words.Select((w, i) => new { Word = w, Index = i })
-                where e.Word is Preposition || e.Word is Punctuator || e.Word is Conjunction
-                select e.Index;
+                from e in words.WithIndices()
+                where e.element is Preposition || e.element is Punctuator || e.element is Conjunction
+                select e.index;
+
             if (splitPoints.Any())
             {
                 var branches = splitPoints.Count() == 1 ? new[] { words } : splitPoints
@@ -28,7 +29,7 @@ namespace LASI.Core.Binding.Experimental
                     .Select(splitter => words
                         .Take(splitPoints.First())
                         .Concat(words.Skip(splitter)));
-                // for now, we will take the most fruitful branch. That is, the branch which produces the most actions 
+                // for now, we will take the most fruitful branch. That is, the branch which produces the most actions
                 var actionsByBranch = from branch in branches
                                           //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                       let actions = GetBranchActions(branch)

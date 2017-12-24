@@ -84,7 +84,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LASI.WebService", "LASI.Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LASI.WebService.Tests", "LASI.WebService.Tests\LASI.WebService.Tests.csproj", "{E098A920-61C8-497E-8492-EF9835FDA69B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.WebApp", "LASI.WebApp\LASI.WebApp.csproj", "{3AB7C69C-34C2-4410-B41F-265C2BC2D8FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LASI.WebApp", "LASI.WebApp\LASI.WebApp.csproj", "{3AB7C69C-34C2-4410-B41F-265C2BC2D8FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

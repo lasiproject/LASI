@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using LASI.Utilities.Validation;
 using static System.Linq.Enumerable;
 using static LASI.Utilities.Validation.Validate;
 
@@ -289,7 +288,7 @@ namespace LASI.Utilities
             return source.OrderBy(selector, comparer).First();
         }
 
-        public static IEnumerable<T> NonNull<T>(this IEnumerable<T> source) => source.Where(element => !ReferenceEquals(element, null));
+        public static IEnumerable<T> NonNull<T>(this IEnumerable<T> source) where T : class => source.Where(element => !(element is null));
 
         /// <summary>
         /// A sequence of Tuple&lt;T, T,&gt; containing pairs of adjacent elements.
@@ -625,5 +624,6 @@ namespace LASI.Utilities
                 action();
             }
         }
+        public static void Deconstruct<K, T>(this IGrouping<K, T> group, out K key, out IEnumerable<T> values) => (key, values) = (group.Key, group);
     }
 }
