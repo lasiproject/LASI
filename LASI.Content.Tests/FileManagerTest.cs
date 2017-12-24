@@ -93,8 +93,9 @@ namespace LASI.Content.Tests
             var sourcePath = @"..\..\MockUserFiles\Test paragraph about house fires.pdf";
             var result = FileManager.AddFile(sourcePath);
 
-            Check.That(FileManager.PdfFilesDirectory + @"\Test paragraph about house fires.pdf")
-                .Satisfies(File.Exists);
+            var expectedLocation = $@"{FileManager.PdfFilesDirectory}\Test paragraph about house fires.pdf";
+
+            Check.That(expectedLocation).Satisfies(File.Exists);
             Check.That(result).IsInstanceOf<PdfFile>();
         }
 
@@ -107,8 +108,10 @@ namespace LASI.Content.Tests
             var sourcePath = @"..\..\MockUserFiles\Test paragraph about house fires.txt";
             var result = FileManager.AddFile(sourcePath);
 
-            Check.That(FileManager.TxtFilesDirectory + @"\Test paragraph about house fires.txt")
-                .Satisfies(File.Exists);
+            var expectedLocation = $@"{FileManager.TxtFilesDirectory}\Test paragraph about house fires.txt";
+
+            Check.That(expectedLocation).Satisfies(File.Exists);
+
             Check.That(result).IsInstanceOf<TxtFile>();
         }
 
@@ -120,9 +123,10 @@ namespace LASI.Content.Tests
         {
             FileManager.BackupProject();
 
-            Check.That(Directory.GetParent(FileManager.ProjectDirectory).FullName + @"\backup\" +
-                       FileManager.ProjectName)
-                .Satisfies(Directory.Exists);
+            var backupLocation = Directory.GetParent(FileManager.ProjectDirectory).FullName + @"\backup\" +
+                       FileManager.ProjectName;
+
+            Check.That(backupLocation).Satisfies(Directory.Exists);
         }
 
         /// <summary>
@@ -156,8 +160,7 @@ namespace LASI.Content.Tests
             FileManager.Initialize(testProjectPath);
             FileManager.DecimateProject();
 
-            Check.That(testProjectPath)
-                .DoesNotSatisfy(Directory.Exists);
+            Check.That(testProjectPath).DoesNotSatisfy(Directory.Exists);
         }
 
         /// <summary>
@@ -270,22 +273,20 @@ namespace LASI.Content.Tests
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposedValue) return;
-            if (disposing)
+            if (disposedValue)
             {
-                if (Directory.Exists(testMethodWorkingDirectory))
-                {
-                    //Directory.Delete(testProjectDirectory, recursive: true);
-                }
+                return;
+            }
+
+            if (disposing && Directory.Exists(testMethodWorkingDirectory))
+            {
+                //Directory.Delete(testProjectDirectory, recursive: true);
             }
 
             disposedValue = true;
         }
 
-        void Dispose()
-        {
-            Dispose(true);
-        }
+        void Dispose() => Dispose(true);
 
         #endregion
     }

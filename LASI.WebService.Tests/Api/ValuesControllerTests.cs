@@ -58,6 +58,7 @@ namespace LASI.WebService.Tests.Api
         public static IEnumerable<T> TakeEveryOther<T>(this IEnumerable<T> source)
         {
             using (var enumerator = source.GetEnumerator())
+            {
                 while (enumerator.MoveNext())
                 {
                     yield return enumerator.Current;
@@ -66,7 +67,7 @@ namespace LASI.WebService.Tests.Api
                         yield break;
                     }
                 }
-
+            }
         }
         public static IEnumerable<(T, T)> PairWise<T>(this IEnumerable<T> source)
         {

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using NFluent;
+using Xunit;
 
 namespace LASI.Utilities.Tests
 {
     using static Enumerable;
-    using Fact = Xunit.FactAttribute;
     public class EnumerableExtensionsTest
     {
         #region Sequence String Formatting Methods
@@ -336,7 +336,13 @@ namespace LASI.Utilities.Tests
         public void AggregateWithIndexSpecifyingSeedPassesCorrectIndexTo()
         {
             var values = Range(1, 10);
-            Check.That(values.Aggregate(string.Empty, (result, n, i) => $"{result}, {i}").TrimStart(',').TrimStart()).IsEqualTo(string.Join(", ", values.Select((n, i) => i)));
+            var actual = values
+                .Aggregate(string.Empty, (result, n, i) => $"{result}, {i}")
+                .TrimStart(',')
+                .TrimStart();
+            var expected = string.Join(", ", values.Select((n, i) => i));
+
+            Check.That(actual).IsEqualTo(expected);
         }
 
         [Fact]
@@ -354,5 +360,19 @@ namespace LASI.Utilities.Tests
         }
 
         #endregion
+
+        [Fact]
+        public void DeconstructTest()
+        {
+            var groups = from n in Range(0, 20)
+                         group n by n % 2;
+            var reference = groups.ToDictionary(group => group.Key, group => group);
+
+            foreach (var (key, values) in groups)
+            {
+                Check.That(reference).ContainsKey(key);
+                Check.That(reference[key]).ContainsExactly(values);
+            }
+        }
     }
 }
