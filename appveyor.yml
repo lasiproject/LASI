@@ -1,15 +1,18 @@
 version: 1.0.0.{build}
-image: Visual Studio 2017 Preview
-configuration: Debug
+image: Visual Studio 2017
+configuration: Release
 platform: Any CPU
+shallow_clone: true
 cache:
 - .\NameData
 - .\ThirdPartyComponents
 - .\LASI.App\Resources
 nuget:
+  account_feed: true
   project_feed: true
-build_script:
-- ps: MSBuild ./Lasi.sln /verbosity:normal /m /ignoreprojectextensions:".sln,.vdproj" /p:Configuration=Debug /p:Platform="Any CPU" /t:Rebuild
+build:
+  project: .\LASI.sln
+  verbosity: minimal
 before_test:
 - ps: 
 after_test:
