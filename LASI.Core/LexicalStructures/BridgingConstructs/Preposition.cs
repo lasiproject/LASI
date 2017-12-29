@@ -21,7 +21,7 @@ namespace LASI.Core
         public Preposition(string text)
             : base(text)
         {
-            Role = KnownSubordinators.Contains(text) ?
+            PrepositionRole = KnownSubordinators.Contains(text) ?
                 PrepositionRole.SubordinatingConjunction : PrepositionRole.Undetermined;
         }
 
@@ -29,7 +29,7 @@ namespace LASI.Core
         /// Returns a string representation of the Preposition.
         /// </summary>
         /// <returns>A string representation of the Preposition.</returns>
-        public override string ToString() => base.ToString() + (VerboseOutput ? " " + Role : string.Empty);
+        public override string ToString() => base.ToString() + (VerboseOutput ? " " + PrepositionRole : string.Empty);
 
         #endregion
 
@@ -64,7 +64,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the contextually extrapolated role of the Preposition.
         /// </summary>
-        public PrepositionRole Role { get; set; }
+        public PrepositionRole PrepositionRole { get; set; }
 
 
         #endregion

@@ -90,7 +90,7 @@ namespace LASI.Core.Tests
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
             var target = new PrepositionalPhrase(composedWords);
             var expected = PrepositionRole.Undetermined;
-            PrepositionRole actual = target.Role;
+            PrepositionRole actual = target.PrepositionRole;
             Assert.Equal(expected, actual);
         }
         /// <summary>
@@ -103,8 +103,8 @@ namespace LASI.Core.Tests
 
             var expected = PrepositionRole.LocationOrScopeSpecifier;
             PrepositionRole actual;
-            target.Role = expected;
-            actual = target.Role;
+            target.PrepositionRole = expected;
+            actual = target.PrepositionRole;
             Assert.Equal(expected, actual);
         }
 

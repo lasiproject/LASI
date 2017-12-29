@@ -21,8 +21,8 @@
         /// <summary>
         /// The contextually extrapolated role of the IPrepositional Construct.
         /// </summary>
-        /// <seealso cref="PrepositionRole"/>
-        PrepositionRole Role { get; }
+        /// <seealso cref="Core.PrepositionRole"/>
+        PrepositionRole PrepositionRole { get; }
         /// <summary>
         /// Binds an ILexical construct as the object of the IPrepositional. 
         /// Lexical constructs include word, Phrase, and Clause Types.

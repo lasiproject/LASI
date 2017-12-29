@@ -19,7 +19,7 @@ namespace LASI.Core
         /// <param name="composedWords">The words which compose to form the PrepositionalPhrase.</param>
         public PrepositionalPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
-            Role = PrepositionRole.Undetermined;
+            PrepositionRole = PrepositionRole.Undetermined;
         }
         /// <summary>
         /// Initializes a new instance of the PrepositionalPhrase class.
@@ -83,8 +83,8 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the contextually extrapolated role of the PrepositionalPhrase.
         /// </summary>
-        /// <seealso cref="PrepositionRole"/>
-        public PrepositionRole Role { get; set; }
+        /// <seealso cref="Core.PrepositionRole"/>
+        public PrepositionRole PrepositionRole { get; set; }
         #endregion
 
     }
