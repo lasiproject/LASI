@@ -23,6 +23,7 @@
   "jspm": {
     "main": "main.ts",
     "dependencies": {
+      "@aspnet/signalr-client": "npm:@aspnet/signalr-client@latest",
       "@types/bootstrap": "npm:@types/bootstrap@^3.3.32",
       "@types/deep-freeze": "npm:@types/deep-freeze@^0.1.1",
       "@types/jquery": "npm:@types/jquery@latest",
@@ -306,4 +307,4 @@
     "typescript": "next"
   },
   "dependencies": {}
-}
+}

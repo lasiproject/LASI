@@ -67,6 +67,7 @@ SystemJS.config({
     'local:*.json'
   ],
   map: {
+    '@aspnet/signalr-client': 'npm:@aspnet/signalr-client@latest',
     '@types/react': 'npm:@types/react@latest',
     '@types/react-dom': 'npm:@types/react-dom@latest',
     '@types/jquery': 'npm:@types/jquery@latest',
@@ -812,6 +813,24 @@ SystemJS.config({
     'npm:encoding@0.1.12': {
       'map': {
         'iconv-lite': 'npm:iconv-lite@0.4.19'
+      }
+    },
+    'npm:msgpack5@3.6.0': {
+      'map': {
+        'safe-buffer': 'npm:safe-buffer@5.1.1',
+        'readable-stream': 'npm:readable-stream@2.3.3',
+        'inherits': 'npm:inherits@2.0.3',
+        'bl': 'npm:bl@1.2.1'
+      }
+    },
+    'npm:bl@1.2.1': {
+      'map': {
+        'readable-stream': 'npm:readable-stream@2.3.3'
+      }
+    },
+    'npm:@aspnet/signalr-client@latest': {
+      'map': {
+        'msgpack5': 'npm:msgpack5@3.6.0'
       }
     }
   }
