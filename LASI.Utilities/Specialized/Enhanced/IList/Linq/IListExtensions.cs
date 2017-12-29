@@ -25,22 +25,32 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// <returns>
         /// A <see cref="IList{R}"/> whose elements are the result of invoking the transform
         /// function on each element of source.
-        /// </returns> 
+        /// </returns>
         [DebuggerHidden]
-        public static IList<R> Select<T, R>(this IList<T> list, Func<T, R> selector) => list.Select((e, i) => selector(e));
+        public static IReadOnlyList<R> Select<T, R>(this List<T> list, Func<T, R> selector)
+        {
+            var ls = list as IReadOnlyList<T> ?? list.ToList();
+            return ls.Select((e, i) => selector(e));
+        }
 
         [DebuggerHidden]
-        public static List<R> Select<T, R>(this List<T> list, Func<T, R> selector) => Select(list, (e, i) => selector(e));
+        public static IReadOnlyList<R> Select<T, R>(this IReadOnlyList<T> list, Func<T, R> selector)
+        {
+            return Select(list, selector1);
+
+            R selector1(T e, int i) => selector(e);
+        }
+
 
         [DebuggerHidden]
-        public static List<R> Select<T, R>(this List<T> list, Func<T, int, R> selector) => Select(list as IList<T>, selector) as List<R>;
-
-        [DebuggerHidden]
-        public static IList<R> Select<T, R>(this IList<T> list, Func<T, int, R> selector)
+        public static IReadOnlyList<R> Select<T, R>(this IReadOnlyList<T> list, Func<T, int, R> selector)
         {
             var results = new List<R>(list.Count);
-            list.ForEach((e, i) => results.Add(selector(e, i)));
+            list.ForEach(action);
+
             return results;
+
+            void action(T e, int i) => results.Add(selector(e, i));
         }
 
 
@@ -59,7 +69,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         public static IList<T> Where<T>(this IList<T> list, Func<T, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
 
         [DebuggerHidden]
-        public static List<T> Where<T>(this List<T> list, Func<T, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
+        public static IReadOnlyList<T> Where<T>(this List<T> list, Func<T, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
         /// <summary>Filters a list of values based on a predicate.</summary>
         /// <typeparam name="T">The type of the elements of source.</typeparam>
         /// <param name="list">A <see cref="IList{T}"/> to filter.</param>
@@ -71,7 +81,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         public static IList<T> Where<T>(this IList<T> list, Func<T, int, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
 
         [DebuggerHidden]
-        public static List<T> Where<T>(this List<T> list, Func<T, int, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
+        public static IReadOnlyList<T> Where<T>(this List<T> list, Func<T, int, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
 
         #endregion Where
 
@@ -90,8 +100,13 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// transform function on each element of the input list.
         /// </returns>
         [DebuggerHidden]
-        public static IList<R> SelectMany<T, R>(this IList<T> list, Func<T, IEnumerable<R>> selector) =>
-            list.AsEnumerable().SelectMany(selector).ToList();
+        public static IReadOnlyList<R> SelectMany<T, R>(this IReadOnlyList<T> list, Func<T, IEnumerable<R>> selector)
+        {
+            return from item in list
+                   let results = selector(item).ToList()
+                   from result in results
+                   select result;
+        }
 
         /// <summary>
         /// Projects each element of a list to an <see cref="IEnumerable{T}"/>, flattens the
@@ -116,9 +131,22 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// those sequence elements and their corresponding source element to a result element.
         /// </returns>
         [DebuggerHidden]
-        public static IList<R> SelectMany<T, TCollection, R>(this IList<T> list, Func<T, IEnumerable<TCollection>> collectionSelector, Func<T, TCollection, R> resultSelector) =>
-            list.AsEnumerable().SelectMany(collectionSelector, resultSelector).ToList();
+        public static IReadOnlyList<R> SelectMany<T, TCollection, R>(this IReadOnlyList<T> list, Func<T, IReadOnlyList<TCollection>> collectionSelector, Func<T, TCollection, R> resultSelector)
+        {
+            var results = new List<R>();
+            for (var i = 0; i < list.Count; ++i)
+            {
+                var element = list[i];
+                var selectResult = resultSelector.Apply(element);
+                results.AddRange(collectionSelector(element).Select(selectResult));
 
+                //Func<TCollection, R> selector(T e) => selectResult(e);
+            }
+            return results;
+
+        }
+        [DebuggerHidden]
+        public static IReadOnlyList<R> SelectMany<T, TCollection, R>(this IReadOnlyList<T> list, Func<T, IEnumerable<TCollection>> collectionSelector, Func<T, TCollection, R> resultSelector) => SelectMany(list, e => collectionSelector(e).ToList(), resultSelector);
         #endregion SelectMany
 
         #region Takes
@@ -133,7 +161,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// </returns>
 
         [DebuggerHidden]
-        public static List<T> Take<T>(this List<T> list, int count)
+        public static IReadOnlyList<T> Take<T>(this List<T> list, int count)
         {
             Validate.NotNull(list, nameof(list));
             if (count < 0)
@@ -143,7 +171,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
             return list.GetRange(0, count);
         }
         [DebuggerStepThrough]
-        public static List<T> TakeWhile<T>(this List<T> list, Func<T, bool> predicate)
+        public static IReadOnlyList<T> TakeWhile<T>(this List<T> list, Func<T, bool> predicate)
         {
             Validate.NotNull(list, nameof(list), predicate, nameof(predicate));
             var i = 0;
@@ -170,21 +198,27 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// in the input list.
         /// </returns>
         [DebuggerHidden]
-        public static List<T> Skip<T>(this List<T> list, int count)
+        public static IReadOnlyList<T> Skip<T>(this IReadOnlyList<T> list, int count)
         {
             if (count > list.Count)
             {
-                return new List<T>();
+                return Array.Empty<T>();
             }
-            else if (count < 1)
+            else if (count < 1 && list is List<T> l)
             {
-                return list.GetRange(0, list.Count);
+                return l.GetRange(0, list.Count);
             }
-            else
+
+            return GetRange(count < 0 ? 0 : count, list.Count - count);
+
+            ArraySegment<T> GetRange(int offset, int c)
             {
-                return list.GetRange(count < 0 ? 0 : count, list.Count - count);
+                return new ArraySegment<T>(list.ToArray(), offset, c);
             }
         }
+
+
+
         /// <summary>
         /// Bypasses the elements of the specified list while they satisfy the specified predicate.
         /// </summary>
@@ -193,7 +227,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// <param name="predicate">The predicate to test elements.</param>
         /// <returns>All elements in the list including and following the first that does not satisfy the predicate.</returns>
         [DebuggerHidden]
-        public static List<T> SkipWhile<T>(this List<T> list, Func<T, bool> predicate)
+        public static IReadOnlyList<T> SkipWhile<T>(this IReadOnlyList<T> list, Func<T, bool> predicate)
         {
             Validate.NotNull(list, nameof(list), predicate, nameof(predicate));
             var i = 0;
@@ -209,7 +243,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         #region Concat
 
         [DebuggerHidden]
-        public static IList<T> Concat<T>(this IList<T> first, IList<T> second)
+        public static IReadOnlyList<T> Concat<T>(this IList<T> first, IList<T> second)
         {
             var result = new T[first.Count + second.Count];
             first.CopyTo(result, 0);
@@ -227,9 +261,9 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// The <see cref="System.Action{T}"/> delegate to perform on each element of the <see cref="System.Collections.Generic.IList{T}"/>.
         /// </param>
         [DebuggerHidden]
-        public static void ForEach<T>(this IList<T> list, Action<T> action) => ForEach(list, (e, i) => action(e));
+        public static void ForEach<T>(this IReadOnlyList<T> list, Action<T> action) => ForEach(list, (e, i) => action(e));
         [DebuggerHidden]
-        public static void ForEach<T>(this IList<T> list, Action<T, int> action)
+        public static void ForEach<T>(this IReadOnlyList<T> list, Action<T, int> action)
         {
             for (var i = 0; i < list.Count; ++i)
             {
@@ -240,7 +274,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         #endregion ForEach
 
         [DebuggerHidden]
-        public static IList<(T element, int index)> WithIndices<T>(this IList<T> list)
+        public static IReadOnlyList<(T element, int index)> WithIndices<T>(this IList<T> list)
         {
             var results = new List<(T, int)>(list.Count);
             for (var i = 0; i < list.Count; ++i)

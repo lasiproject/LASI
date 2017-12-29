@@ -64,7 +64,7 @@ namespace LASI.Content.FileConveters
                         throw;
                     }
                 }
-                ZipArch.ExtractToDirectory(zipName);
+                ZipFileExtensions.ExtractToDirectory(ZipArch, zipName);
                 XmlFile = GetRelevantXMLFile(ZipArch);
             }
         }

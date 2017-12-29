@@ -8,7 +8,7 @@ namespace LASI.Core
     /// <summary>
     /// Defines the specific, non-overlapping, kinds of roles which Pronouns can serve.
     /// </summary>
-    public enum PronounKind : byte
+    public enum PronounKind : System.Byte
     {
         /// <summary>
         /// Undefined

@@ -4,6 +4,7 @@ using LASI.Core;
 using LASI.Utilities;
 using NFluent;
 using Xunit;
+using Shared.Test.NFluentExtensions;
 
 namespace LASI.Core.Tests
 {
@@ -14,17 +15,20 @@ namespace LASI.Core.Tests
     public class NounPhraseTest
     {
         /// <summary>
-        ///A test for NounPhrase Constructor
+        ///A test for <see cref="NounPhrase"/> constructor
         /// </summary>
         [Fact]
         public void NounPhraseConstructorTest()
         {
-            IEnumerable<Word> composedWords = new Word[] {
+            var composedWords = new Word[] {
                 new ProperPluralNoun("Americans"),
                 new Conjunction("and"),
                 new ProperPluralNoun("Canadians")
             };
-            Check.That(new NounPhrase(composedWords).Words).Contains(composedWords);
+            Check.ThatCode(() => new NounPhrase(composedWords))
+                .DoesNotThrow().And.WhichResult()
+                .Satisfies(actual => actual.Words.SequenceEqual(composedWords));
+
         }
 
         /// <summary>

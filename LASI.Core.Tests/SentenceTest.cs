@@ -92,7 +92,7 @@ namespace LASI.Core.Tests
             Check.That(actual).IsEqualTo(target.Document);
             foreach (var p in phrases)
             {
-                Check.That(actual).IsEqualTo(target.Document);
+                Check.That(p.Document).IsEqualTo(target.Document);
             }
         }
 
@@ -137,25 +137,12 @@ namespace LASI.Core.Tests
         [Fact]
         public void SentenceConstructorTest()
         {
-            IEnumerable<Clause> clauses = new Clause[]
-            {
-                new Clause(new Phrase[]
-                {
-                    new NounPhrase(new Word[]
-                    {
-                        new PersonalPronoun("We")
-                    }),
-                    new VerbPhrase(new Word[]
-                    {
-                        new ModalAuxilary("must"),
-                        new BaseVerb("attack")
-                    }),
-                    new NounPhrase(new Word[]
-                    {
-                        new Adjective("blue"),
-                        new CommonSingularNoun("team")
-                    })
-                })
+            Clause[] clauses = {
+                new Clause(
+                    new NounPhrase(new PersonalPronoun("We")),
+                    new VerbPhrase(new ModalAuxilary("must"),new BaseVerb("attack")),
+                    new NounPhrase(new Adjective("blue"), new CommonSingularNoun("team"))
+                )
             };
             var sentenceEnding = SentenceEnding.ExclamationPoint;
             var target = new Sentence(clauses, sentenceEnding);

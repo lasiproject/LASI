@@ -106,12 +106,12 @@ namespace LASI.Core.Binding
                     {
                         //////Output.WriteLine("To Linker: {0}", toLink.Text);
 
-                        if (toLink.PreviousWord is Verb prevWord && toLink.NextWord is Verb nextWord)
+                        if (toLink.PreviousWord is Verb prev && toLink.NextWord is Verb next)
                         {
-                            toLink.BindObject(nextWord);
-                            prevWord.AttachObjectViaPreposition(toLink);
+                            toLink.BindObject(next);
+                            prev.AttachObjectViaPreposition(toLink);
 
-                            if (nextWord != LastVerb)
+                            if (next != LastVerb)
                             {
                                 toLink.BindObject(LastVerb);
                             }

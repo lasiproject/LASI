@@ -105,7 +105,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
 
         #region Exception File Processing
 
-        private static IList<ExceptionEntry> ProcessLine(string exceptionLine)
+        private static IReadOnlyList<ExceptionEntry> ProcessLine(string exceptionLine)
         {
             var lineEntries = exceptionLine.SplitRemoveEmpty(' ').ToList();
             return from exc in lineEntries

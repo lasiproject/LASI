@@ -330,10 +330,7 @@ namespace LASI.Utilities
 
             public override T Value { get; }
 
-            internal Some(T value) : base(true)
-            {
-                Value = value;
-            }
+            internal Some(T value) : base(true) => Value = value;
         }
     }
 }

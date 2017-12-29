@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using LASI.Core.Analysis.Heuristics.WordMorphing;
 
 namespace LASI.Core.Analysis.WordMorphing.Tests
 {
+    using NFluent;
     using Utilities;
     using Utilities.Specialized.Enhanced.IList.Linq;
-    using NFluent;
     using Xunit;    /// <summary>
                     ///This is A test class for NounConjugatorTest and is intended
                     ///to contain all NounConjugatorTest Unit Tests
@@ -105,12 +104,14 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             var tested = 0;
             NounExcFileLines.ForEach(line =>
             {
-                var entries = line.Replace('_', ' ').SplitRemoveEmpty(' ', '\t').Select(exc => exc.Trim());
-                entries.ForEach(exc =>
-                {
-                    Check.That(target.GetLexicalForms(exc)).Contains(exc);
-                    ++tested;
-                });
+                line.Replace('_', ' ')
+                    .SplitRemoveEmpty(' ', '\t')
+                    .Select(exc => exc.Trim())
+                    .ForEach(exc =>
+                    {
+                        Check.That(target.GetLexicalForms(exc)).Contains(exc);
+                        ++tested;
+                    });
             });
         }
 

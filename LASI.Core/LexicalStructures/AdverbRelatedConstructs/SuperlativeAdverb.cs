@@ -17,3 +17,4 @@
         public SuperlativeAdverb(string text) : base(text) { }
     }
 }
+ 

@@ -210,3 +210,5 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancies in Symbol Declarations", "RECS0154:Parameter is never used", Justification = "<Pending>", Scope = "member", Target = "~M:LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termification.TermWithResultType`1.#ctor(LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termification.Term)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancies in Symbol Declarations", "RECS0154:Parameter is never used", Justification = "<Pending>", Scope = "member", Target = "~M:LASI.Core.Heuristics.WordNet.VerbLookup.#ctor(System.String)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancies in Symbol Declarations", "RECS0154:Parameter is never used", Justification = "<Pending>", Scope = "member", Target = "~M:LASI.Core.Sentence.Factory.Builder.#ctor(LASI.Core.Clause[])")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "InDirect", Scope = "member", Target = "LASI.Core.LexicalEnumerable.#InDirectObjectRole`1(System.Linq.ParallelQuery`1<!!0>)")]
+

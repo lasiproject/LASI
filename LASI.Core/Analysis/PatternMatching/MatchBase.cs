@@ -4,8 +4,8 @@ using System.Diagnostics;
 namespace LASI.Core.Analysis.PatternMatching
 {
     /// <summary>
-    /// Represents a type for the representation and free form structuring of Type based Pattern Matching expressions 
-    /// which match over a value of Type T and does not yield a result. 
+    /// Represents a type for the representation and free form structuring of Type based Pattern Matching expressions
+    /// which match over a value of Type T and does not yield a result.
     /// </summary>
     /// <typeparam name="T">
     /// The Type of the value which the Pattern Matching expression will match with.
@@ -23,7 +23,7 @@ namespace LASI.Core.Analysis.PatternMatching
         protected MatchBase(T value)
         {
             // TODO: replace with pattern when https://github.com/dotnet/csharplang/issues/766 is resolved.
-            Matchable = !EqualityComparer<T>.Default.Equals(value, default);
+            Unmatchable = EqualityComparer<T>.Default.Equals(value, default);
             Value = value;
         }
 
@@ -39,11 +39,11 @@ namespace LASI.Core.Analysis.PatternMatching
         protected T Value { get; }
 
         /// <summary>
-        /// `true` if value being matched cannot be matched by any pattern;  
+        /// `true` if value being matched cannot be matched by any pattern;
         /// </summary>
-        protected bool Matchable { get; }
+        protected bool Unmatchable { get; }
 
-        protected bool HasValueAndContinue => Matchable && !Matched;
+        protected bool HasValueAndContinue => !Unmatchable && !Matched;
 
         #endregion
     }

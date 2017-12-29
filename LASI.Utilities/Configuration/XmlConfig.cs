@@ -16,7 +16,10 @@ namespace LASI.Utilities.Configuration
         /// Initializes a new instance of the XmlConfig class from the specified XML file.
         /// </summary>
         /// <param name="filePath">The location of the XML file from which to retrieve configuration information to construct the XmlConfig instance.</param>
-        public XmlConfig(string filePath) => data = MakeDictionary(XElement.Parse(ReadConfigDataFromFile(filePath)));
+        public XmlConfig(string filePath)
+        {
+            data = MakeDictionary(XElement.Parse(ReadConfigDataFromFile(new Uri(filePath))));
+        }
 
         IDictionary<string, string> MakeDictionary(XElement xml) => xml.Descendants().ToDictionary(e => e.Name.ToString(), e => e.Value);
 

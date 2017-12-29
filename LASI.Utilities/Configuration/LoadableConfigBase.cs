@@ -21,10 +21,10 @@ namespace LASI.Utilities.Configuration
         /// </summary>
         /// <param name="filePath">The path of the file to read.</param>
         /// <returns></returns>
-        protected string ReadConfigDataFromFile(string filePath)
+        protected string ReadConfigDataFromFile(Uri filePath)
         {
-            ValidateFileExistence(filePath);
-            return File.ReadAllText(filePath);
+            ValidateFileExistence(filePath.AbsolutePath);
+            return File.ReadAllText(filePath.AbsolutePath);
         }
         /// <summary>
         /// Downloads config data from the specified URI and returns it as a single raw string.

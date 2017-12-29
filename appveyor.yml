@@ -1,24 +1,19 @@
 version: 1.0.0.{build}
 image: Visual Studio 2017
-configuration: Debug
+configuration: Release
 platform: Any CPU
 shallow_clone: true
-environment:
-  image: Visual Studio 2017
+cache:
+- .\NameData
+- .\ThirdPartyComponents
+- .\LASI.App\Resources
 nuget:
+  account_feed: true
   project_feed: true
-  disable_publish_on_pr: true
-build_script:
-- ps: MSBuild ./Lasi.sln /verbosity:normal /m /ignoreprojectextensions:".sln,.vdproj" /p:Configuration=Debug /p:Platform="Any CPU" /t:Rebuild
-- ps: cd ./LASI.AureliaApp
-- ps: npm install
-- ps: npm run ci
-
+build:
+  project: .\LASI.sln
+  verbosity: minimal
 before_test:
-- ps:
-test:
-  assemblies:
-    except:
-    - LASI.Content.Tests.dll
+- ps: 
 after_test:
 - ps: dir -r ./LASI.App/*.dll

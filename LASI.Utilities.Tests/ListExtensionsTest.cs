@@ -12,8 +12,8 @@ namespace LASI.Utilities.Tests
         {
             var target = List(0, 1, 2, 3);
             string projection(int x) => x.ToString();
-            IList<string> expected = target.AsEnumerable().Select(projection).ToList();
-            IList<string> actual = target.Select(projection);
+            IReadOnlyList<string> expected = target.AsEnumerable().Select(projection).ToList();
+            IReadOnlyList<string> actual = target.Select(projection);
             Check.That(actual).ContainsExactly(expected);
         }
         [Fact]

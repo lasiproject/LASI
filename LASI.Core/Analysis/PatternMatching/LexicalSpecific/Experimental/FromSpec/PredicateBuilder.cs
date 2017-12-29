@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSpec
 {
@@ -22,7 +18,12 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
         static void Test(ILexical value)
         {
             var pred = Verbal.Combine(When(true)).Combine(Text("dogged")).Combine(When(true));
-            var prec = Verbal & When(true) & "dogged" & When(x => x.Text == "true") & "abc" & When(x => true);
+            var prec = Verbal
+                & When(true)
+                & "dogged"
+                & When(x => x.Text == "true")
+                & "abc"
+                & When(x => true);
             var applicator = new Applicator();
             var applicator2 = new Applicator<IVerbal, IEntity>();
 

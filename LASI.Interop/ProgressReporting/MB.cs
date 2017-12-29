@@ -86,9 +86,9 @@ namespace LASI.Interop
         /// Converts the specified MB into a int value corresponding to the quantity of MegaBytes
         /// it represents.
         /// </summary>
-        /// <param name="MB">The value to convert to an MB.</param>
+        /// <param name="mb">The value to convert to an MB.</param>
         /// <returns>A new MB instance representing the value of the int as a megabytes.</returns>
-        public static explicit operator int(MB MB) => MB.value;
+        public static explicit operator int(MB mb) => mb.value;
         #endregion conversion operators
 
         #region operator + overloads

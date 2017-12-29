@@ -1,6 +1,6 @@
-﻿using NFluent;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using NFluent;
 using Xunit;
 
 namespace LASI.Core.Analysis.Relationships.Tests
@@ -43,7 +43,9 @@ namespace LASI.Core.Analysis.Relationships.Tests
             IRelationshipLookup<IEntity, IVerbal> relationshipLookup = CreateRelationshipLookup(domain);
 
             // Without calling RelationShipInferenceExtensions.SetRelationshipLookup(entity1, relationshipLookup) beforehand
-            Check.ThatCode(() => entity1.IsRelatedTo(new NounPhrase(new Determiner("the"), new CommonSingularNoun("store")))).Throws<InvalidOperationException>();
+            Check
+                .ThatCode(() => entity1.IsRelatedTo(new NounPhrase(new Determiner("the"), new CommonSingularNoun("store"))))
+                .Throws<InvalidOperationException>();
         }
         /// <summary>
         ///A test for SetRelationshipLookup
@@ -58,11 +60,10 @@ namespace LASI.Core.Analysis.Relationships.Tests
             verb.BindDirectObject(entity2);
             IEnumerable<IVerbal> domain = new[] { verb };
             IRelationshipLookup<IEntity, IVerbal> relationshipLookup = CreateRelationshipLookup(domain);
-            RelationShipInferenceExtensions.SetRelationshipLookup(entity1, relationshipLookup);
-            ActionsRelatedOn? expected = null;
+            RelationshipInferenceExtensions.SetRelationshipLookup(entity1, relationshipLookup);
             ActionsRelatedOn? actual;
             actual = entity1.IsRelatedTo(entity2);
-            Check.That(actual).IsNotEqualTo(expected); // After calling RelationShipInferenceExtensions.SetRelationshipLookup(entity1, relationshipLookup);
+            Check.That(actual).IsNotNull(); // After calling RelationShipInferenceExtensions.SetRelationshipLookup(entity1, relationshipLookup);
         }
         /// <summary>
         ///A test for SetRelationshipLookup
@@ -76,11 +77,10 @@ namespace LASI.Core.Analysis.Relationships.Tests
             verb.BindSubject(entity1);
             verb.BindDirectObject(entity2); IEnumerable<IVerbal> domain = new[] { verb };
             IRelationshipLookup<IEntity, IVerbal> relationshipLookup = CreateRelationshipLookup(domain);
-            RelationShipInferenceExtensions.SetRelationshipLookup(entity1, relationshipLookup);
-            ActionsRelatedOn? expected = null;
+            RelationshipInferenceExtensions.SetRelationshipLookup(entity1, relationshipLookup);
             ActionsRelatedOn? actual;
             actual = entity1.IsRelatedTo(new NounPhrase(new Determiner("the"), new CommonSingularNoun("store")));
-            Check.That(actual).IsEqualTo(expected);// After calling RelationShipInferenceExtensions.SetRelationshipLookup(entity1, relationshipLookup);
+            Check.That(actual).IsNull();// After calling RelationShipInferenceExtensions.SetRelationshipLookup(entity1, relationshipLookup);
         }
 
         /// <summary>
@@ -91,10 +91,8 @@ namespace LASI.Core.Analysis.Relationships.Tests
         {
             ActionsRelatedOn? relatorSet = null;
             IVerbal relator = new PastTenseVerb("walked");
-            var expected = false;
-            bool actual;
-            actual = RelationShipInferenceExtensions.On(relatorSet, relator);
-            Check.That(actual).IsEqualTo(expected);
+            var actual = RelationshipInferenceExtensions.On(relatorSet, relator);
+            Check.That(actual).IsFalse();
         }
         /// <summary>
         ///A test for On
@@ -104,10 +102,8 @@ namespace LASI.Core.Analysis.Relationships.Tests
         {
             IVerbal relator = new PastTenseVerb("walked");
             ActionsRelatedOn? relatorSet = new ActionsRelatedOn(new[] { relator });
-            var expected = true;
-            bool actual;
-            actual = RelationShipInferenceExtensions.On(relatorSet, relator);
-            Check.That(actual).IsEqualTo(expected);
+            var actual = RelationshipInferenceExtensions.On(relatorSet, relator);
+            Check.That(actual).IsTrue();
         }
 
         /// <summary>
@@ -124,7 +120,7 @@ namespace LASI.Core.Analysis.Relationships.Tests
             performer.SetRelationshipLookup(new RelationshipLookup<IEntity, IVerbal>(new[] { relator }, Equals, Equals, Equals));
             ActionsRelatedOn? expected = new ActionsRelatedOn(new[] { relator });
             ActionsRelatedOn? actual;
-            actual = RelationShipInferenceExtensions.IsRelatedTo(performer, receiver);
+            actual = RelationshipInferenceExtensions.IsRelatedTo(performer, receiver);
             Check.That(actual).IsEqualTo(expected);
         }
         /// <summary>
@@ -139,10 +135,8 @@ namespace LASI.Core.Analysis.Relationships.Tests
             relator.BindSubject(performer);
             relator.BindDirectObject(receiver);
             performer.SetRelationshipLookup(new RelationshipLookup<IEntity, IVerbal>(new[] { relator }, Equals, Equals, Equals));
-            var expected = true;
-            bool actual;
-            actual = RelationShipInferenceExtensions.IsRelatedTo(performer, receiver).On(relator);
-            Check.That(actual).IsEqualTo(expected);
+            var actual = RelationshipInferenceExtensions.IsRelatedTo(performer, receiver).On(relator);
+            Check.That(actual).IsTrue();
         }
         /// <summary>
         ///A test for IsRelatedTo
@@ -156,10 +150,8 @@ namespace LASI.Core.Analysis.Relationships.Tests
             relator.BindSubject(performer);
             relator.BindDirectObject(receiver);
             performer.SetRelationshipLookup(new RelationshipLookup<IEntity, IVerbal>(new[] { relator }, Equals, Equals, Equals));
-            var expected = true;
-            bool actual;
-            actual = RelationShipInferenceExtensions.IsRelatedTo(receiver, performer).On(relator);
-            Check.That(actual).IsEqualTo(expected);
+            var actual = RelationshipInferenceExtensions.IsRelatedTo(receiver, performer).On(relator);
+            Check.That(actual).IsTrue();
         }
     }
 }

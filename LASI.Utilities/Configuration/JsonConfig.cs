@@ -8,11 +8,15 @@ namespace LASI.Utilities.Configuration
     /// </summary>
     public class JsonConfig : LoadableConfigBase, IConfig
     {
-        /// <summary>
-        /// Initializes a new instance of the JsonConfig class.
-        /// </summary>
-        /// <param name="filePath">A file path specifying the location of the JSON document which will define the configuration object.</param>
-        public JsonConfig(string filePath) => MakeDictionary(ref data, ParseAndValidateJson(ReadConfigDataFromFile(filePath)));
+        /// <summary>Initializes a new instance of the JsonConfig class.</summary>
+        /// <param name="filePath">
+        /// A file path specifying the location of the JSON document which will define the
+        /// configuration object.
+        /// </param>
+        public JsonConfig(string filePath)
+        {
+            MakeDictionary(ref data, ParseAndValidateJson(ReadConfigDataFromFile(new Uri(filePath))));
+        }
 
         /// <summary>
         /// Initializes a new instance of the JsonConfig class.

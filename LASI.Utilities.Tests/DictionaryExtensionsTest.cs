@@ -97,7 +97,7 @@ namespace LASI.Utilities.Tests
                         break;
 
                     default:
-                        throw new Exception("test failed");
+                        throw new ArgumentOutOfRangeException("test failed");
                 }
             });
         }
