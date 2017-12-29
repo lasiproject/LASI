@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using LASI.Utilities;
 
 namespace LASI.Core.Analysis.Binding
 {
@@ -33,13 +28,18 @@ namespace LASI.Core.Analysis.Binding
         /// The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains contextual information
         /// about the source or destination.
         /// </param>
-        public InvalidStateTransitionException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+        protected InvalidStateTransitionException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 
-        protected InvalidStateTransitionException() { }
+        public InvalidStateTransitionException() { }
 
-        protected InvalidStateTransitionException(string message) : base(message) { }
+        /// <summary>Initializes a new instance of the <see cref="Exception" /> class with a specified error message.</summary>
+        /// <param name="message">The message that describes the error. </param>
+        public InvalidStateTransitionException(string message) : base(message) { }
 
-        protected InvalidStateTransitionException(string message, Exception innerException) : base(message, innerException)
+        /// <summary>Initializes a new instance of the <see cref="Exception" /> class with a specified error message and a reference to the inner exception that is the cause of this exception.</summary>
+        /// <param name="message">The error message that explains the reason for the exception. </param>
+        /// <param name="innerException">The exception that is the cause of the current exception, or a null reference (<see langword="Nothing" /> in Visual Basic) if no inner exception is specified. </param>
+        public InvalidStateTransitionException(string message, Exception innerException) : base(message, innerException)
         {
         }
     }

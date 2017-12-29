@@ -88,7 +88,7 @@ namespace LASI.Core.Analysis.Binding
                 bindingTarget.BindDirectObject(e);
             }
             entities.Clear();
-            ConjunctNounPhrases.Clear();
+            conjunctNounPhrases.Clear();
             directBound = true;
         }
         void BindIndirect()
@@ -98,7 +98,7 @@ namespace LASI.Core.Analysis.Binding
                 bindingTarget.BindIndirectObject(e);
             }
             entities.Clear();
-            ConjunctNounPhrases.Clear();
+            conjunctNounPhrases.Clear();
         }
         void BindBuiltupAdjectivePhrases(NounPhrase phrase)
         {
@@ -117,7 +117,7 @@ namespace LASI.Core.Analysis.Binding
         Stack<Phrase> source;
         PhraseStackWrapper inputStream;
         List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
-        List<NounPhrase> ConjunctNounPhrases = new List<NounPhrase>();
+        List<NounPhrase> conjunctNounPhrases = new List<NounPhrase>();
         Stack<NounPhrase> entities = new Stack<NounPhrase>();
         State0 state0;
         State1 state1;
@@ -271,7 +271,7 @@ namespace LASI.Core.Analysis.Binding
                     {
                         c.JoinedLeft = Machine.entities.Peek();
                         Machine.lastConjunctive = c;
-                        Machine.ConjunctNounPhrases.Add(Machine.entities.Peek());
+                        Machine.conjunctNounPhrases.Add(Machine.entities.Peek());
                         BindIfExhaustedOrContinueVia(ToState3);
                     })
                     .Case((AdjectivePhrase a) =>
@@ -313,7 +313,7 @@ namespace LASI.Core.Analysis.Binding
                         p.ToTheLeftOf = Machine.entities.Last();
                         Machine.entities.Clear();
                         Machine.directBound = true;
-                        Machine.ConjunctNounPhrases.Clear();
+                        Machine.conjunctNounPhrases.Clear();
                         Machine.state0.Transition(Stream.Get());
                     })
                     .Case((NounPhrase n) =>
@@ -323,7 +323,7 @@ namespace LASI.Core.Analysis.Binding
                             Machine.bindingTarget.BindIndirectObject(e);
                         }
                         Machine.entities.Clear();
-                        Machine.ConjunctNounPhrases.Clear();
+                        Machine.conjunctNounPhrases.Clear();
                         Machine.entities.Push(n);
                         if (Stream.None)
                         {
@@ -379,7 +379,7 @@ namespace LASI.Core.Analysis.Binding
                 .Case((NounPhrase n) =>
                 {
                     Machine.entities.Push(n);
-                    Machine.ConjunctNounPhrases.Add(n);
+                    Machine.conjunctNounPhrases.Add(n);
                     if (Machine.lastConjunctive != null)
                     {
                         Machine.lastConjunctive.JoinedRight = n;
@@ -409,7 +409,7 @@ namespace LASI.Core.Analysis.Binding
                 phrase.Match()
                 .Case((NounPhrase n) =>
                 {
-                    Machine.ConjunctNounPhrases.Add(n);
+                    Machine.conjunctNounPhrases.Add(n);
                     Machine.entities.Push(n);
                     Machine.BindBuiltupAdjectivePhrases(n);
                     BindIfExhaustedOrContinueVia(ToState2);
@@ -451,7 +451,7 @@ namespace LASI.Core.Analysis.Binding
                 .Case((NounPhrase n) =>
                 {
                     Machine.entities.Push(n);
-                    Machine.ConjunctNounPhrases.Add(n);
+                    Machine.conjunctNounPhrases.Add(n);
                     Machine.lastConjunctive.JoinedRight = n;
                     Machine.BindBuiltupAdjectivePhrases(n);
                     BindIfExhaustedOrContinueVia(ToState2);

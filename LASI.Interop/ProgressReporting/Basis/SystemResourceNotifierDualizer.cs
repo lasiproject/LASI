@@ -1,4 +1,5 @@
 ﻿using System;
+using LASI.Core;
 
 namespace LASI.Interop.ContractHelperTypes.Base
 {
@@ -10,5 +11,12 @@ namespace LASI.Interop.ContractHelperTypes.Base
         /// </summary>
         /// <param name="messageAdjunct">An additional piece of text which will be appended to the Message property of the ResourceLoadEventArgs instance.</param>
         protected SystemResourceNotifierDualizer(string messageAdjunct) { this.messageAdjunct = messageAdjunct; }
+
+        protected override void OnReport(Core.ResourceLoadEventArgs value)
+        {
+            value.Message += messageAdjunct;
+            value.Message += messageAdjunct;
+            base.OnReport(value);
+        }
     }
 }

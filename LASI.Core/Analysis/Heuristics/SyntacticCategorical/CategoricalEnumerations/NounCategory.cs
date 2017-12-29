@@ -4,7 +4,7 @@
     /// Defines the broad lexical categories assigned to Nouns in the WordNet system.
     /// http://wordnet.princeton.edu/
     /// </summary>
-    public enum NounCategory : byte
+    public enum NounCategory : System.Byte
     {
         /// <summary>
         /// Tops

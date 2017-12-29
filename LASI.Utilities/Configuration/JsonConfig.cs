@@ -16,7 +16,7 @@ namespace LASI.Utilities.Configuration
         /// </param>
         public JsonConfig(string filePath)
         {
-            MakeDictionary(ref data, ParseAndValidateJson(ReadConfigDataFromFile(filePath)));
+            MakeDictionary(ref data, ParseAndValidateJson(ReadConfigDataFromFile(new Uri(filePath))));
         }
 
         /// <summary>Initializes a new instance of the JsonConfig class.</summary>

@@ -26,7 +26,7 @@ namespace LASI.App
         public App()
         {
             LoadPerformancePreference();
-            Interop.Configuration.Initialize(new XmlConfig(new XElement(
+            Interop.Configuration.Initialize(Config = new XmlConfig(new XElement(
                     name: "configuration",
                     content: from element in XElement.Load(@"..\..\App.config",LoadOptions.SetBaseUri).Element("appSettings").Elements()
                              let name = element.Attribute("key")

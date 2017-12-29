@@ -6,6 +6,7 @@ using System.Linq;
 using LASI.Utilities;
 using NFluent;
 using Xunit;
+using Shared.Test.NFluentExtensions;
 
 namespace LASI.Core.Tests
 {
@@ -16,22 +17,19 @@ namespace LASI.Core.Tests
     public class NounPhraseTest
     {
         /// <summary>
-        ///A test for NounPhrase Constructorf
+        ///A test for <see cref="NounPhrase"/> constructor
         /// </summary>
         [Fact]
         public void NounPhraseConstructorTest()
         {
-            IEnumerable<Word> composedWords = new Word[] {
+            var composedWords = new Word[] {
                 new ProperPluralNoun("Americans"),
                 new Conjunction("and"),
                 new ProperPluralNoun("Canadians")
             };
             Check.ThatCode(() => new NounPhrase(composedWords))
                 .DoesNotThrow().And.WhichResult()
-                .HasFieldsWithSameValues(new
-                {
-                    Words = composedWords
-                });
+                .Satisfies(actual => actual.Words.SequenceEqual(composedWords));
 
         }
 

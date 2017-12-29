@@ -92,9 +92,10 @@ namespace LASI.Utilities
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> defaultValueFactory)
         {
-            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
             return dictionary.TryGetValue(key, out var value) ? value : defaultValueFactory();
         }
+
+        public static (bool has, TValue value) TryGet<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, TKey key) => (dictionary.TryGetValue(key, out var value), value);
 
         /// <summary>
         /// Invokes the specified action for each <see cref="KeyValuePair{TKey, TValue}" /> in the <see cref="ConcurrentDictionary{TKey, TValue}" />.
@@ -350,6 +351,8 @@ namespace LASI.Utilities
                 .Select((entry, index) => new KeyValuePair<TKey, (TValue value, int index)>(entry.Key, (entry.Value, index)))
                 .ToDictionary();
 
+        public static (bool has, TValue value) TryGet<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) => (dictionary.TryGetValue(key, out var value), value);
+
         #endregion IDictionary Extensions
 
         #region IReadOnlyDictionary Extensions
@@ -430,6 +433,7 @@ namespace LASI.Utilities
             Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key), defaultValueFactory, nameof(defaultValueFactory));
             return dictionary.TryGetValue(key, out var value) ? value : defaultValueFactory();
         }
+        public static (bool has, TValue value) TryGet<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key) => (dictionary.TryGetValue(key, out var value), value);
 
         /// <summary>
         /// Invokes the specified action for each <see cref="KeyValuePair{TKey, TValue}" /> in the <see cref="IDictionary{TKey, TValue}" />.
@@ -562,73 +566,5 @@ namespace LASI.Utilities
         }
 
         #endregion
-
-        private class DefaultingDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
-        {
-            public DefaultingDictionary(IDictionary<TKey, TValue> wrapped, Func<TKey, TValue> defaultValueFactory)
-            {
-                this.wrapped = wrapped;
-                this.defaultValueFactory = defaultValueFactory;
-            }
-            readonly IDictionary<TKey, TValue> wrapped;
-            readonly Func<TKey, TValue> defaultValueFactory;
-
-            public IEnumerable<TKey> Keys => wrapped.Keys;
-
-            public IEnumerable<TValue> Values => wrapped.Values;
-
-            public int Count => wrapped.Count;
-
-            ICollection<TKey> IDictionary<TKey, TValue>.Keys => wrapped.Keys;
-
-            ICollection<TValue> IDictionary<TKey, TValue>.Values => wrapped.Values;
-
-            public bool IsReadOnly => wrapped.IsReadOnly;
-
-            TValue IDictionary<TKey, TValue>.this[TKey key]
-            {
-                get => this[key];
-                set => wrapped[key] = value;
-            }
-
-            public TValue this[TKey key] => wrapped.GetValueOrDefault(key, defaultValueFactory(key));
-
-            public bool ContainsKey(TKey key) => wrapped.ContainsKey(key);
-
-            public bool TryGetValue(TKey key, out TValue value) => wrapped.TryGetValue(key, out value);
-
-            public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => wrapped.GetEnumerator();
-
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-            public void Add(TKey key, TValue value)
-            {
-                // TODO: Remove this! It is an arbitrary test to probe for AppVeyor's supported feature set.
-                int x = default;
-                Console.Write(x);
-                wrapped.Add(key, value);
-            }
-
-            public bool Remove(TKey key) => wrapped.Remove(key);
-
-            public void Add(KeyValuePair<TKey, TValue> item)
-            {
-                wrapped.Add(item);
-            }
-
-            public void Clear()
-            {
-                wrapped.Clear();
-            }
-
-            public bool Contains(KeyValuePair<TKey, TValue> item) => wrapped.Contains(item);
-
-            public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
-            {
-                wrapped.CopyTo(array, arrayIndex);
-            }
-
-            public bool Remove(KeyValuePair<TKey, TValue> item) => wrapped.Remove(item);
-        }
     }
 }

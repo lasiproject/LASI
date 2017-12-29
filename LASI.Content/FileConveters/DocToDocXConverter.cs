@@ -22,8 +22,8 @@ namespace LASI.Content.FileConveters
         /// Initializes a new instance of DocToDocXConverter which will handle the conversion of the given .doc document
         /// </summary>
         /// <param name="infile">The DocFile instance representing the document to convert.</param>
-        /// <param name="DocxFilesDir">The path of the directory in which to store the converted file.</param>
-        public DocToDocXConverter(DocFile infile, string DocxFilesDir) : base(infile, DocxFilesDir) { }
+        /// <param name="docxFilesDir">The path of the directory in which to store the converted file.</param>
+        public DocToDocXConverter(DocFile infile, string docxFilesDir) : base(infile, docxFilesDir) { }
 
         /// <summary>
         /// Converts the document held by this instance from .doc binary format to .docx open XML format

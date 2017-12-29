@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSpec
 {
@@ -50,5 +46,10 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
         //public static TResult operator |(Applicator<T, TResult> a, Predicate<T> p) => a.Apply(p, default(T), x => default(TResult));
         //public static Applicator<T, TResult> operator |(Predicate<T> p, Applicator<T, TResult> a) => a;
         public static Applicator<T, TResult> operator |(Applicator<T, TResult> a, Predicate<T> p) => p.Satifies(a.target) ? a : new Applicator<T, TResult>();
+
+        public static Applicator<T, TResult> operator >(Applicator<T, TResult> a, T target) => a.SetTarget(target);
+        public static Applicator<T, TResult> operator >(Applicator<T, TResult> a, ILexical target) => a.SetTarget(target);
+        public static Applicator<T, TResult> operator <(Applicator<T, TResult> a, T target) => a.SetTarget(target);
+        public static Applicator<T, TResult> operator <(Applicator<T, TResult> a, ILexical target) => a.SetTarget(target);
     }
 }

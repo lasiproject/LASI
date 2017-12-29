@@ -30,24 +30,26 @@ namespace LASI.App
 
         internal static void OpenManualWithInstalledViewer(Window window)
         {
-            Action<string> alert = window.ShowMessage;
             try
             {
                 System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
             }
             catch (FileNotFoundException e)
             {
-                alert(UiMessages.UnableToLocateManual);
-                Log(e.Message);
-                Log(e);
+                logFailure(e);
             }
             catch (Exception e)
             {
-                alert(UiMessages.UnableToOpenManual);
+                logFailure(e);
+            }
+            void logFailure(Exception e)
+            {
+                window.ShowMessage(UiMessages.UnableToOpenManual);
                 Log(e.Message);
                 Log(e);
             }
         }
+
 
         internal static async Task HandleDropAddAsync(Window window, DragEventArgs e, Func<FileInfo, Task> processValid)
         {

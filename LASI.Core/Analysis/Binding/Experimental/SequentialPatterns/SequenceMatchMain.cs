@@ -7,8 +7,6 @@ using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 // TODO: SequenceMatch like class with result returning case expressions. Probably not add them to the current class. API is large as it is.
 namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
 {
-    using static FunctionExtensions;
-
     /// <summary>
     /// Represents a binding expression applied to a sequence if lexical constructs.
     /// </summary>
@@ -16,15 +14,9 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
     {
         #region Constructors
 
-        internal SequenceMatch(IEnumerable<ILexical> sequence)
-        {
-            this.sequence = sequence.ToList();
-        }
+        internal SequenceMatch(IEnumerable<ILexical> sequence) => this.sequence = sequence.ToList();
 
-        internal SequenceMatch(Sentence sentence)
-        {
-            sequence = sentence.Phrases.ToList<ILexical>();
-        }
+        internal SequenceMatch(Sentence sentence) : this(sentence.Phrases) { }
 
         #endregion
 
@@ -296,7 +288,7 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         /// <returns></returns>
         protected bool Accepted { get; set; }
 
-        private List<ILexical> FilterByCurrentPredicates(List<ILexical> values)
+        private IReadOnlyList<ILexical> FilterByCurrentPredicates(IReadOnlyList<ILexical> values)
         {
             var results = new List<ILexical>(values.Count);
             var tests = checkOncePredicates.Concat(predicates);
@@ -315,13 +307,13 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
             return results;
         }
 
-        private List<ILexical> Sequence
+        private IReadOnlyList<ILexical> Sequence
         {
             get => sequence;
             set => sequence = value;
         }
 
-        private List<ILexical> SequenceFilteredByCurrentPredicates => FilterByCurrentPredicates(Sequence);
+        private IReadOnlyList<ILexical> SequenceFilteredByCurrentPredicates => FilterByCurrentPredicates(Sequence);
 
         /// <summary>
         /// <c>true</c> if all guards have been satisfied or there are no applicable guards;
@@ -334,7 +326,7 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         private bool guarded;
         private readonly List<Func<ILexical, bool>> predicates = new List<Func<ILexical, bool>>();
         private readonly List<Func<ILexical, bool>> checkOncePredicates = new List<Func<ILexical, bool>>();
-        private List<ILexical> sequence;
+        private IReadOnlyList<ILexical> sequence;
         private int indexOfLast;
 
         #endregion Private fields and properties

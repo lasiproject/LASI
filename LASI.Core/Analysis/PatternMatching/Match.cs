@@ -174,7 +174,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T> Case<TCase>(Action action) where TCase : ILexical
         {
-            if (!UnMatchable && Value is TCase && !Matched)
+            if (!Unmatchable && Value is TCase && !Matched)
             {
                 action();
                 Matched = true;
@@ -196,7 +196,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T> Case<TCase>(Action<TCase> action) where TCase : ILexical
         {
-            if (!UnMatchable && !Matched && Value is TCase c)
+            if (!Unmatchable && !Matched && Value is TCase c)
             {
                 action(c);
                 Matched = true;
@@ -206,7 +206,7 @@ namespace LASI.Core.Analysis.PatternMatching
 
         public Match<T> Case(Action<T> action)
         {
-            if (UnMatchable is false && Matched is false && Value is T)
+            if (Unmatchable is false && Matched is false && Value is T)
             {
                 action(Value);
                 Matched = true;
@@ -224,7 +224,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="action">The function to invoke if no matches in the expression succeeded.</param>
         public void Default(Action action)
         {
-            if (!UnMatchable && !Matched)
+            if (!Unmatchable && !Matched)
             {
                 action();
                 Matched = true;
@@ -237,7 +237,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="action">The function to invoke on the match Case value if no matches in the expression succeeded.</param>
         public void Default(Action<T> action)
         {
-            if (!UnMatchable && !Matched && Value is object)
+            if (!Unmatchable && !Matched && Value is object)
             {
                 action(Value);
                 Matched = true;

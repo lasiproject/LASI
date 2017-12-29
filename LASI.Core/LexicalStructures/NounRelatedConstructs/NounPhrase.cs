@@ -34,7 +34,7 @@ namespace LASI.Core
         /// <param name="rest">The rest of the Words comprise the NounPhrase.</param>
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of NounPhrases.
         /// Thus, its purpose is to simplify test code.</remarks>
-        internal NounPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
+        public NounPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
         #endregion
 

@@ -60,8 +60,6 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
             Lexical = lexical;
         }
 
-        public static TermWithResultType<TResult> operator |(Pattern<TResult> pattern, Term term) => new TermWithResultType<TResult>(term);
-
         public Pattern<TResult> ApplyIfApplicable<TTerm, T>(TTerm predicate, Func<T, TResult> f) where TTerm : Term where T : ILexical
         {
             Accepted = predicate.Test(Lexical);

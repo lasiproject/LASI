@@ -354,7 +354,7 @@ namespace LASI.Utilities
         /// <returns>A sequence of Tuple&lt;T, T&gt; containing pairs of adjacent elements.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source" /> is null.</exception>
         /// <exception cref="InvalidOperationException"><paramref name="source" /> has exactly one element.</exception>
-        public static IEnumerable<(T, T)> PairWise<T>(this IEnumerable<T> source)
+        public static IEnumerable<(T, T)> Pairwise<T>(this IEnumerable<T> source)
         {
             NotNull(source, nameof(source));
             NotEmpty(source.Skip(1), nameof(source), "If source is not empty, it must have more than 1 element.");

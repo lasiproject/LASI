@@ -6,7 +6,7 @@ namespace LASI.Utilities.Tests.Extensions
 {
     public static class CheckExtensions
     {
-        public static ICheckLink<ICheck<SUT>> Satisfies<SUT>(this ICheck<SUT> check, Func<SUT, bool> requirement)
+        public static ICheckLink<ICheck<Sut>> Satisfies<Sut>(this ICheck<Sut> check, Func<Sut, bool> requirement)
         {
             // Every check method starts by extracting a checker instance from the check thanks to
             // the ExtensibilityHelper static class.
@@ -27,14 +27,14 @@ namespace LASI.Utilities.Tests.Extensions
                 {
                     if (!requirement(checker.Value))
                     {
-                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement{requirementName}.").For(typeof(SUT).Name).On(checker.Value).ToString();
+                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement{requirementName}.").For(typeof(Sut).Name).On(checker.Value).ToString();
 
                         throw new FluentCheckException(errorMessage);
                     }
                 },
-                FluentMessage.BuildMessage($"The {{0}} satisifies the requirement {requirementName} whereas it must not.").For(typeof(SUT).Name).On(checker.Value).ToString());
+                FluentMessage.BuildMessage($"The {{0}} satisifies the requirement {requirementName} whereas it must not.").For(typeof(Sut).Name).On(checker.Value).ToString());
         }
-        public static ICheckLink<ICheck<SUT>> DoesNotSatisfy<SUT>(this ICheck<SUT> check, Func<SUT, bool> requirement)
+        public static ICheckLink<ICheck<Sut>> DoesNotSatisfy<Sut>(this ICheck<Sut> check, Func<Sut, bool> requirement)
         {
             var checker = ExtensibilityHelper.ExtractChecker(check);
 
@@ -44,12 +44,12 @@ namespace LASI.Utilities.Tests.Extensions
                 {
                     if (requirement(checker.Value))
                     {
-                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} satisfies the requirement {requirementName} whereas it must.").For(typeof(SUT).Name).On(checker.Value).ToString();
+                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} satisfies the requirement {requirementName} whereas it must.").For(typeof(Sut).Name).On(checker.Value).ToString();
 
                         throw new FluentCheckException(errorMessage);
                     }
                 },
-                FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement {requirementName}.").For(typeof(SUT).Name).On(checker.Value).ToString());
+                FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement {requirementName}.").For(typeof(Sut).Name).On(checker.Value).ToString());
         }
 
         private static string GetNominalInfo<SUT>(Func<SUT, bool> requirement) => requirement.Method.DeclaringType.Name + "." + requirement.Method.Name;

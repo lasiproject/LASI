@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 using System.Linq;
+using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 namespace LASI.Utilities.Tests
 {
-    using Fact = Xunit.FactAttribute;
     using NFluent;
+    using Fact = Xunit.FactAttribute;
     public class ListExtensionsTest
     {
         [Fact]
@@ -13,9 +13,9 @@ namespace LASI.Utilities.Tests
         {
             var target = List(0, 1, 2, 3);
             Func<int, string> projection = x => x.ToString();
-            IList<string> expected = target.AsEnumerable().Select(projection).ToList();
-            IList<string> actual = target.Select(projection);
-            Check.That(actual).ContainsExactly(expected);
+            var expected = target.AsEnumerable().Select(projection).ToList();
+            IReadOnlyList<string> readOnlyList = target.Select(projection);
+            Check.That(readOnlyList).ContainsExactly(expected);
         }
         [Fact]
         public void SelectTest2()

@@ -92,7 +92,7 @@ namespace LASI.Utilities.Tests
                         Check.That(value).IsEqualTo(4);
                         break;
                     default:
-                        throw new Exception("test failed");
+                        throw new ArgumentOutOfRangeException("test failed");
                 }
             });
         }

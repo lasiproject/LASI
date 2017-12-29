@@ -105,7 +105,7 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void PairWisePairsAdjacentElements()
         {
-            var target = Range(12, 5).PairWise();
+            var target = Range(12, 5).Pairwise();
             Check.That(target).ContainsExactly((12, 13), (13, 14), (14, 15), (15, 16));
         }
 
