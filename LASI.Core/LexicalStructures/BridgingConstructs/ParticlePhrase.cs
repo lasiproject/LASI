@@ -65,8 +65,8 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the contextually extrapolated role of the ParticlePhrase.
         /// </summary>
-        /// <seealso cref="PrepositionRole"/>
-        public PrepositionRole Role
+        /// <seealso cref="Core.PrepositionRole"/>
+        public PrepositionRole PrepositionRole
         {
             get;
             set;

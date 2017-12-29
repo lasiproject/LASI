@@ -107,8 +107,8 @@ namespace LASI.Core.Tests
             var target = new ParticlePhrase(new Particle("off"), new Preposition("of"));
             var expected = PrepositionRole.Undetermined;
             PrepositionRole actual;
-            target.Role = expected;
-            actual = target.Role;
+            target.PrepositionRole = expected;
+            actual = target.PrepositionRole;
             Check.That(actual).IsEqualTo(expected);
         }
 

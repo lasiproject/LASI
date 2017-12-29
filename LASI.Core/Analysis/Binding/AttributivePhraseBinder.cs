@@ -72,7 +72,7 @@ namespace LASI.Core.Binding
             prepPhrase.ToTheRightOf = prepPhrase.Next;
             prepPhrase.ToTheLeftOf = prepPhrase.Previous;
 
-            prepPhrase.Role = PrepositionRole.DiscriptiveLinker;
+            prepPhrase.PrepositionRole = PrepositionRole.DiscriptiveLinker;
         }
 
         private static IEnumerable<IEnumerable<Phrase>> FindContiguousNounPhrases(IEnumerable<Phrase> phrases)
