@@ -114,7 +114,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
 
         private static readonly string[] endings = { "ly" };
         private static readonly WordNetExceptionDataManager Helper = new WordNetExceptionDataManager("adv.exc");
-        private static readonly IVariantDictionary<string, IEnumerable<string>> ExceptionMapping = Helper.ExcMapping.ToVariantDictionary();
+        private static readonly IVariantDictionary<string, IEnumerable<string>> ExceptionMapping = Helper.ExcMapping.ToVariantDictionary(x => x.Key, x => x.Value);
 
         private static readonly string[] sufficies = { "" };
 

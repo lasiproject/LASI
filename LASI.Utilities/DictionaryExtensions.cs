@@ -359,6 +359,8 @@ namespace LASI.Utilities
 
         public static (bool has, TValue value) TryGet<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) => (dictionary.TryGetValue(key, out var value), value);
 
+        public static IEnumerable<(TKey key, TValue value)> Tupled<TKey, TValue>(this IVariantDictionary<TKey, TValue> pairs) => pairs.Select(x => (x.Key, x.Value));
+
         #endregion IDictionary Extensions
 
         #region IReadOnlyDictionary Extensions

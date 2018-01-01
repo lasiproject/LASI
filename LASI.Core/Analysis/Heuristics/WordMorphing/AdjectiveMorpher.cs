@@ -133,7 +133,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
 
         static readonly WordNetExceptionDataManager Helper = new WordNetExceptionDataManager("adj.exc");
 
-        static readonly IVariantDictionary<string, IEnumerable<string>> ExceptionMapping = Helper.ExcMapping.ToVariantDictionary();
+        static readonly IVariantDictionary<string, IEnumerable<string>> ExceptionMapping = Helper.ExcMapping.ToVariantDictionary(x => x.Key, x => x.Value);
 
         static readonly (string ending, string suffix)[] EndingSuffixPairs =
         {

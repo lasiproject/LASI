@@ -8,7 +8,8 @@ namespace LASI.Utilities
 {
     class VariantDictionaryImplementation<Tkey, TValue> : IVariantDictionary<Tkey, TValue>, IEnumerable<(Tkey key, TValue value)>
     {
-        public VariantDictionaryImplementation(IEnumerable<KeyValuePair<Tkey, TValue>> wrapped) : this(wrapped.Tupled()) { }
+        public VariantDictionaryImplementation(IEnumerable<KeyValuePair<Tkey, TValue>> wrapped) : this(ToTupled(wrapped)) { }
+
         public VariantDictionaryImplementation(IEnumerable<(Tkey key, TValue value)> wrapped)
         {
             represenation = new Dictionary<Tkey, TValue>(wrapped.ToDictionary(x => x.key, x => x.value));
@@ -35,9 +36,11 @@ namespace LASI.Utilities
         }
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        IEnumerator<(Tkey key, TValue value)> IEnumerable<(Tkey key, TValue value)>.GetEnumerator() => represenation.Tupled().GetEnumerator();
+        IEnumerator<(Tkey key, TValue value)> IEnumerable<(Tkey key, TValue value)>.GetEnumerator() => ToTupled(represenation).GetEnumerator();
 
         readonly IReadOnlyDictionary<Tkey, TValue> represenation;
+
+        private static IEnumerable<(K Key, V Value)> ToTupled<K, V>(IEnumerable<KeyValuePair<K, V>> wrapped) => wrapped.Select(pair => (pair.Key, pair.Value));
 
         struct KeyValuePair : IVariantKeyValuePair<Tkey, TValue>, IEquatable<KeyValuePair>
         {

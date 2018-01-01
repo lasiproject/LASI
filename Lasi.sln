@@ -34,9 +34,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExperimentalClientProjects", "ExperimentalClientProjects", "{2F5E64C4-89A9-4B41-942F-97BB85044FE5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9579A236-F6AE-4C14-95B6-7D35671BF7D9}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AB32A172-AF94-4FAF-9655-5E339DDB032C}"
 EndProject

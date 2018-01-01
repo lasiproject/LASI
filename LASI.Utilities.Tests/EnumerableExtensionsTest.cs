@@ -360,19 +360,5 @@ namespace LASI.Utilities.Tests
         }
 
         #endregion
-
-        [Fact]
-        public void DeconstructTest()
-        {
-            var groups = from n in Range(0, 20)
-                         group n by n % 2;
-            var reference = groups.ToDictionary(group => group.Key, group => group);
-
-            foreach (var (key, values) in groups)
-            {
-                Check.That(reference).ContainsKey(key);
-                Check.That(reference[key]).ContainsExactly(values);
-            }
-        }
     }
 }
