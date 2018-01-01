@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LASI.Utilities;
 
 namespace LASI.Core
 {
@@ -25,9 +26,5 @@ namespace LASI.Core
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of UnknownPhrases. 
         /// Thus, its purpose is to simplify test code.</remarks>
         public UnknownPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
-
-
-
-
     }
 }

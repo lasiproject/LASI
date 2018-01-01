@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using LASI.Utilities.Validation;
 using static System.Linq.Enumerable;
 using static LASI.Utilities.Validation.Validate;
 
@@ -166,6 +165,26 @@ namespace LASI.Utilities
         /// <exception cref="ArgumentNullException">Source or func is <c>null</c>.</exception>
         public static TResult AggregateRight<TSource, TAccumulate, TResult>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, int, TAccumulate> func, Func<TAccumulate, TResult> resultSelector) =>
             resultSelector(source.AggregateRight(seed, func));
+
+        /// <summary>
+        /// Appends the given element to the sequence, yielding a new sequence consisting of the
+        /// original sequence followed by the appended element.
+        /// </summary>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <param name="head">The sequence to which the element will be appended.</param>
+        /// <param name="tail">The element to append to the sequence.</param>
+        /// <returns>
+        /// A new sequence consisting of the original sequence followed by the appended element..
+        /// </returns>
+        public static IEnumerable<TSource> Append<TSource>(this IEnumerable<TSource> head, TSource tail)
+        {
+            foreach (var element in head)
+            {
+                yield return element;
+            }
+            yield return tail;
+        }
+
 
         /// <summary>
         /// Returns the distinct elements of the given of the source sequence by applying the given
@@ -405,6 +424,26 @@ namespace LASI.Utilities
         /// </param>
         /// <returns>The percentage of true values in the collection of Boolean values.</returns>
         public static double PercentTrue(this IEnumerable<bool> delineated) => delineated.PercentWhere(v => v);
+
+        /// <summary>
+        /// Prepends the given element to the sequence, yielding a new sequence consisting of the
+        /// prepended element followed by each element in the original sequence.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="tail">The sequence to which the element will be prepended.</param>
+        /// <param name="head">The element to prepend to the sequence.</param>
+        /// <returns>
+        /// A new sequence consisting of the prepended element followed by each element in the
+        /// original sequence.
+        /// </returns>
+        public static IEnumerable<T> Prepend<T>(this IEnumerable<T> tail, T head)
+        {
+            yield return head;
+            foreach (var element in tail)
+            {
+                yield return element;
+            }
+        }
 
         #endregion Statistical
 
