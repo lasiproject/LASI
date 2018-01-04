@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using NFluent;
-using Shared.Test.NFluentExtensions;
+using LASI.Testing.Assertions;
 
 namespace LASI.Core.Tests
-{ 
+{
     /// <summary>
     ///This is a test class for IInderectObjectTakerTest and is intended
     ///to contain all IInderectObjectTakerTest Unit Tests

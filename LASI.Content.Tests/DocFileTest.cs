@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using LASI.Content.Exceptions;
 using LASI.Content.FileTypes;
+using LASI.Testing.Assertions;
 using NFluent;
-using Shared.Test.NFluentExtensions;
 using Xunit;
 
 namespace LASI.Content.Tests
@@ -23,7 +23,7 @@ namespace LASI.Content.Tests
         public void DocFileConstructorTest()
         {
             var target = new DocFile(DOC_TEST_FILE_PATH);
-            Check.That(DOC_TEST_FILE_PATH).Satisfies(File.Exists);
+            Check.That(DOC_TEST_FILE_PATH).Exists();
             Check.That(target.Extension).IsEqualTo(".doc");
             Check.That(target.FullPath).IsEqualTo(Path.GetFullPath(DOC_TEST_FILE_PATH));
         }
@@ -34,7 +34,7 @@ namespace LASI.Content.Tests
         public void DocFileConstructorTest1()
         {
             var wrongFileTypePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
-            Check.That(wrongFileTypePath).Satisfies(File.Exists);
+            Check.That(wrongFileTypePath).Exists();
             Check.ThatCode(() => new DocFile(wrongFileTypePath))
                  .Throws<FileTypeWrapperMismatchException<DocFile>>();
         }
@@ -45,7 +45,7 @@ namespace LASI.Content.Tests
         public void DocFileConstructorTest2()
         {
             var invalidPath = Directory.GetCurrentDirectory();//This should never be valid.
-            Check.That(invalidPath).DoesNotSatisfy(File.Exists);
+            Check.That(invalidPath).Exists();
             Check.ThatCode(() => new DocFile(invalidPath))
                  .Throws<FileNotFoundException>();
         }

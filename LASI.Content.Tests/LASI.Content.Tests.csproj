@@ -139,9 +139,9 @@
       <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>
       <Name>LASI.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Shared.Test.Utilities\LASI.Shared.Test.csproj">
-      <Project>{1314082a-eb47-44e9-88a0-72c71489035f}</Project>
-      <Name>LASI.Shared.Test</Name>
+    <ProjectReference Include="..\Shared.Test.Utilities\LASI.Testing.Assertions.csproj">
+      <Project>{1314082A-EB47-44E9-88A0-72C71489035F}</Project>
+      <Name>LASI.Testing.Assertions</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

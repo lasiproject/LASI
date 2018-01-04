@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using LASI.Testing.Assertions;
 using NFluent;
-using Shared.Test.NFluentExtensions;
 using Xunit;
 
 namespace LASI.Core.Tests
@@ -77,7 +77,7 @@ namespace LASI.Core.Tests
 
             Check.That(target.Words).HasSize(composedWords.Length);
             Check.That(target).Satisfies(() =>
-                target.Text == "on" && target.ToTheLeftOf == null && target.ToTheRightOf == null && target.BoundObject == null
+                target.Text is "on" && target.ToTheLeftOf is null && target.ToTheRightOf is null && target.BoundObject is null
             );
         }
 

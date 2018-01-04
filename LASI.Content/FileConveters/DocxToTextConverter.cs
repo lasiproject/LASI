@@ -46,25 +46,28 @@ namespace LASI.Content.FileConveters
                     throw;
                 }
             }
-            using (var ZipArch = new ZipArchive(
-                stream: new FileStream(zipName + ".zip", FileMode.Open),
-                mode: ZipArchiveMode.Read,
-                leaveOpen: false)
-            )
+
+            var zipFilePath = $"{zipName}.zip";
+
+            if (Directory.Exists(zipName))
             {
-                if (Directory.Exists(zipName))
+                try
                 {
-                    try
-                    {
-                        Directory.Delete(zipName, recursive: true);
-                    }
-                    catch (IOException e)
-                    {
-                        Logger.Log(e.Message);
-                        throw;
-                    }
+                    Directory.Delete(zipName, recursive: true);
                 }
-                ZipFileExtensions.ExtractToDirectory(ZipArch, zipName);
+                catch (IOException e)
+                {
+                    Logger.Log(e.Message);
+                    throw;
+                }
+            }
+            ZipFile.ExtractToDirectory(zipFilePath, zipName);
+
+            using (var ZipArch = new ZipArchive(
+                stream: new FileStream(zipFilePath, FileMode.Open),
+                mode: ZipArchiveMode.Read,
+                leaveOpen: false))
+            {
                 XmlFile = GetRelevantXMLFile(ZipArch);
             }
         }

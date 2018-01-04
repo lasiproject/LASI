@@ -25,7 +25,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void DocToDocXConverterConstructorTest()
         {
-            var infile = SourceFile;
+            var infile = Input;
             var target = new DocToDocXConverter(infile);
             Check.That(target.Original).IsEqualTo(infile);
         }
@@ -49,7 +49,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ConvertFileTest()
         {
-            var infile = SourceFile;
+            var infile = Input;
             var target = new DocToDocXConverter(infile);
             InputFile actual;
             actual = target.ConvertFile();
@@ -62,7 +62,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertFileAsyncTest()
         {
-            var infile = SourceFile;
+            var infile = Input;
             var target = new DocToDocXConverter(infile);
             InputFile actual;
             actual = await target.ConvertFileAsync();

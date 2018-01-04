@@ -4,10 +4,10 @@ using LASI.Content.FileTypes;
 
 namespace LASI.Content.Tests
 {
-    public abstract class FileConverterBaseTest<TConvertFrom> : IDisposable where TConvertFrom : InputFile
+    public abstract class FileConverterBaseTest<TInput> : IDisposable where TInput : InputFile
     {
 #pragma warning disable RECS0108 // Warns about static fields in generic types
-        static int TestsRun;
+        static int testsRun;
 #pragma warning restore RECS0108 // Warns about static fields in generic types
         private readonly string filePath;
         private readonly string directoryPath;
@@ -15,16 +15,20 @@ namespace LASI.Content.Tests
 
         public FileConverterBaseTest(string fileName)
         {
-            var file = new FileInfo($@"..\..\MockUserFiles\{fileName}");
-            directoryPath = Directory.CreateDirectory($@"{Directory.GetCurrentDirectory()}\{this.GetType()}\{TestsRun}").FullName;
+            var file = FileInfo($@"..\..\MockUserFiles\{fileName}");
+            directoryPath = Directory.CreateDirectory($@"{Directory.GetCurrentDirectory()}\{GetType()}\{testsRun}").FullName;
             filePath = file.CopyTo($@"{directoryPath}\{fileName}", overwrite: true).FullName;
-            TestsRun += 1;
+            testsRun += 1;
         }
-        protected abstract Func<string, TConvertFrom> SourceFactory { get; }
 
-        protected TConvertFrom SourceFile => SourceFactory(FilePath);
+        protected abstract Func<string, TInput> SourceFactory { get; }
+
+        protected static FileInfo FileInfo(string fileName) => new FileInfo(fileName);
+
+        protected TInput Input => SourceFactory(FilePath);
 
         #region IDisposable Support
+
         private bool disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
@@ -40,11 +44,11 @@ namespace LASI.Content.Tests
             }
         }
 
-
         void IDisposable.Dispose()
         {
             Dispose(true);
         }
-        #endregion
+
+        #endregion IDisposable Support
     }
 }

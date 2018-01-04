@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using LASI.Content.Exceptions;
 using LASI.Content.FileTypes;
+using LASI.Testing.Assertions;
 using NFluent;
-using Shared.Test.NFluentExtensions;
 using Xunit;
 
 namespace LASI.Content.Tests
@@ -20,7 +20,7 @@ namespace LASI.Content.Tests
         {
             var path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
             var target = new DocXFile(path);
-            Check.That(path).Satisfies(File.Exists);
+            Check.That(new FileInfo(path)).Exists();
             Check.That(Path.GetFullPath(path)).IsEqualTo(target.FullPath);
         }
 

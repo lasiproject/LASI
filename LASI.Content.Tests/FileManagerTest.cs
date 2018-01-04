@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using LASI.Content.FileTypes;
+using LASI.Testing.Assertions;
 using LASI.Utilities;
 using NFluent;
-using Shared.Test.NFluentExtensions;
 using Xunit;
 
 namespace LASI.Content.Tests
@@ -25,7 +25,7 @@ namespace LASI.Content.Tests
         {
             var result = FileManager.AddFile(TestDocFilePath);
 
-            Check.That(FileManager.DocFilesDirectory + @"\Test paragraph about house fires.doc").Satisfies(File.Exists);
+            Check.That(Info(FileManager.DocFilesDirectory + @"\Test paragraph about house fires.doc")).Exists();
             Check.That(result).IsInstanceOf<DocFile>();
         }
 
@@ -107,8 +107,10 @@ namespace LASI.Content.Tests
             var sourcePath = @"..\..\MockUserFiles\Test paragraph about house fires.txt";
             var result = FileManager.AddFile(sourcePath);
 
-            Check.That(FileManager.TxtFilesDirectory + @"\Test paragraph about house fires.txt")
-                .Satisfies(File.Exists);
+            var txtFileInfo = new FileInfo(FileManager.TxtFilesDirectory + @"\Test paragraph about house fires.txt");
+
+            Check.That(txtFileInfo).Exists();
+
             Check.That(result).IsInstanceOf<TxtFile>();
         }
 
@@ -120,9 +122,10 @@ namespace LASI.Content.Tests
         {
             FileManager.BackupProject();
 
-            Check.That(Directory.GetParent(FileManager.ProjectDirectory).FullName + @"\backup\" +
-                       FileManager.ProjectName)
-                .Satisfies(Directory.Exists);
+            var backupDirectory = new DirectoryInfo($@"{Directory.GetParent(FileManager.ProjectDirectory).FullName}\backup\{FileManager.ProjectName}");
+
+            Check.That(backupDirectory)
+                .Exists();
         }
 
         /// <summary>
@@ -257,6 +260,7 @@ namespace LASI.Content.Tests
             testProjectDirectory = $@"{testMethodWorkingDirectory}\NewProject";
             FileManager.Initialize(testProjectDirectory);
         }
+        private static FileInfo Info(string fileName) => new FileInfo(fileName);
 
         private readonly string testMethodWorkingDirectory;
         private const string MockTestFilesDirectory = @"..\..\MockUserFiles";

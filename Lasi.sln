@@ -35,8 +35,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExperimentalClientProjects"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9579A236-F6AE-4C14-95B6-7D35671BF7D9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AB32A172-AF94-4FAF-9655-5E339DDB032C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Content.Tests", "LASI.Content.Tests\LASI.Content.Tests.csproj", "{BE2D3C2C-F7CF-4731-BFA8-1876DE7FB757}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Core.Tests", "LASI.Core.Tests\LASI.Core.Tests.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
@@ -45,9 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Interop.Tests", "LASI.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Utilities.Tests", "LASI.Utilities.Tests\LASI.Utilities.Tests.csproj", "{7C756278-1AA5-4462-A9ED-E4CE2D948E10}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestUtilities", "TestUtilities", "{AB837D56-33CB-4A49-BAE1-4E36D371BCE6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Shared.Test", "Shared.Test.Utilities\LASI.Shared.Test.csproj", "{1314082A-EB47-44E9-88A0-72C71489035F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Testing.Assertions", "Shared.Test.Utilities\LASI.Testing.Assertions.csproj", "{1314082A-EB47-44E9-88A0-72C71489035F}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "LASI.Installer", "LASI.Installer\LASI.Installer.vdproj", "{E0FB815A-0136-4471-A929-514A88087797}"
 EndProject
@@ -116,8 +112,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B012451A-BCB9-423F-8119-BE8027CA8474} = {E61EB5D5-494B-437A-A9ED-20756769E139}
-		{AB837D56-33CB-4A49-BAE1-4E36D371BCE6} = {AB32A172-AF94-4FAF-9655-5E339DDB032C}
-		{1314082A-EB47-44E9-88A0-72C71489035F} = {AB837D56-33CB-4A49-BAE1-4E36D371BCE6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {63076C66-816B-4289-A366-DFFC9BC77603}
