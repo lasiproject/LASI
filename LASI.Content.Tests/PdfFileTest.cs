@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using LASI.Content.Exceptions;
 using LASI.Content.FileConveters;
 using LASI.Content.FileTypes;
+using LASI.Testing.Assertions;
 using NFluent;
-using Shared.Test.NFluentExtensions;
 using Xunit;
 
 namespace LASI.Content.Tests
@@ -43,7 +43,10 @@ namespace LASI.Content.Tests
         public void PdfFileConstructorTest2()
         {
             var pathToNonPdfFile = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
-            Check.That(pathToNonPdfFile).Satisfies(File.Exists);
+            var notAPdf = new FileInfo(pathToNonPdfFile);
+
+            Check.That(notAPdf).Exists();
+
             Check.ThatCode(() => new PdfFile(pathToNonPdfFile))
                  .Throws<FileTypeWrapperMismatchException<PdfFile>>();
         }

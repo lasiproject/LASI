@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using LASI.Content.Exceptions;
 using LASI.Content.FileTypes;
+using LASI.Testing.Assertions;
 using NFluent;
-using Shared.Test.NFluentExtensions;
-using Fact = Xunit.FactAttribute;
+using Xunit;
 
 namespace LASI.Content.Tests
 {
@@ -37,9 +37,9 @@ namespace LASI.Content.Tests
         [Fact]
         public void TxtFileConstructorTest2()
         {
-            var wrongTypePath = new FileInfo(@"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf").FullName;
-            Check.That(wrongTypePath).Satisfies(File.Exists);
-            Check.ThatCode(() => new TxtFile(wrongTypePath)).Throws<FileTypeWrapperMismatchException<TxtFile>>();
+            var wrongTypePath = new FileInfo(@"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf");
+            Check.That(wrongTypePath).Exists();
+            Check.ThatCode(() => new TxtFile(wrongTypePath.FullName)).Throws<FileTypeWrapperMismatchException<TxtFile>>();
         }
 
         /// <summary>

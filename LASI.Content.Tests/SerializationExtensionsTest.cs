@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using LASI.Core;
+using LASI.Testing.Assertions;
 using Newtonsoft.Json.Linq;
 using NFluent;
-using Shared.Test.NFluentExtensions;
 using Xunit;
 
 namespace LASI.Content.Serialization.Json.Tests

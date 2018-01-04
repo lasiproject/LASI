@@ -23,7 +23,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void PdfToTextConverterConstructorTest()
         {
-            var infile = SourceFile;
+            var infile = Input;
             var target = new PdfToTextConverter(infile);
             Check.That(infile).IsEqualTo(target.Original);
         }
@@ -34,7 +34,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ConvertFileTest()
         {
-            var infile = SourceFile;
+            var infile = Input;
             var target = new PdfToTextConverter(infile);
             var expected = infile.LoadText();
             string actual;
@@ -48,7 +48,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ConvertFileAsyncTest()
         {
-            var infile = SourceFile;
+            var infile = Input;
             var target = new PdfToTextConverter(infile);
             var expected = infile.LoadText();
             string actual;

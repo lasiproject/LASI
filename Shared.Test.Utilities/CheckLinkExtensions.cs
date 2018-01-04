@@ -1,17 +1,11 @@
-using System;
+﻿using System;
+using LASI.Testing.Assertions;
 using NFluent;
-using NFluent.Helpers;
-using NFluent.Extensions;
 using NFluent.Extensibility;
-using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 
-namespace Shared.Test.NFluentExtensions
+namespace LASI.Testing.Assertions
 {
-    public static class NFluent
+    public static class CheckLinkExtensions
     {
         public static ICheckLink<ICheck<T>> Satisfies<T>(this ICheck<T> check, Func<T, bool> requirement)
         {
@@ -28,7 +22,7 @@ namespace Shared.Test.NFluentExtensions
             //      the check fails, in the case we were running the negated version.
             //
             // e.g.:
-            var requirementName = GetNominalInfo(requirement);
+            var requirementName = requirement.GetNominalInfo();
             return checker.ExecuteCheck(
                 () =>
                 {
@@ -118,7 +112,7 @@ namespace Shared.Test.NFluentExtensions
         {
             var checker = ExtensibilityHelper.ExtractChecker(check);
 
-            var requirementName = GetNominalInfo(requirement);
+            var requirementName = requirement.GetNominalInfo();
             return checker.ExecuteCheck(
                 () =>
                 {
@@ -181,75 +175,5 @@ namespace Shared.Test.NFluentExtensions
                     .ToString()
             );
         }
-
-        public static ICheckLink<ICheck<T>> IsSameReferenceAs<T>(this ICheck<T> check, T expected) => check.IsSameReferenceAs(expected);
-
-        public static ICheckLink<ICheck<IEnumerable<T>>> StartsWith<T>(this ICheck<IEnumerable<T>> check, params T[] expectedValues)
-        {
-            if (expectedValues == null)
-            {
-                throw new FluentCheckException($"Cannot check against a null sequence of {nameof(expectedValues)}.");
-            }
-            var checker = ExtensibilityHelper.ExtractChecker(check);
-            var actual = checker.Value.Cast<T>().Take(expectedValues.Length).ToList();
-            return checker.ExecuteCheck(() =>
-            {
-                if (actual.Count < expectedValues.Length || !actual.Zip(expectedValues, EqualityComparer<T>.Default.Equals).All(x => x))
-                {
-                    var message = FluentMessage.BuildMessage($"The {{0}} does not start with:\n[ {string.Join(", ", expectedValues)} ]\nit starts with:\n[ {string.Join(", ", actual)} ]")
-                        .On(checker.Value)
-                        .ToString();
-                    throw new FluentCheckException(message);
-                }
-            },
-            FluentMessage.BuildMessage($"The {{0}} starts with:\n[ {string.Join(", ", expectedValues)} ]\nit whereas it must not.")
-                .For(typeof(IEnumerable<T>).Name)
-                .On(checker.Value)
-                .ToString()
-            );
-        }
-        public static ICheckLink<ICheck<IEnumerable<T>>> EndsWith<T>(this ICheck<IEnumerable<T>> check, params T[] expectedValues)
-        {
-            if (expectedValues == null)
-            {
-                throw new FluentCheckException($"Cannot check against a null sequence of {nameof(expectedValues)}.");
-            }
-            var checker = ExtensibilityHelper.ExtractChecker(check);
-            var actual = checker.Value.Cast<T>().Reverse().Take(expectedValues.Length).ToList();
-            return checker.ExecuteCheck(() =>
-            {
-                if (actual.Count < expectedValues.Length || !actual.Zip(expectedValues.Reverse(), EqualityComparer<T>.Default.Equals).All(x => x))
-                {
-                    var message = FluentMessage.BuildMessage($"The {{0}} does not end with:\n[ {string.Join(", ", expectedValues)} ]\nit ends with:\n[ {string.Join(", ", actual)} ]")
-                        .On(checker.Value)
-                        .ToString();
-                    throw new FluentCheckException(message);
-                }
-            },
-            FluentMessage.BuildMessage($"The {{0}} ends with:\n[ {string.Join(", ", expectedValues)} ]\nit whereas it must not.")
-                .For(typeof(IEnumerable<T>).Name)
-                .On(checker.Value)
-                .ToString()
-            );
-        }
-
-        public static ICheck<TValue> HasMember<T, TValue>(this ICheck<T> check, Expression<Func<T, TValue>> expression)
-        {
-            if (expression.Body.NodeType != ExpressionType.MemberAccess)
-            {
-                throw new FluentCheckException($"Expression given to {nameof(HasMember)} constraint is not a valid property access expression");
-            }
-            var checker = ExtensibilityHelper.ExtractChecker(check);
-            var property = (PropertyInfo)((MemberExpression)expression.Body).Member;
-            var value = (TValue)property.GetValue(checker.Value);
-
-            return Check.That(value);
-        }
-
-        #region Helpers
-
-        private static string GetNominalInfo<T>(Func<T, bool> requirement) => $"{requirement.Method.DeclaringType.Name}.{requirement.Method.Name}";
-
-        #endregion
     }
 }
