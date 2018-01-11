@@ -22,7 +22,7 @@ namespace LASI.Core.Analysis.Heuristics
         /// </summary>
         /// <param name="sources">The Documents to Join.</param>
         /// <returns>A Task&lt;IEnumerable&lt;RelationshipTuple&gt;&gt; corresponding to the intersection of the Documents to be joined .</returns>
-        public async Task<IEnumerable<SvoRelationship>> GetCommonResultsAsnyc(IEnumerable<IReifiedTextual> sources) => (
+        public async Task<IEnumerable<SvoRelationship>> GetCommonResultsAsync(IEnumerable<IReifiedTextual> sources) => (
             from resultSet in await Task.WhenAll(
                 GetCommonalitiesByVerbals(sources),
                 GetCommonalitiesByEntities(sources))
@@ -35,7 +35,7 @@ namespace LASI.Core.Analysis.Heuristics
         /// </summary>
         /// <param name="sources">The Documents to Join.</param>
         /// <returns>A Task&lt;IEnumerable&lt;RelationshipTuple&gt;&gt; corresponding to the intersection of the Documents to be joined .</returns>
-        public IEnumerable<SvoRelationship> GetCommonResults(IEnumerable<IReifiedTextual> sources) => GetCommonResultsAsnyc(sources).Result;
+        public IEnumerable<SvoRelationship> GetCommonResults(IEnumerable<IReifiedTextual> sources) => GetCommonResultsAsync(sources).Result;
         private async Task<IEnumerable<SvoRelationship>> GetCommonalitiesByEntities(IEnumerable<IReifiedTextual> sources)
         {
             //await Task.Yield();

@@ -10,8 +10,8 @@ namespace LASI.Testing.Assertions
 {
     public static class EnumerableCheckExtensions
     {
-        public static ICheckLink<ICheck<IEnumerable<T>>> StartsWith<T>(this ICheck<IEnumerable<T>> check, params T[] expectedValues) => Check(check, expectedValues, "start");
-        public static ICheckLink<ICheck<IEnumerable<T>>> EndsWith<T>(this ICheck<IEnumerable<T>> check, params T[] expectedValues) => Check(check, expectedValues, "end");
+        public static ICheckLink<ICheck<System.Collections.IEnumerable>> StartsWith<T>(this ICheck<IEnumerable<T>> check, params T[] expectedValues) => Check(check, expectedValues, "start");
+        public static ICheckLink<ICheck<System.Collections.IEnumerable>> EndsWith<T>(this ICheck<IEnumerable<T>> check, params T[] expectedValues) => Check(check, expectedValues, "end");
 
         private static ICheckLink<ICheck<IEnumerable<T>>> Check<T>(ICheck<IEnumerable<T>> check, T[] expectedValues, string thrust)
         {

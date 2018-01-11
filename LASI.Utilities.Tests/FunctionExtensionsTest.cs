@@ -403,12 +403,10 @@ namespace LASI.Utilities.Tests
                 Sleep(synthesizedWaitInMs);
                 return result;
             };
-            System.Diagnostics.Stopwatch sw;
 
-            var computeWithTimer = compute.WithTimer(out sw);
-            Check.That(sw.IsRunning).IsFalse();
-            computeWithTimer();
-            Check.That(sw.IsRunning).IsFalse();
+            (var timed, var timer) = compute.WithTimer();
+            timed();
+            Check.That(timer.IsRunning).IsFalse();
         }
 
         [Fact]

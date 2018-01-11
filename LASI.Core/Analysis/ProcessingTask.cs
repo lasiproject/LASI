@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace LASI.Core
@@ -7,7 +8,7 @@ namespace LASI.Core
     /// Associates a Task, the Document to which it applies, and initialization and completion
     /// feedback properties.
     /// </summary>
-    public sealed class ProcessingTask : IDisposable
+    public sealed class ProcessingTask : IDisposable, IEquatable<ProcessingTask>
     {
         /// <summary>
         /// Initializes a new Instance of the Processing Task class with the given Task,
@@ -32,7 +33,6 @@ namespace LASI.Core
             CompletionMessage = completionMessage;
             PercentCompleted = percentWorkRepresented;
         }
-
         /// <summary>
         /// Initializes a new Instance of the Processing Task class with the given Action,
         /// initialization message, completion message, and percentage of total work represented.
@@ -54,11 +54,7 @@ namespace LASI.Core
             completionMessage,
             percentWorkRepresented)
         { }
-        /// <summary>
-        /// Gets an awaiter used to await the underlying <see cref="System.Threading.Tasks.Task"/>.
-        /// </summary>
-        /// <returns>An awaiter instance.</returns>
-        public System.Runtime.CompilerServices.TaskAwaiter GetAwaiter() => this.Task.GetAwaiter();
+
         /// <summary>
         ///  Releases all resources used by the current instance of the underlying <see cref="System.Threading.Tasks.Task"/>.
         /// </summary>
@@ -69,28 +65,79 @@ namespace LASI.Core
         /// </exception>
         public void Dispose()
         {
-            ((IDisposable)this.Task).Dispose();
+            ((IDisposable)Task).Dispose();
             GC.SuppressFinalize(this);
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is ProcessingTask)
+            {
+                return Equals((ProcessingTask)obj);
+            }
+
+            return base.Equals(obj);
+        }
+        public bool Equals(ProcessingTask other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return Equals(Task, other?.Task);
+        }
+        /// <summary>
+        /// Gets an awaiter used to await the underlying <see cref="System.Threading.Tasks.Task"/>.
+        /// </summary>
+        /// <returns>An awaiter instance.</returns>
+        public TaskAwaiter GetAwaiter() => Task.GetAwaiter();
+
+        /// <summary>Serves as the default hash function. </summary>
+        /// <returns>A hash code for the current <see cref="ProcessingTask"/>.</returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = 47;
+                hashCode ^= Task.GetHashCode();
+                return hashCode;
+            }
+
+
         }
 
         /// <summary>
         /// Gets a message indicating the end of specific the ProcessingTask.
         /// </summary>
         public string CompletionMessage { get; }
-
         /// <summary>
         /// Gets a message indicating the start of specific the ProcessingTask.
         /// </summary>
         public string InitializationMessage { get; }
-
         /// <summary>
         /// Gets a double value corresponding to the relative amount of work the ProcessingTask represents.
         /// </summary>
         public double PercentCompleted { get; }
-
         /// <summary>
         /// The work the ProcessingTask will perform.
         /// </summary>
         public Task Task { get; }
+
+        public static bool operator !=(ProcessingTask first, ProcessingTask second) => !(first == second);
+        public static bool operator ==(ProcessingTask first, ProcessingTask second)
+        {
+            if ((object)first == null)
+            {
+                return (object)second == null;
+            }
+
+            return first.Equals(second);
+        }
+        public static implicit operator Task(ProcessingTask processingTask) => processingTask.Task;
     }
 }

@@ -354,7 +354,7 @@ namespace LASI.App
             var dialog = new CrossJoinSelectDialog(this);
             if (dialog.ShowDialog() ?? false)
             {
-                var joinedRelationshipResults = await new CrossDocumentJoiner().GetCommonResultsAsnyc(dialog.SelectedDocuments);
+                var joinedRelationshipResults = await new CrossDocumentJoiner().GetCommonResultsAsync(dialog.SelectedDocuments);
                 metaRelationshipsDataGrid.ItemsSource = joinedRelationshipResults.ToGridRowData();
                 metaViewTab.Visibility = Visibility.Visible;
             }

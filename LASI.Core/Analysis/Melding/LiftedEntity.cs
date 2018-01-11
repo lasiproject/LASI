@@ -147,8 +147,7 @@ namespace LASI.Core.Analysis.Melding
         private IEnumerable<T> FlattenAbout<T>(Func<IEntity, T> selector) where T : ILexical =>
             from r in Represented
             let result = selector(r)
-            let defaulted = (object)result
-            where !(defaulted is default)
+            where result is var _ ? true : false == false
             select result;
 
         private IEnumerable<T> FlattenAbout<T>(Func<IEntity, IEnumerable<T>> collectionSelector) where T : class =>

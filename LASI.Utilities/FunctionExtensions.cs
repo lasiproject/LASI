@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace LASI.Utilities
 {
@@ -47,6 +48,9 @@ namespace LASI.Utilities
         /// </remarks>
         public static Func<T2, T3> Compose<T1, T2, T3>(this Func<T1, T3> f, Func<T2, T1> g) => x => f(g(x));
 
+        public static Func<T2> Compose<T1, T2>(this Func<T1, T2> g, Func<T1> f) => () => g(f());
+
+        public static Func<T2> Compose<T1, T2>(this Func<T1, Func<T2>> g, Func<T1> f) => g(f());
         #endregion
 
         #region AndThen
@@ -75,6 +79,15 @@ namespace LASI.Utilities
         /// result of invoking the first.
         /// </returns>
         public static Func<T1, T3> AndThen<T2, T1, T3>(this Func<T1, T2> f, Func<T2, T3> g) => x => g(f(x));
+
+
+        public static Func<T2> AndThen<T1, T2>(this Func<T1> f, Func<T1, T2> g) => () => g(f());
+
+        public static Func<T2> AndThen<T1, T2>(this Func<T1> f, Func<T1, Func<T2>> g) => g(f());
+
+
+
+        #region Logical
 
         /// <summary>
         /// Composes a pair of curried predicates having the form
@@ -111,6 +124,11 @@ namespace LASI.Utilities
             Func<T1, Func<T2, bool>> g,
             Func<bool, Func<bool, bool>> op) =>
             x => y => op(f(x)(y))(g(x)(y));
+        public static Func<T1, bool> Negate<T1>(this Func<T1, bool> f) => x => !f(x);
+        public static Func<T1, Func<T2, bool>> Negate<T1, T2>(this Func<T1, Func<T2, bool>> f) => x => f(x).Negate();
+        public static Func<T1, T2, bool> Negate<T1, T2>(this Func<T1, T2, bool> f) => (x, y) => !f(x, y);
+
+        #endregion
 
         #region Experimental
 
@@ -538,12 +556,6 @@ namespace LASI.Utilities
         public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, Action<T8>>>>>>>> Curry<T1, T2, T3, T4, T5, T6, T7, T8>
             (this Action<T1, T2, T3, T4, T5, T6, T7, T8> fn) => a => b => c => d => e => f => g => h => fn(a, b, c, d, e, f, g, h);
 
-        #region Lifted Negation
-        public static Func<T1, bool> Negate<T1>(this Func<T1, bool> f) => x => !f(x);
-        public static Func<T1, Func<T2, bool>> Negate<T1, T2>(this Func<T1, Func<T2, bool>> f) => x => f(x).Negate();
-        public static Func<T1, T2, bool> Negate<T1, T2>(this Func<T1, T2, bool> f) => (x, y) => !f(x, y);
-        #endregion
-
         #region Partial Application
 
         /// <summary>
@@ -735,24 +747,25 @@ namespace LASI.Utilities
         public static T Identity<T>(T value) => value;
 
         /// <summary>
-        /// Binds a new <see cref="System.Diagnostics.Stopwatch"/>to <paramref name="stopwatch"/>
-        /// and sets up an invocation context such that after a call to <paramref name="function"/> it will track the elapsed execution time.
+        /// and sets up an invocation context such that after a call to <paramref name="time"/> it will track the elapsed execution time.
         /// </summary>
         /// <typeparam name="TResult">The type of the value returned by the function.</typeparam>
-        /// <param name="function">the function to time.</param>
-        /// <param name="stopwatch">The stopwatch reference which will be bound.</param>
-        /// <returns>A function which will invoke the specified function and reveal elapsed execution time by way of <paramref name="stopwatch"/>.</returns>
-        public static Func<TResult> WithTimer<TResult>(this Func<TResult> function, out System.Diagnostics.Stopwatch stopwatch)
+        /// <param name="time">the function to time.</param>
+        /// <returns>
+        /// A function which will invoke the specified function and reveal elapsed execution time by way of a <see cref="Stopwatch"/>.
+        /// </returns>
+        public static (Func<TResult> timed, Stopwatch timer) WithTimer<TResult>(this Func<TResult> time)
         {
-            var proxy = new System.Diagnostics.Stopwatch();
-            stopwatch = proxy;
-            return () =>
-             {
-                 proxy.Start();
-                 var result = function();
-                 proxy.Stop();
-                 return result;
-             };
+            var timer = new Stopwatch();
+            TResult timed()
+            {
+                timer.Start();
+                var result = time();
+                timer.Stop();
+                return result;
+            }
+
+            return (timed, timer);
         }
         /// <summary>
         /// Binds a new <see cref="System.Diagnostics.Stopwatch"/>to <paramref name="stopwatch"/>
