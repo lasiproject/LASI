@@ -14,7 +14,8 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <LangVersion>7.1</LangVersion>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,17 +60,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Concurrency.cs" />
+    <Compile Include="ConfigurationFormat.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Memory.cs" />
     <Compile Include="PerformanceProfile.cs" />
     <Compile Include="ProgressReporting\AnalysisUpdateEventArgs.cs" />
     <Compile Include="ProgressReporting\Basis\SystemResourceNotifierDualizer.cs" />
+    <Compile Include="ProgressReporting\MemoryThresholdExceededEventArgs.cs" />
     <Compile Include="ProgressReporting\SystemResourceLoadingNotifier.cs" />
     <Compile Include="ProgressReporting\SystemResourceNotifier.cs" />
     <Compile Include="ProgressReporting\ResourceLoadEventArgs.cs" />
     <Compile Include="ProgressReporting\MB.cs" />
-    <Compile Include="ProgressReporting\MemoryThresholdExceededEventArgs.cs" />
     <Compile Include="ResourceUsageSample.cs" />
     <Compile Include="AlreadyConfiguredException.cs" />
     <Compile Include="Visualization\IStyleProvider.cs" />
@@ -105,14 +107,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
+    <Target Name="BeforeBuild"></Target><Target Name="AfterBuild"></Target>
 	-->
 </Project>

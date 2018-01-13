@@ -9,7 +9,6 @@ namespace LASI.Interop.Tests
     public class ConfigurationTests
     {
         [Fact]
-        [Trait("Infrastructure", "Infrastructure")]
         public void InitializeTwiceThrowsSystemAlreadyConfiguredException()
         {
             Configures[new Random().Next(0, 4)]();
@@ -26,44 +25,44 @@ namespace LASI.Interop.Tests
         };
 
         /// <summary>
-        /// A test for <see cref="Configuration.Initialize(string, ConfigFormat)"/>
+        /// A test for <see cref="Configuration.Initialize(string, ConfigurationFormat)"/>
         /// </summary>
         private static void InitializeWithSimpleJSONConfig()
         {
             var path = @"..\..\configAtTopLevel.json";
-            var format = ConfigFormat.Json;
+            var format = ConfigurationFormat.Json;
             Configuration.Initialize(path, format);
         }
 
 
         /// <summary>
-        /// A test for <see cref="Configuration.Initialize(string, ConfigFormat, string)"/>
+        /// A test for <see cref="Configuration.Initialize(string, ConfigurationFormat, string)"/>
         /// </summary>
         static void InitializeWithJSONSubkeyConfig()
         {
             var path = @"..\..\configWithDataSubkey.json";
-            var format = ConfigFormat.Json;
+            var format = ConfigurationFormat.Json;
             var subkey = "Data";
             Configuration.Initialize(path, format, subkey);
         }
 
         /// <summary>
-        /// A test for <see cref="Configuration.Initialize(Stream, ConfigFormat)"/>
+        /// A test for <see cref="Configuration.Initialize(Stream, ConfigurationFormat)"/>
         /// </summary>
         static void InitializeWithSimpleJSONConfigFromStream()
         {
             var path = @"..\..\configAtTopLevel.json";
-            var format = ConfigFormat.Json;
+            var format = ConfigurationFormat.Json;
             Configuration.Initialize(new MemoryStream(Encoding.Default.GetBytes(File.ReadAllText(path))), format);
         }
 
         /// <summary>
-        /// A test for <see cref="Configuration.Initialize(Stream, ConfigFormat, string)"/>
+        /// A test for <see cref="Configuration.Initialize(Stream, ConfigurationFormat, string)"/>
         /// </summary>
         static void InitializeWithSimpleJSONSubkeyConfigFromStream()
         {
             var path = @"..\..\configAtTopLevel.json";
-            var format = ConfigFormat.Json;
+            var format = ConfigurationFormat.Json;
             var subkey = "Data";
             Configuration.Initialize(new MemoryStream(Encoding.Default.GetBytes(File.ReadAllText(path))), format,
                 subkey);

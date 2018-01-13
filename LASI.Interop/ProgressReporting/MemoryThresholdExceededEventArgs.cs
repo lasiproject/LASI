@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace LASI.Interop
+namespace LASI.Interop.ProgressReporting
 {
     /// <summary>
     /// The event data which is accessible to a function which handles a memory threshold exceeded event.

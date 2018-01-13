@@ -1,18 +1,11 @@
-﻿using System;
+﻿using LASI.Utilities;
+using LASI.Utilities.Configuration;
+using LASI.Utilities.Validation;
+using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
-using LASI.Utilities;
-using File = System.IO.File;
-using FileStream = System.IO.FileStream;
-using IConfig = LASI.Utilities.Configuration.IConfig;
-using JObject = Newtonsoft.Json.Linq.JObject;
-using JsonConfig = LASI.Utilities.Configuration.JsonConfig;
-using JToken = Newtonsoft.Json.Linq.JToken;
-using Path = System.IO.Path;
-using StreamReader = System.IO.StreamReader;
-using Validate = LASI.Utilities.Validation.Validate;
-using WebRequest = System.Net.WebRequest;
-using XElement = System.Xml.Linq.XElement;
-using XmlConfig = LASI.Utilities.Configuration.XmlConfig;
+using System.Net;
+using System.Xml.Linq;
 
 namespace LASI.Interop
 {
@@ -21,12 +14,14 @@ namespace LASI.Interop
     /// </summary>
     public static class Configuration
     {
+        public static void Initialize(IConfig config) => Initialize(() => config);
+
         /// <summary>
         /// Configures how components are initialized by specifying the locations of required resource files.
         /// </summary>
         /// <param name="configUrl">The location of an XML or JSON document containing configuration information.</param>
         /// <param name="format">Specifies the format of the document containing the configuration information.</param>
-        public static void Initialize(string configUrl, ConfigFormat format) => Initialize(configUrl, format, null);
+        public static void Initialize(string configUrl, ConfigurationFormat format) => Initialize(configUrl, format, null);
 
         /// <summary>
         /// Configures how components are initialized by specifying the locations of required resource files.
@@ -37,7 +32,7 @@ namespace LASI.Interop
         /// Specifies the name of the child object or nested element containing the resource configuration information. For example, if the configure source is a "classical" App.config file, such as
         /// that used by the LASI.App WPF application, the value of this argument would be "AppSettings".
         /// </param>
-        public static void Initialize(string configUrl, ConfigFormat format, string subkey)
+        public static void Initialize(string configUrl, ConfigurationFormat format, string subkey)
         {
             var isUrl = Uri.IsWellFormedUriString(configUrl, UriKind.Absolute);
             var isFsPath = File.Exists(Path.GetFullPath(configUrl));
@@ -63,7 +58,7 @@ namespace LASI.Interop
         /// </summary>
         /// <param name="stream">A stream containing a JSON or XML document holding the desired configuration information.</param>
         /// <param name="format">Specifies the format of the document containing the configuration information.</param>
-        public static void Initialize(Stream stream, ConfigFormat format) => Initialize(stream, format, null);
+        public static void Initialize(Stream stream, ConfigurationFormat format) => Initialize(stream, format, null);
 
         /// <summary>
         /// Configures how components are initialized by specifying the locations of required resources files.
@@ -74,7 +69,7 @@ namespace LASI.Interop
         /// Specifies the format of the stream containing the configuration information. Specifies the name of the child object or nested element containing the resource configuration information. For
         /// example, if the configuration source is a "classical" App.config file, such as that used by the LASI.App WPF application, the value of this argument would be "AppSettings".
         /// </param>
-        public static void Initialize(Stream stream, ConfigFormat format, string subkey)
+        public static void Initialize(Stream stream, ConfigurationFormat format, string subkey)
         {
             using (var reader = new StreamReader(stream))
             {
@@ -82,11 +77,9 @@ namespace LASI.Interop
             }
         }
 
-        public static void Initialize(IConfig config) => Initialize(() => config);
-
-        private static void Initialize(Func<IConfig> configFactory)
+        static void Initialize(Func<IConfig> configFactory)
         {
-            lock (InitializationLock)
+            lock (initializationLock)
             {
                 Validate.False(alreadyConfigured, () => new AlreadyConfiguredException());
                 var config = configFactory();
@@ -95,14 +88,14 @@ namespace LASI.Interop
             }
         }
 
-        private static void InitializeImplementation(string raw, ConfigFormat format, string subkey)
+        static void InitializeImplementation(string raw, ConfigurationFormat format, string subkey)
         {
-            lock (InitializationLock)
+            lock (initializationLock)
             {
                 Validate.False<AlreadyConfiguredException>(alreadyConfigured);
-                var config = format is ConfigFormat.Json is var j
+                var config = format is ConfigurationFormat.Json is var j
                     ? loadJsonConfig()
-                    : format is ConfigFormat.Xml is var x
+                    : format is ConfigurationFormat.Xml is var x
                         ? loadXmlConfig()
                         : throw new ArgumentException(configFormatError);
 
@@ -110,42 +103,28 @@ namespace LASI.Interop
                 alreadyConfigured = true;
             }
 
-            IConfig loadXmlConfig() => new XmlConfig(subkey.IsNullOrWhiteSpace()
+            IConfig loadXmlConfig() =>
+                    new XmlConfig(subkey.IsNullOrWhiteSpace()
                 ? XElement.Parse(raw)
                 : XElement.Parse(raw).Element(subkey));
 
-            IConfig loadJsonConfig() => new JsonConfig((JObject)(subkey.IsNullOrWhiteSpace()
+            IConfig loadJsonConfig() =>
+                    new JsonConfig((JObject)(subkey.IsNullOrWhiteSpace()
                 ? JToken.Parse(raw)
                 : JToken.Parse(raw).SelectToken(subkey)));
         }
 
-        private static void InitializeComponents(IConfig settings)
+        static void InitializeComponents(IConfig settings)
         {
-            LASI.Core.Configuration.Configuration.Initialize(settings);
+            Core.Configuration.Configuration.Initialize(settings);
             LASI.Content.Configuration.Initialize(settings);
         }
 
-        private static readonly string configFormatError =
-                $"Invalid config format, specify {nameof(ConfigFormat)}: {nameof(ConfigFormat.Json)} or {nameof(ConfigFormat)}{nameof(ConfigFormat.Xml)}"
-            ;
+        static bool alreadyConfigured;
 
-        private static bool alreadyConfigured;
-        private static readonly object InitializationLock = new object();
-    }
+        static readonly string configFormatError =
+                $"Invalid config format, specify {nameof(ConfigurationFormat)}: {nameof(ConfigurationFormat.Json)} or {nameof(ConfigurationFormat)}{nameof(ConfigurationFormat.Xml)}";
 
-    /// <summary>
-    /// Defines the valid formats for configuration sources.
-    /// </summary>
-    public enum ConfigFormat
-    {
-        /// <summary>
-        /// JSON
-        /// </summary>
-        Json = 0,
-
-        /// <summary>
-        /// XML
-        /// </summary>
-        Xml
+        static readonly object initializationLock = new object();
     }
 }

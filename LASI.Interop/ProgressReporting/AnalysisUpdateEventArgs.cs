@@ -1,4 +1,4 @@
-﻿namespace LASI.Interop
+﻿namespace LASI.Interop.ProgressReporting
 {
     /// <summary>
     /// A LASI.Core.Reporting.Reporting.ReportEventArgs implementation providing updates on an ongoing operation.

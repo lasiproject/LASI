@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LASI.Content;
 using LASI.Content.Tagging;
 using LASI.Core;
+using LASI.Interop.ProgressReporting;
 
 namespace LASI.Interop
 {

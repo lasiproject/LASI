@@ -47,7 +47,6 @@ namespace LASI.Content.FileConveters
                 }
             })
             {
-                DataReceivedEventHandler log = (sender, e) => Logger.Log(e.Data);
                 process.OutputDataReceived += log;
                 var stopWatch = Stopwatch.StartNew();
                 process.Start();
@@ -57,6 +56,8 @@ namespace LASI.Content.FileConveters
                 process.OutputDataReceived -= log;
                 return Converted;
             }
+
+            void log(object sender, DataReceivedEventArgs e) => Logger.Log(e.Data);
         }
 
         internal static Utilities.Configuration.IConfig Config { get; set; }
