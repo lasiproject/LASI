@@ -65,9 +65,7 @@ namespace LASI.Core
         public static Similarity IsSimilarTo(this AdverbPhrase first, AdverbPhrase second)
         {
             var percentMatched = first.Words.OfAdverb()
-                .Zip(second.Words.OfAdverb())
-                .With(IsSimilarTo)
-                .Select(Similarity.ToBoolean)
+                .Zip(second.Words.OfAdverb(), (x, y) => x.IsSimilarTo(y) == true)
                 .PercentTrue();
             return Similarity.FromBoolean(first == second || percentMatched / 100 > SimilarityThreshold);
         }

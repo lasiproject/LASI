@@ -15,7 +15,9 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <UseMSBuildEngine>False</UseMSBuildEngine>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>Latest</LangVersion>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,6 +57,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Reactive, Version=4.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.4.0.0-preview00001\lib\net46\System.Reactive.dll</HintPath>
@@ -66,11 +69,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\ConfigBuilder.cs" />
     <Compile Include="Configuration\IConfig.cs" />
-    <Compile Include="Configuration\IMutableConfig.cs" />
     <Compile Include="Configuration\JsonConfig.cs" />
-    <Compile Include="Configuration\LoadableConfigBase.cs" />
     <Compile Include="Configuration\XmlConfig.cs" />
     <Compile Include="Equality.cs" />
     <Compile Include="Func.cs" />
@@ -80,15 +80,16 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IVariantDictionary.cs" />
     <Compile Include="IVariantKeyValuePair.cs" />
+    <Compile Include="KeyValuePairExtensions.cs" />
     <Compile Include="Logger.DebugOutputProxy.cs">
       <DependentUpon>Logger.cs</DependentUpon>
     </Compile>
     <Compile Include="Logger.Mode.cs">
       <DependentUpon>Logger.cs</DependentUpon>
     </Compile>
-    <Compile Include="Specialized\Enhanced\Universal\UniversalExtensions.cs" />
-    <Compile Include="Specialized\Enhanced\IList\Linq\IListExtensions.cs" />
+    <Compile Include="NewtonsoftJsonExtensions.cs" />
     <Compile Include="Option.cs" />
+    <Compile Include="Specialized\Enhanced\IList\Linq\ListExtensions.cs" />
     <Compile Include="Validation\Validate.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="FunctionExtensions.cs" />
@@ -107,14 +108,11 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Specialized\Enhanced\Universal\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <!--<Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />-->
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

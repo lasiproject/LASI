@@ -142,42 +142,6 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             (ending : "", suffix : "er"),
             (ending : "", suffix : "est"),
         };
-
-        struct SuffixEndingPair
-        {
-            public string RemoveEnding(string word) => word.Substring(0, word.Length - SuffixLength);
-
-            public string RemoveEndingAndApplySuffix(string word) => $"{word.Substring(0, word.Length - EndingLength)}{Suffix}";
-
-            public string Suffix
-            {
-                get => suffix;
-                set
-                {
-                    suffix = value;
-                    suffixLength = suffix.Length;
-                }
-            }
-
-            public string Ending
-            {
-                get => ending;
-                set
-                {
-                    endingLength = value.Length;
-                    ending = value;
-                }
-            }
-
-            public int EndingLength => endingLength;
-
-            public int SuffixLength => suffixLength;
-
-            string ending;
-            string suffix;
-            int endingLength;
-            int suffixLength;
-        }
     }
     static class SuffixEndingPairExtensions
     {

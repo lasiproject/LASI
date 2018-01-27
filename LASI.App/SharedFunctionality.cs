@@ -11,6 +11,7 @@ using LASI.Utilities;
 
 namespace LASI.App
 {
+    using LASI.Core;
     using static Logger;
     static class SharedFunctionality
     {
@@ -120,7 +121,7 @@ namespace LASI.App
                 }
             }
         }
-        internal static ILexicalSerializer<Core.ILexical, object> CreateSerializer() => SerializerFactory.Create(Properties.Settings.Default.OutputFormat);
+        internal static ILexicalSerializer<ILexical, object> CreateSerializer() => LexicalSerializer.Create(Properties.Settings.Default.OutputFormat);
         internal static void DisplayPreferencesWindow(Window source)
         {
             var preferences = new Preferences();

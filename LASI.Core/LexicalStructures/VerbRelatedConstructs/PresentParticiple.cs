@@ -50,7 +50,7 @@ namespace LASI.Core
         public void AddPossession(IPossessable possessable)
         {
             possessions = possessions.Add(possessable);
-            possessable.Possesser = this;
+            possessable.Possessor = this;
         }
 
         /// <summary>
@@ -101,9 +101,9 @@ namespace LASI.Core
         /// </summary>
         public IVerbal IndirectObjectOf { get; private set; }
         /// <summary>
-        /// The <see cref="IPossesser"/> which "owns" the <see cref="PresentParticiple"/>.
+        /// The <see cref="IPossessor"/> which "owns" the <see cref="PresentParticiple"/>.
         /// </summary>
-        public IPossesser Possesser { get; set; }
+        public IPossessor Possessor { get; set; }
         /// <summary>
         /// The Activity value of the EntityKind enumeration, the kind always associated with an PresentParticiple.
         /// </summary>

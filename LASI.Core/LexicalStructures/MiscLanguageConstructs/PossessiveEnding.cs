@@ -45,7 +45,7 @@ namespace LASI.Core
         /// Gets or sets the possessing the Entity the PosssessiveEnding is attached to.
         /// When this property is set, ownership of all possessions associated with the PossessiveEnding is transferred to the target Entity.
         /// </summary>
-        public IPossesser PossessesFor
+        public IPossessor PossessesFor
         {
             get => possessesFor;
             set
@@ -75,7 +75,7 @@ namespace LASI.Core
         #region Fields
 
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
-        private IPossesser possessesFor;
+        private IPossessor possessesFor;
 
         #endregion
 

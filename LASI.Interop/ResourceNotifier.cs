@@ -1,5 +1,5 @@
 ﻿using System;
-using LASI.Interop.ContractHelperTypes.Base;
+using LASI.Interop.ProgressReporting.Basis;
 
 namespace LASI.Interop.ResourceManagement
 {

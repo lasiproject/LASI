@@ -54,9 +54,6 @@ namespace LASI.Core
         /// <returns>A new Similarity based on the given value.</returns>
         public static Similarity FromBoolean(bool similar) => similar ? Similar : Dissimilar;
 
-        public static bool ToBoolean(Similarity similarity) => similarity.Boolean;
-        public static double ToRatio(Similarity similarity) => similarity.Ratio;
-
         #endregion Factory Methods
 
         #region Methods
@@ -120,12 +117,11 @@ namespace LASI.Core
 
         #region Operators
 
-        #region Implicit Conversion Operators
-
         // These allow the type to implicitly convert to the desired result type for the condition.
         // Thus, refactoring the IsSimilarTo implementations preserves and enhances existing code
         // without the need to rewrite any conditionals or call expensive methods multiple times to
         // get numeric vs boolean results
+        #region Implicit Conversion Operators
         /// <summary>
         /// Converts the SimResult into its boolean representation. The resulting boolean has the
         /// same value as the conversion target's booleanResult Property.
@@ -137,7 +133,6 @@ namespace LASI.Core
         /// A boolean with the same value as the conversion target's booleanResult Property.
         /// </returns>
         public static implicit operator bool(Similarity sr) => sr.Boolean;
-
         /// <summary>
         /// Converts the SimResult into its double representation. The resulting boolean has the
         /// same value as the conversion target's RatioResult Property.
@@ -149,6 +144,9 @@ namespace LASI.Core
         /// A double with the same value as the conversion target's RatioResult Property.
         /// </returns>
         public static implicit operator double(Similarity sr) => sr.Ratio;
+
+        public static bool operator true(Similarity sr) => sr;
+        public static bool operator false(Similarity sr) => sr;
 
         #endregion Implcit Conversion Operators
 

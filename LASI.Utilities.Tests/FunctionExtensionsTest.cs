@@ -4,8 +4,8 @@ namespace LASI.Utilities.Tests
 {
     using NFluent;
     using Xunit;
-    using static FunctionExtensions;
     using static System.Threading.Thread;
+    using static FunctionExtensions;
 
     public class FunctionExtensionsTest
     {
@@ -13,7 +13,9 @@ namespace LASI.Utilities.Tests
         public void ComposeTest()
         {
             Func<double, double> f = x => x * x;
+#pragma warning disable IDE0039 // Use local function Application triggers hard error. Type inference failure
             Func<double, double> g = x => x - 1;
+#pragma warning restore IDE0039 // Use local function
             var target = f.Compose(g);
             var value = 5D;
             var temp = g(value);
@@ -113,6 +115,78 @@ namespace LASI.Utilities.Tests
             Func<U, T> actual;
             actual = FunctionExtensions.Compose(f, g);
             Check.That(expected(default)).IsEqualTo(default);
+        }
+
+        [Fact]
+        public void AndThenCallsA1BeforeA2()
+        {
+            var a1Called = false;
+            var a2Called = false;
+
+            Action<string> a1 = s =>
+            {
+                Check.That(a2Called).IsFalse();
+                a1Called = true;
+                Logger.Log(s);
+            };
+            Action<string> a2 = s =>
+            {
+                Check.That(a1Called).IsTrue();
+                a2Called = true;
+                Logger.Log(s.ToUpper());
+            };
+            var target = a1.AndThen(a2);
+            target("hello");
+            Check.That(a1Called).IsTrue();
+            Check.That(a2Called).IsTrue();
+        }
+
+        [Fact]
+        public void AndThenTest5()
+        {
+            var a1Called = false;
+            var a2Called = false;
+
+            Action<string> a1 = s =>
+            {
+                Check.That(a2Called).IsFalse();
+                a1Called = true;
+                Logger.Log(s);
+            };
+            Action a2 = () =>
+            {
+                Check.That(a1Called).IsTrue();
+                a2Called = true;
+                Logger.Log($"called {nameof(a2)}");
+            };
+            var target = a1.AndThen(a2);
+            target("hello");
+            Check.That(a1Called).IsTrue();
+            Check.That(a2Called).IsTrue();
+        }
+
+        [Fact]
+        public void AndThenTest6()
+        {
+            var a1Called = false;
+            var a2Called = false;
+
+            Action a1 = () =>
+            {
+                Check.That(a2Called).IsFalse();
+                a1Called = true;
+                Logger.Log($"called {nameof(a1)}");
+            };
+            Action a2 = () =>
+            {
+                Check.That(a1Called).IsTrue();
+                a2Called = true;
+                Logger.Log($"called {nameof(a2)}");
+            };
+            var target = a1.AndThen(a2);
+            target();
+            Check.That(a1Called).IsTrue();
+            Check.That(a2Called).IsTrue();
         }
 
         [Fact]
@@ -331,10 +405,10 @@ namespace LASI.Utilities.Tests
                 Sleep(synthesizedWaitInMs);
                 return result;
             };
-            var computeWithTimer = compute.WithTimer(out var sw);
-            Check.That(sw.IsRunning).IsFalse();
-            computeWithTimer();
-            Check.That(sw.IsRunning).IsFalse();
+
+            (var timed, var timer) = compute.WithTimer();
+            timed();
+            Check.That(timer.IsRunning).IsFalse();
         }
 
         [Fact]
@@ -346,7 +420,9 @@ namespace LASI.Utilities.Tests
                 Sleep(synthesizedWaitInMs);
                 return new Complex(data.Imaginary, data.Real);
             };
-            var computeWithTimer = compute.WithTimer(out var sw);
+            System.Diagnostics.Stopwatch sw;
+
+            var computeWithTimer = compute.WithTimer(out sw);
             Check.That(sw.IsRunning).IsFalse();
             computeWithTimer(new Complex(2, 2));
             Check.That(sw.IsRunning).IsFalse();
@@ -362,7 +438,9 @@ namespace LASI.Utilities.Tests
                 Sleep(synthesizedWaitInMs);
                 result = new Complex(1, -1);
             };
-            var computeWithTimer = compute.WithTimer(out var sw);
+            System.Diagnostics.Stopwatch sw;
+
+            var computeWithTimer = compute.WithTimer(out sw);
             Check.That(sw.IsRunning).IsFalse();
             computeWithTimer();
             Check.That(sw.IsRunning).IsFalse();

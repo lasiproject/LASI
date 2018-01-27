@@ -147,7 +147,6 @@ namespace LASI.Core.Heuristics.WordNet
         /// <param name="search">An instance of Verb</param>
         /// <returns>A collection of strings containing all of the synonyms of the given Verb.</returns>
         internal override IImmutableSet<string> this[Verb search] => this[search.Text];
-        private const int TOTAL_LINES = 13766;
         /// <summary>
         /// A report will be propagated for every 1 in 138 sets roughly 100 updates will take place.
         /// </summary>
@@ -182,11 +181,6 @@ namespace LASI.Core.Heuristics.WordNet
         /// ends with the sequence 0000 (indicates that the source/target relationship between to the set is semantic as opposed to lexical): [0]{4,}
         /// </summary>
         private static readonly Regex RelationshipRegex = new Regex(@"\D{1,2}\s*[\d]{8}[\s].[\s][0]{4,}", RegexOptions.Compiled);
-
-        /// <summary>
-        /// The number of in the WordNet file data.verb which contains the textual Synset data for verbs.
-        /// </summary>
-        private const uint SetCount = 13797;
         private static readonly LinkType[] TraversedLinks =
         {
              LinkType.Hypernym,

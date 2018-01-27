@@ -55,7 +55,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Utilities.Tests", "LAS
 		{1314082A-EB47-44E9-88A0-72C71489035F} = {1314082A-EB47-44E9-88A0-72C71489035F}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Testing.Assertions", "Shared.Test.Utilities\LASI.Testing.Assertions.csproj", "{1314082A-EB47-44E9-88A0-72C71489035F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Testing.Assertions", "LASI.Testing.Assertions\LASI.Testing.Assertions.csproj", "{1314082A-EB47-44E9-88A0-72C71489035F}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "LASI.Installer", "LASI.Installer\LASI.Installer.vdproj", "{E0FB815A-0136-4471-A929-514A88087797}"
 EndProject

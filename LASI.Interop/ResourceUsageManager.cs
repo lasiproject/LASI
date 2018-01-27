@@ -1,7 +1,7 @@
 ﻿namespace LASI.Interop
 {
     using Lexicon = Core.Lexicon;
-    using MemoryThresholdEventHandler = System.EventHandler<MemoryThresholdExceededEventArgs>;
+    using MemoryThresholdEventHandler = System.EventHandler<LASI.Interop.ProgressReporting.MemoryThresholdExceededEventArgs>;
 
     /// <summary>
     /// Controls global performance and resource usage settings.

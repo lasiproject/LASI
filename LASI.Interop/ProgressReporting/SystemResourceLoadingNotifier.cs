@@ -1,4 +1,4 @@
-﻿namespace LASI.Interop.ContractHelperTypes.Base
+﻿namespace LASI.Interop.ProgressReporting.Basis
 {
     class SystemResourceLoadingNotifier : SystemResourceNotifierDualizer
     {

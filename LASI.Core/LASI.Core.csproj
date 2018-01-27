@@ -28,10 +28,11 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
-    <LangVersion>latest</LangVersion>
+    <LangVersion>7.1</LangVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>1a74ad5a</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -75,16 +76,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Interactive.Async, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Interactive.Async.3.1.1\lib\net46\System.Interactive.Async.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Memory, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.4.0-preview1-25305-02\lib\netstandard2.0\System.Memory.dll</HintPath>
-    </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
     <Reference Include="System.Reactive, Version=4.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.4.0.0-preview00001\lib\net46\System.Reactive.dll</HintPath>
     </Reference>
@@ -102,9 +94,6 @@
     </Reference>
     <Reference Include="System.Reactive.Windows.Threading, Version=3.0.1000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.Windows.Threading.4.0.0-preview00001\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="WindowsBase" />
@@ -132,14 +121,13 @@
     </Compile>
     <Compile Include="Analysis\Binding\VerblessPhrasalSequenceException.cs" />
     <Compile Include="Analysis\Heuristics\Paths.cs" />
-    <Compile Include="Analysis\Heuristics\LookupNameProvider.cs" />
+    <Compile Include="Analysis\Heuristics\NameProvider.cs" />
     <Compile Include="Analysis\Heuristics\Similarity.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\AdjectiveCategory.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\AdverbCategory.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\NounCategory.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\VerbCategory.cs" />
     <Compile Include="Analysis\Heuristics\WordMorphing\AdjectiveMorpher.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphing\ExceptionEntry.cs" />
     <Compile Include="Analysis\Heuristics\WordMorphing\IWordMorpher.cs" />
     <Compile Include="Analysis\Heuristics\WordMorphing\WordNetExceptionDataManager.cs" />
     <Compile Include="Analysis\Melding\LiftedEntity.cs" />
@@ -157,11 +145,11 @@
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\MatchAgainstTuple.cs" />
     <Compile Include="Analysis\PatternMatching\MatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\Match.cs" />
-    <Compile Include="Analysis\PatternMatching\PredicatedMatch1.cs" />
-    <Compile Include="Analysis\PatternMatching\PredicatedMatchLifted.cs" />
-    <Compile Include="Analysis\PatternMatching\PredicatedMatchTTResult.cs" />
     <Compile Include="Analysis\PatternMatching\PredicatedMatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\PredicatedMatch.cs" />
+    <Compile Include="Analysis\PatternMatching\PredicatedMatchTTResult.cs" />
+    <Compile Include="Analysis\PatternMatching\PredicatedMatchLifted.cs" />
+    <Compile Include="Analysis\PatternMatching\PredicatedMatch1.cs" />
     <Compile Include="Analysis\RelationshipLookups\AliasLookup.cs" />
     <Compile Include="Analysis\RelationshipLookups\Helpers\ActionsRelatedOn.cs" />
     <Compile Include="Analysis\RelationshipLookups\Helpers\IActionReceiverPair.cs" />
@@ -261,7 +249,7 @@
     <Compile Include="LexicalStructures\BehavioralConstructs\IAdverbial.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IDescriptor.cs" />
     <Compile Include="LexicalStructures\BehavioralConstructs\IPossessable.cs" />
-    <Compile Include="LexicalStructures\BehavioralConstructs\IPossesser.cs" />
+    <Compile Include="LexicalStructures\BehavioralConstructs\IPossessor.cs" />
     <Compile Include="Analysis\Heuristics\Support\LexicalComparers.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\AdjectiveLookup.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\AdverbLookup.cs" />
@@ -392,9 +380,12 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <!--<Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.1.0.0-rc1\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.1.0.0-rc1\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props'))" />-->
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild"></Target><Target Name="AfterBuild"></Target>
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
   -->
   <ProjectExtensions>
     <MonoDevelop>

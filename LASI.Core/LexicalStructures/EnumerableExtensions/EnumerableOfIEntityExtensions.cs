@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Core.Configuration;
-using LASI.Utilities.Specialized.Enhanced.Universal;
 
 namespace LASI.Core
 {
@@ -11,7 +10,7 @@ namespace LASI.Core
     /// </summary>
     /// <seealso cref="IEntity"/>
     /// <seealso cref="System.Collections.Generic.IEnumerable{T}"/>
-    /// <seealso cref="System.Linq.Enumerable"/>
+    /// <seealso cref="Enumerable"/>
     public static partial class LexicalEnumerable
     {
         /// <summary>

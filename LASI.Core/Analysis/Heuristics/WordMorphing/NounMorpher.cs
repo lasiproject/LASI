@@ -11,7 +11,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
     {
         static NounMorpher()
         {
-            ExceptionMapping = Helper.ExcMapping.ToDictionary();
+            ExceptionMapping = Helper.ExcMapping;
         }
 
         /// <summary>Gets all forms of the noun root.</summary>
@@ -45,34 +45,43 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
 
         private IEnumerable<string> ComputeForms(string noun)
         {
-            var exceptionals = ExceptionMapping.GetValueOrDefault(noun);
-            if (exceptionals != null)
+            var exceptions = ExceptionMapping.GetValueOrDefault(noun);
+            if (exceptions != null)
             {
-                return exceptionals;
+                foreach (var exception in exceptions) { yield return exception; }
+                yield break;
             }
+
             var hyphenIndex = noun.LastIndexOf('-');
 
             var root = FindRoot(hyphenIndex > -1 ? noun.Substring(hyphenIndex + 1) : noun);
             var hyphenatadAppendage = hyphenIndex > -1 ? noun.Substring(0, hyphenIndex + 1) : string.Empty;
-            var results = ExceptionMapping.GetValueOrDefault(root)?.ToList();
-            if (results is null)
+            IEnumerable<string> results;
+            if (!ExceptionMapping.TryGetValue(root, out results))
             {
-                results = new List<string>();
-                for (var i = 0; i < sufficies.Length; i++)
+                foreach (var form in synthesize())
                 {
-                    if (root.EndsWith(endings[i]) || endings[i].Length == 0)
-                    {
-                        results.Add(hyphenatadAppendage + root.Substring(0, root.Length - endings[i].Length) + sufficies[i]);
-                        break;
-                    }
+                    yield return form;
                 }
             }
             else
             {
-                results = results.Select(r => hyphenatadAppendage + r).ToList();
+                foreach (var form in from result in results select hyphenatadAppendage + result)
+                    yield return form;
             }
-            results.Add(hyphenatadAppendage + root);
-            return results;
+            yield return hyphenatadAppendage + root;
+
+            IEnumerable<string> synthesize()
+            {
+                for (var i = 0; i < sufficies.Length; i++)
+                {
+                    if (root.EndsWith(endings[i]) || endings[i].Length == 0)
+                    {
+                        yield return hyphenatadAppendage + root.Substring(0, root.Length - endings[i].Length) + sufficies[i];
+                        yield break;
+                    }
+                }
+            }
         }
 
         private IEnumerable<string> ComputeBaseForm(string noun)
@@ -101,22 +110,10 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
 
         private static readonly WordNetExceptionDataManager Helper = new WordNetExceptionDataManager("noun.exc");
 
-        #region Exception File Processing
-
-        private static ExceptionEntry ProcessLine(string exceptionLine)
-        {
-            var exceptionData = exceptionLine.SplitRemoveEmpty('\r', '\n').Select(s => s.Trim().Replace('_', ' ')).ToList();
-            return new ExceptionEntry(
-                key: exceptionData[exceptionData.Count - 1],
-                value: exceptionData
-            );
-        }
-
         private static readonly IReadOnlyDictionary<string, IEnumerable<string>> ExceptionMapping;
 
         private static readonly string[] endings = { "", "s", "x", "z", "ch", "sh", "man", "y", };
         private static readonly string[] sufficies = { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };
 
-        #endregion Exception File Processing
     }
 }

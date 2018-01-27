@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using LASI.Utilities;
-using LASI.Utilities.Specialized.Enhanced.Universal;
 
 namespace LASI.Core.Analysis.Melding
 {
@@ -13,9 +12,9 @@ namespace LASI.Core.Analysis.Melding
     /// <remarks>
     /// While this class bears strong internal structural similarities to the AggregateEntity class, its purpose is different.
     /// While the former provides an implementation of the IEntity interface which can be treated as a single instance or a collection of instances,
-    /// The LiftedEntity class exists to abstract over the set of entities it contains and does not allow them to be iterated. 
+    /// The LiftedEntity class exists to abstract over the set of entities it contains and does not allow them to be iterated.
     /// Its purpose is to be an entity which can transparently stand in for any one of the entities it was composed from.
-    /// It is simply an instance of this class can only be treated as an instance of the IEntity interface, 
+    /// It is simply an instance of this class can only be treated as an instance of the IEntity interface,
     /// providing no externally visible additional behavior or capabilities.
     /// </remarks>
     internal class LiftedEntity : IEntity
@@ -33,7 +32,7 @@ namespace LASI.Core.Analysis.Melding
 
             directObjectsOfVerbals = FlattenAbout(e => e.DirectObjectOf.Match()
                     .Case((IAggregateVerbal v) => v.AsEnumerable())
-                    .Case((IVerbal v) => v.Lift())
+                    .Case((IVerbal v) => new[] { v })
                     .Result())
                 .ToAggregate();
 
@@ -62,7 +61,7 @@ namespace LASI.Core.Analysis.Melding
         public void AddPossession(IPossessable possession)
         {
             possessions.Add(possession);
-            possession.Possesser = this;
+            possession.Possessor = this;
         }
 
         /// <summary>
@@ -121,7 +120,7 @@ namespace LASI.Core.Analysis.Melding
         }
 
 
-        public IPossesser Possesser { get; set; }
+        public IPossessor Possessor { get; set; }
 
         public string Text => Avatar.Text;
 
@@ -147,12 +146,11 @@ namespace LASI.Core.Analysis.Melding
         private IEnumerable<T> FlattenAbout<T>(Func<IEntity, T> selector) where T : ILexical =>
             from r in Represented
             let result = selector(r)
-            let defaulted = (object)result
-            where !(defaulted is default)
+            where !Equals(result, default)
             select result;
 
         private IEnumerable<T> FlattenAbout<T>(Func<IEntity, IEnumerable<T>> collectionSelector) where T : class =>
-            Represented.SelectMany(e => collectionSelector(e).NonNull());
+            Represented.SelectMany(collectionSelector.AndThen(EnumerableExtensions.NonNull));
         #endregion Private Helper Methods
 
         #region Fields

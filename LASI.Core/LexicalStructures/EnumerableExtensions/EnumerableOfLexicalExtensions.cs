@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
-using LASI.Utilities.Specialized.Enhanced.Universal;
 
 namespace LASI.Core
 {
@@ -136,7 +135,7 @@ namespace LASI.Core
         /// <param name="second">
         /// A sequence of TLexical whose distinct elements form the second set of the union.
         /// </param>
-        /// <param name="comparison">A function to compare two TLexicals for equality.</param>
+        /// <param name="equate">A function to compare two TLexicals for equality.</param>
         /// <returns>
         /// A sequence that contains the elements from both input sequences, excluding duplicates.
         /// </returns>
@@ -145,8 +144,11 @@ namespace LASI.Core
         /// var distinctActionsAcross = doc1.GetActions().Union(doc2.GetActions(), (a1, a2) =&gt; a1.IsSimilarTo(A2));
         /// </code>
         /// </example>
-        public static IEnumerable<TLexical> Union<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison)
-            where TLexical : ILexical => first.Union(second, Equality.Create(comparison));
+        public static IEnumerable<TLexical> Union<TLexical>(
+            this IEnumerable<TLexical> first,
+            IEnumerable<TLexical> second,
+            Func<TLexical, TLexical, bool> equate)
+            where TLexical : ILexical => first.Union(second, Equality.Create(equate));
 
         /// <summary>Gets all of the word instances in the sequence of ILexicals.</summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
@@ -156,7 +158,7 @@ namespace LASI.Core
                 e.Match()
                     .Case((Clause c) => c.Words)
                     .Case((Phrase p) => p.Words)
-                    .Case((Word w) => w.Lift())
+                    .Case((Word w) => new[] { w })
                     .Case((IAggregateLexical<ILexical> a) => a.OfWord())
                 .Result().EmptyIfNull());
 
@@ -167,7 +169,7 @@ namespace LASI.Core
             elements.SelectMany(e =>
                 e.Match()
                     .Case((Clause c) => c.Phrases)
-                    .Case((Phrase p) => p.Lift())
+                    .Case((Phrase p) => new[] { p })
                 .Result().EmptyIfNull());
 
         /// <summary>Gets all of the Clause instances in the sequence of ILexicals.</summary>
@@ -207,7 +209,7 @@ namespace LASI.Core
         /// The sequence of ILexical constructs in which to search for the given element.
         /// </param>
         /// <param name="element">The element to search for.</param>
-        /// <param name="comparison">A function to compare two ILexicals for equality.</param>
+        /// <param name="equate">A function to compare two ILexicals for equality.</param>
         /// <typeparam name="TLexical">Any type which implements the ILexical interface.</typeparam>
         /// <returns><c>true</c> if the sequence contains the given element; otherwise, <c>false</c>.</returns>
         /// <example>
@@ -219,8 +221,8 @@ namespace LASI.Core
         /// }
         /// </code>
         /// </example>
-        public static bool Contains<TLexical>(this ParallelQuery<TLexical> elements, TLexical element, Func<TLexical, TLexical, bool> comparison)
-            where TLexical : ILexical => elements.Contains(element, Equality.Create(comparison));
+        public static bool Contains<TLexical>(this ParallelQuery<TLexical> elements, TLexical element, Func<TLexical, TLexical, bool> equate)
+            where TLexical : ILexical => elements.Contains(element, Equality.Create(equate));
 
         /// <summary>
         /// Produces the set difference of two sequences by using the specified comparison function
@@ -237,12 +239,12 @@ namespace LASI.Core
         /// A sequence whose elements that also occur in the first sequence will cause those
         /// elements to be removed from the returned sequence.
         /// </param>
-        /// <param name="comparison">
+        /// <param name="equate">
         /// A function to compare two instances of type TLexical and return true or false.
         /// </param>
         /// <returns>A sequence that contains the set difference of the elements of two sequences.</returns>
-        public static ParallelQuery<TLexical> Except<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison)
-            where TLexical : ILexical => first.Except(second, Equality.Create(comparison));
+        public static ParallelQuery<TLexical> Except<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> equate)
+            where TLexical : ILexical => first.Except(second, Equality.Create(equate));
 
         /// <summary>
         /// Returns distinct elements from a sequence of TLexical constructs by using a specified
@@ -298,7 +300,7 @@ namespace LASI.Core
         /// <typeparam name="TLexical">Any type which implements the ILexical interface.</typeparam>
         /// <param name="first">The left hand sequence of TLexicals to compare.</param>
         /// <param name="second">The right hand sequence of TLexicals to compare.</param>
-        /// <param name="comparison">
+        /// <param name="equate">
         /// A function to compare two TLexicals for equality. This will be applied a single time to
         /// each pair of inputs.
         /// </param>
@@ -306,8 +308,8 @@ namespace LASI.Core
         /// <c>true</c> if the two source sequences are of equal length and their corresponding
         /// elements compare equal according to provided Lexical comparison function; otherwise, <c>false</c>.
         /// </returns>
-        public static bool SequenceEqual<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison)
-            where TLexical : ILexical => first.SequenceEqual(second, Equality.Create(comparison));
+        public static bool SequenceEqual<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> equate)
+            where TLexical : ILexical => first.SequenceEqual(second, Equality.Create(equate));
 
         /// <summary>
         /// Produces the set union of two sequences of ILexical constructs by using the specified
@@ -320,7 +322,7 @@ namespace LASI.Core
         /// <param name="second">
         /// A sequence of TLexical whose distinct elements form the second set of the union.
         /// </param>
-        /// <param name="comparison">A function to compare two TLexicals for equality.</param>
+        /// <param name="equate">A function to compare two TLexicals for equality.</param>
         /// <returns>
         /// A sequence that contains the elements from both input sequences, excluding duplicates.
         /// </returns>
@@ -330,8 +332,8 @@ namespace LASI.Core
         ///     .Union(doc2.Verbals, (a1, a2) =&gt; a1.IsSimilarTo(A2));
         /// </code>
         /// </example>
-        public static ParallelQuery<TLexical> Union<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison)
-            where TLexical : ILexical => first.Union(second, Equality.Create(comparison));
+        public static ParallelQuery<TLexical> Union<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> equate)
+            where TLexical : ILexical => first.Union(second, Equality.Create(equate));
 
         /// <summary>Gets all of the word instances in the sequence of ILexicals.</summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>

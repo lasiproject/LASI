@@ -3,7 +3,7 @@ using System.Diagnostics;
 using LASI.Content.FileTypes;
 using LASI.Utilities;
 
-namespace LASI.Content.FileConveters
+namespace LASI.Content.FileConverters
 {
     /// <summary>
     /// Converts Microsoft word .doc binary files to modern Microsoft word .docx open XML files.
@@ -46,7 +46,6 @@ namespace LASI.Content.FileConveters
                 }
             })
             {
-                DataReceivedEventHandler log = (sender, e) => Logger.Log(e.Data);
                 process.OutputDataReceived += log;
                 var stopWatch = Stopwatch.StartNew();
                 process.Start();
@@ -56,6 +55,8 @@ namespace LASI.Content.FileConveters
                 process.OutputDataReceived -= log;
                 return Converted;
             }
+
+            void log(object sender, DataReceivedEventArgs e) => Logger.Log(e.Data);
         }
 
         internal static Utilities.Configuration.IConfig Config { get; set; }

@@ -20,9 +20,8 @@ namespace LASI.App
     using LASI.Content.Exceptions;
     using LASI.Content.FileTypes;
     using Utilities;
-    using Utilities.Specialized.Enhanced.Universal;
     using Visualization;
-    using DocumentRun = System.Windows.Documents.Run;
+    using Run = System.Windows.Documents.Run;
     using FileInfo = System.IO.FileInfo;
     using FlowDocument = System.Windows.Documents.FlowDocument;
     using FlowDocumentPageViewer = FlowDocumentPageViewer;
@@ -40,7 +39,7 @@ namespace LASI.App
         {
             InitializeComponent();
             currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
-            Closed += (sender, e) => Application.Current.Shutdown();
+            this.Closed += (s, e) => Application.Current.Shutdown();
         }
         #endregion
 
@@ -126,7 +125,7 @@ namespace LASI.App
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task object representing the ongoing asynchronous operation.</returns>
         public async Task BuildTextViewsForAllDocumentsAsync()
-        {  // This is for the lexical relationships tab
+        {  // This is for the lexial relationships tab
             var tasks = documents.Select(document => BuildTextViewOfDocument(document)).ToList();
             while (tasks.Any())
             {
@@ -140,38 +139,44 @@ namespace LASI.App
             Phrase.VerboseOutput = true;
             Word.VerboseOutput = true;
             var panel = new WrapPanel();
-            var phrases = document
-                .Paginate(80, 20)
-                .Where(page => page.Paragraphs.PercentWhere(p => !p.Text.IsNullOrWhiteSpace()) < 50)
-                .Take(10)
-                .Select(page => page.Sentences)
-                .DefaultIfEmpty(document.Sentences)
-                .SelectMany(sentence => sentence.Phrases());
+            var phrases = from page in document.Paginate(80, 20)
+                          where page.Paragraphs.PercentWhere(p => !p.Text.IsNullOrWhiteSpace()) < 50
+                          from phrase in page.Phrases
+                          select phrase;
+
+
             var colorizer = new SyntacticColorMapping();
             var flowDocument = new FlowDocument();
 
             var documentContents = (from phrase in phrases
-                                    select new DocumentRun
+                                    select new Run
                                     {
                                         Text = phrase.Text,
                                         Tag = phrase,
                                         Foreground = colorizer[phrase],
                                         Background = Brushes.White,
-                                        ToolTip = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format((' ', '\n', ' '))
                                     }).ToList();
 
 
 
             foreach (var run in documentContents)
             {
-                var menu = ContextMenuBuilder.ForLexical(run.Tag as ILexical, documentContents);
-                if (menu != null)
+                run.ToolTipOpening += (s, e) =>
                 {
-                    run.ContextMenu = menu;
-                }
+                    run.ToolTip = run.Tag.ToString().SplitRemoveEmpty('\n', '\r').Format((' ', '\n', ' '));
+
+                };
+                LexicalContextMenu.ContextMenu(run, documentContents);
             }
             var flowDocumentParagraph = new System.Windows.Documents.Paragraph();
-            flowDocumentParagraph.Inlines.AddRange(documentContents.SelectMany(run => new[] { RebuildRun(run), run }));
+            flowDocumentParagraph.Inlines.AddRange(documentContents.SelectMany(runWithTrivia));
+
+            IEnumerable<Run> runWithTrivia(Run run)
+            {
+                yield return RebuildRun(run);
+                yield return run;
+            }
+
             flowDocument.Blocks.Add(flowDocumentParagraph);
             //flowDocument.GotFocus += (s, e) => MessageBox.Show((s as System.Windows.Documents.Run).Text);
 
@@ -189,23 +194,25 @@ namespace LASI.App
             recomposedDocumentsTabControl.Items.Add(tab);
             recomposedDocumentsTabControl.SelectedItem = tab;
             await Task.Yield();
+
+            Run RebuildRun(Run run) =>
+                new Run(run.Tag is Phrase p && p.Words.FirstOrDefault() is Symbol ? string.Empty : " ");
         }
 
-        private static DocumentRun RebuildRun(DocumentRun run) => new DocumentRun((run.Tag as Phrase).Words.FirstOrDefault() is Symbol ? string.Empty : " ");
 
         #endregion
 
 
-        private async Task ProcessNewDocument(string docPath, ProgressBar progressBar, Label progressLabel)
+        private async Task ProcessNewDocumentAsync(string documentPath, ProgressBar progressBar, Label progressLabel)
         {
             try
             {
-                currentOperationProgressBar = progressBar;
-                currentOperationLabel = progressLabel;
-                var chosenFile = await AttemptToAddNewDocument(docPath);
-                var docName = chosenFile.NameSansExt;
-                var doc = await ProcessNewDocDocument(docName);
-                documents.Add(doc);
+                this.currentOperationProgressBar = progressBar;
+                this.currentOperationLabel = progressLabel;
+                var chosenFile = await AttemptToAddNewDocumentAsync(documentPath);
+                var documentName = chosenFile.NameSansExt;
+                var document = await ProcessNewDocDocumentAsync(documentName);
+                documents.Add(document);
             }
             catch (FileConversionFailureException e)
             {
@@ -215,17 +222,17 @@ namespace LASI.App
             }
         }
 
-        private async Task<Document> ProcessNewDocDocument(string documentName)
+        private async Task<Document> ProcessNewDocDocumentAsync(string documentName)
         {
             currentOperationLabel.Content = $"Tagging {documentName}...";
             var textfile = FileManager.TxtFiles.Where(f => f.NameSansExt == documentName).First();
-            var analizer = new AnalysisOrchestrator(textfile.Lift());
+            var analizer = new AnalysisOrchestrator(textfile);
             analizer.ProgressChanged += async (sender, e) =>
             {
                 currentOperationLabel.Content = e.Message;
                 currentOperationProgressBar.ToolTip = e.Message;
                 currentOperationProgressBar.Value += e.PercentWorkRepresented;
-                await StepProgress();
+                await StepAsync();
             };
 
             var doc = (await analizer.ProcessAsync()).First();
@@ -237,7 +244,7 @@ namespace LASI.App
             return doc;
         }
 
-        private async Task<InputFile> AttemptToAddNewDocument(string documentPath)
+        private async Task<InputFile> AttemptToAddNewDocumentAsync(string documentPath)
         {
             var chosenFile = FileManager.AddFile(documentPath);
             try
@@ -252,7 +259,7 @@ namespace LASI.App
             }
         }
 
-        private async Task StepProgress()
+        private async Task StepAsync()
         {
             for (var i = 0; i < 9; ++i)
             {
@@ -266,9 +273,9 @@ namespace LASI.App
         /// </summary>
         /// <param name="documentPath">The file system path to a document file.</param>
         /// <returns>A System.Threading.Tasks.Task object representing the ongoing work while the document is being processed.</returns>
-        private async Task ProcessNewDocument(string documentPath)
+        private async Task ProcessNewDocumentAsync(string documentPath)
         {
-            await ProcessNewDocument(documentPath, currentOperationProgressBar, currentOperationLabel);
+            await ProcessNewDocumentAsync(documentPath, currentOperationProgressBar, currentOperationLabel);
         }
 
 
@@ -330,7 +337,7 @@ namespace LASI.App
 
                 Owner = this
             };
-            componentsDisplay.Reposition(Top / 2, Left / 2).ShowDialog();
+            componentsDisplay.Reposition(this.Top / 2, this.Left / 2).ShowDialog();
         }
         private void HelpAbout_MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -354,12 +361,12 @@ namespace LASI.App
             var dialog = new CrossJoinSelectDialog(this);
             if (dialog.ShowDialog() ?? false)
             {
-                var joinedRelationshipResults = await new CrossDocumentJoiner().GetCommonResultsAsnyc(dialog.SelectedDocuments);
+                var joinedRelationshipResults = await new CrossDocumentJoiner().GetCommonResultsAsync(dialog.SelectedDocuments);
                 metaRelationshipsDataGrid.ItemsSource = joinedRelationshipResults.ToGridRowData();
                 metaViewTab.Visibility = Visibility.Visible;
             }
         }
-        private async void AddMenuItem_Click(object sender, RoutedEventArgs e)
+        private async void AddMenuItem_Click()
         {
             var openDialog = new Microsoft.Win32.OpenFileDialog
             {
@@ -380,7 +387,7 @@ namespace LASI.App
                 }
                 else if (DocumentManager.AbleToOpen(file))
                 {
-                    await AddNewDocument(file);
+                    await AddNewDocumentAsync(file);
                 }
                 else
                 {
@@ -390,37 +397,36 @@ namespace LASI.App
         }
         private async void Grid_Drop(object sender, DragEventArgs e)
         {
-            await SharedFunctionality.HandleDropAddAsync(this, e, AddNewDocument);
+            await SharedFunctionality.HandleDropAddAsync(this, e, AddNewDocumentAsync);
         }
-        private void OpenPreferencesMenuItem_Click(object sender, RoutedEventArgs e)
+        private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e)
         {
             SharedFunctionality.DisplayPreferencesWindow(this);
         }
 
         #endregion
 
-        private async Task AddNewDocument(FileInfo file)
+        private async Task AddNewDocumentAsync(FileInfo file)
         {
-            var (name, fullName) = file;
             addDocumentMenuItem.IsEnabled = DocumentManager.CanAdd;
-            DocumentManager.AddDocument(name, fullName);
-            currentOperationLabel.Content = $"Converting {name}";
+            DocumentManager.AddDocument(file.Name, file.FullName);
+            currentOperationLabel.Content = $"Converting {file.Name}";
             currentOperationFeedbackCanvas.Visibility = Visibility.Visible;
             currentOperationProgressBar.Value = 0;
-            await ProcessNewDocument(fullName);
+            await ProcessNewDocumentAsync(file.FullName);
         }
 
         #endregion
 
         private void CloseApp_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
-            this.Close();
+            Close();
             Application.Current.Shutdown();
         }
 
         private void AddDocument_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
-            AddMenuItem_Click(sender, e);
+            AddMenuItem_Click();
         }
 
         private void Print_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -430,7 +436,7 @@ namespace LASI.App
 
         private void OpenPreferences_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
-            OpenPreferencesMenuItem_Click(sender, e);
+            openPreferencesMenuItem_Click(sender, e);
         }
 
         private void OpenManual_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -442,7 +448,7 @@ namespace LASI.App
 
         private IList<Document> documents = new List<Document>();
         /// <summary>
-        /// Gets or sets the list of LASI.Algorithm.Document objects in the current project.
+        /// Gets or sets the list of <see cref="Document"/> objects in the current project.
         /// </summary>
         public IEnumerable<Document> Documents
         {
@@ -451,11 +457,5 @@ namespace LASI.App
         }
 
         #endregion
-
-    }
-
-    static class Deconstruction
-    {
-        public static void Deconstruct(this FileInfo file, out string name, out string fullName) => (name, fullName) = (file.Name, file.FullName);
     }
 }

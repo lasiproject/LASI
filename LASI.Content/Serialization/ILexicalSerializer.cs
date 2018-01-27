@@ -11,12 +11,10 @@ namespace LASI.Content.Serialization
 {
     /// <summary>
     /// Defines the behavioral requirements for outputting a textual representation from sequences of ILexical elements.
-    /// </summary> 
-    /// <typeparam name="T">The Type of the elements to be serialized. This Type parameter is contravariant.</typeparam> 
-    /// <typeparam name="TResult">The Type of the elements are serialized into. This Type parameter is covariant.</typeparam> 
-    public interface ILexicalSerializer<in T, out TResult>
-
-        where T : class, ILexical
+    /// </summary>
+    /// <typeparam name="T">The Type of the elements to be serialized. This Type parameter is contravariant.</typeparam>
+    /// <typeparam name="TResult">The Type of the elements are serialized into. This Type parameter is covariant.</typeparam>
+    public interface ILexicalSerializer<in T, out TResult> where T : class, ILexical
     {
         /// <summary>
         /// Writes a sequence of elements to the underlying xmlWriter, using the provided title string and Degree of output.

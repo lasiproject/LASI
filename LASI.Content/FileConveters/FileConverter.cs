@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using LASI.Content.FileTypes;
 
-namespace LASI.Content.FileConveters
+namespace LASI.Content.FileConverters
 {
     /// <summary>
     /// The base class from which file format conversion objects are derived.

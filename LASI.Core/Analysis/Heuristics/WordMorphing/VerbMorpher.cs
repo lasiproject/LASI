@@ -49,17 +49,17 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             var hyphenIndex = verb.IndexOf('-');
             var afterHyphen = hyphenIndex > -1 ? verb.Substring(hyphenIndex) : string.Empty;
             var results = new List<string>();
-            for (var i = Endings.Length - 1; i >= 0; --i)
+            for (var i = endings.Length - 1; i >= 0; --i)
             {
-                if (verb.EndsWith(Sufficies[i], OrdinalIgnoreCase))
+                if (verb.EndsWith(sufficies[i], OrdinalIgnoreCase))
                 {
                     checked
                     {
                         try
                         {
-                            var possibleRoot = verb.Substring(0, verb.Length - Sufficies[i].Length);
+                            var possibleRoot = verb.Substring(0, verb.Length - sufficies[i].Length);
 
-                            if (Endings[i].IsNullOrWhiteSpace() || possibleRoot.EndsWith(Endings[i], CurrentCulture))
+                            if (endings[i].IsNullOrWhiteSpace() || possibleRoot.EndsWith(endings[i], CurrentCulture))
                             {
                                 return possibleRoot + afterHyphen;
                             }
@@ -71,11 +71,11 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             return verb;
         }
 
-        private static string GetRootIfSpecialForm(string verb) => ExceptionMapping.FirstOrDefault(kv => kv.Value.Contains(verb) || kv.Key == verb).Key;
+        private static string GetRootIfSpecialForm(string verb) => exceptionMapping.FirstOrDefault(kv => kv.Value.Contains(verb) || kv.Key == verb).Key;
 
         private static IEnumerable<string> GetWithSpecialForms(string verb)
         {
-            foreach (var kv in ExceptionMapping)
+            foreach (var kv in exceptionMapping)
             {
                 if (kv.Value.Contains(verb))
                 {
@@ -86,12 +86,14 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
 
         #region Exception File Processing
 
-        static VerbMorpher() => ExceptionMapping = ExcManager.ExcMapping;
+        static VerbMorpher()
+        {
+            exceptionMapping = ExcManager.ExcMapping;
+        }
 
+        private static readonly string[] endings = { "", "y", "e", "", " e", "", "e", "" };
 
-        static readonly string[] Endings = { "", "y", "e", "", " e", "", "e", "" };
-
-        static readonly string[] Sufficies = { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" };
+        private static readonly string[] sufficies = { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" };
 
         private static readonly IDictionary<string, IEnumerable<string>> sufficesByEnding = new Dictionary<string, IEnumerable<string>>
         {
@@ -101,7 +103,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         };
 
         private static readonly WordNetExceptionDataManager ExcManager = new WordNetExceptionDataManager("verb.exc");
-        static IReadOnlyDictionary<string, IEnumerable<string>> ExceptionMapping;
+        private static IReadOnlyDictionary<string, IEnumerable<string>> exceptionMapping;
 
         #endregion Exception File Processing
     }

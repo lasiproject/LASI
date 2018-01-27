@@ -169,6 +169,13 @@ namespace LASI.Core
             Match<TValue, IEnumerable<TResult>>.TransferValue(match)
                 .Case<TValue, TCase, TResultEnumerable, IEnumerable<TResult>>(func);
 
+        public static Match<TValue, IEnumerable<TResult>> Case<TValue, TCase, TResult>(
+            this Match<TValue, IEnumerable<TResult>> match, Func<TCase, TResult[]> func)
+            where TValue : class, ILexical
+            where TCase : ILexical =>
+            Match<TValue, IEnumerable<TResult>>.TransferValue(match)
+                .Case<TValue, TCase, IEnumerable<TResult>, IEnumerable<TResult>>(func);
+
         public static TBaseResult Result<TValue, TResult, TBaseResult>(this Match<TValue, TResult> match,
             TBaseResult defaultValue)
             where TResult : TBaseResult where TValue : ILexical =>
@@ -223,22 +230,6 @@ namespace LASI.Core
             where TValue : class, ILexical
             where TCase : ILexical => value.Match().Case(pattern).Result();
 
-        /// <summary>
-        /// Matches a value against two case patterns and immediately returns the result.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value being matched over.</typeparam>
-        /// <typeparam name="T1">The type of the first Case pattern.</typeparam>
-        /// <typeparam name="T2">The type of the second Case pattern.</typeparam>
-        /// <typeparam name="TResult">The result type of the match expression.</typeparam>
-        /// <param name="value">The Lexical value to match against.</param>
-        /// <param name="p1">The first pattern case to try.</param>
-        /// <param name="p2">The second pattern case to try.</param>
-        /// <returns>The result of matching the value against the two specified patterns.</returns>
-        public static TResult Match<TValue, T1, T2, TResult>(this TValue value, Func<T1, TResult> p1,
-            Func<T2, TResult> p2)
-            where TValue : class, ILexical
-            where T1 : class, ILexical
-            where T2 : ILexical => value.Match().Case(p1).Case(p2).Result();
 
         /// <summary>
         /// Begins a pattern match expression over the <see cref="Sentence"/>.

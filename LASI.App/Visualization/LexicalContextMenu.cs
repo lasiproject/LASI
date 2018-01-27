@@ -1,22 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using LASI.Core;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 using static System.Windows.Media.Brushes;
 using Item = System.Windows.Controls.MenuItem;
-using Menu = System.Windows.Controls.ContextMenu;
 using TextElement = System.Windows.Documents.TextElement;
 
 namespace LASI.App.Visualization
 {
-    internal static class ContextMenuBuilder
+    internal static class LexicalContextMenu
     {
         /// <summary>
         /// Creates a context menu based on the context of the given lexical. Returns <c>null</c> if
         /// the lexical does not have significant information from which to build a menu.
         /// </summary>
-        /// <param name="element">The element for which to construct a context menu.</param>
+        /// <param name="run">The <see cref="Run"/> for which to construct a context menu.</param>
         /// <param name="neighboringElements">
         /// The collection of UI objects representing neighboring elements.
         /// </param>
@@ -24,9 +26,22 @@ namespace LASI.App.Visualization
         /// A context menu based on the context of the given lexical or <c>null</c> if the lexical
         /// does not have significant information from which to build a menu.
         /// </returns>
-        public static Menu ForLexical(ILexical element, IEnumerable<TextElement> neighboringElements) => element.Match()
-            .Case((IReferencer r) => ForReferencer(r, neighboringElements))
-            .Case((IVerbal v) => ForVerbal(v, neighboringElements));
+        public static void ContextMenu(Run run, IEnumerable<TextElement> neighboringElements)
+        {
+            run.ContextMenu = createMenu();
+            ContextMenu createMenu()
+            {
+                switch (run.Tag)
+                {
+                    case IReferencer r when r.RefersTo?.Any() ?? false:
+                        return ForReferencer(r, neighboringElements);
+                    case IVerbal v when v.HasSubjectOrObject() || v.ObjectOfThePreposition != null:
+                        return ForVerbal(v, neighboringElements);
+                    default:
+                        return run.ContextMenu;
+                }
+            }
+        }
 
         #region Lexical Element Context Menu Construction
 
@@ -41,9 +56,9 @@ namespace LASI.App.Visualization
         /// <returns>
         /// A context menu based on the provided IVerbal in the context of the provided labels.
         /// </returns>
-        private static Menu ForVerbal(IVerbal verbal, IEnumerable<TextElement> neighboringElements)
+        private static ContextMenu ForVerbal(IVerbal verbal, IEnumerable<TextElement> neighboringElements)
         {
-            var result = new Menu();
+            var result = new ContextMenu();
             if (verbal.Subjects.Any())
             {
                 result.Items.Add(VerbalMenuItemFactory.ForSubjects(verbal, neighboringElements));
@@ -60,7 +75,7 @@ namespace LASI.App.Visualization
             {
                 result.Items.Add(VerbalMenuItemFactory.ForPrepositionalObject(verbal, neighboringElements));
             }
-            return result.Items.Count == 0 ? null : result;
+            return result;
         }
 
         /// <summary>
@@ -74,20 +89,13 @@ namespace LASI.App.Visualization
         /// <returns>
         /// A context menu based on the provided IReferencer in the context of the provided labels.
         /// </returns>
-        private static Menu ForReferencer(IReferencer referencer, IEnumerable<TextElement> neighboringElements)
+        private static ContextMenu ForReferencer(IReferencer referencer, IEnumerable<TextElement> neighboringElements) => new ContextMenu
         {
-            if (referencer.RefersTo?.Any() == false)
-            {
-                return null;
-            }
-            return new Menu
-            {
-                Items =
+            Items =
                 {
                     ReferencerMenuItemFactory.ForReferredTo(referencer, neighboringElements)
                 }
-            };
-        }
+        };
 
         private static class VerbalMenuItemFactory
         {
@@ -99,9 +107,8 @@ namespace LASI.App.Visualization
                     ResetUnassociatedLabelBrushes(neighboringElements, verbal);
                     var associatedElements =
                         from element in neighboringElements
-                        let lexical = element.Tag as ILexical
-                        where lexical?.Equals(verbal.ObjectOfThePreposition) == true
-                        select (element, background: colorMapping[lexical], foreground: Red);
+                        where element.Tag?.Equals(verbal.ObjectOfThePreposition) ?? false
+                        select (element, background: colorMapping[verbal.ObjectOfThePreposition], foreground: Red);
 
                     foreach (var (element, background, foreground) in associatedElements)
                     {
@@ -149,7 +156,7 @@ namespace LASI.App.Visualization
             {
                 var associatedElements = from lexical in associatedLexicalElements
                                          join element in neighboringElements on lexical equals element.Tag
-                                         select (element, newForegroundColor: colorMapping[element.Tag as ILexical]);
+                                         select (element, newForegroundColor: colorMapping[lexical]);
                 foreach (var (element, newForegroundColor) in associatedElements)
                 {
                     element.Foreground = newForegroundColor;
@@ -164,6 +171,7 @@ namespace LASI.App.Visualization
                 public const string ViewObjectOfThePrepositionHeader = "View Object Of The Preposition";
             }
         }
+
 
         private static class ReferencerMenuItemFactory
         {
@@ -202,16 +210,16 @@ namespace LASI.App.Visualization
 
         private static void ResetUnassociatedLabelBrushes(IEnumerable<TextElement> neighboringElements, IVerbal verbal)
         {
-            foreach (var element in from element in neighboringElements
-                                    where !verbal.HasSubjectOrObject(i => i == element.Tag)
-                                    select element)
+            var elements = from element in neighboringElements
+                           where !verbal.HasSubjectOrObject(i => i == element.Tag)
+                           select element;
+            foreach (var element in elements)
             {
-                element.Foreground = MapToColor(element.Tag);
+                element.Foreground = colorMapping[element.Tag as ILexical];
                 element.Background = White;
             }
         }
 
-        private static Brush MapToColor(object tag) => colorMapping[tag as ILexical];
 
         #endregion Helper Methods
 

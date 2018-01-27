@@ -119,13 +119,13 @@ namespace LASI.Core
         public void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = this;
+            possession.Possessor = this;
         }
 
         /// <summary>
-        /// The <see cref="IPossesser"/>, generally an <see cref="IEntity"/>, which "owns" the <see cref="InfinitivePhrase"/>.
+        /// The <see cref="IPossessor"/>, generally an <see cref="IEntity"/>, which "owns" the <see cref="InfinitivePhrase"/>.
         /// </summary>
-        public IPossesser Possesser { get; set; }
+        public IPossessor Possessor { get; set; }
 
         #endregion
 

@@ -15,6 +15,8 @@
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
     <LangVersion>latest</LangVersion>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -93,6 +95,7 @@
       <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml.XmlDocument, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -121,7 +124,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Serialization\Json\SerializationExtensions.cs" />
     <Compile Include="Serialization\Json\SimpleJsonSerializer.cs" />
-    <Compile Include="Serialization\SerializerFactory.cs" />
+    <Compile Include="Serialization\LexicalSerializer.cs" />
     <Compile Include="Serialization\Xml\NodeNameMapper.cs" />
     <Compile Include="Serialization\Xml\SerializationExtensions.cs" />
     <Compile Include="Serialization\ILexicalSerializer.cs" />

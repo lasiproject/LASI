@@ -1,7 +1,7 @@
 ﻿using System;
 using LASI.Core;
 
-namespace LASI.Interop.ContractHelperTypes.Base
+namespace LASI.Interop.ProgressReporting.Basis
 {
     abstract class SystemResourceNotifierDualizer : Progress<Core.ResourceLoadEventArgs>
     {

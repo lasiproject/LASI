@@ -6,7 +6,7 @@ namespace LASI.Core
     /// <para> Defines the role requirements for Entity constructs, including <see cref="Noun"/>s, <see cref="NounPhrase"/>s, and Gerunds. </para>
     /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the IEntity interface provides for generalization and abstraction over many otherwise disparate element types and Type hierarchies. </para>
     /// </summary>
-    public interface IEntity : ILexical, IVerbalSubject, IVerbalObject, IReferenceable, IPossesser, IPossessable
+    public interface IEntity : ILexical, IVerbalSubject, IVerbalObject, IReferenceable, IPossessor, IPossessable
     {
         /// <summary>
         /// Binds an IDescriptor, generally an <see cref="Adjective"/> or <see cref="AdjectivePhrase"/>, as a descriptor of the <see cref="IEntity"/>.

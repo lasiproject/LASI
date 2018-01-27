@@ -166,14 +166,14 @@ namespace LASI.Core
         {
             var resourceName = "Scrabble Dictionary";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
-            System.Diagnostics.Stopwatch timer;
 
             Func<IImmutableSet<string>> loadWords = () => File.ReadAllText(Paths.ScrabbleDict)
                 .SplitRemoveEmpty('\r', '\n')
                 .Select(s => s.ToLower())
                 .Except(NameData.AllNames, OrdinalIgnoreCase)
                 .ToImmutableHashSet(OrdinalIgnoreCase);
-            var words = loadWords.WithTimer(out timer)();
+            var (timed, timer) = loadWords.WithTimer();
+            var words = timed();
             ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
             return words;
         }, isThreadSafe: true);

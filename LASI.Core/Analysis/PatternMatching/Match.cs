@@ -103,7 +103,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// Initializes a new instance of the <see cref="Match{T}"/> class which will match against the supplied value.
         /// </summary>
         /// <param name="value">The value to match against.</param>
-        internal Match(T value) : base(value) { }
+        internal Match(T value) : base(value) {}
 
         #endregion Constructors
 
@@ -217,7 +217,6 @@ namespace LASI.Core.Analysis.PatternMatching
             }
             return this;
         }
-
 
         #endregion Case Expressions
 

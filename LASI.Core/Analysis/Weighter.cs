@@ -1,9 +1,9 @@
-﻿using System;
+﻿using LASI.Core.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using LASI.Core.Configuration;
-using LASI.Utilities.Specialized.Enhanced.Universal;
 
 namespace LASI.Core
 {
@@ -44,113 +44,31 @@ namespace LASI.Core
             yield return new ProcessingTask(() => NormalizeWeights(document),
                 name + ": Normalizing Metrics", name + ": Normalized Metrics", 3);
         }
-
-
         /// <summary>
         /// Assigns numeric Weights to each element in the given Document.
         /// </summary>
         /// <param name="document">The Document whose elements are to be assigned numeric weights.</param>
-        public static void Weight(Document document)
-        {
-            Task.WaitAll(document.GetWeightingTasks().Select(t => t.Task).ToArray());
-        }
-
+        public static void Weight(Document document) => Task.WaitAll(document.GetWeightingTasks().Select(t => t.Task).ToArray());
         /// <summary>
         /// Assigns numeric Weights to each element in the given Document.
         /// </summary>
         /// <param name="document">The Document whose elements are to be assigned numeric weights.</param>
-        public static async Task WeightAsync(Document document)
+        /// <param name="cancellationToken"></param>
+        public static async Task WeightAsync(Document document, CancellationToken cancellationToken = default)
         {
+
             await new ProcessingTask(() => { Console.Write("X"); },
-                $"{document.Name}: Abstracting References",
-                $"{document.Name}: Abstracted References", 5);
-            await Task.WhenAll(document.GetWeightingTasks().Select(t => t.Task).ToArray());
+                      initializationMessage: $"{document.Name}: Abstracting References",
+                      completionMessage: $"{document.Name}: Abstracted References",
+                      percentWorkRepresented: 5);
+
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            await Task.WhenAll(document.GetWeightingTasks().Select(async x => await x.Task));
         }
 
-        private static void NormalizeWeights(IReifiedTextual source)
-        {
-            if (source.Phrases.Any())
-            {
-                var maxWeight = source.Phrases.Max(p => p.Weight);
-                if ((int) maxWeight != 0)
-                {
-                    foreach (var phrase in source.Phrases)
-                    {
-                        phrase.Weight = phrase.Weight / maxWeight * 100;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Increase noun weights in a document by abstracting over synonyms
-        /// </summary>
-        /// <param name="source">the Document whose noun weights may be modified</param>
-        private static void WeightSimilarNouns(IReifiedTextual source)
-        {
-            var toConsider = from e in source.Words
-                                 //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                 .OfEntity()
-                                 .InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IReferencer.
-                             select e.Match()
-                                 .When((IReferencer r) => r.RefersTo != null)
-                                 .Then((IReferencer r) => r.RefersTo)
-                                 .Case((IEntity x) => x.Lift().ToAggregate()).Result()
-                             into y
-                             where y != null
-                             select y;
-            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 1);
-        }
-
-        /// <summary>
-        /// For each noun parent in a document that is similar to another noun parent, increase the weight of that noun
-        /// </summary>
-        /// <param name="source">Document containing the componentPhrases to weight</param>
-        private static void WeightSimilarNounPhrases(IReifiedTextual source)
-        {
-            //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
-            // in the two subsequent from clauses both query the reified collection in parallel.
-            var toConsider = source.Phrases
-                .OfNounPhrase()
-                .InSubjectOrObjectRole().ToList();
-            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 0.5);
-        }
-
-        private static void WeightSimilarVerbs(IReifiedTextual source)
-        {
-            var toConsider = source.Words.OfVerb().WithSubjectOrObject();
-            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 1);
-        }
-
-
-        private static void WeightSimilarVerbPhrases(IReifiedTextual source)
-        {
-            //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
-            // in the two subsequent from clauses both query the reified collection in parallel.
-            var toConsider = source.Phrases.OfVerbPhrase().WithSubjectOrObject();
-            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 0.5);
-        }
-
-        private static void HackSubjectPropernounImportance(IReifiedTextual source)
-        {
-            source.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .OfNounPhrase()
-                .Where(nounPhrase => nounPhrase.Words.OfProperNoun().Any())
-                .ForAll(nounPhrase => nounPhrase.Weight *= 2);
-        }
-
-        private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements)
-        {
-            syntacticElements.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .GroupBy(lexical => new
-                {
-                    Type = lexical.GetType(),
-                    lexical.Text
-                }).Select(Enumerable.ToList)
-                .ForAll(elements => elements.ForEach(e => e.Weight += elements.Count));
-        }
-
-        private static void GroupAndWeight<TLexical>(IEnumerable<TLexical> toConsider,
+        static void GroupAndWeight<TLexical>(IEnumerable<TLexical> toConsider,
             Func<TLexical, TLexical, Similarity> correlate, double scaleBy) where TLexical : class, ILexical
         {
             var groups =
@@ -171,6 +89,75 @@ namespace LASI.Core
                 void scaleWeight<T>(T element) where T : TLexical => element.Weight += scaleBy * elements.Count;
                 elements.ForEach(scaleWeight);
             });
+        }
+        static void HackSubjectPropernounImportance(IReifiedTextual source) => source.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                .OfNounPhrase()
+                .Where(nounPhrase => nounPhrase.Words.OfProperNoun().Any())
+                .ForAll(nounPhrase => nounPhrase.Weight *= 2);
+        static void NormalizeWeights(IReifiedTextual source)
+        {
+            if (source.Phrases.Any())
+            {
+                var maxWeight = source.Phrases.Max(p => p.Weight);
+                if ((int)maxWeight != 0)
+                {
+                    foreach (var phrase in source.Phrases)
+                    {
+                        phrase.Weight = phrase.Weight / maxWeight * 100;
+                    }
+                }
+            }
+        }
+        static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements) => syntacticElements.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                .GroupBy(lexical => new
+                {
+                    Type = lexical.GetType(),
+                    lexical.Text
+                }).Select(Enumerable.ToList)
+                .ForAll(elements => elements.ForEach(e => e.Weight += elements.Count));
+        /// <summary>
+        /// For each noun parent in a document that is similar to another noun parent, increase the weight of that noun
+        /// </summary>
+        /// <param name="source">Document containing the componentPhrases to weight</param>
+        static void WeightSimilarNounPhrases(IReifiedTextual source)
+        {
+            //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
+            // in the two subsequent from clauses both query the reified collection in parallel.
+            var toConsider = source.Phrases
+                .OfNounPhrase()
+                .InSubjectOrObjectRole().ToList();
+            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 0.5);
+        }
+        /// <summary>
+        /// Increase noun weights in a document by abstracting over synonyms
+        /// </summary>
+        /// <param name="source">the Document whose noun weights may be modified</param>
+        static void WeightSimilarNouns(IReifiedTextual source)
+        {
+            var toConsider = from e in source.Words
+                                 //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                 .OfEntity()
+                                 .InSubjectOrObjectRole(s => s.Match()
+                                     .When((IReferencer r) => r.RefersTo != null)
+                                     .Then(r => r != null)
+                                     .Case((IEntity x) => x != null)) //Currently, include only those nouns which exist in relationships with some IVerbal or IReferencer.
+                             select e.Match()
+                                 .Case((IReferencer r) => r.RefersTo)
+                                 .Result(x => x);
+
+            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 1);
+        }
+        static void WeightSimilarVerbPhrases(IReifiedTextual source)
+        {
+            //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
+            // in the two subsequent from clauses both query the reified collection in parallel.
+            var toConsider = source.Phrases.OfVerbPhrase().WithSubjectOrObject();
+            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 0.5);
+        }
+        static void WeightSimilarVerbs(IReifiedTextual source)
+        {
+            var toConsider = source.Words.OfVerb().WithSubjectOrObject();
+            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 1);
         }
     }
 }

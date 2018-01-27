@@ -6,7 +6,7 @@ using System.Xml;
 using LASI.Content.FileTypes;
 using LASI.Utilities;
 
-namespace LASI.Content.FileConveters
+namespace LASI.Content.FileConverters
 {
     /// <summary>
     /// An input file converter specialized to extract the written content from a .docx (Microsoft word 2003+ open XML file format)

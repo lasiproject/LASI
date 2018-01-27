@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using LASI.Content.FileConveters;
+using LASI.Content.FileConverters;
 using LASI.Content.FileTypes;
 using NFluent;
 using Xunit;
