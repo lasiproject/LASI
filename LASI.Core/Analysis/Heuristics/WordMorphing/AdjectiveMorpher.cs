@@ -1,10 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LASI.Utilities;
 using static System.StringComparison;
 
 namespace LASI.Core.Analysis.Heuristics.WordMorphing
 {
+    /// <summary>
+    /// Provides root extraction and derived form generation of <see cref="Adjective"/>s.
+    /// </summary>
+    /// <seealso cref="NounMorpher"/>
+    /// <seealso cref="VerbMorpher"/>
+    /// <seealso cref="AdverbMorpher"/>
+    /// <seealso cref="AdjectiveMorpher"/>
+    /// <seealso cref="Word"/>
     public class AdjectiveMorpher : IWordMorpher<Adjective>
     {
         /// <summary>
@@ -29,13 +38,9 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         /// The base form of the given type of word. If the word is already in its base form, the
         /// text content of the adjective will simply be returned.
         /// </returns>
-        public string FindRoot(string adjectiveText)
-        {
-            bool exceptional;
-            return FindRootImplementation(adjectiveText, out exceptional);
-        }
+        public string FindRoot(string adjectiveText) => FindRootImplementation(adjectiveText, out var exceptional);
 
-        private string FindRootImplementation(string adjective, out bool exceptional)
+        string FindRootImplementation(string adjective, out bool exceptional)
         {
             var hyphenPosition = adjective.IndexOf('-');
             if (hyphenPosition > 0)
@@ -52,8 +57,8 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             }
             for (var i = 3; i >= 0; --i)
             {
-                var suffixAndEnding = SuffixEndingPairs[i];
-                if (adjective.EndsWith(suffixAndEnding.Suffix, CurrentCulture))
+                var suffixAndEnding = EndingSuffixPairs[i];
+                if (adjective.EndsWith(suffixAndEnding.suffix, StringComparison.OrdinalIgnoreCase))
                 {
                     return suffixAndEnding.RemoveEnding(adjective);
                 }
@@ -61,7 +66,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             return adjective;
         }
 
-        private static string CheckExceptionMapping(string adjectiveText)
+        static string CheckExceptionMapping(string adjectiveText)
         {
             if (ExceptionMapping.ContainsKey(adjectiveText))
             {
@@ -70,8 +75,8 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             var exceptionBaseForms = from mapping in ExceptionMapping
                                      where mapping.Value.Contains(adjectiveText, StringComparer.OrdinalIgnoreCase)
                                      select mapping.Key;
-            var exceptionResult = exceptionBaseForms.FirstOrDefault();
-            return exceptionResult;
+
+            return exceptionBaseForms.FirstOrDefault();
         }
 
         /// <summary>
@@ -103,10 +108,11 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             {
                 hyphenatedAppendage = adjectiveText.Substring(hyphenIndex);
             }
-            bool exceptional;
+            var exceptional = false;
             var rootWithHyphenatedAppendage = FindRootImplementation(adjectiveText, out exceptional);
             var rootHyphenIndex = rootWithHyphenatedAppendage.IndexOf('-');
             var root = rootWithHyphenatedAppendage.Substring(0, rootHyphenIndex > 0 ? rootHyphenIndex : rootWithHyphenatedAppendage.Length);
+
             yield return root + hyphenatedAppendage;
 
             if (exceptional)
@@ -117,62 +123,30 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
                 }
                 yield break;
             }
-            else
+            foreach (var form in from suffixAndEnding in EndingSuffixPairs/*.Skip(root[root.Length - 1].EqualsIgnoreCase('e') ? 2 : 0).Take(2)*/
+                                 where suffixAndEnding.ending.Length == 0 || root.EndsWith(suffixAndEnding.ending)
+                                 select suffixAndEnding.RemoveEndingAndApplySuffix(root))
             {
-                foreach (var form in from suffixAndEnding in SuffixEndingPairs/*.Skip(root[root.Length - 1].EqualsIgnoreCase('e') ? 2 : 0).Take(2)*/
-                                     where suffixAndEnding.EndingLength == 0 || root.EndsWith(suffixAndEnding.Ending)
-                                     select suffixAndEnding.RemoveEndingAndApplySuffix(root))
-                {
-                    yield return form + hyphenatedAppendage;
-                }
+                yield return form + hyphenatedAppendage;
             }
         }
 
-        private static readonly SuffixEndingPair[] SuffixEndingPairs =
+        static readonly WordNetExceptionDataManager Helper = new WordNetExceptionDataManager("adj.exc");
+
+        static readonly IVariantDictionary<string, IEnumerable<string>> ExceptionMapping = Helper.ExcMapping.ToVariantDictionary(x => x.Key, x => x.Value);
+
+        static readonly (string ending, string suffix)[] EndingSuffixPairs =
         {
-            new SuffixEndingPair { Ending = "e", Suffix = "er" },
-            new SuffixEndingPair { Ending = "e", Suffix = "est" },
-            new SuffixEndingPair { Ending = "", Suffix = "er" },
-            new SuffixEndingPair { Ending = "", Suffix = "est" },
+            (ending : "e", suffix: "er"),
+            (ending : "e", suffix: "est"),
+            (ending : "", suffix : "er"),
+            (ending : "", suffix : "est"),
         };
+    }
+    static class SuffixEndingPairExtensions
+    {
+        public static string RemoveEnding(this (string ending, string suffix) t, string word) => word.Substring(0, word.Length - t.suffix.Length);
 
-        private static readonly WordNetExceptionDataManager Helper = new WordNetExceptionDataManager("adj.exc");
-        private static readonly IReadOnlyDictionary<string, List<string>> ExceptionMapping = Helper.ExcMapping;
-
-        private struct SuffixEndingPair
-        {
-            public string RemoveEnding(string word) => word.Substring(0, word.Length - SuffixLength);
-
-            public string RemoveEndingAndApplySuffix(string word) => $"{word.Substring(0, word.Length - EndingLength)}{Suffix}";
-
-            public string Suffix
-            {
-                get => suffix;
-                set
-                {
-                    suffix = value;
-                    suffixLength = suffix.Length;
-                }
-            }
-
-            public string Ending
-            {
-                get => ending;
-                set
-                {
-                    endingLength = value.Length;
-                    ending = value;
-                }
-            }
-
-            public int EndingLength => endingLength;
-
-            public int SuffixLength => suffixLength;
-
-            private string ending;
-            private string suffix;
-            private int endingLength;
-            private int suffixLength;
-        }
+        public static string RemoveEndingAndApplySuffix(this (string ending, string suffix) t, string word) => $"{word.Substring(0, word.Length - t.ending.Length)}{t.suffix}";
     }
 }

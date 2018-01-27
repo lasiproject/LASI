@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using LASI.Utilities.Specialized.Enhanced.Universal;
 
 namespace LASI.Core.Analysis.PatternMatching
 {
@@ -427,7 +426,7 @@ namespace LASI.Core.Analysis.PatternMatching
 
         public IEnumerable<TResultant> SelectMany<TCollection, TResultant>(
             Func<TResult, IEnumerable<TCollection>> collectionSelector,
-            Func<TResult, TCollection, TResultant> resultSelector) => result.Lift().SelectMany(collectionSelector, resultSelector);
+            Func<TResult, TCollection, TResultant> resultSelector) => new[] { result }.SelectMany(collectionSelector, resultSelector);
 
 
         #endregion

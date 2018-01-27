@@ -1,8 +1,8 @@
-﻿using System;
+﻿using LASI.Utilities;
+using LASI.Utilities.Specialized.Enhanced.IList.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Utilities;
-using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 
 namespace LASI.Core.Analysis.Heuristics.WordMorphing
 {
@@ -33,6 +33,21 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         /// </returns>
         public string FindRoot(Adverb adverb) => FindRoot(adverb.Text);
 
+        public string GetAdjectivalForm(Adverb adverb) => GetAdjectivalForm(adverb.Text);
+
+        public string GetAdjectivalForm(string adverbText)
+        {
+            var root = FindRoot(adverbText);
+            for (var i = suffices.Length - 1; i <= 0; --i)
+            {
+                if (root.EndsWith(endings[i]))
+                {
+                    return root.Substring(0, root.Length - endings[i].Length) + suffices[i];
+                }
+            }
+            return adverbText;
+        }
+
         /// <summary>
         /// Gets all forms of the Adverb root.
         /// </summary>
@@ -47,27 +62,14 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         /// <returns>All forms of the Adverb root.</returns>
         public IEnumerable<string> GetLexicalForms(Adverb adverb) => GetLexicalForms(adverb.Text);
 
-        public string GetAdjectivalForm(Adverb adverb) => GetAdjectivalForm(adverb.Text);
-        public string GetAdjectivalForm(string adverbText)
-        {
-            var root = FindRoot(adverbText);
-            for (var i = sufficies.Length - 1; i <= 0; --i)
-            {
-                if (root.EndsWith(endings[i]))
-                {
-                    return root.Substring(0, root.Length - endings[i].Length) + sufficies[i];
-                }
-            }
-            return adverbText;
-        }
+        static IEnumerable<string> CheckSpecialForms(string search) =>
+                                   from nounExceptKVs in ExceptionMapping
+                                   where nounExceptKVs.Value.Contains(search)
+                                   select nounExceptKVs.Key;
 
-        private static IEnumerable<string> CheckSpecialForms(string search) => from nounExceptKVs in ExceptionMapping
-                                                                               where nounExceptKVs.Value.Contains(search)
-                                                                               select nounExceptKVs.Key;
-
-        private string ComputeBaseForm(string adverbText)
+        string ComputeBaseForm(string adverbText)
         {
-            for (var i = 0; i < sufficies.Length; ++i)
+            for (var i = 0; i < suffices.Length; ++i)
             {
                 if (adverbText.EndsWith(endings[i]))
                 {
@@ -77,48 +79,39 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             return adverbText;
         }
 
-        private IEnumerable<string> ComputeForms(string containingRoot)
+        IEnumerable<string> ComputeForms(string containingRoot)
         {
             var hyphenIndex = containingRoot.IndexOf('-');
             var root = FindRoot(hyphenIndex > -1 ? containingRoot.Substring(0, hyphenIndex) : containingRoot);
-            var hyphenatedAppendage = hyphenIndex > -1 ? root.Substring(hyphenIndex) : string.Empty;
-            List<string> exceptionalForms;
+            var hyphenatedAppendage = hyphenIndex > -1 ? root.Substring(hyphenIndex) : "";
+            IEnumerable<string> exceptionalForms;
             if (!ExceptionMapping.TryGetValue(root, out exceptionalForms))
             {
-                for (var i = 0; i < sufficies.Length; ++i)
+                foreach (var (suffix, ending) in suffices.Zip(endings))
                 {
-                    if (root.EndsWith(sufficies[i], StringComparison.OrdinalIgnoreCase) || string.IsNullOrEmpty(endings[i]))
+                    if (root.EndsWith(suffix, ordinalIgnoreCase) || string.IsNullOrEmpty(ending))
                     {
-                        if (root.EndsWith("y", StringComparison.OrdinalIgnoreCase))
+                        if (root.EndsWith("y", ordinalIgnoreCase))
                         {
                             root = root.Substring(0, root.Length - 1) + 'i';
                         }
-                        yield return root + endings[i] + hyphenatedAppendage;
+                        yield return root + ending + hyphenatedAppendage;
                     }
                 }
                 yield break;
             }
-            foreach (var exceptional in exceptionalForms)
-            {
-                yield return exceptional + hyphenatedAppendage;
-            }
         }
+
+        const StringComparison ordinalIgnoreCase = StringComparison.OrdinalIgnoreCase;
 
         #region Exception File Processing
 
-        private static IReadOnlyList<ExceptionEntry> ProcessLine(string exceptionLine)
-        {
-            var lineEntries = exceptionLine.SplitRemoveEmpty(' ').ToList();
-            return from exc in lineEntries
-                   select new ExceptionEntry(exc, lineEntries);
-        }
+        static readonly string[] endings = { "ly" };
 
-        private static readonly string[] endings = { "ly" };
-        private static readonly WordNetExceptionDataManager Helper = new WordNetExceptionDataManager("adv.exc");
-        private static readonly IReadOnlyDictionary<string, List<string>> ExceptionMapping = Helper.ExcMapping;
+        static readonly string[] suffices = { "" };
 
-        private static readonly string[] sufficies = { "" };
-
+        static readonly WordNetExceptionDataManager Helper = new WordNetExceptionDataManager("adv.exc");
+        static readonly IVariantDictionary<string, IEnumerable<string>> ExceptionMapping = Helper.ExcMapping.ToVariantDictionary(x => x.Key, x => x.Value);
         #endregion Exception File Processing
     }
 }

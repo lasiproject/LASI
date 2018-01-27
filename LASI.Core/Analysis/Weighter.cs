@@ -1,5 +1,4 @@
 ﻿using LASI.Core.Configuration;
-using LASI.Utilities.Specialized.Enhanced.Universal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -138,14 +137,14 @@ namespace LASI.Core
             var toConsider = from e in source.Words
                                  //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                  .OfEntity()
-                                 .InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IReferencer.
+                                 .InSubjectOrObjectRole(s => s.Match()
+                                     .When((IReferencer r) => r.RefersTo != null)
+                                     .Then(r => r != null)
+                                     .Case((IEntity x) => x != null)) //Currently, include only those nouns which exist in relationships with some IVerbal or IReferencer.
                              select e.Match()
-                                 .When((IReferencer r) => r.RefersTo != null)
-                                 .Then((IReferencer r) => r.RefersTo)
-                                 .Case((IEntity x) => x.Lift().ToAggregate()).Result()
-                             into y
-                             where y != null
-                             select y;
+                                 .Case((IReferencer r) => r.RefersTo)
+                                 .Result(x => x);
+
             GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 1);
         }
         static void WeightSimilarVerbPhrases(IReifiedTextual source)

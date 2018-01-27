@@ -107,7 +107,7 @@ namespace LASI.Core.Binding.Experimental
         /// <summary>
         /// Gets or sets the possessor of the AggregateNounPhrase.
         /// </summary>
-        public IPossesser Possesser { get; set; }
+        public IPossessor Possessor { get; set; }
 
         public IEnumerable<IPossessable> Possessions => possessions;
 

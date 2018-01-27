@@ -247,18 +247,18 @@ namespace LASI.Core.Tests
         }
 
         /// <summary>
-        ///A test for Possesser
+        ///A test for <see cref="AggregateEntity.Possessor"/>
         /// </summary>
         [Fact]
-        public void PossesserTest()
+        public void PossessorTest()
         {
             var target = new AggregateEntity(
                 new NounPhrase(new CommonPluralNoun("cats")),
                 new NounPhrase(new CommonPluralNoun("dogs"))
             );
-            IPossesser expected = new NounPhrase(new ProperPluralNoun("Americans"));
-            target.Possesser = expected;
-            var actual = target.Possesser;
+            IPossessor expected = new NounPhrase(new ProperPluralNoun("Americans"));
+            target.Possessor = expected;
+            var actual = target.Possessor;
             Check.That(actual).IsEqualTo(expected);
         }
 

@@ -13,7 +13,9 @@ namespace LASI.Utilities.Tests
         public void ComposeTest()
         {
             Func<double, double> f = x => x * x;
+#pragma warning disable IDE0039 // Use local function Application triggers hard error. Type inference failure
             Func<double, double> g = x => x - 1;
+#pragma warning restore IDE0039 // Use local function
             var target = f.Compose(g);
             var value = 5D;
             var temp = g(value);

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using LASI.Content.Exceptions;
-using LASI.Content.FileConveters;
+using LASI.Content.FileConverters;
 using LASI.Content.FileTypes;
 using LASI.Utilities;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
@@ -207,12 +207,11 @@ namespace LASI.Content
         public static async Task ConvertAsNeededAsync()
         {
             ThrowIfUninitialized();
-            await Task.WhenAll(new[]
-            {
+            await Task.WhenAll(
                 ConvertPdfToTextAsync(pdfFiles),
                 ConvertDocToTextAsync(docFiles),
                 ConvertDocxToTextAsync(docXFiles)
-            });
+            );
         }
 
         /// <summary>
@@ -262,7 +261,7 @@ namespace LASI.Content
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
             foreach (var docx in files.ExceptBy(taggedFiles, file => file.NameSansExt, file => file.NameSansExt))
             {
-                var converted = await new DocxToTextConverter(docx as DocXFile).ConvertFileAsync();
+                var converted = await new DocxToTextConverter(docx).ConvertFileAsync();
                 convertedFiles.Add(converted);
                 AddFile(converted.FullPath);
                 File.Delete(converted.FullPath);

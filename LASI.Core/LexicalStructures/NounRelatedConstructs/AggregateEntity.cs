@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Collections.Immutable;
 using LASI.Utilities;
-using LASI.Utilities.Specialized.Enhanced.Universal;
-using System;
 
 namespace LASI.Core
 {
@@ -25,10 +23,14 @@ namespace LASI.Core
         /// <param name="entities">The entities aggregated into the group.</param>
         public AggregateEntity(IEnumerable<IEntity> entities)
         {
-            Constituents = (from entity in entities
-                            let aggregate = entity.Match((IAggregateEntity a) => a, (IEntity e) => e.Lift())
-                            from aggregated in aggregate.AsRecursivelyEnumerable().Distinct()
-                            select aggregated).Distinct().ToList();
+            var aggregatedEntities = from entity in entities
+                                     let aggregate = entity.Match()
+                                        .Case((IAggregateEntity a) => a)
+                                        .Result(e => new[] { e }.AsEnumerable())
+                                     from aggregated in aggregate.AsRecursivelyEnumerable().Distinct()
+                                     select aggregated;
+
+            Constituents = (aggregatedEntities).Distinct().ToList();
 
             var kinds = from constituent in Constituents
                         group constituent by constituent.EntityKind into byKind
@@ -57,7 +59,7 @@ namespace LASI.Core
         public void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = this;
+            possession.Possessor = this;
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the aggregate entity.
@@ -149,7 +151,7 @@ namespace LASI.Core
         /// <summary>
         /// The Entity which is inferred to "own" all members the aggregate entity.
         /// </summary>
-        public IPossesser Possesser { get; set; }
+        public IPossessor Possessor { get; set; }
         /// <summary>
         /// A textual representation of the aggregate entity.
         /// </summary>

@@ -1,10 +1,10 @@
-﻿using LASI.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using LASI.Core;
+using LASI.Testing.Assertions;
 using LASI.Utilities;
 using NFluent;
 using Xunit;
-using LASI.Testing.Assertions;
 
 namespace LASI.Core.Tests
 {
@@ -125,15 +125,15 @@ namespace LASI.Core.Tests
         }
 
         /// <summary>
-        ///A test for PossessesFor
+        ///A test for Possessor
         /// </summary>
         [Fact]
-        public void PossesserTest()
+        public void PossessorTest()
         {
             var target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IEntity expected = new NounPhrase(new ProperSingularNoun("North"), new ProperSingularNoun("America"));
-            target.Possesser = expected;
-            var actual = target.Possesser;
+            target.Possessor = expected;
+            var actual = target.Possessor;
             Check.That(actual).IsEqualTo(expected);
         }
 
@@ -161,7 +161,7 @@ namespace LASI.Core.Tests
             IEntity possession = new NounPhrase(new Adverb("relatively"), new Adjective("affluent"), new CommonPluralNoun("lifestyles"));
             target.AddPossession(possession);
             Check.That(target.Possessions).Contains(possession);
-            Check.That(possession.Possesser).IsEqualTo(target);
+            Check.That(possession.Possessor).IsEqualTo(target);
         }
 
         /// <summary>

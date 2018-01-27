@@ -239,7 +239,7 @@ namespace LASI.Utilities
         /// </returns>
         public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
             first.Except(second, Equality.Create<TSource>(
-                (x, y) => selector(x).Equals(selector(y)),
+                (x, y) => selector(x)?.Equals(selector(y)) ?? false,
                 x => selector(x).GetHashCode())
             );
 
@@ -254,7 +254,11 @@ namespace LASI.Utilities
         /// A sequence that contains the set difference of the elements of two sequences under the
         /// given projection.
         /// </returns>
-        public static IEnumerable<TBase> ExceptBy<TBase, TDerived, TKey>(this IEnumerable<TBase> first, IEnumerable<TDerived> second, Func<TBase, TKey> selector) where TDerived : class, TBase =>
+        public static IEnumerable<TBase> ExceptBy<TBase, TDerived, TKey>(
+            this IEnumerable<TBase> first,
+            IEnumerable<TDerived> second,
+            Func<TBase, TKey> selector
+        ) where TDerived : class, TBase =>
             first.Except(second, Equality.Create<TBase>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode())
@@ -279,11 +283,10 @@ namespace LASI.Utilities
             Func<TOther, TKey> otherKeySelector
         )
         {
-            var excepted = first
-                .Select(keySelector)
-                .Except(second.Select(otherKeySelector));
-            return first.Where(element =>
-                excepted.Contains(keySelector(element)));
+            var except = from x in first
+                         join y in second on keySelector(x) equals otherKeySelector(y)
+                         select x;
+            return first.Except(except);
         }
 
         /// <summary>Produces the set intersection of two sequences under the given projection.</summary>
@@ -363,7 +366,7 @@ namespace LASI.Utilities
             return source.OrderBy(selector, comparer).First();
         }
 
-        public static IEnumerable<T> NonNull<T>(this IEnumerable<T> source) => source.Where(element => !ReferenceEquals(element, null));
+        public static IEnumerable<T> NonNull<T>(this IEnumerable<T> source) where T : class => source.Where(element => !(element is null));
 
         /// <summary>A sequence of Tuple&lt;T, T,&gt; containing pairs of adjacent elements.</summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
@@ -414,9 +417,9 @@ namespace LASI.Utilities
         /// <param name="predicate">The predicate used to delineate elements.</param>
         /// <returns>The percentage of values in the sequence which match the specified predicate.</returns>
         public static double PercentWhere<T>(this IEnumerable<T> source, Func<T, bool> predicate) =>
-            source.Aggregate((length: 0, matched: 0),
-                    (s, e) => (s.length + 1, s.matched + (predicate(e) ? 1 : 0)),
-                    tally => (double)tally.matched / tally.length) * 100;
+            source.Aggregate((length: 0d, matched: 0),
+                    (a, e) => (a.length + 1, a.matched + (predicate(e) ? 1 : 0)),
+                    tally => tally.matched / tally.length * 100);
 
         /// <summary>Calculates the percentage of true values in the collection of Boolean values.</summary>
         /// <param name="delineated">

@@ -13,7 +13,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
     /// <seealso cref="Enumerable"/>
     /// <seealso cref="IList{T}"/>
     /// <seealso cref="List{T}"/>
-    public static class IListExtensions
+    public static class ListExtensions
     {
         #region Select
 

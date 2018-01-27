@@ -1214,11 +1214,11 @@
       <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IPossessable.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="LASI.Algorithm.IPossesser" Collapsed="true">
+  <Interface Name="LASI.Algorithm.IPossessor" Collapsed="true">
     <Position X="25.5" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IPossesser.cs</FileName>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IPossessor.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Algorithm.IQuantifier" Collapsed="true">

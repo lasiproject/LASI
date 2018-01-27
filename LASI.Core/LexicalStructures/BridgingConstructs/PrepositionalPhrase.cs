@@ -17,16 +17,13 @@ namespace LASI.Core
         /// Initializes a new instance of the PrepositionalPhrase class.
         /// </summary>
         /// <param name="composedWords">The words which compose to form the PrepositionalPhrase.</param>
-        public PrepositionalPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
-            PrepositionRole = PrepositionRole.Undetermined;
-        }
+        public PrepositionalPhrase(IEnumerable<Word> composedWords) : base(composedWords) => PrepositionRole = PrepositionRole.Undetermined;
         /// <summary>
         /// Initializes a new instance of the PrepositionalPhrase class.
         /// </summary>
         /// <param name="first">The first Word of the PrepositionalPhrase.</param>
         /// <param name="rest">The rest of the Words comprise the PrepositionalPhrase.</param>
-        /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. 
+        /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases.
         /// Thus, its purpose is to simplify test code.</remarks>
         public PrepositionalPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
         #endregion
@@ -52,7 +49,7 @@ namespace LASI.Core
 
 
         /// <summary>
-        /// Binds an ILexical construct as the object of the PrepositionalPhrase. 
+        /// Binds an ILexical construct as the object of the PrepositionalPhrase.
         /// Lexical constructs include word, Phrase, and Clause Types.
         /// </summary>
         /// <param name="prepositionalObject">The ILexical construct as the object of the PrepositionalPhrase.</param>

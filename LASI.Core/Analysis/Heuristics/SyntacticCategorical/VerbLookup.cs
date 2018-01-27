@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using LASI.Utilities;
 
-namespace LASI.Core.Heuristics.WordNet {
+namespace LASI.Core.Heuristics.WordNet
+{
     using System.Collections.Immutable;
     using System.Reactive.Linq;
     using Analysis.Heuristics.WordMorphing;
@@ -15,7 +16,8 @@ namespace LASI.Core.Heuristics.WordNet {
     using LinkType = VerbLink;
     using SetReference = KeyValuePair<VerbLink, int>;
 
-    internal sealed class VerbLookup : WordNetLookup<Verb> {
+    internal sealed class VerbLookup : WordNetLookup<Verb>
+    {
         /// <summary>
         /// Initializes a new instance of the VerbThesaurus class.
         /// </summary>
@@ -25,33 +27,40 @@ namespace LASI.Core.Heuristics.WordNet {
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        internal override void Load() {
+        internal override void Load()
+        {
             OnReport(new EventArgs("Parsing File", 0));
             OnReport(new EventArgs("Mapping Verb Sets", 0));
-            foreach (var (line, index) in LoadData()) {
+            foreach (var (line, index) in LoadData())
+            {
                 var set = CreateSet(line);
                 LinkSynset(set);
-                if (index % ProgressModulus == 0) {
+                if (index % ProgressModulus == 0)
+                {
                     OnReport(new EventArgs(string.Format(ProgressFormat, index), ProgressAmmount));
                 }
             }
             OnReport(new EventArgs("Mapped Verb Sets", 1));
         }
 
-        IEnumerable<(string line, int index)> LoadData() {
-            using (var reader = new StreamReader(File.Open(path: filePath, mode: FileMode.Open, access: FileAccess.Read))) {
-                for (var i = 0; i < LinesInHeader; ++i) {
+        private IEnumerable<(string line, int index)> LoadData()
+        {
+            using (var stream = File.OpenRead(filePath))
+            using (var reader = new StreamReader(stream))
+            {
+                for (var i = 0; i < LinesInHeader; ++i)
+                {
                     reader.ReadLine();
                 }
-                var lineNumber = 0;
-                for (var line = reader.ReadLine(); line != null; ++lineNumber, line = reader.ReadLine()) {
+                for (var (line, lineNumber) = (reader.ReadLine(), 0); line != null; (line, lineNumber) = (reader.ReadLine(), lineNumber + 1))
+                {
                     yield return (line, lineNumber);
                 }
             }
         }
 
-
-        static VerbSynset CreateSet(string setLine) {
+        private static VerbSynset CreateSet(string setLine)
+        {
             var line = setLine.Substring(0, setLine.IndexOf('|'));
 
             var referencedSets =
@@ -67,10 +76,11 @@ namespace LASI.Core.Heuristics.WordNet {
             return new VerbSynset(id, words, referencedSets, category);
         }
 
-
-        void LinkSynset(VerbSynset set) {
+        private void LinkSynset(VerbSynset set)
+        {
             setsById[set.Id] = set;
-            foreach (var word in set.Words) {
+            foreach (var word in set.Words)
+            {
                 setsByWord.AddOrUpdate(
                     key: word,
                     addValue: set,
@@ -81,26 +91,45 @@ namespace LASI.Core.Heuristics.WordNet {
                     );
             }
         }
-        IImmutableSet<string> SearchFor(string search) {
+
+        private IImmutableSet<string> SearchFor(string search)
+        {
             var setBuilder = ImmutableHashSet.CreateBuilder(System.StringComparer.OrdinalIgnoreCase);
             var verbRoots = VerbMorpher.FindRoots(search);
-            setBuilder.UnionWith(verbRoots.AsParallel().SelectMany(root => {
+            setBuilder.UnionWith(verbRoots.AsParallel().SelectMany(root =>
+            {
                 VerbSynset containingSet;
                 setsByWord.TryGetValue(root, out containingSet);
                 containingSet = containingSet ?? setsByWord.Where(set => set.Value.ContainsWord(root)).Select(kv => kv.Value).FirstOrDefault();
                 return containingSet == null ? new[] { search } :
                     containingSet[TraversedLinks]
-                         .SelectMany(id => {
+                         .SelectMany(id =>
+                         {
                              VerbSynset set;
                              return setsById.TryGetValue(id, out set) ? set[TraversedLinks] : Empty<int>();
                          })
-                         .Select(id => {
+                         .Select(id =>
+                         {
                              VerbSynset referenced;
                              return setsById.TryGetValue(id, out referenced) ? referenced : null;
                          })
                          .Where(set => set != null)
                          .SelectMany(set => set.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
                          .Concat(VerbMorpher.GetConjugations(root));
+
+                // TODO Test this -- should be equivalent
+                //return (from setId in containingSet?[TraversedLinks]
+                //        let outerSet = setsById.GetValueOrDefault(setId)
+                //        where outerSet != null
+                //        let set = outerSet[TraversedLinks]
+                //        //.SelectMany(id => setsById.GetValueOrDefault(id) is VerbSynset set ? set[TraversedLinks] : Empty<int>())
+                //        select setsById.GetValueOrDefault(setId) into set
+                //        where set != null
+                //        from word in set.Words
+                //        from conjugation in VerbMorpher.GetConjugations(word)
+                //        select conjugation
+                //        ).Concat(VerbMorpher.GetConjugations(root))
+                //    ?? new[] { search };
             }));
             return setBuilder.ToImmutable();
         }
@@ -118,20 +147,19 @@ namespace LASI.Core.Heuristics.WordNet {
         /// <param name="search">An instance of Verb</param>
         /// <returns>A collection of strings containing all of the synonyms of the given Verb.</returns>
         internal override IImmutableSet<string> this[Verb search] => this[search.Text];
-        const int TOTAL_LINES = 13766;
         /// <summary>
         /// A report will be propagated for every 1 in 138 sets roughly 100 updates will take place.
         /// </summary>
-        const int ProgressModulus = 138;
-        const double ProgressAmmount = 100 / (100d * ProgressModulus);
-        const string ProgressFormat = "Mapping Verb Set {0} / 13766";
+        private const int ProgressModulus = 138;
+        private const double ProgressAmmount = 100 / (100d * ProgressModulus);
+        private const string ProgressFormat = "Mapping Verb Set {0} / 13766";
 
-        string filePath;
-        ConcurrentDictionary<int, VerbSynset> setsById = new ConcurrentDictionary<int, VerbSynset>(
+        private string filePath;
+        private ConcurrentDictionary<int, VerbSynset> setsById = new ConcurrentDictionary<int, VerbSynset>(
             concurrencyLevel: Concurrency.Max,
             capacity: 30000
         );
-        ConcurrentDictionary<string, VerbSynset> setsByWord = new ConcurrentDictionary<string, VerbSynset>(
+        private ConcurrentDictionary<string, VerbSynset> setsByWord = new ConcurrentDictionary<string, VerbSynset>(
             concurrencyLevel: Concurrency.Max,
             capacity: 30000,
             comparer: System.StringComparer.OrdinalIgnoreCase
@@ -141,7 +169,7 @@ namespace LASI.Core.Heuristics.WordNet {
         /// starts at a word(in the regex sense of word) boundary: \b
         /// consisting of any combination of alpha, underscore, and minus(dash), that is at least 2 characters in length: [A-Za-z-_]{2,}
         /// </summary>
-        static readonly Regex WordRegex = new Regex(@"\b[A-Za-z-_]{2,}", RegexOptions.Compiled);
+        private static readonly Regex WordRegex = new Regex(@"\b[A-Za-z-_]{2,}", RegexOptions.Compiled);
         /// <summary>
         /// The regular expression describes a string which
         /// starts with at least one but not more than two non-digit characters (matches the pointer symbol): \D{1,2}
@@ -152,13 +180,8 @@ namespace LASI.Core.Heuristics.WordNet {
         /// followed by a single space: [\s]
         /// ends with the sequence 0000 (indicates that the source/target relationship between to the set is semantic as opposed to lexical): [0]{4,}
         /// </summary>
-        static readonly Regex RelationshipRegex = new Regex(@"\D{1,2}\s*[\d]{8}[\s].[\s][0]{4,}", RegexOptions.Compiled);
-
-        /// <summary>
-        /// The number of in the WordNet file data.verb which contains the textual Synset data for verbs.
-        /// </summary>
-        const uint SetCount = 13797;
-        static readonly LinkType[] TraversedLinks =
+        private static readonly Regex RelationshipRegex = new Regex(@"\D{1,2}\s*[\d]{8}[\s].[\s][0]{4,}", RegexOptions.Compiled);
+        private static readonly LinkType[] TraversedLinks =
         {
              LinkType.Hypernym,
             //LinkType.Hyponym,
@@ -169,8 +192,10 @@ namespace LASI.Core.Heuristics.WordNet {
             LinkType.Cause,
             LinkType.DomainOfSynset_USAGE
         };
+
         // Provides an indexed lookup between the values of the VerbPointerSymbol enumerations and their corresponding string representation in WordNet data.verb files.
-        static readonly IReadOnlyDictionary<string, LinkType> InterSetMap = new Dictionary<string, LinkType> {
+        static readonly IReadOnlyDictionary<string, LinkType> InterSetMap = new Dictionary<string, LinkType>
+        {
             ["!"] = LinkType.Antonym,
             ["@"] = LinkType.Hypernym,
             ["~"] = LinkType.Hyponym,

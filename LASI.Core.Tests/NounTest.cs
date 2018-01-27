@@ -23,7 +23,7 @@ namespace LASI.Core.Tests
             IEntity possession = new NounPhrase(new CommonSingularNoun("chew"), new CommonSingularNoun("toy"));
             target.AddPossession(possession);
             Check.That(target.Possessions).Contains(possession);
-            Check.That(possession.Possesser).IsEqualTo(target);
+            Check.That(possession.Possessor).IsEqualTo(target);
         }
 
         /// <summary>
@@ -113,16 +113,16 @@ namespace LASI.Core.Tests
         }
 
         /// <summary>
-        ///A test for PossessesFor
+        ///A test for Possessor
         /// </summary>
         [Fact]
-        public void PossesserTest()
+        public void PossessorTest()
         {
             var target = new CommonSingularNoun("dog");
             var possessor = new NounPhrase(new Adjective("Red"), new CommonSingularNoun("Team"));
 
-            target.Possesser = possessor;
-            var actual = target.Possesser;
+            target.Possessor = possessor;
+            var actual = target.Possessor;
             Check.That(actual).IsEqualTo(possessor);
         }
 

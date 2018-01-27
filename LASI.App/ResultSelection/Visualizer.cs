@@ -235,7 +235,7 @@ namespace LASI.App
             };
 
         private static string FormatObjectText(IEntity e) => e is IPrepositionLinkable pl ?
-            pl.LeftPrepositional?.Text + " " + e?.Text :
+            $"{pl.LeftPrepositional?.Text} {e?.Text}":
             string.Empty;
 
         private static string FormatVerbalText(IVerbal verbal)
@@ -263,7 +263,7 @@ namespace LASI.App
                 let key = $@"{relationship.Subject.Text} -> {relationship.Verbal.Text}
                              {(relationship.Direct != null ? " -> " + relationship.Direct.Text : string.Empty)}
                              {(relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty)}"
-                let value = (float)Math.Round(relationship.Weight, 2)
+                let value = (float)Round(relationship.Weight, 2)
                 select new ChartItem(key, value);
             return chartItems.Distinct();
         }
@@ -274,9 +274,9 @@ namespace LASI.App
         static async Task<IEnumerable<SvoRelationship>> GetVerbWiseRelationshipsAsync(Document document) => await Task.Run(() =>
         {
             var consideredVerbals = document.Phrases.OfVerbal()
-                .WithSubject(subject => subject.Match(
-                    (IReferencer r) => r.RefersTo != null,
-                    (IEntity e) => e != null))
+                .WithSubject(subject => subject.Match()
+                    .Case((IReferencer r) => r.RefersTo != null)
+                    .Case((IEntity e) => e != null))
                 .Distinct((x, y) => x.IsSimilarTo(y))
                 .AsParallel()
                 .WithDegreeOfParallelism(Concurrency.Max);

@@ -49,11 +49,11 @@
       <FileName>LexicalStructures\Behavioral\IPossessable.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="LASI.Core.IPossesser">
+  <Interface Name="LASI.Core.IPossessor">
     <Position X="23.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalStructures\Behavioral\IPossesser.cs</FileName>
+      <FileName>LexicalStructures\Behavioral\IPossessor.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IQuantifiable">

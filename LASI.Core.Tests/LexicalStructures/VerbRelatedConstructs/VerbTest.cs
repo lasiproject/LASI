@@ -300,11 +300,12 @@ namespace LASI.Core.Tests
                     Check.That(false).IsTrue();
                     break;
             }
-            Func<IEntity, bool> predicate = e => e.Text == "monkeys";
             var expected = true;
             bool actual;
             actual = target.HasSubjectOrObject(predicate);
             Check.That(actual).Equals(expected);
+
+            bool predicate(IEntity e) => e.Text == "monkeys";
         }
 
 

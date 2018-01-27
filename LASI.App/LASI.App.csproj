@@ -134,10 +134,11 @@
     <Compile Include="Dialogs\LicenseDisplayDialog.xaml.cs">
       <DependentUpon>LicenseDisplayDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\FileSystemInfoExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\WindowExtensions.cs" />
-    <Compile Include="Visualization\ContextMenuBuilder.cs" />
+    <Compile Include="Visualization\LexicalContextMenu.cs" />
     <Compile Include="Visualization\SyntacticColorMapping.cs" />
     <Compile Include="ResultSelection\Visualizer.cs" />
     <Compile Include="Dialogs\CrossJoinSelectDialog.xaml.cs">

@@ -67,7 +67,7 @@ namespace LASI.Core
         public void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = this;
+            possession.Possessor = this;
         }
         /// <summary>
         /// Returns a string representation of the NounPhrase.
@@ -116,7 +116,7 @@ namespace LASI.Core
             var empty = string.Empty;
             return base.ToString() + string.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}",
                 Possessions.Any() ? "\nPossessions: " + Possessions.Format(p => p.Text + '\n') : empty,
-                Possesser != null ? "\nPossessed By: " + Possesser.Text : empty,
+                Possessor != null ? "\nPossessed By: " + Possessor.Text : empty,
                 OuterAttributive != null ? "\nDefinedby: " + OuterAttributive.Text : empty,
                 InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : empty,
                 aliases.Any() ? "\nClassified as: " + aliases.Format() : empty,
@@ -169,7 +169,7 @@ namespace LASI.Core
         /// <summary>
         /// The Entity which "owns" the NounPhrase.
         /// </summary>
-        public IPossesser Possesser
+        public IPossessor Possessor
         {
             get => possessor;
             set
@@ -183,7 +183,7 @@ namespace LASI.Core
                 {
                     value.Match()
                         .Case((IEntity e) => e.AddPossession(entity))
-                        .Default(() => Words.OfEntity().ToList().ForEach(e => e.Possesser = value));
+                        .Default(() => Words.OfEntity().ToList().ForEach(e => e.Possessor = value));
                 }
 
             }
@@ -233,7 +233,7 @@ namespace LASI.Core
         private IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
         private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
-        private IPossesser possessor;
+        private IPossessor possessor;
         private IVerbal directObjectOf;
         private IVerbal indirectObjectOf;
         private IVerbal subjectOf;

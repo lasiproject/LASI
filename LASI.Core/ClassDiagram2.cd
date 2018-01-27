@@ -1074,11 +1074,11 @@
       <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IPossessable.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="LASI.Core.IPossesser" Collapsed="true">
+  <Interface Name="LASI.Core.IPossessor" Collapsed="true">
     <Position X="23.5" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IPossesser.cs</FileName>
+      <FileName>CoreDataStructures\LexicalStructures\NounRelatedConstructs\IPossessor.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IQuantifier" Collapsed="true">

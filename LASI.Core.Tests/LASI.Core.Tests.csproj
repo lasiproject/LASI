@@ -150,7 +150,7 @@
     <Compile Include="ForeignWordTest.cs" />
     <Compile Include="CommonPluralNounTest.cs" />
     <Compile Include="CommonSingularNounTest.cs" />
-    <Compile Include="PatternMatching\MatchTTresultTest.cs" />
+    <Compile Include="PatternMatching\MatchTTResultTest.cs" />
     <Compile Include="PatternMatching\MonadOperatorsTest.cs" />
     <Compile Include="RelationshipInferenceExtensionsTest.cs" />
     <Compile Include="SubjectBinderTests.cs" />

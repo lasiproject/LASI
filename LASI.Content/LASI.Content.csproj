@@ -123,7 +123,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Serialization\Json\SerializationExtensions.cs" />
     <Compile Include="Serialization\Json\SimpleJsonSerializer.cs" />
-    <Compile Include="Serialization\SerializerFactory.cs" />
+    <Compile Include="Serialization\LexicalSerializer.cs" />
     <Compile Include="Serialization\Xml\NodeNameMapper.cs" />
     <Compile Include="Serialization\Xml\SerializationExtensions.cs" />
     <Compile Include="Serialization\ILexicalSerializer.cs" />

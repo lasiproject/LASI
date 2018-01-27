@@ -85,7 +85,7 @@ namespace LASI.Core
             else
             {
                 possessions.Add(possession);
-                possession.Possesser = this;
+                possession.Possessor = this;
             }
         }
 
@@ -152,7 +152,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the <see cref="IVerbal"/> which is inferred to the Pronoun.
         /// </summary>
-        public IPossesser Possesser { get; set; }
+        public IPossessor Possessor { get; set; }
         /// <summary>
         /// The EntityKind of the Pronoun.
         /// </summary>

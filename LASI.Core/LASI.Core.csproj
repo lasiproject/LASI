@@ -76,7 +76,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Net" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Reactive, Version=4.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.4.0.0-preview00001\lib\net46\System.Reactive.dll</HintPath>
     </Reference>
@@ -121,14 +121,13 @@
     </Compile>
     <Compile Include="Analysis\Binding\VerblessPhrasalSequenceException.cs" />
     <Compile Include="Analysis\Heuristics\Paths.cs" />
-    <Compile Include="Analysis\Heuristics\LookupNameProvider.cs" />
+    <Compile Include="Analysis\Heuristics\NameProvider.cs" />
     <Compile Include="Analysis\Heuristics\Similarity.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\AdjectiveCategory.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\AdverbCategory.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\NounCategory.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\VerbCategory.cs" />
     <Compile Include="Analysis\Heuristics\WordMorphing\AdjectiveMorpher.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphing\ExceptionEntry.cs" />
     <Compile Include="Analysis\Heuristics\WordMorphing\IWordMorpher.cs" />
     <Compile Include="Analysis\Heuristics\WordMorphing\WordNetExceptionDataManager.cs" />
     <Compile Include="Analysis\Melding\LiftedEntity.cs" />
@@ -248,7 +247,7 @@
     <Compile Include="LexicalStructures\BehavioralConstructs\IAdverbial.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IDescriptor.cs" />
     <Compile Include="LexicalStructures\BehavioralConstructs\IPossessable.cs" />
-    <Compile Include="LexicalStructures\BehavioralConstructs\IPossesser.cs" />
+    <Compile Include="LexicalStructures\BehavioralConstructs\IPossessor.cs" />
     <Compile Include="Analysis\Heuristics\Support\LexicalComparers.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\AdjectiveLookup.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\AdverbLookup.cs" />
@@ -379,7 +378,7 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <!--<Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.1.0.0-rc1\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.1.0.0-rc1\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props'))" />-->
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

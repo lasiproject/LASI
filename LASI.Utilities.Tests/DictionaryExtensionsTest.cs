@@ -69,33 +69,6 @@ namespace LASI.Utilities.Tests
                 Check.That(target[keyValuePair.Key]).IsEqualTo(target.GetValueOrDefault(keyValuePair.Key));
             }
         }
-        [Fact]
-        public void ForEachTest()
-        {
-            target.ForEach((key, value) =>
-            {
-                switch (key)
-                {
-                    case "zero":
-                        Check.That(value).IsNull();
-                        break;
-                    case "one":
-                        Check.That(value).IsEqualTo(1);
-                        break;
-                    case "two":
-                        Check.That(value).IsEqualTo(2);
-                        break;
-                    case "three":
-                        Check.That(value).IsEqualTo(3);
-                        break;
-                    case "four":
-                        Check.That(value).IsEqualTo(4);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException("test failed");
-                }
-            });
-        }
 
         [Fact]
         public void WithIndicesTest()

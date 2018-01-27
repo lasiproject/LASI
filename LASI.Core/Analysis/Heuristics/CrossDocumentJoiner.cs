@@ -38,7 +38,6 @@ namespace LASI.Core.Analysis.Heuristics
         public IEnumerable<SvoRelationship> GetCommonResults(IEnumerable<IReifiedTextual> sources) => GetCommonResultsAsync(sources).Result;
         private async Task<IEnumerable<SvoRelationship>> GetCommonalitiesByEntities(IEnumerable<IReifiedTextual> sources)
         {
-            //await Task.Yield();
             var topNounPhrasesByDocument = from document in sources.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                            select new
                                            {
@@ -46,7 +45,6 @@ namespace LASI.Core.Analysis.Heuristics
                                                Document = document
                                            };
 
-            //await Task.Yield();
             var crossReferenced =
                 from outer in topNounPhrasesByDocument
                 from inner in topNounPhrasesByDocument

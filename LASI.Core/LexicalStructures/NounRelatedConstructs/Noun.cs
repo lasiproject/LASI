@@ -66,7 +66,7 @@ namespace LASI.Core
         public virtual void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = this;
+            possession.Possessor = this;
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the Noun.
         /// </summary>
-        public IPossesser Possesser { get; set; }
+        public IPossessor Possessor { get; set; }
 
         /// <summary>
         /// Gets or sets the EntityKind; Person, Place, Thing, Organization, or Activity; of the Noun.
