@@ -19,10 +19,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="text">The text content of the ProperNoun</param>
         protected ProperNoun(string text)
-            : base(text)
-        {
-            EntityKind = EntityKind.ProperUnknown;
-        }
+            : base(text) => EntityKind = EntityKind.ProperUnknown;
         /// <summary>
         /// Gets a value indicating if the ProperNoun is Lexically equal to a personal name. Known First and Last names are considered.
         /// </summary>

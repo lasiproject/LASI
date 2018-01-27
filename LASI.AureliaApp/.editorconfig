@@ -1,0 +1,20 @@
+﻿; EditorConfig helps developers define and maintain consistent
+; coding styles between different editors and IDEs.
+
+; For more visit http://editorconfig.org.
+root = true
+
+; Choose between lf or rf on "end_of_line" property
+[*]
+indent_style = space
+end_of_line = crlf
+charset = utf-8
+trim_trailing_whitespace = true
+indent_size = 2
+
+[*.{ts,tsx,jsx,js,css,scss,less,json,html}]
+indent_size = 2
+
+
+[*.md]
+trim_trailing_whitespace = false

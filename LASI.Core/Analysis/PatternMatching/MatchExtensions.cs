@@ -268,8 +268,8 @@ namespace LASI.Core
             }
         }
 
-        public static IEnumerable<TResult> SelectMany<TLexical, TResult>(this IEnumerable<TLexical> lexicals,
-            Func<TLexical, Match<TLexical, TResult>> expression) where TLexical : ILexical =>
-            SelectCase(lexicals, expression).Select(x => x.Result());
+        //public static IEnumerable<TResult> SelectMany<TLexical, TResult>(this IEnumerable<TLexical> lexicals,
+        //    Func<TLexical, Match<TLexical, TResult>> expression) where TLexical : ILexical =>
+        //    SelectCase(lexicals, expression).Select(x => x.Result());
     }
 }

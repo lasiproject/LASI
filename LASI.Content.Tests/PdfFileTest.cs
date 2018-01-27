@@ -9,7 +9,6 @@ using Xunit;
 
 namespace LASI.Content.Tests
 {
-
     /// <summary>
     ///This is a test class for PdfFileTest and is intended
     ///to contain all PdfFileTest Unit Tests
@@ -30,6 +29,7 @@ namespace LASI.Content.Tests
             Check.That(pdfInfo.Name).IsEqualTo(target.FileName);
             Check.That(pdfInfo.Extension).IsEqualTo(target.Extension);
         }
+
         [Fact]
         public void PdfFileConstructorGivenTxtFileThrowsFileTypeMismatchOfPdfFile()
         {
@@ -38,6 +38,7 @@ namespace LASI.Content.Tests
             Check.ThatCode(() => new PdfFile(invalidPath))
                  .Throws<FileNotFoundException>();
         }
+
         [Fact]
         public void PdfFileConstructorTest2()
         {
@@ -49,6 +50,7 @@ namespace LASI.Content.Tests
             Check.ThatCode(() => new PdfFile(pathToNonPdfFile))
                  .Throws<FileTypeWrapperMismatchException<PdfFile>>();
         }
+
         /// <summary>
         ///A test for LoadText
         /// </summary>

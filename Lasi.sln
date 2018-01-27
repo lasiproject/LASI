@@ -36,16 +36,34 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9579A236-F6AE-4C14-95B6-7D35671BF7D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Content.Tests", "LASI.Content.Tests\LASI.Content.Tests.csproj", "{BE2D3C2C-F7CF-4731-BFA8-1876DE7FB757}"
+	ProjectSection(ProjectDependencies) = postProject
+		{28203B35-8232-4B95-82A3-70D510C416CD} = {28203B35-8232-4B95-82A3-70D510C416CD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Core.Tests", "LASI.Core.Tests\LASI.Core.Tests.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1314082A-EB47-44E9-88A0-72C71489035F} = {1314082A-EB47-44E9-88A0-72C71489035F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Interop.Tests", "LASI.Interop.Tests\LASI.Interop.Tests.csproj", "{28203B35-8232-4B95-82A3-70D510C416CD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1314082A-EB47-44E9-88A0-72C71489035F} = {1314082A-EB47-44E9-88A0-72C71489035F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Utilities.Tests", "LASI.Utilities.Tests\LASI.Utilities.Tests.csproj", "{7C756278-1AA5-4462-A9ED-E4CE2D948E10}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1314082A-EB47-44E9-88A0-72C71489035F} = {1314082A-EB47-44E9-88A0-72C71489035F}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Testing.Assertions", "LASI.Testing.Assertions\LASI.Testing.Assertions.csproj", "{1314082A-EB47-44E9-88A0-72C71489035F}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "LASI.Installer", "LASI.Installer\LASI.Installer.vdproj", "{E0FB815A-0136-4471-A929-514A88087797}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.App", "LASI.App\LASI.App.csproj", "{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{06B96679-9758-4B15-8E75-0F46416E68B7} = {06B96679-9758-4B15-8E75-0F46416E68B7}
+		{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21} = {BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Core", "LASI.Core\LASI.Core.csproj", "{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}"
 EndProject
@@ -55,7 +73,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Utilities", "LASI.Util
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Interop", "LASI.Interop\LASI.Interop.csproj", "{06B96679-9758-4B15-8E75-0F46416E68B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Testing.Assertions", "LASI.Testing.Assertions\LASI.Testing.Assertions.csproj", "{1314082A-EB47-44E9-88A0-72C71489035F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LASI.WebService", "LASI.WebService\LASI.WebService.csproj", "{6828D477-F82B-416E-A960-14DC6227586D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LASI.WebService.Tests", "LASI.WebService.Tests\LASI.WebService.Tests.csproj", "{E098A920-61C8-497E-8492-EF9835FDA69B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LASI.WebApp", "LASI.WebApp\LASI.WebApp.csproj", "{3AB7C69C-34C2-4410-B41F-265C2BC2D8FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +101,10 @@ Global
 		{7C756278-1AA5-4462-A9ED-E4CE2D948E10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C756278-1AA5-4462-A9ED-E4CE2D948E10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C756278-1AA5-4462-A9ED-E4CE2D948E10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1314082A-EB47-44E9-88A0-72C71489035F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1314082A-EB47-44E9-88A0-72C71489035F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1314082A-EB47-44E9-88A0-72C71489035F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1314082A-EB47-44E9-88A0-72C71489035F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E0FB815A-0136-4471-A929-514A88087797}.Debug|Any CPU.ActiveCfg = Debug
 		{E0FB815A-0136-4471-A929-514A88087797}.Release|Any CPU.ActiveCfg = Release
 		{E0FB815A-0136-4471-A929-514A88087797}.Release|Any CPU.Build.0 = Release
@@ -102,10 +128,18 @@ Global
 		{06B96679-9758-4B15-8E75-0F46416E68B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06B96679-9758-4B15-8E75-0F46416E68B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06B96679-9758-4B15-8E75-0F46416E68B7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1314082A-EB47-44E9-88A0-72C71489035F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1314082A-EB47-44E9-88A0-72C71489035F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1314082A-EB47-44E9-88A0-72C71489035F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1314082A-EB47-44E9-88A0-72C71489035F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6828D477-F82B-416E-A960-14DC6227586D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6828D477-F82B-416E-A960-14DC6227586D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6828D477-F82B-416E-A960-14DC6227586D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6828D477-F82B-416E-A960-14DC6227586D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E098A920-61C8-497E-8492-EF9835FDA69B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E098A920-61C8-497E-8492-EF9835FDA69B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E098A920-61C8-497E-8492-EF9835FDA69B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E098A920-61C8-497E-8492-EF9835FDA69B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AB7C69C-34C2-4410-B41F-265C2BC2D8FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AB7C69C-34C2-4410-B41F-265C2BC2D8FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AB7C69C-34C2-4410-B41F-265C2BC2D8FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AB7C69C-34C2-4410-B41F-265C2BC2D8FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

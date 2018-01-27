@@ -22,6 +22,7 @@ namespace TaggerInterop
         private OpenNLP.Tools.Lang.English.TreebankLinker mCoreferenceFinder;
 
         public static LASI.Utilities.Configuration.IConfig Settings { internal get; set; }
+
         /// <summary>
         /// Initializes a new instance of the SharpNLPTagger class with its behavior specified by the provided TaggerMode value.
         /// </summary>
@@ -49,20 +50,20 @@ namespace TaggerInterop
         /// <summary>
         /// Initializes a new instance of the SharpNLPTagger class its analysis behavior specified by the provied TaggerMode value.
         /// </summary>
-        /// <param name="taggingMode">Specifies the mode under which the tagger will operate.</param>
-        /// <param name="sourcePath">The path to a text file whose contents will be read and tagged.</param>
-        /// <param name="destinationPath">The optional path specifying the location where the tagged file should be created. If not provided, the tagged file will be placed in the same directory as the source.</param>
+        /// <param name="taggingMode">    Specifies the mode under which the tagger will operate.</param>
+        /// <param name="sourcePath">     The path to a text file whose contents will be read and tagged.</param>
+        /// <param name="destinationPath">
+        /// The optional path specifying the location where the tagged file should be created. If not provided, the tagged file will be placed in the same directory as the source.
+        /// </param>
         public SharpNLPTagger(TaggerMode taggingMode, string sourcePath, string destinationPath = null)
             : this(taggingMode)
         {
-
-
             inputFilePath = sourcePath;
-            outputFilePath = destinationPath != null ? destinationPath :
-                new FileInfo(sourcePath).DirectoryName + @"\" + new FileInfo(sourcePath.Substring(0, sourcePath.LastIndexOf('.'))).Name + @".tagged";
+            outputFilePath = destinationPath ?? (new FileInfo(sourcePath).DirectoryName + @"\" + new FileInfo(sourcePath.Substring(0, sourcePath.LastIndexOf('.'))).Name + @".tagged");
 
             SourceText = LoadSourceText();
         }
+
         /// <summary>
         /// Returns a new string with certain characters replaced by aliases to aid in the ease of parsing.
         /// </summary>
@@ -76,6 +77,7 @@ namespace TaggerInterop
             }
             return p;
         }
+
         /// <summary>
         /// Processes the text given to the tagger based on the Tagger's current TaggerMode. Returns the path to the tagged file resulting from the process.
         /// </summary>
@@ -85,6 +87,7 @@ namespace TaggerInterop
             WriteToFile(ParseViaTaggingMode());
             return outputFilePath;
         }
+
         /// <summary>
         /// Asynchronously processes the text given to the tagger based on the Tagger's current TaggerMode. Returns the path to the tagged file resulting from the process.
         /// </summary>
@@ -92,7 +95,6 @@ namespace TaggerInterop
         public virtual async Task<string> ProcessFileAsync()
         {
             return await Task.Run(() => ProcessFile());
-
         }
 
         private string LoadSourceText()
@@ -113,37 +115,47 @@ namespace TaggerInterop
                 );
             }
         }
+
         protected async System.Threading.Tasks.Task<string> ParseViaTaggingModeAsync(TaggerMode taggingMode)
         {
             return await ParseViaTaggingModeAsync(taggingMode);
         }
+
         protected async System.Threading.Tasks.Task<string> ParseViaTaggingModeAsync()
         {
             return await System.Threading.Tasks.Task.Run(() => ParseViaTaggingMode(TaggingMode));
         }
+
         protected string ParseViaTaggingMode()
         {
             return ParseViaTaggingMode(TaggingMode);
         }
+
         protected string ParseViaTaggingMode(TaggerMode taggingMode)
         {
             switch (taggingMode)
             {
                 case TaggerMode.TagIndividual:
                     return POSTag();
+
                 case TaggerMode.TagAndAggregate:
                     return Chunk();
+
                 case TaggerMode.FullyNestingParse:
                     return Parse();
+
                 case TaggerMode.GenderFind:
 
                     return Gender();
+
                 case TaggerMode.NameFind:
                     return NameFind();
+
                 default:
                     return POSTag();
             }
         }
+
         private string SplitIntoSentences()
         {
             var sentences = SplitSentences(SourceText);
@@ -227,6 +239,7 @@ namespace TaggerInterop
             }
             return paragraph;
         }
+
         private string Gender()
         {
             var output = new StringBuilder();
@@ -379,7 +392,6 @@ namespace TaggerInterop
             return mCoreferenceFinder.GetCoreferenceParse(parsedSentences.ToArray());
         }
 
-
         private string Similarity()
         {
             var output = new StringBuilder();
@@ -430,6 +442,7 @@ namespace TaggerInterop
             get;
             set;
         }
+
         /// <summary>
         /// The TaggerMode of the SharpNLPTagger. 
         /// </summary>
@@ -438,9 +451,11 @@ namespace TaggerInterop
             get;
             protected set;
         }
-        #endregion
+
+        #endregion Properties
 
         #region Fields
+
         private static readonly Dictionary<string, string> textToNumeralMap = new Dictionary<string, string> {
         {  " two " , " 2 " },
         {  " three " , " 3 " },
@@ -540,18 +555,15 @@ namespace TaggerInterop
         {  " ninety-seven " , " 97 " },
         {  " ninety-eight " , " 98 " },
         {  " ninety-nine ", " 99 " },};
-        #endregion
+
+        #endregion Fields
     }
-
-
-
 
     sealed class QuickTagger : SharpNLPTagger
     {
         public QuickTagger(TaggerMode option)
             : base(option)
         {
-
         }
 
         public string TagTextSource(string source)
@@ -559,12 +571,14 @@ namespace TaggerInterop
             SourceText = base.PreprocessText(source);
             return base.ParseViaTaggingMode();
         }
+
         public async Task<string> TagTextSourceAsync(string source)
         {
             SourceText = base.PreprocessText(source);
             return await base.ParseViaTaggingModeAsync();
         }
     }
+
     /// <summary>
     /// Used to specify the behavior tagging options of an instance of the SharpNLPtagger class.
     /// </summary>
@@ -574,18 +588,22 @@ namespace TaggerInterop
         /// Assign Part of Speech Tags to each input token.
         /// </summary>
         TagIndividual,
+
         /// <summary>
         /// Assigns Part Of Speech Tags to words (with the form "word/tag") and simple phrases( with the form [ tag word1/t1 word2/t2... ])(chunks)
         /// </summary>
         TagAndAggregate,
+
         /// <summary>
         /// Parses and nests arbitrarily
         /// </summary>
         FullyNestingParse,
+
         /// <summary>
         /// Embeds gender likelihood information with nouns
         /// </summary>
         GenderFind,
+
         /// <summary>
         /// Embeds entity recognition with nouns for broad categories such as location, organization, etc.
         /// </summary>

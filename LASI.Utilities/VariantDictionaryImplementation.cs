@@ -6,16 +6,22 @@ using static System.Linq.Enumerable;
 
 namespace LASI.Utilities
 {
-    internal class VariantDictionaryImplementation<Tkey, TValue> : IVariantDictionary<Tkey, TValue>
+    class VariantDictionaryImplementation<Tkey, TValue> : IVariantDictionary<Tkey, TValue>, IEnumerable<(Tkey key, TValue value)>
     {
+        public VariantDictionaryImplementation(IEnumerable<KeyValuePair<Tkey, TValue>> wrapped) : this(ToTupled(wrapped)) { }
+
+        public VariantDictionaryImplementation(IEnumerable<(Tkey key, TValue value)> wrapped)
+        {
+            represenation = new Dictionary<Tkey, TValue>(wrapped.ToDictionary(x => x.key, x => x.value));
+        }
         public VariantDictionaryImplementation(IReadOnlyDictionary<Tkey, TValue> wrapped)
         {
             represenation = wrapped;
         }
 
-        public IEnumerable<TValue> Values => represenation.Values;
-
         public int Count => represenation.Count;
+
+        public IEnumerable<Tkey> Keys => represenation.Keys;
 
         public TValue this[Tkey key] => represenation[key];
 
@@ -30,22 +36,38 @@ namespace LASI.Utilities
         }
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public bool TryGetValue(Tkey key, out TValue value)
-        {
-            return represenation.TryGetValue(key, out value);
-        }
-        private readonly IReadOnlyDictionary<Tkey, TValue> represenation;
+        IEnumerator<(Tkey key, TValue value)> IEnumerable<(Tkey key, TValue value)>.GetEnumerator() => ToTupled(represenation).GetEnumerator();
 
-        private struct KeyValuePair : IVariantKeyValuePair<Tkey, TValue>, IEquatable<KeyValuePair>
+        readonly IReadOnlyDictionary<Tkey, TValue> represenation;
+
+        private static IEnumerable<(K Key, V Value)> ToTupled<K, V>(IEnumerable<KeyValuePair<K, V>> wrapped) => wrapped.Select(pair => (pair.Key, pair.Value));
+
+        struct KeyValuePair : IVariantKeyValuePair<Tkey, TValue>, IEquatable<KeyValuePair>
         {
             public static KeyValuePair Create(KeyValuePair<Tkey, TValue> from) => new KeyValuePair(from.Key, from.Value);
 
-            private KeyValuePair(Tkey key, TValue value) { Key = key; Value = value; }
+            KeyValuePair(Tkey key, TValue value) { Key = key; Value = value; }
 
-            public Tkey Key { get; private set; }
-            public TValue Value { get; private set; }
+            public Tkey Key { get; }
+            public TValue Value { get; }
 
-            public bool Equals(KeyValuePair other) => Equals(other as IVariantKeyValuePair<Tkey, TValue>);
+            public bool Equals(KeyValuePair other) => Key?.Equals(other.Key) is true && Value?.Equals(other.Value) is true;
+
+            public override int GetHashCode()
+            {
+                var hashCode = 206514262;
+                hashCode = hashCode * -1521134295 + base.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<Tkey>.Default.GetHashCode(Key);
+                hashCode = hashCode * -1521134295 + EqualityComparer<TValue>.Default.GetHashCode(Value);
+                return hashCode;
+            }
+
+            public override bool Equals(object obj) => obj is KeyValuePair pair && Equals(pair);
+
+            public static bool operator ==(KeyValuePair pair1, KeyValuePair pair2) => pair1.Equals(pair2);
+            public static bool operator !=(KeyValuePair pair1, KeyValuePair pair2) => !(pair1 == pair2);
+
+            public static implicit operator KeyValuePair((Tkey key, TValue value) pair) => new KeyValuePair(pair.key, pair.value);
         }
     }
 }

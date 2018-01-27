@@ -20,7 +20,7 @@ namespace LASI.Content.Tests
         public void LoadTextTest()
         {
             var text = string.Join("\n", lines);
-            IRawTextSource target = new RawTextFragment(text, "test fragment");
+            IRawTextSource target = new RawTextFragment("test fragment", text);
             var expected = text;
             string actual;
             actual = target.LoadText();
@@ -34,7 +34,7 @@ namespace LASI.Content.Tests
         public void LoadTextAsyncTest()
         {
             var text = string.Join("\n", lines);
-            IRawTextSource target = new RawTextFragment(text, "test fragment");
+            IRawTextSource target = new RawTextFragment("test fragment", text);
             var expected = text;
             string actual;
             actual = target.LoadTextAsync().Result;
@@ -48,12 +48,12 @@ namespace LASI.Content.Tests
         public void NameTest()
         {
             var text = string.Join("\n", lines);
-            IRawTextSource target = new RawTextFragment(text, "test fragment");
+            IRawTextSource target = new RawTextFragment("test fragment", text);
 
             string actual;
-            var expected = "test fragment";
+            var fragment = "test fragment";
             actual = target.Name;
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(actual).IsEqualTo(fragment);
         }
 
         internal virtual IRawTextSource CreateIRawTextSource()

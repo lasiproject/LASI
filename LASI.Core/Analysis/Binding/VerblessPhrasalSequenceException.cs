@@ -31,7 +31,7 @@ namespace LASI.Core.Analysis.Binding
         /// <summary>
         /// Initializes a new instance of the VerblessPhrasalSequenceException with the problematic sequence and a message indicating that the sequence contained no Verb Phrases.
         /// </summary>
-        public VerblessPhrasalSequenceException(IEnumerable<Phrase> sequence, string message) : base(message) { Sequence = sequence; }
+        public VerblessPhrasalSequenceException(IEnumerable<Phrase> sequence, string message) : base(message) => Sequence = sequence;
         /// <summary>
         /// Do not use this constructor
         /// </summary>
@@ -55,10 +55,7 @@ namespace LASI.Core.Analysis.Binding
         /// <param name="context">
         /// The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.
         /// </param>
-        public VerblessPhrasalSequenceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
-        {
-            Sequence = (IEnumerable<ILexical>)info.GetValue(nameof(Sequence), typeof(IEnumerable<ILexical>));
-        }
+        public VerblessPhrasalSequenceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context) => Sequence = (IEnumerable<ILexical>)info.GetValue(nameof(Sequence), typeof(IEnumerable<ILexical>));
 
         public VerblessPhrasalSequenceException() { }
 

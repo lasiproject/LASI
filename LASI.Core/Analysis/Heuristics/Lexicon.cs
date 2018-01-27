@@ -7,18 +7,17 @@ using System.Linq;
 using LASI.Core.Configuration;
 using LASI.Core.Heuristics.WordNet;
 using LASI.Utilities;
-using static System.StringComparer;
 using ConcurrentSetDictionary = System.Collections.Concurrent.ConcurrentDictionary<string, System.Collections.Immutable.IImmutableSet<string>>;
 
 namespace LASI.Core
 {
     /// <summary>
-    /// Provides Comprehensive static facilities for Synonym Identification, Word and Phrase
-    /// Comparison, Gender Stratification, and Named Entity Recognition.
+    /// Provides Comprehensive static facilities for Synonym Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
     /// </summary>
     public static partial class Lexicon
     {
         #region Public Methods
+
         /// <summary>
         /// Clears all synonym caches
         /// </summary>
@@ -31,49 +30,52 @@ namespace LASI.Core
         }
 
         /// <summary>
+        /// Clears the cache of Adjective synonym data.
+        /// </summary>
+        public static void ClearAdjectiveCache() => cachedAdjectiveData.Clear();
+
+        /// <summary>
+        /// Clears the cache of Adverb synonym data.
+        /// </summary>
+        public static void ClearAdverbCache() => cachedAdverbData.Clear();
+
+        /// <summary>
+        /// Clears the cache of Noun synonym data.
+        /// </summary>
+        public static void ClearNounCache() => cachedNounData.Clear();
+
+        /// <summary>
+        /// Clears the cache of Verb synonym data.
+        /// </summary>
+        public static void ClearVerbCache() => cachedVerbData.Clear();
+
+        /// <summary>
         /// Returns the synonyms for the provided Noun.
         /// </summary>
-        /// <param name="noun">
-        /// The Noun to lookup.
-        /// </param>
-        /// <returns>
-        /// The synonyms for the provided Noun.
-        /// </returns>
-        public static IEnumerable<string> GetSynonyms(this Noun noun) => GetSynonymsCore(noun, cachedNounData, NounLookup);
+        /// <param name="noun"> The Noun to lookup. </param>
+        /// <returns> The synonyms for the provided Noun. </returns>
+        public static IEnumerable<string> GetSynonyms(this Noun noun) => cachedNounData.GetOrAdd(noun.Text, key => NounLookup[key]);
 
         /// <summary>
         /// Returns the synonyms for the provided Verb.
         /// </summary>
-        /// <param name="verb">
-        /// The Verb to lookup.
-        /// </param>
-        /// <returns>
-        /// The synonyms for the provided Verb.
-        /// </returns>
-        public static IEnumerable<string> GetSynonyms(this Verb verb) => GetSynonymsCore(verb, cachedVerbData, VerbLookup);
+        /// <param name="verb"> The Verb to lookup. </param>
+        /// <returns> The synonyms for the provided Verb. </returns>
+        public static IEnumerable<string> GetSynonyms(this Verb verb) => cachedVerbData.GetOrAdd(verb.Text, key => VerbLookup[key]);
 
         /// <summary>
         /// Returns the synonyms for the provided Adjective.
         /// </summary>
-        /// <param name="adjective">
-        /// The Adjective to lookup.
-        /// </param>
-        /// <returns>
-        /// The synonyms for the provided Adjective.
-        /// </returns>
-        public static IEnumerable<string> GetSynonyms(this Adjective adjective) => GetSynonymsCore(adjective, cachedAdjectiveData, AdjectiveLookup);
-
+        /// <param name="adjective"> The Adjective to lookup. </param>
+        /// <returns> The synonyms for the provided Adjective. </returns>
+        public static IEnumerable<string> GetSynonyms(this Adjective adjective) => cachedAdjectiveData.GetOrAdd(adjective.Text, key => AdjectiveLookup[key]);
 
         /// <summary>
         /// Returns the synonyms for the provided Adverb.
         /// </summary>
-        /// <param name="adverb">
-        /// The Adverb to lookup.
-        /// </param>
-        /// <returns>
-        /// The synonyms for the provided Adverb.
-        /// </returns>
-        public static IEnumerable<string> GetSynonyms(this Adverb adverb) => GetSynonymsCore(adverb, cachedAdverbData, AdverbLookup);
+        /// <param name="adverb"> The Adverb to lookup. </param>
+        /// <returns> The synonyms for the provided Adverb. </returns>
+        public static IEnumerable<string> GetSynonyms(this Adverb adverb) => cachedAdverbData.GetOrAdd(adverb.Text, key => AdverbLookup[key]);
 
 
         static IImmutableSet<string> GetSynonymsCore<TWord>(TWord word, ConcurrentSetDictionary cache, WordNetLookup<TWord> lookup) where TWord : Word => cache.GetOrAdd(word.Text, key => lookup[key]);
@@ -115,10 +117,7 @@ namespace LASI.Core
         /// </summary>
         public static IEnumerable<string> ScrabbleDictionary => scrabbleDictionary.Value;
 
-        #endregion
-
-        #region Events
-        #endregion
+        #endregion Properties
 
         static NameProvider NameData => nameData.Value;
 
@@ -130,14 +129,13 @@ namespace LASI.Core
 
         static WordNetLookup<Verb> VerbLookup => lazyVerbLookup.Value;
 
-        #region Private Fields
+        #region Fields
 
         // Resource Data File Paths
 
         /// <summary>
-        /// Similarity threshold for lexical element comparisons. If the computed ratio of a
-        /// similarity comparison is &gt;= the threshold, then the similarity comparison result will
-        /// be considered as True in a boolean expression context.
+        /// Similarity threshold for lexical element comparisons. If the computed ratio of a similarity comparison is &gt;= the threshold, then the similarity comparison result will be considered as
+        /// True in a boolean expression context.
         /// </summary>
         internal const double SimilarityThreshold = 0.6;
 
@@ -188,8 +186,6 @@ namespace LASI.Core
 
         static Lazy<WordNetLookup<Adverb>> lazyAdverbLookup = CreateLazyWordNetLookup(() => new AdverbLookup(Paths.WordNet.Adverb, AdjectiveLookup));
 
-        #endregion
-
         static ConcurrentSetDictionary CreateConcurrentSetDictionary() => new ConcurrentDictionary<string, IImmutableSet<string>>(
             concurrencyLevel: Concurrency.Max,
             capacity: 40960
@@ -199,5 +195,9 @@ namespace LASI.Core
             valueFactory: () => LazyLoad(factory()),
             isThreadSafe: true
         );
+
+        private static readonly StringComparer OrdinalIgnoreCase = StringComparer.OrdinalIgnoreCase;
+
+        #endregion
     }
 }

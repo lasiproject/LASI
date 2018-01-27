@@ -4,10 +4,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
 {
     internal class AppliedTerm<T> where T : ILexical
     {
-        public AppliedTerm(MetaTerm<T> applied)
-        {
-            this.applied = applied;
-        }
+        public AppliedTerm(MetaTerm<T> applied) => this.applied = applied;
 
         private Pattern<TResult> Invoke<TResult>(Pattern<TResult> pattern, Func<T, TResult> f) => pattern.ApplyWhen(applied, f);
 
@@ -16,10 +13,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
 
     internal class BooleanTerm : Term
     {
-        public BooleanTerm(bool boolean)
-        {
-            Boolean = boolean;
-        }
+        public BooleanTerm(bool boolean) => Boolean = boolean;
 
         public override bool Test(ILexical lexical) => Boolean;
 
@@ -30,10 +24,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
 
     internal class MetaTerm : Term
     {
-        public MetaTerm(Func<ILexical, bool> test)
-        {
-            this.test = test;
-        }
+        public MetaTerm(Func<ILexical, bool> test) => this.test = test;
 
         public override bool Test(ILexical lexical) => test(lexical);
 
@@ -55,10 +46,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
 
     internal class Pattern<TResult>
     {
-        public Pattern(ILexical lexical)
-        {
-            Lexical = lexical;
-        }
+        public Pattern(ILexical lexical) => Lexical = lexical;
 
         public Pattern<TResult> ApplyIfApplicable<TTerm, T>(TTerm predicate, Func<T, TResult> f) where TTerm : Term where T : ILexical
         {
@@ -123,7 +111,6 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
         public TextualTerm(string text) => Text = text;
 
         public override bool Test(ILexical lexical) => lexical.Text == Text;
-
 
         public override TermKind Kind => TermKind.Textual;
 

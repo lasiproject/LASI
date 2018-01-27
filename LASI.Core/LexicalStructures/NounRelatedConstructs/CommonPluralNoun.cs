@@ -15,9 +15,7 @@ namespace LASI.Core
         /// Initializes a new instances of the GenericPluralNoun class.
         /// </summary>
         /// <param name="text">The text content of the GenericPluralNoun</param>
-        public CommonPluralNoun(string text) : base(text) {
-            EntityKind = EntityKind.ThingMultiple;
-        }
+        public CommonPluralNoun(string text) : base(text) => EntityKind = EntityKind.ThingMultiple;
 
         /// <summary>
         /// Gets or sets the Quantifier which specifies the number of units of the GenericPluralNoun which are referred to in this occurrence.

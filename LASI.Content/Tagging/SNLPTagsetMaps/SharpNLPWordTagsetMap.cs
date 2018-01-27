@@ -2,33 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Core;
-using LASI.Core.Heuristics;
 
 namespace LASI.Content.Tagging
 {
     using WordFactory = Func<string, Word>;
+
     /// <summary>
-    /// Represents a Word Level tagset-to-runtime-type-mapping context which translates between The SharpNLP Tagger's tagset and the classes whose instances provide 
-    /// the runtime representations of the tag. 
-    /// This class represents the tagset => runtime-type mapping for
-    /// the tagset used by SharpNLP, a derivative of the Penn Tagset.
-    /// This class is sealed and thus may not be extended.
-    /// If a new tagset is to be implemented, extend the base class, TaggingContext.
-    /// </summary>    
+    /// Represents a Word Level tagset-to-runtime-type-mapping context which translates between The SharpNLP Tagger's tagset and the classes whose instances provide the runtime representations of the
+    /// tag. This class represents the tagset =&gt; runtime-type mapping for the tagset used by SharpNLP, a derivative of the Penn Tagset. This class is sealed and thus may not be extended. If a new
+    /// tagset is to be implemented, extend the base class, TaggingContext.
+    /// </summary>
     /// <example>
     /// <code>
     /// var wordTagsetMap = new SharpNLPWordTagsetMap();
     /// var wordFactory = wordMap["TAG"];
     /// var word = wordFactory(wordText);
     /// </code>
-    /// </example>    
+    /// </example>
     /// <seealso cref="WordTagsetMap"/>
-    /// <seealso cref="Content.WordFactory"/> 
+    /// <seealso cref="Content.WordFactory"/>
     class SharpNLPWordTagsetMap : WordTagsetMap
     {
         private static readonly IReadOnlyDictionary<string, WordFactory> map = new Dictionary<string, WordFactory>
         {
-            //Punctation Mappings
+            //Punctuation Mappings
             ["."] = _ => SentenceEnding.Period, //. sentence ending
             ["!"] = _ => SentenceEnding.ExclamationPoint, //! sentence ending
             ["?"] = _ => SentenceEnding.QuestionMark, //? sentence ending
@@ -36,7 +33,7 @@ namespace LASI.Content.Tagging
             ["''"] = _ => new DoubleQuote(), //Double Quotation Mark punctuation
             [","] = t => new Punctuator(t), //Comma punctuation
             [";"] = t => new Punctuator(t), //Semicolon punctuation
-            [":"] = t => new Punctuator(t), //Colon punctuation 
+            [":"] = t => new Punctuator(t), //Colon punctuation
             ["LS"] = t => new Punctuator(t), //List item marker
             ["-LRB-"] = t => new Punctuator(t), //Left Round Bracket
             ["-RRB-"] = t => new Punctuator(t), //Right Round Bracket
@@ -88,7 +85,7 @@ namespace LASI.Content.Tagging
             ["TO"] = t => new ToLinker(t), //'To'
             ["UH"] = t => new Interjection(t), //Interjection
             //Empty POS Tag, resulting function will throw EmptyTagException on invocation.
-            [""] = t => { throw new EmptyWordTagException(t); }
+            [""] = t => throw new EmptyWordTagException(t)
         };
 
         /// <summary>
@@ -129,9 +126,5 @@ namespace LASI.Content.Tagging
                 }
             }
         }
-
-        #region Helpers
-
-        #endregion Helpers
     }
 }

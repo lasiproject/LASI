@@ -145,9 +145,11 @@
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\MatchAgainstTuple.cs" />
     <Compile Include="Analysis\PatternMatching\MatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\Match.cs" />
-    <Compile Include="Analysis\PatternMatching\PredicatedMatchTTResult.cs" />
     <Compile Include="Analysis\PatternMatching\PredicatedMatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\PredicatedMatch.cs" />
+    <Compile Include="Analysis\PatternMatching\PredicatedMatchTTResult.cs" />
+    <Compile Include="Analysis\PatternMatching\PredicatedMatchLifted.cs" />
+    <Compile Include="Analysis\PatternMatching\PredicatedMatch1.cs" />
     <Compile Include="Analysis\RelationshipLookups\AliasLookup.cs" />
     <Compile Include="Analysis\RelationshipLookups\Helpers\ActionsRelatedOn.cs" />
     <Compile Include="Analysis\RelationshipLookups\Helpers\IActionReceiverPair.cs" />

@@ -147,12 +147,13 @@ namespace LASI.Core {
             .Case((IReferencer p) => GetGender(p))
             .Case((NounPhrase n) => DetermineNounPhraseGender(n))
             .Case((CommonNoun n) => Gender.Neutral)
-            .Case((IEntity e) => (from referener in e.Referencers
-                                  let gendered = referener as ISimpleGendered
-                                  let gender = gendered != null ? gendered.Gender : default
-                                  group gender by gender into byGender
-                                  orderby byGender.Count() descending
-                                  select byGender.Key).DefaultIfEmpty().First(), when: e => e.Referencers.Any())
+            .When(e => e.Referencers.Any())
+            .Then(e => (from referener in e.Referencers
+                        let gendered = referener as ISimpleGendered
+                        let gender = gendered != null ? gendered.Gender : default
+                        group gender by gender into byGender
+                        orderby byGender.Count() descending
+                        select byGender.Key).DefaultIfEmpty().First())
             .Result();
 
         /// <summary>
@@ -185,9 +186,11 @@ namespace LASI.Core {
         /// <returns>A double value indicating the degree of similarity between two NounPhrases.</returns>
         private static double GetSimilarityRatio(NounPhrase first, NounPhrase second) {
             var left = first.Words.OfNoun().ToList();
-            if (left.Count == 0) { return 0; }
+            if (left.Count == 0)
+            { return 0; }
             var right = second.Words.OfNoun().ToList();
-            if (right.Count == 0) { return 0; }
+            if (right.Count == 0)
+            { return 0; }
             var comparisonResults = from outer in (right.Count > left.Count ? left : right)
                                     from inner in (left.Count < right.Count ? right : left)
                                     select outer.IsSimilarTo(inner) ? 0.7 : 0;

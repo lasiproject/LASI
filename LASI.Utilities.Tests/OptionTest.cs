@@ -297,7 +297,7 @@ namespace LASI.Utilities.Tests
             Assert.False(right != left);
         }
 
-        private Func<int> random = new Random().Next;
+        Func<int> random = new Random().Next;
         [Fact]
         public void EqualityOfTypeWith_op_EqualsValueTest1()
         {

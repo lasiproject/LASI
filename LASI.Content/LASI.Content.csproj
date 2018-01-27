@@ -114,6 +114,7 @@
     <Compile Include="Exceptions\UnsupportedFileTypeException.cs" />
     <Compile Include="FileConveters\DocToDocXConverter.cs" />
     <Compile Include="FileConveters\DocxToTextConverter.cs" />
+    <Compile Include="FileConveters\FileConverter.cs" />
     <Compile Include="FileConveters\PdfToTextConverter.cs" />
     <Compile Include="FileTypes\ContentInterfaces\ITaggedTextSource.cs" />
     <Compile Include="FileTypes\ContentInterfaces\IRawTextSource.cs" />
@@ -131,7 +132,6 @@
     <Compile Include="FileTypes\XmlFile.cs" />
     <Compile Include="Serialization\Xml\SimpleXmlSerializer.cs" />
     <Compile Include="FileManager.cs" />
-    <Compile Include="FileConveters\FileConverter.cs" />
     <Compile Include="Exceptions\FileManagerExceptions.cs" />
     <Compile Include="Tagging\TagmapBases\ITagsetMap.cs" />
     <Compile Include="Tagging\TagParsers\Basis\Experimental\ExperimentalTagParser.cs" />

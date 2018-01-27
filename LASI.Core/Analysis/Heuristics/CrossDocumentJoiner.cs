@@ -84,9 +84,9 @@ namespace LASI.Core.Analysis.Heuristics
                 from verbal in verbalCominalities
                 let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(entities => new AggregateEntity(
                     from entity in entities
-                    select entity.Match().Yield<IEntity>()
+                    select entity.Match()
                         .When((IReferencer r) => r.RefersTo?.Any() ?? false)
-                        .Then((IReferencer r) => r.RefersTo)
+                        .Then(r => r.RefersTo)
                         .Result(entity)))
                 let subject = testPronouns(verbal.Subjects)
                 where subject != null

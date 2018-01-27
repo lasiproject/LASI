@@ -8,7 +8,7 @@ namespace LASI.Core
     /// <summary>
     /// Represents an infinitive verbal phrase, e.g. "to walk".
     /// </summary>
-    public class InfinitivePhrase : VerbPhrase, IEntity
+    public sealed class InfinitivePhrase : VerbPhrase, IEntity
     {
         #region Constructors
         /// <summary>

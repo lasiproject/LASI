@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using LASI.Utilities.Validation;
 
 namespace LASI.Utilities
@@ -113,7 +112,7 @@ namespace LASI.Utilities
         /// <param name="other">The second string to compare</param>
         /// <returns><c>true</c> if the given strings are equal; otherwise, <c>false</c>.</returns>
         /// <remarks>Implemented using an Ordinal Case Insensitive Comparison.</remarks>
-        public static bool EqualsIgnoreCase(this string value, string other) => string.Equals(value, other, StringComparison.OrdinalIgnoreCase);
+        public static bool EqualsIgnoreCase(this string value, string other) => string.Equals(value, other, OrdinalIgnoreCase);
         /// <summary>
         /// Returns a new string in which any adjacent spaces have been collapsed into a single space.
         /// </summary>
@@ -140,5 +139,15 @@ namespace LASI.Utilities
         /// <param name="pathSegements">The sequence of strings to combine.</param>
         /// <returns>A file system path formed from the sequence of strings.</returns>
         public static string ToPath(this IEnumerable<string> pathSegements) => System.IO.Path.Combine(pathSegements.ToArray());
+
+        /// <summary>
+        /// Determines whether the end of this string instance matches the specified string when compared using <see cref="StringComparison.OrdinalIgnoreCase"/>. 
+        /// </summary>
+        /// <param name="this">The string to test.</param>
+        /// <param name="value">The string to compare to the substring at the end of this instance.</param>
+        /// <returns><c>true</c> if the value parameter matches the end of this string; otherwise, <c>false</c>.</returns>
+        public static bool EndsWithInsensitive(this string @this, string value) => @this?.EndsWith(value, OrdinalIgnoreCase) is true;
+
+        const StringComparison OrdinalIgnoreCase = StringComparison.OrdinalIgnoreCase;
     }
 }

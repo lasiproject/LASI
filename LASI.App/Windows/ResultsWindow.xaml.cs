@@ -330,7 +330,7 @@ namespace LASI.App
         {
             SharedFunctionality.OpenManualWithInstalledViewer(this);
         }
-        private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e)
+        private void OpenLicensesMenuItem_Click_1(object sender, RoutedEventArgs e)
         {
             var componentsDisplay = new ComponentInfoDialog
             {
@@ -343,7 +343,7 @@ namespace LASI.App
         {
             Process.Start(LASI.App.App.Config["ProjectWebsite"]);
         }
-        private async void exportButton_Click(object sender, RoutedEventArgs e)
+        private async void ExportButton_Click(object sender, RoutedEventArgs e)
         {
             await Task.WhenAll(from document in documents
                                let outfilePath = System.IO.Path.Combine(
@@ -356,7 +356,7 @@ namespace LASI.App
             var exportDialog = new ExportResultsDialog();
             exportDialog.ShowDialog();
         }
-        private async void documentJoinButton_Click(object sender, RoutedEventArgs e)
+        private async void DocumentJoinButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new CrossJoinSelectDialog(this);
             if (dialog.ShowDialog() ?? false)

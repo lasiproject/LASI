@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using LASI.Utilities;
 
 namespace LASI.Core.Analysis.PatternMatching
 {
@@ -101,7 +103,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// Initializes a new instance of the <see cref="Match{T}"/> class which will match against the supplied value.
         /// </summary>
         /// <param name="value">The value to match against.</param>
-        internal Match(T value) : base(value) { }
+        internal Match(T value) : base(value) {}
 
         #endregion Constructors
 
@@ -119,6 +121,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="pattern">The function describing the case.</param>
         /// <returns>A <see cref="Match{T, R}"/> representing the now result yielding Match expression.</returns>
         public Match<T, TResult> Case<TCase, TResult>(Func<TCase, TResult> pattern) where TCase : ILexical => Yield<TResult>().Case(pattern);
+
+        public Match<T, TResult> Case<TResult>(Func<TResult> pattern) => Yield<TResult>().Case(pattern);
 
         /// <summary>
         /// Promotes the current non result returning expression of type Case&lt;T&gt; into a result returning expression of Case&lt;T,
@@ -149,7 +153,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </typeparam>
         /// <param name="predicate">The predicate to test the value being matched over.</param>
         /// <returns>The Predicated<see cref="Match{T}"/> describing the Match expression so far. This must be followed by a single Then expression.</returns>
-        public PredicatedMatch<T> When<TCase>(Func<TCase, bool> predicate) where TCase : ILexical => new PredicatedMatch<T>(Value is TCase c && predicate(c), this);
+        public PredicatedMatchLifted<T, TCase> When<TCase>(Func<TCase, bool> predicate) where TCase : ILexical => new PredicatedMatchLifted<T, TCase>(Value is TCase c && predicate(c), this);
 
         /// <summary>
         /// Appends a When expression to the current pattern. This applies a predicate to the value being matched such that the subsequent
@@ -174,7 +178,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T> Case<TCase>(Action action) where TCase : ILexical
         {
-            if (!Unmatchable && Value is TCase && !Matched)
+            if (HasValueAndContinue && Value is TCase)
             {
                 action();
                 Matched = true;
@@ -196,7 +200,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
         public Match<T> Case<TCase>(Action<TCase> action) where TCase : ILexical
         {
-            if (!Unmatchable && !Matched && Value is TCase c)
+            if (HasValueAndContinue && Value is TCase c)
             {
                 action(c);
                 Matched = true;
@@ -206,7 +210,7 @@ namespace LASI.Core.Analysis.PatternMatching
 
         public Match<T> Case(Action<T> action)
         {
-            if (Unmatchable is false && Matched is false && Value is T)
+            if (HasValueAndContinue)
             {
                 action(Value);
                 Matched = true;
@@ -224,7 +228,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="action">The function to invoke if no matches in the expression succeeded.</param>
         public void Default(Action action)
         {
-            if (!Unmatchable && !Matched)
+            if (HasValueAndContinue)
             {
                 action();
                 Matched = true;
@@ -237,7 +241,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="action">The function to invoke on the match Case value if no matches in the expression succeeded.</param>
         public void Default(Action<T> action)
         {
-            if (!Unmatchable && !Matched && Value is object)
+            if (HasValueAndContinue)
             {
                 action(Value);
                 Matched = true;

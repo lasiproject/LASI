@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 namespace LASI.Utilities.Tests
@@ -12,10 +11,10 @@ namespace LASI.Utilities.Tests
         public void SelectTest1()
         {
             var target = List(0, 1, 2, 3);
-            Func<int, string> projection = x => x.ToString();
-            var expected = target.AsEnumerable().Select(projection).ToList();
-            IReadOnlyList<string> readOnlyList = target.Select(projection);
-            Check.That(readOnlyList).ContainsExactly(expected);
+            string projection(int x) => x.ToString();
+            IReadOnlyList<string> expected = target.AsEnumerable().Select(projection).ToList();
+            IReadOnlyList<string> actual = target.Select(projection);
+            Check.That(actual).ContainsExactly(expected);
         }
         [Fact]
         public void SelectTest2()
@@ -29,7 +28,7 @@ namespace LASI.Utilities.Tests
         public void WhereTest1()
         {
             IList<int> target = List(0, 1, 2, 3);
-            Func<int, bool> predicate = x => x % 2 == 0;
+            bool predicate(int x) => x % 2 == 0;
             IList<int> expected = target.AsEnumerable().Where(predicate).ToList();
             var actual = target.Where(predicate);
             Check.That(actual).ContainsExactly(expected);
@@ -248,7 +247,7 @@ namespace LASI.Utilities.Tests
         public void SkipWhileTest1()
         {
             var target = Range(0, 10);
-            Func<int, bool> predicate = x => x < 5;
+            bool predicate(int x) => x < 5;
             var expected = target.SkipWhile(predicate);
             var actual = target.AsEnumerable().SkipWhile(predicate).ToList();
             Check.That(actual).ContainsExactly(expected);
@@ -257,16 +256,16 @@ namespace LASI.Utilities.Tests
         public void SkipWhileTest2()
         {
             var target = Range(5, 10);
-            Func<int, bool> predicate = x => x < 5;
             var expected = target.SkipWhile(predicate);
             var actual = target.AsEnumerable().SkipWhile(predicate).ToList();
+            bool predicate(int x) => x < 5;
             Check.That(actual).ContainsExactly(expected);
         }
         [Fact]
         public void SkipWhileTest3()
         {
             var target = Range(5, 0);
-            Func<int, bool> predicate = x => x < 5;
+            bool predicate(int x) => x < 5;
             var expected = target.SkipWhile(predicate);
             var actual = target.AsEnumerable().SkipWhile(predicate).ToList();
             Check.That(actual).ContainsExactly(expected);
@@ -275,7 +274,7 @@ namespace LASI.Utilities.Tests
         public void SkipWhileTest4()
         {
             var target = Range(5, 2);
-            Func<int, bool> predicate = x => x < 5;
+            bool predicate(int x) => x < 5;
             var expected = target.SkipWhile(predicate);
             var actual = target.AsEnumerable().SkipWhile(predicate).ToList();
             Check.That(actual).ContainsExactly(expected);
@@ -284,7 +283,7 @@ namespace LASI.Utilities.Tests
         public void TakeWhileTest1()
         {
             var target = Range(0, 10);
-            Func<int, bool> predicate = x => x < 5;
+            bool predicate(int x) => x < 5;
             var expected = target.TakeWhile(predicate);
             var actual = target.AsEnumerable().TakeWhile(predicate).ToList();
             Check.That(actual).ContainsExactly(expected);
@@ -293,7 +292,7 @@ namespace LASI.Utilities.Tests
         public void TakeWhileTest2()
         {
             var target = Range(5, 10);
-            Func<int, bool> predicate = x => x < 5;
+            bool predicate(int x) => x < 5;
             var expected = target.TakeWhile(predicate);
             var actual = target.AsEnumerable().TakeWhile(predicate).ToList();
             Check.That(actual).ContainsExactly(expected);
@@ -302,7 +301,7 @@ namespace LASI.Utilities.Tests
         public void TakeWhileTest3()
         {
             var target = Range(5, 0);
-            Func<int, bool> predicate = x => x < 5;
+            bool predicate(int x) => x < 5;
             var expected = target.TakeWhile(predicate);
             var actual = target.AsEnumerable().TakeWhile(predicate).ToList();
             Check.That(actual).ContainsExactly(expected);
@@ -311,7 +310,7 @@ namespace LASI.Utilities.Tests
         public void TakeWhileTest4()
         {
             var target = Range(5, 2);
-            Func<int, bool> predicate = x => x < 5;
+            bool predicate(int x) => x < 5;
             var expected = target.TakeWhile(predicate);
             var actual = target.AsEnumerable().TakeWhile(predicate).ToList();
             Check.That(actual).ContainsExactly(expected);

@@ -338,7 +338,13 @@ namespace LASI.Content
                 throw;
             }
         }
-        private static void ThrowIfUninitialized() { if (!Initialized) throw new FileManagerNotInitializedException(); }
+        private static void ThrowIfUninitialized()
+        {
+            if (!Initialized)
+            {
+                throw new FileManagerNotInitializedException();
+            }
+        }
 
         #endregion
 
@@ -515,7 +521,7 @@ namespace LASI.Content
         /// </summary>
         /// <param name="fileExtension">The file extension which for which to retrieve the appropriate InputFile instantiator function.</param>
         /// <returns>A function which can be invoked to instantiate an InputFile Wrapper corresponding to the given file extension.</returns>
-        public Func<string, InputFile> this[string fileExtension] => mapping.ToDictionary().GetValueOrDefault(fileExtension, unsupportedHandler);
+        public Func<string, InputFile> this[string fileExtension] => mapping.GetValueOrDefault(fileExtension, unsupportedHandler);
     }
     #endregion
 }

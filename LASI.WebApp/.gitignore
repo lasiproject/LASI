@@ -1,0 +1,5 @@
+﻿# build artifacts
+
+/build.js
+/build.js.map
+*.bundle.*

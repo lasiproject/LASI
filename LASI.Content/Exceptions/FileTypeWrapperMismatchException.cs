@@ -17,33 +17,31 @@ namespace LASI.Content.Exceptions
         /// </summary>
         /// <param name="mistmatchedExtension">The actual extension of the file the wrapper was instantiated around.</param>
         public FileTypeWrapperMismatchException(string mistmatchedExtension)
-            : base($"Mismatch between\nWrapper Type: {typeof(TWrapper)} and File Extension: {mistmatchedExtension}")
-        {
-            MistmatchedExtension = mistmatchedExtension;
-        }
+            : base(CreateMessage(mistmatchedExtension)) => this.mistmatchedExtension = mistmatchedExtension;
+
+        private static string CreateMessage(string mistmatchedExtension) => $"Mismatch between\nWrapper Type: {typeof(TWrapper)} and File Extension: {mistmatchedExtension}";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FileTypeWrapperMismatchException{TWrapper}"/> class with serialized data.
         /// </summary>
-        /// <param name="info">
-        /// The <see cref="
-        /// SerializationInfo"/> that holds the serialized
-        /// object data about the exception being thrown.
-        /// </param>
-        /// <param name="context">
-        /// The <see cref="StreamingContext"/> that contains contextual information
-        /// about the source or destination.
-        /// </param>
-        public FileTypeWrapperMismatchException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            if (info == null)
-            {
-                throw new ArgumentNullException(nameof(info));
-            }
+        /// <param name="info">   The object that holds the serialized object data about the exception being thrown.</param>
+        /// <param name="context">The object that holds the serialized object data about the exception being thrown.</param>
+        public FileTypeWrapperMismatchException(SerializationInfo info, StreamingContext context)
+            : base(info, context) =>
+                mistmatchedExtension = info.GetString(nameof(mistmatchedExtension));
 
-            MistmatchedExtension = info.GetString(nameof(MistmatchedExtension));
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileTypeWrapperMismatchException{TWrapper}"/> class with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood</param>
+        /// <param name="inner">
+        /// The exception that is the cause of the current exception. If the innerException parameter is not null, the current exception is raised in a catch block that handles the inner exception.
+        /// </param>
+        public FileTypeWrapperMismatchException(string message, Exception inner) : base(message, inner)
+        {
         }
 
-        public FileTypeWrapperMismatchException(string message, Exception inner) : base(message, inner)
+        public FileTypeWrapperMismatchException()
         {
         }
 
@@ -63,18 +61,15 @@ namespace LASI.Content.Exceptions
 
         public sealed override int GetHashCode() => base.GetHashCode();
 
-        public sealed override string ToString() => base.ToString();
-
         public sealed override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
-            info.AddValue(nameof(MistmatchedExtension), MistmatchedExtension, typeof(string));
+            info.AddValue(nameof(mistmatchedExtension), mistmatchedExtension, typeof(string));
         }
 
-        public FileTypeWrapperMismatchException()
-        {
-        }
+        [System.Security.SecuritySafeCritical]
+        public override string ToString() => base.ToString();
 
-        public string MistmatchedExtension { get; }
+        private readonly string mistmatchedExtension;
     }
 }

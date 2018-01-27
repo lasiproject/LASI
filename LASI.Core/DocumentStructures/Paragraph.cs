@@ -31,7 +31,7 @@ namespace LASI.Core
         /// Establish the nested links between the Paragraph, its parent Document, and the sentences comprising it.
         /// </summary>
         /// <param name="parentDocument">The document instance to identified as the Paragraph's parent.</param>
-        public void EstablishTextualLinks(Document parentDocument)
+        internal void EstablishTextualLinks(Document parentDocument)
         {
             Document = parentDocument;
             foreach (var sentence in Sentences)

@@ -14,9 +14,13 @@ namespace LASI.Core
         public ProperSingularNoun(string text)
             : base(text)
         {
-            EntityKind = text.All(c => char.IsUpper(c) || c == '.') ? EntityKind.Organization : (gender ?? Gender.Undetermined).IsMaleOrFemale() ? EntityKind.Person : EntityKind;
+            EntityKind = text.All(c => char.IsUpper(c) || c == '.')
+                ? EntityKind.Organization
+                : gender.GetValueOrDefault().IsMaleOrFemale()
+                ? EntityKind.Person
+                : EntityKind;
         }
-        Gender? gender = null;
+        Gender? gender;
         /// <summary>
         /// The Gender value indicating the likely gender of the ProperNoun.
         /// </summary>
@@ -24,13 +28,28 @@ namespace LASI.Core
         {
             get
             {
-                gender = gender ?? (this.IsFemaleFirstName() ? Gender.Female :
-                                    this.IsMaleFirstName() ? Gender.Male :
-                                    IsLastName || EntityKind == EntityKind.Organization ||
-                                    EntityKind == EntityKind.Location ||
-                                    EntityKind == EntityKind.Activity ? Gender.Neutral : Gender.Undetermined);
-                return gender.Value;
+                if (gender is null)
+                {
+                    gender = DetermineGender();
+                }
+
+                return (Gender)gender;
+
+                Gender DetermineGender()
+                {
+                    return this.IsFemaleFirstName()
+                                    ? Gender.Female
+                                    : this.IsMaleFirstName()
+                                    ? Gender.Male
+                                    : IsLastName
+                                    || EntityKind == EntityKind.Organization
+                                    || EntityKind == EntityKind.Location
+                                    || EntityKind == EntityKind.Activity
+                                    ? Gender.Neutral
+                                    : Gender.Undetermined;
+                }
             }
         }
+
     }
 }

@@ -1,0 +1,37 @@
+﻿{
+  "rules": {
+    "arrow-body-style": "off",
+    "dot-notation": "error",
+    "prefer-const": 2
+  },
+  "settings": {
+    "ecmaVersion": 2017,
+    "ecmaFeatures": {
+      "generators": true,
+      "globalReturn": false,
+      "templateStrings": true,
+      "classes": true,
+      "modules": true,
+      "arrowFunctions": true,
+      "impliedStrict": true,
+      "blockBindings": true,
+      "jsx": false,
+      "spread": true,
+      "binaryLiterals": false,
+      "defaultParams": true,
+      "destructuring": true,
+      "superInFunctions": false,
+      "experimentalObjectRestSpread": true,
+      "octalLiterals": false,
+      "forOf": true,
+      "restParams": true
+    }
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2017
+  },
+  "env": {
+    "browser": true
+  }
+}

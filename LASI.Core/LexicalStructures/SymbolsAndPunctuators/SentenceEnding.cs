@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LASI.Core
 {
@@ -25,6 +21,7 @@ namespace LASI.Core
                 throw new ArgumentException($"A sentence cannot end with the character {ending}");
             }
         }
+
         /// <summary>
         /// Gets a hash code for the SentenceEnding.
         /// </summary>
@@ -48,26 +45,29 @@ namespace LASI.Core
         /// <summary>
         /// Determines if two Sentence Endings are equal.
         /// </summary>
-        /// <param name="left">The first SentenceEnding to compare.</param>
+        /// <param name="left"> The first SentenceEnding to compare.</param>
         /// <param name="right">The second SentenceEnding to compare.</param>
-        /// <returns> <c>true</c> if the Sentence Endings are equal; false otherwise.</returns>
+        /// <returns><c>true</c> if the Sentence Endings are equal; false otherwise.</returns>
         public static bool operator ==(SentenceEnding left, SentenceEnding right) => left.Equals(right);
 
         /// <summary>
         /// Determines if two Sentence Endings are not equal.
         /// </summary>
-        /// <param name="left">The first SentenceEnding to compare.</param>
+        /// <param name="left"> The first SentenceEnding to compare.</param>
         /// <param name="right">The second SentenceEnding to compare.</param>
-        /// <returns> <c>true</c> if the Sentence Endings are not equal; false otherwise.</returns>
+        /// <returns><c>true</c> if the Sentence Endings are not equal; false otherwise.</returns>
         public static bool operator !=(SentenceEnding left, SentenceEnding right) => !(left == right);
+
         /// <summary>
         /// A factory property which creates and yields a new ExclamationPoint when referenced.
         /// </summary>
         public static SentenceEnding ExclamationPoint => new SentenceEnding('!');
+
         /// <summary>
-        /// A factory property which creates and yields a new QuestionMark when referenced.
+        /// The singleton `?` which creates and yields a new QuestionMark when referenced.
         /// </summary>
         public static SentenceEnding QuestionMark => new SentenceEnding('?');
+
         /// <summary>
         /// A factory property which creates and yields a new Period when referenced.
         /// </summary>

@@ -42,6 +42,9 @@ namespace LASI.Core.Analysis.PatternMatching
         /// `true` if value being matched cannot be matched by any pattern;
         /// </summary>
         protected bool Unmatchable { get; }
+
+        protected bool HasValueAndContinue => !Unmatchable && !Matched;
+
         #endregion
     }
 }

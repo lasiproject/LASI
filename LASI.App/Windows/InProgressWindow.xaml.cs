@@ -1,21 +1,20 @@
-﻿using LASI.Content;
-using LASI.Core;
-using LASI.Interop;
-using System;
+﻿using System;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Reactive.Linq;
-using System.Reactive;
+using LASI.Content;
+using LASI.Core;
+using LASI.Interop;
 using LASI.Interop.ResourceManagement;
-using System.ComponentModel;
 
 namespace LASI.App
 {
     using LASI.App.Helpers;
-    using ReportEventArgs = Core.Configuration.ReportEventArgs;
     using static WindowManager;
+    using ReportEventArgs = Core.Configuration.ReportEventArgs;
     /// <summary>
     /// Interaction logic for DialogToProceedToResults.xaml
     /// </summary>
@@ -33,9 +32,9 @@ namespace LASI.App
 
         private void SetPlatformSpecificStyling()
         {
-            var osVersionInfo = System.Environment.Version;
-            //Check if current OS is windows NT or later (PlatformID) and then check if Vista or 7 (Major) then check if 7 
-            if (System.Environment.OSVersion.Platform == PlatformID.Win32NT && osVersionInfo.Major == 6 && osVersionInfo.Minor == 1)
+            var osVersionInfo = Environment.Version;
+            //Check if current OS is windows NT or later (PlatformID) and then check if Vista or 7 (Major) then check if 7
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT && osVersionInfo.Major == 6 && osVersionInfo.Minor == 1)
             {
                 progressBar.Foreground = System.Windows.Media.Brushes.DarkRed;
             }
@@ -47,7 +46,7 @@ namespace LASI.App
         /// <summary>
         /// Asynchronously processes all documents in the project in a comprehensive manner.
         /// </summary>
-        /// <returns>A System.Threading.Tasks.Task representing the asynchronous processing operation.</returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous processing operation.</returns>
         public async Task ParseDocuments()
         {
             var resourceLoadingNotifier = new ResourceNotifier();
@@ -62,23 +61,21 @@ namespace LASI.App
                     loadedEvents.Select(pattern => pattern.EventArgs),
                     analysisUpdateEvents.Select(pattern => pattern.EventArgs)
                 )
-                .Select(pattern => new
-                {
-                    pattern.Message,
-                    Progress = pattern.PercentWorkRepresented
-                })
-                .SubscribeOn(System.Threading.SynchronizationContext.Current)
+                .Select(pattern => (pattern.Message, pattern.PercentWorkRepresented))
+                .SubscribeOn(context: System.Threading.SynchronizationContext.Current)
                 .Subscribe(onNext: async e =>
                 {
-                    progressLabel.Content = e.Message;
-                    progressBar.ToolTip = e.Message;
-                    var animateStep = 0.028 * e.Progress;
+                    var (Message, PercentWorkRepresented) = e;
+                    progressLabel.Content = Message;
+                    progressBar.ToolTip = Message;
+                    var animateStep = 0.028 * PercentWorkRepresented;
                     for (var i = 0; i < 33; ++i)
                     {
                         progressBar.Value += animateStep;
-                        await Task.Yield();
+                        await Task.Delay(1);
                     }
                 });
+
             var timer = System.Diagnostics.Stopwatch.StartNew();
             ResultsScreen.Documents = await analysisOrchestrator.ProcessAsync();
             progressBar.Value = 100;
@@ -112,20 +109,20 @@ namespace LASI.App
 
         private void ProceedToResultsView()
         {
-            WindowManager.ResultsScreen.SetTitle(WindowManager.StartupScreen.ProjectNameTextBox.Text + " - L.A.S.I.");
-            this.SwapWith(WindowManager.ResultsScreen);
+            ResultsScreen.SetTitle(StartupScreen.ProjectNameTextBox.Text + " - L.A.S.I.");
+            this.SwapWith(ResultsScreen);
         }
         #endregion
 
         #region Named Event Handlers
 
-        private void progressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
             this.TaskbarItemInfo.ProgressValue = e.NewValue / 100;
         }
 
-        private void closeButton_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
             Application.Current.Shutdown();
@@ -145,11 +142,11 @@ namespace LASI.App
             }
         }
 
-        private void proceedtoResultsButton_Click(object sender, RoutedEventArgs e)
+        private void ProceedtoResultsButton_Click(object sender, RoutedEventArgs e)
         {
             ProceedToResultsView();
         }
-        private void minButton_Click(object sender, RoutedEventArgs e)
+        private void MinButton_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
         }

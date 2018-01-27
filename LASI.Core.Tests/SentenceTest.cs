@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using Xunit;
+﻿using System.Collections.Generic;
+using System.Linq;
 using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {

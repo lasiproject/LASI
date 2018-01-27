@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace LASI.Core
-{
+namespace LASI.Core {
     /// <summary>
     /// Attempts to collect semantically grouped entities within a source into aggregate objects.
     /// </summary>
-    public class PhraseWiseEntityGroupBinder
-    {
+    public class PhraseWiseEntityGroupBinder {
         /// <summary>
         /// Aggregates and binds the Phrase level IEntity constructs within the Sentence into
         /// instances aggregate objects which implement IEntityGroup.
@@ -52,7 +50,7 @@ namespace LASI.Core
                     var betwixt = nPS.First().Between(nss.First()).ToList();
                     betwixtAll.Add(new NpWithBetween(first, betwixt));
                 }
-                nPS = sentence.GetPhrasesAfter(first).OfNounPhrase();
+                nPS = sentence.GetPhrasesAfter (first).OfNounPhrase ();
             }
             return betwixtAll;
         }
@@ -63,7 +61,7 @@ namespace LASI.Core
         /// </summary>
         public IEnumerable<IAggregateEntity> EntityGroups => entityGroups;
 
-        private readonly IList<IAggregateEntity> entityGroups = new List<IAggregateEntity>();
+        private readonly IList<IAggregateEntity> entityGroups = new List<IAggregateEntity> ();
 
         private readonly struct NpWithBetween
         {

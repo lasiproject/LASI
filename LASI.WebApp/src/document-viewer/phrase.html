@@ -1,0 +1,14 @@
+﻿<template>
+      <require from="app/context-menu/context-menu"></require>
+      <!--TODO: Merge tooltip and context menu into a unified, touch capable control-->
+<span if.bind="phrase.hasContextmenuData"
+      id.bind="phrase.id"
+      class="phrase ${phrase.style.cssClass}"
+      title.bind="phrase.detailText">${phrase.text}
+    <contextmenu click.trigger="alert(items)" items.bind="phrase.contextmenu"></contextmenu>
+</span>
+<span if.bind="!phrase.hasContextmenuData"
+      id.bind="phrase.id"
+      class="phrase ${phrase.style.cssClass}"
+      title.bind="phrase.detailText">${phrase.text}</span>
+</template>

@@ -18,11 +18,7 @@ namespace LASI.Content.Exceptions
         /// Initializes a new instance of the FileManagerException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood</param>
-        protected FileManagerException(string message)
-            : base(message)
-        {
-            CollectDirInfo();
-        }
+        protected FileManagerException(string message) : base(message) => CollectDirInfo();
         /// <summary>
         /// Initializes a new instance of the FileManagerException class with its message string set to message and containing the provided inner exception.
         /// </summary>
@@ -32,11 +28,7 @@ namespace LASI.Content.Exceptions
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        protected FileManagerException(string message, Exception inner)
-            : base(message, inner)
-        {
-            CollectDirInfo();
-        }
+        protected FileManagerException(string message, Exception inner) : base(message, inner) => CollectDirInfo();
 
         /// <summary>
         ///Initializes a new instance of the FileManagerException class with serialized data.
@@ -48,10 +40,7 @@ namespace LASI.Content.Exceptions
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
         protected FileManagerException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-            CollectDirInfo();
-        }
+            : base(info, context) => CollectDirInfo();
 
         public FileManagerException() { }
 
@@ -77,8 +66,10 @@ namespace LASI.Content.Exceptions
         {
             if (FileManager.Initialized && FileManager.TxtFiles.Any())
             {
-                filesInProjectDirectories = new DirectoryInfo(FileManager.ProjectDirectory).EnumerateFiles("*", SearchOption.AllDirectories)
-                                            .Select(di => FileManager.WrapperMap[di.Extension](di.FullName)).DefaultIfEmpty();
+                filesInProjectDirectories = new DirectoryInfo(FileManager.ProjectDirectory)
+                    .EnumerateFiles("*", SearchOption.AllDirectories)
+                    .Select(di => FileManager.WrapperMap[di.Extension](di.FullName))
+                    .DefaultIfEmpty();
             }
         }
 

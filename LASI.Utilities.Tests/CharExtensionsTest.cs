@@ -2,6 +2,7 @@
 using System.Linq;
 namespace LASI.Utilities.Tests
 {
+    using NFluent;
     using Xunit;
     using static System.Char;
     public class CharExtensionsTest
@@ -60,24 +61,33 @@ namespace LASI.Utilities.Tests
             }
         }
 
-        [Fact]
-        public void EqualsIgnoreCaseTest()
+        [Theory]
+        [
+            InlineData(0), InlineData(1), InlineData(2), InlineData(3), InlineData(4), InlineData(5),
+            InlineData(6), InlineData(7), InlineData(8), InlineData(9), InlineData(10), InlineData(11),
+            InlineData(12), InlineData(13), InlineData(14), InlineData(15), InlineData(16), InlineData(17),
+            InlineData(18), InlineData(19), InlineData(20), InlineData(21), InlineData(22), InlineData(23),
+            InlineData(24), InlineData(25)
+        ]
+        public void EqualsIgnoreCaseTest(char lowerIndex)
         {
-            var lowerCaseLetters = Alphabet.Take(26);
-            foreach (var lower in lowerCaseLetters)
-            {
-                var upper = ToUpper(lower);
-                Assert.True(upper.EqualsIgnoreCase(lower));
-                Assert.True(lower.EqualsIgnoreCase(upper));
-                Assert.True(upper.EqualsIgnoreCase(upper));
-                Assert.True(lower.EqualsIgnoreCase(lower));
-                Assert.Equal(50, Alphabet.Count(c => !c.EqualsIgnoreCase(lower)));
-                Assert.Equal(2, Alphabet.Count(c => c.EqualsIgnoreCase(lower)));
-                Assert.Equal(50, Alphabet.Count(c => !c.EqualsIgnoreCase(upper)));
-                Assert.Equal(2, Alphabet.Count(c => c.EqualsIgnoreCase(upper)));
-            }
+            var lower = Alphabet[lowerIndex];
+            var upper = ToUpper(lower);
+            Assert.True(upper.EqualsIgnoreCase(lower));
+            Assert.True(lower.EqualsIgnoreCase(upper));
+            Assert.True(upper.EqualsIgnoreCase(upper));
+            Assert.True(lower.EqualsIgnoreCase(lower));
+            Check.That(50).IsEqualTo(Alphabet.Count(c => !c.EqualsIgnoreCase(lower)));
+            Check.That(2).IsEqualTo(Alphabet.Count(c => c.EqualsIgnoreCase(lower)));
+            Check.That(50).IsEqualTo(Alphabet.Count(c => !c.EqualsIgnoreCase(upper)));
+            Check.That(2).IsEqualTo(Alphabet.Count(c => c.EqualsIgnoreCase(upper)));
+        }
+
+        [Fact]
+        public void EqualsIgnoreCaseTest2()
+        {
             var random = new Random();
-            Func<int> rand = () => random.Next(MinValue, MaxValue + 1);
+            int rand() => random.Next(MinValue, MaxValue + 1);
             var randomCharacters = Enumerable.Range(0, int.MaxValue)
                 .Select(n => (char)rand())
                 .Where(c => !(c.IsEnglishLetter() || ToUpper(c).Equals(c)))
@@ -88,4 +98,5 @@ namespace LASI.Utilities.Tests
             }
         }
     }
+
 }

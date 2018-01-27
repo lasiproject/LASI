@@ -36,7 +36,7 @@ namespace LASI.Core.Analysis.Binding
             {
                 throw new VerblessPhrasalSequenceException(phrases);
             }
-
+            var x = from Utilities.Logger.Mode e in Enum.GetValues(typeof(Utilities.Logger.Mode)) select e;
             var releventElements = from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                    let result = phrase.Match()
                                            .Case((IPrepositional p) => phrase)
@@ -65,30 +65,35 @@ namespace LASI.Core.Analysis.Binding
             var results = new List<Func<Phrase>>();
             var targetVerbPhrases = elements.Select(e => e.Match()
                     .Case((ConjunctionPhrase c) => c.Next as VerbPhrase)
-                    .Case((SymbolPhrase s) => s.NextPhrase.Match()
-                            .Case((VerbPhrase v) => v).Result(s.NextPhrase.NextPhrase as VerbPhrase))
+                    .Case((SymbolPhrase s) => s.Next.Match()
+                        .Case((VerbPhrase v) => v)
+                        .Result(s.Next.Next as VerbPhrase))
                     .Case((VerbPhrase v) => v)
                 .Result())
-                .Distinct().TakeWhile(v => v != null);
-            var next = targetVerbPhrases.LastOrDefault(v => v.NextPhrase != null && v.Sentence == v.NextPhrase.Sentence);
+                .Distinct().TakeWhile(v => v != null)
+                .ToList();
+            var next = targetVerbPhrases.LastOrDefault(v => v.Next != null && v.Sentence == v.Next.Sentence);
             if (next != null)
             {
                 results.Add(targetVerbPhrases.Last()
-                    .NextPhrase.Match().Yield<Func<Phrase>>()
-                    .Case((NounPhrase n) => () =>
+                    .Next.Match()
+                    .Case((NounPhrase n) => (Func<Phrase>)(() =>
                     {
-                        targetVerbPhrases.ToList().ForEach(v => v.BindDirectObject(n));
+                        targetVerbPhrases.ForEach(v => v.BindDirectObject(n));
+                        return n;
+                    }))
+                    .Case((InfinitivePhrase n) => () =>
+                    {
+                        targetVerbPhrases.ForEach(v => v.BindDirectObject(n));
                         return n;
                     })
-                    .Case((InfinitivePhrase i) => () =>
+                    .When((PrepositionalPhrase i) => i.Next is IEntity)
+                    .Then(p => () =>
                     {
-                        targetVerbPhrases.ToList().ForEach(v => v.BindDirectObject(i));
-                        return i;
-                    })
-                    .When(i => i.NextPhrase is IEntity)
-                    .Then((PrepositionalPhrase p) => () =>
-                    {
-                        targetVerbPhrases.ToList().ForEach(v => v.BindIndirectObject(p.NextPhrase as IEntity));
+                        if (p.Next is IEntity e)
+                        {
+                            targetVerbPhrases.ForEach(v => v.BindIndirectObject(e));
+                        }
                         return p;
                     })
                 .Result());

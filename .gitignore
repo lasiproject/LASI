@@ -176,6 +176,7 @@ jspm_packages/
 /Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 /Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 /LASI.WebApp/.vscode/launch.json
+/LASI.Ng2App/.VC.db
 .vscode/
 .vs/
 *.vc.db

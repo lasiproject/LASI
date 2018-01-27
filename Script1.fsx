@@ -40,3 +40,6 @@ Async.StartImmediate result
 
 //let emptyset = Set.empty
 let emptyset<'a when 'a:comparison> : Set<'a> = Set.empty
+let add x y = x + y;
+let i = add 2  3
+let s = add("Hello ", "World"); // produces "Hello World"

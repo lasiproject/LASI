@@ -13,30 +13,38 @@
         WindowStartupLocation="CenterOwner"
         WindowStyle="None">
     <Window.TaskbarItemInfo>
-        <TaskbarItemInfo ProgressState="Normal"/>
+        <TaskbarItemInfo ProgressState="Normal" />
     </Window.TaskbarItemInfo>
     <Grid>
         <Canvas Background="#FFE6E6E6">
 
             <ProgressBar x:Name="progressBar"
-        		Canvas.Top="328"
-        		Width="654"
-        		Height="26"
-        		VerticalAlignment="Top"
-        		Background="{x:Null}"
-        		RenderTransformOrigin="0.5,0.5"
-        		ToolTip="Initializing" 
-        		UseLayoutRounding="True" ValueChanged="progressBar_ValueChanged" Value="0">
+                         Canvas.Top="328"
+                         Width="654"
+                         Height="26"
+                         VerticalAlignment="Top"
+                         Background="{x:Null}"
+                         RenderTransformOrigin="0.5,0.5"
+                         ToolTip="Initializing"
+                         UseLayoutRounding="True"
+                         ValueChanged="ProgressBar_ValueChanged"
+                         Value="0">
                 <ProgressBar.Foreground>
-                    <LinearGradientBrush MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Offset="0.995" Color="#FFC21300" />
+                    <LinearGradientBrush MappingMode="RelativeToBoundingBox"
+                                         StartPoint="0.5,0"
+                                         EndPoint="0.5,1">
+                        <GradientStop Offset="0.995"
+                                      Color="#FFC21300" />
                         <GradientStop Color="#FF1F5B16" />
-                        <GradientStop Offset="0.022" Color="#FFD61A05" />
-                        <GradientStop Offset="0.711" Color="#FFC21300" />
+                        <GradientStop Offset="0.022"
+                                      Color="#FFD61A05" />
+                        <GradientStop Offset="0.711"
+                                      Color="#FFC21300" />
                     </LinearGradientBrush>
                 </ProgressBar.Foreground>
                 <ProgressBar.BindingGroup>
-                    <BindingGroup SharesProposedValues="False" Name="ProgressValueBindingExpressions" />
+                    <BindingGroup SharesProposedValues="False"
+                                  Name="ProgressValueBindingExpressions" />
                 </ProgressBar.BindingGroup>
                 <ProgressBar.RenderTransform>
                     <TransformGroup>
@@ -158,7 +166,8 @@
                         <ScaleTransform />
                         <SkewTransform />
                         <RotateTransform Angle="45" />
-                        <TranslateTransform X="-28.273" Y="-28.23" />
+                        <TranslateTransform X="-28.273"
+                                            Y="-28.23" />
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
@@ -235,7 +244,7 @@
                     Canvas.Top="269"
                     Width="71"
                     Height="35"
-                    Click="proceedtoResultsButton_Click"
+                    Click="ProceedtoResultsButton_Click"
                     Content="Proceed"
                     Visibility="Hidden" />
             <Image x:Name="pawPrintImg6"
@@ -285,7 +294,7 @@
                     Background="#FFDDDDDD"
                     BorderBrush="#FF636366"
                     BorderThickness="1"
-                    Click="minButton_Click"
+                    Click="MinButton_Click"
                     Content="-"
                     FontFamily="Segoe Script"
                     FontSize="20"
@@ -309,7 +318,7 @@
                     Background="#FFDDDDDD"
                     BorderBrush="#FF636366"
                     BorderThickness="1"
-                    Click="closeButton_Click"
+                    Click="CloseButton_Click"
                     Content="X"
                     FontFamily="Segoe Script"
                     FontSize="20"

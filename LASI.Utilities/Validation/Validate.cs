@@ -4,7 +4,9 @@ using System.Linq;
 
 namespace LASI.Utilities.Validation
 {
-    /// <summary>Provides helper methods for value validation.</summary>
+    /// <summary>
+    /// Provides helper methods for value validation.
+    /// </summary>
     [System.Diagnostics.DebuggerStepThrough]
     public static class Validate
     {
@@ -13,12 +15,10 @@ namespace LASI.Utilities.Validation
         /// <summary>
         /// Validates the specified value, raising a <see cref="ArgumentNullException"/> if it is null.
         /// </summary>
-        /// <typeparam name="T">The type of the value to validate.</typeparam>
-        /// <param name="value">The value to validate.</param>
-        /// <param name="name">
-        /// The name of the value being validated in the context of the calling method.
-        /// </param>
-        /// <exception cref="ArgumentNullException">The value was null.</exception>
+        /// <typeparam name="T"> The type of the value to validate. </typeparam>
+        /// <param name="value"> The value to validate. </param>
+        /// <param name="name">  The name of the value being validated in the context of the calling method. </param>
+        /// <exception cref="ArgumentNullException"> The value was null. </exception>
         public static void NotNull<T>(T value, string name = "value")
         {
             if (ReferenceEquals(value, null))
@@ -30,32 +30,29 @@ namespace LASI.Utilities.Validation
         /// <summary>
         /// Validates the specified value, raising a <see cref="ArgumentNullException"/> if it is null.
         /// </summary>
-        /// <typeparam name="T">The type of the value.</typeparam>
-        /// <param name="value">The value to validate.</param>
-        /// <param name="name">The name of the value.</param>
-        /// <param name="message">
-        /// A message that provides additional detail as to why the value may not be null.
-        /// </param>
-        /// <exception cref="ArgumentNullException">One of the values was null.</exception>
-        public static void NotNull<T>(T value, string name, string message)
+        /// <typeparam name="T"> The type of the value. </typeparam>
+        /// <param name="value">   The value to validate. </param>
+        /// <param name="name">    The name of the value. </param>
+        /// <param name="message"> A message that provides additional detail as to why the value may not be null. </param>
+        /// <exception cref="ArgumentNullException"> One of the values was null. </exception>
+        public static void NotNull<T>(T value, string name, string message) where T : class
         {
-            if (ReferenceEquals(value, null))
+            if (value is null)
             {
                 FailWithArgumentNullException(name, message);
             }
         }
 
         /// <summary>
-        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them
-        /// are null.
+        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them are null.
         /// </summary>
-        /// <typeparam name="T1">The type of the first value.</typeparam>
-        /// <typeparam name="T2">The type of the second value.</typeparam>
-        /// <param name="value1">The first value to validate.</param>
-        /// <param name="name1">The name of the first value.</param>
-        /// <param name="value2">The second value to validate.</param>
-        /// <param name="name2">The name of the second value.</param>
-        /// <exception cref="ArgumentNullException">One of the values was null.</exception>
+        /// <typeparam name="T1"> The type of the first value. </typeparam>
+        /// <typeparam name="T2"> The type of the second value. </typeparam>
+        /// <param name="value1"> The first value to validate. </param>
+        /// <param name="name1">  The name of the first value. </param>
+        /// <param name="value2"> The second value to validate. </param>
+        /// <param name="name2">  The name of the second value. </param>
+        /// <exception cref="ArgumentNullException"> One of the values was null. </exception>
         public static void NotNull<T1, T2>(T1 value1, string name1, T2 value2, string name2)
         {
             NotNull(value1, name1);
@@ -63,19 +60,18 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them
-        /// are null.
+        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them are null.
         /// </summary>
-        /// <typeparam name="T1">The type of the first value.</typeparam>
-        /// <typeparam name="T2">The type of the second value.</typeparam>
-        /// <typeparam name="T3">The type of the third value.</typeparam>
-        /// <param name="value1">The first value to validate.</param>
-        /// <param name="name1">The name of the first value.</param>
-        /// <param name="value2">The second value to validate.</param>
-        /// <param name="name2">The name of the second value.</param>
-        /// <param name="value3">The third value to validate.</param>
-        /// <param name="name3">The name of the third value.</param>
-        /// <exception cref="ArgumentNullException">One of the values was null.</exception>
+        /// <typeparam name="T1"> The type of the first value. </typeparam>
+        /// <typeparam name="T2"> The type of the second value. </typeparam>
+        /// <typeparam name="T3"> The type of the third value. </typeparam>
+        /// <param name="value1"> The first value to validate. </param>
+        /// <param name="name1">  The name of the first value. </param>
+        /// <param name="value2"> The second value to validate. </param>
+        /// <param name="name2">  The name of the second value. </param>
+        /// <param name="value3"> The third value to validate. </param>
+        /// <param name="name3">  The name of the third value. </param>
+        /// <exception cref="ArgumentNullException"> One of the values was null. </exception>
         public static void NotNull<T1, T2, T3>(T1 value1, string name1, T2 value2, string name2, T3 value3, string name3)
         {
             NotNull(
@@ -86,22 +82,21 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them
-        /// are null.
+        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them are null.
         /// </summary>
-        /// <typeparam name="T1">The type of the first value.</typeparam>
-        /// <typeparam name="T2">The type of the second value.</typeparam>
-        /// <typeparam name="T3">The type of the third value.</typeparam>
-        /// <typeparam name="T4">The type of the fourth value.</typeparam>
-        /// <param name="value1">The first value to validate.</param>
-        /// <param name="name1">The name of the first value.</param>
-        /// <param name="value2">The second value to validate.</param>
-        /// <param name="name2">The name of the second value.</param>
-        /// <param name="value3">The third value to validate.</param>
-        /// <param name="name3">The name of the third value.</param>
-        /// <param name="value4">The fourth value to validate.</param>
-        /// <param name="name4">The name of the fourth value.</param>
-        /// <exception cref="ArgumentNullException">One of the values was null.</exception>
+        /// <typeparam name="T1"> The type of the first value. </typeparam>
+        /// <typeparam name="T2"> The type of the second value. </typeparam>
+        /// <typeparam name="T3"> The type of the third value. </typeparam>
+        /// <typeparam name="T4"> The type of the fourth value. </typeparam>
+        /// <param name="value1"> The first value to validate. </param>
+        /// <param name="name1">  The name of the first value. </param>
+        /// <param name="value2"> The second value to validate. </param>
+        /// <param name="name2">  The name of the second value. </param>
+        /// <param name="value3"> The third value to validate. </param>
+        /// <param name="name3">  The name of the third value. </param>
+        /// <param name="value4"> The fourth value to validate. </param>
+        /// <param name="name4">  The name of the fourth value. </param>
+        /// <exception cref="ArgumentNullException"> One of the values was null. </exception>
         public static void NotNull<T1, T2, T3, T4>(T1 value1, string name1, T2 value2, string name2, T3 value3, string name3, T4 value4, string name4)
         {
             NotNull(
@@ -113,25 +108,24 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them
-        /// are null.
+        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them are null.
         /// </summary>
-        /// <typeparam name="T1">The type of the first value.</typeparam>
-        /// <typeparam name="T2">The type of the second value.</typeparam>
-        /// <typeparam name="T3">The type of the third value.</typeparam>
-        /// <typeparam name="T4">The type of the fourth value.</typeparam>
-        /// <typeparam name="T5">The type of the fifth value.</typeparam>
-        /// <param name="value1">The first value to validate.</param>
-        /// <param name="name1">The name of the first value.</param>
-        /// <param name="value2">The second value to validate.</param>
-        /// <param name="name2">The name of the second value.</param>
-        /// <param name="value3">The third value to validate.</param>
-        /// <param name="name3">The name of the third value.</param>
-        /// <param name="value4">The fourth value to validate.</param>
-        /// <param name="name4">The name of the fourth value.</param>
-        /// <param name="value5">The fifth value to validate.</param>
-        /// <param name="name5">The name of the fifth value.</param>
-        /// <exception cref="ArgumentNullException">One of the values was null.</exception>
+        /// <typeparam name="T1"> The type of the first value. </typeparam>
+        /// <typeparam name="T2"> The type of the second value. </typeparam>
+        /// <typeparam name="T3"> The type of the third value. </typeparam>
+        /// <typeparam name="T4"> The type of the fourth value. </typeparam>
+        /// <typeparam name="T5"> The type of the fifth value. </typeparam>
+        /// <param name="value1"> The first value to validate. </param>
+        /// <param name="name1">  The name of the first value. </param>
+        /// <param name="value2"> The second value to validate. </param>
+        /// <param name="name2">  The name of the second value. </param>
+        /// <param name="value3"> The third value to validate. </param>
+        /// <param name="name3">  The name of the third value. </param>
+        /// <param name="value4"> The fourth value to validate. </param>
+        /// <param name="name4">  The name of the fourth value. </param>
+        /// <param name="value5"> The fifth value to validate. </param>
+        /// <param name="name5">  The name of the fifth value. </param>
+        /// <exception cref="ArgumentNullException"> One of the values was null. </exception>
         public static void NotNull<T1, T2, T3, T4, T5>(T1 value1, string name1, T2 value2, string name2, T3 value3, string name3, T4 value4, string name4, T5 value5, string name5)
         {
             NotNull(
@@ -150,16 +144,13 @@ namespace LASI.Utilities.Validation
         /// <summary>
         /// Validates that the specified IEnumerable value, raising an <see cref="ArgumentException"/> if it is empty.
         /// </summary>
-        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
-        /// <param name="value">The sequence to validate.</param>
-        /// <param name="name">The name of the value to validate.</param>
-        /// <param name="message">
-        /// A message that provides additional detail as to why the value failed validation.
-        /// </param>
+        /// <typeparam name="T"> The type of the elements in the sequence. </typeparam>
+        /// <param name="value">   The sequence to validate. </param>
+        /// <param name="name">    The name of the value to validate. </param>
+        /// <param name="message"> A message that provides additional detail as to why the value failed validation. </param>
         /// <remarks>
-        /// In order to validate that the given sequence contains at least one element, a portion of sequence must be materialized.
-        /// If the sequence is described by a stateful or transient iterator, there is no guarantee that it will not be empty when it is actually consumed.
-        /// The validation is described by the <see cref="Enumerable.Any{TSource}(IEnumerable{TSource})"/> method.
+        /// In order to validate that the given sequence contains at least one element, a portion of sequence must be materialized. If the sequence is described by a stateful or transient iterator,
+        /// there is no guarantee that it will not be empty when it is actually consumed. The validation is described by the <see cref="Enumerable.Any{TSource}(IEnumerable{TSource})"/> method.
         /// </remarks>
         public static void NotEmpty<T>(IEnumerable<T> value, string name = "value", string message = "Sequence cannot be empty")
         {
@@ -170,20 +161,16 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified <see cref="IEnumerable{T}" />, raising a
-        /// <see cref="ArgumentException" /> if the it is null or contains no elements. This
-        /// implicitly materializes the sequence; see the remarks section for further details.
+        /// Validates the specified <see cref="IEnumerable{T}"/>, raising a <see cref="ArgumentException"/> if the it is null or contains no elements. This implicitly materializes the sequence; see the
+        /// remarks section for further details.
         /// </summary>
-        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
-        /// <param name="value">The value to validate.</param>
-        /// <param name="name">The name of the value to validate.</param>
-        /// <param name="message">A message that provides additional detail as to why the value failed validation.</param>
+        /// <typeparam name="T"> The type of the elements in the sequence. </typeparam>
+        /// <param name="value">   The value to validate. </param>
+        /// <param name="name">    The name of the value to validate. </param>
+        /// <param name="message"> A message that provides additional detail as to why the value failed validation. </param>
         /// <remarks>
-        /// In order to validate that the given sequence contains at least one element, a portion of
-        /// sequence must be materialized. If the sequence is described by a stateful or transient
-        /// iterator, there is no guarantee that it will not be empty when it is actually consumed.
-        /// The validation is described by the
-        /// <see cref="Enumerable.Any{TSource}(IEnumerable{TSource})" /> method.
+        /// In order to validate that the given sequence contains at least one element, a portion of sequence must be materialized. If the sequence is described by a stateful or transient iterator,
+        /// there is no guarantee that it will not be empty when it is actually consumed. The validation is described by the <see cref="Enumerable.Any{TSource}(IEnumerable{TSource})"/> method.
         /// </remarks>
         public static void NeitherNullNorEmpty<T>(IEnumerable<T> value, string name, string message = null)
         {
@@ -196,17 +183,14 @@ namespace LASI.Utilities.Validation
         #region Range Validation
 
         /// <summary>
-        /// Validates the specified value, raising a System.ArgumentOutOfRangeException if it is
-        /// less than the specified minimum.
+        /// Validates the specified value, raising a System.ArgumentOutOfRangeException if it is less than the specified minimum.
         /// </summary>
-        /// <typeparam name="T">The type of the value to validate.</typeparam>
-        /// <param name="value">The value to validate.</param>
-        /// <param name="minimum">The minimum value to validate against.</param>
-        /// <param name="name">The name of the value to validate.</param>
-        /// <param name="message">
-        /// A message that provides additional detail as to why failed validation.
-        /// </param>
-        /// <exception cref="ArgumentOutOfRangeException">The value was less the specified minimum.</exception>
+        /// <typeparam name="T"> The type of the value to validate. </typeparam>
+        /// <param name="value">   The value to validate. </param>
+        /// <param name="minimum"> The minimum value to validate against. </param>
+        /// <param name="name">    The name of the value to validate. </param>
+        /// <param name="message"> A message that provides additional detail as to why failed validation. </param>
+        /// <exception cref="ArgumentOutOfRangeException"> The value was less the specified minimum. </exception>
         public static void NotLessThan<T>(this T value, T minimum, string name = null, string message = null)
             where T : IComparable<T>, IEquatable<T>
         {
@@ -222,15 +206,14 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified value, raising a System.ArgumentOutOfRangeException if it is
-        /// greater than the specified maximum.
+        /// Validates the specified value, raising a System.ArgumentOutOfRangeException if it is greater than the specified maximum.
         /// </summary>
-        /// <typeparam name="T">The type of the value to validate.</typeparam>
-        /// <param name="value">The value to validate.</param>
-        /// <param name="maximum">The maximum value to validate against.</param>
-        /// <param name="name">The name of the value to validate.</param>
-        /// <param name="message">A message that provides additional detail as to why the value failed validation.</param>
-        /// <exception cref="ArgumentOutOfRangeException">The value was greater than the specified maximum.</exception>
+        /// <typeparam name="T"> The type of the value to validate. </typeparam>
+        /// <param name="value">   The value to validate. </param>
+        /// <param name="maximum"> The maximum value to validate against. </param>
+        /// <param name="name">    The name of the value to validate. </param>
+        /// <param name="message"> A message that provides additional detail as to why the value failed validation. </param>
+        /// <exception cref="ArgumentOutOfRangeException"> The value was greater than the specified maximum. </exception>
         public static void NotGreaterThan<T>(this T value, T maximum, string name = null, string message = null) where T : IComparable<T>, IEquatable<T>
         {
             if (value.CompareTo(maximum) > 0)
@@ -245,16 +228,15 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified value, raising a System.ArgumentOutOfRangeException if it is
-        /// greater than the specified maximum or less than the specified minimum.
+        /// Validates the specified value, raising a System.ArgumentOutOfRangeException if it is greater than the specified maximum or less than the specified minimum.
         /// </summary>
-        /// <typeparam name="T">The type of the value to validate.</typeparam>
-        /// <param name="value">The value to validate.</param>
-        /// <param name="minimum">The minimum value to validate against.</param>
-        /// <param name="maximum">The maximum value to validate against.</param>
-        /// <param name="name">The name of the value to validate.</param>
-        /// <param name="message">A message that provides additional detail as to why the value failed validation.</param>
-        /// <exception cref="ArgumentOutOfRangeException">The value was less than the specified minimum or greater than the specified maximum.</exception>
+        /// <typeparam name="T"> The type of the value to validate. </typeparam>
+        /// <param name="value">   The value to validate. </param>
+        /// <param name="minimum"> The minimum value to validate against. </param>
+        /// <param name="maximum"> The maximum value to validate against. </param>
+        /// <param name="name">    The name of the value to validate. </param>
+        /// <param name="message"> A message that provides additional detail as to why the value failed validation. </param>
+        /// <exception cref="ArgumentOutOfRangeException"> The value was less than the specified minimum or greater than the specified maximum. </exception>
         public static void WithinRange<T>(this T value, T minimum, T maximum, string name, string message = null) where T : IComparable<T>, IEquatable<T>
         {
             NotLessThan(value, minimum, name ?? nameof(value), message);
@@ -262,31 +244,27 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified value exists in the specified set of values, throwing a
-        /// <see cref="ArgumentException" /> if does is not.
+        /// Validates that the specified value exists in the specified set of values, throwing a <see cref="ArgumentException"/> if does is not.
         /// </summary>
-        /// <typeparam name="T">The type of the value to validate.</typeparam>
-        /// <param name="collection">The collection in which must contain the value.</param>
-        /// <param name="value">The value to validate.</param>
-        /// <param name="name">The name of the value which must exist.</param>
-        /// <param name="message">A message that provides additional detail as to why the value failed validation.</param>
+        /// <typeparam name="T"> The type of the value to validate. </typeparam>
+        /// <param name="collection"> The collection in which must contain the value. </param>
+        /// <param name="value">      The value to validate. </param>
+        /// <param name="name">       The name of the value which must exist. </param>
+        /// <param name="message">    A message that provides additional detail as to why the value failed validation. </param>
         public static void ExistsIn<T>(IEnumerable<T> collection, T value, string name, string message = null)
         {
             ExistsIn(collection, value, EqualityComparer<T>.Default, name ?? nameof(value), message);
         }
 
-
         /// <summary>
-        /// Validates that the specified value exists in the specified set of values using the
-        /// specified <see cref="IEqualityComparer{T}" />, throwing a
-        /// <see cref="ArgumentException" /> if it is not.
+        /// Validates that the specified value exists in the specified set of values using the specified <see cref="IEqualityComparer{T}"/>, throwing a <see cref="ArgumentException"/> if it is not.
         /// </summary>
-        /// <typeparam name="T">The type of the value to validate.</typeparam>
-        /// <param name="collection">The collection in which must contain the value.</param>
-        /// <param name="value">The value to validate.</param>
-        /// <param name="comparer">The comparer to use to validate that the value exists.</param>
-        /// <param name="name">The name of the value which must exist.</param>
-        /// <param name="message">A message that provides additional detail as to why the value failed validation.</param>
+        /// <typeparam name="T"> The type of the value to validate. </typeparam>
+        /// <param name="collection"> The collection in which must contain the value. </param>
+        /// <param name="value">      The value to validate. </param>
+        /// <param name="comparer">   The comparer to use to validate that the value exists. </param>
+        /// <param name="name">       The name of the value which must exist. </param>
+        /// <param name="message">    A message that provides additional detail as to why the value failed validation. </param>
         public static void ExistsIn<T>(IEnumerable<T> collection, T value, IEqualityComparer<T> comparer, string name, string message = null)
         {
             if (!collection.Contains(value, comparer))
@@ -296,26 +274,26 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified value is not present in the specified set of values, throwing a <see cref="ArgumentException" /> if it exists.
+        /// Validates that the specified value is not present in the specified set of values, throwing a <see cref="ArgumentException"/> if it exists.
         /// </summary>
-        /// <typeparam name="T">The type of the value to validate.</typeparam>
-        /// <param name="collection">The collection in which must contain the value.</param>
-        /// <param name="value">The value to validate.</param>
-        /// <param name="name">The name of the value which must not exist.</param>
-        /// <param name="message">A message that provides additional detail as to why the value failed validation.</param>
+        /// <typeparam name="T"> The type of the value to validate. </typeparam>
+        /// <param name="collection"> The collection in which must contain the value. </param>
+        /// <param name="value">      The value to validate. </param>
+        /// <param name="name">       The name of the value which must not exist. </param>
+        /// <param name="message">    A message that provides additional detail as to why the value failed validation. </param>
         public static void DoesNotExistIn<T>(IEnumerable<T> collection, T value, string name, string message = null)
         {
             DoesNotExistIn(collection, value, EqualityComparer<T>.Default, name, message);
         }
 
         /// <summary>
-        /// Validates that the specified value is not present in the specified set of values, throwing a <see cref="ArgumentException" /> if it exists.
+        /// Validates that the specified value is not present in the specified set of values, throwing a <see cref="ArgumentException"/> if it exists.
         /// </summary>
-        /// <typeparam name="T">The type of the value to validate.</typeparam>
-        /// <param name="collection">The collection which must not contain any of the <paramref name="values"/>.</param>
-        /// <param name="values">The values which <paramref name="collection"/> must not contain.</param>
-        /// <param name="name">The name of the value which must not exist.</param>
-        /// <param name="message">A message that provides additional detail as to why the value failed validation.</param>
+        /// <typeparam name="T"> The type of the value to validate. </typeparam>
+        /// <param name="collection"> The collection which must not contain any of the <paramref name="values"/>. </param>
+        /// <param name="values">     The values which <paramref name="collection"/> must not contain. </param>
+        /// <param name="name">       The name of the value which must not exist. </param>
+        /// <param name="message">    A message that provides additional detail as to why the value failed validation. </param>
         public static void DoesNotExistIn<T>(IEnumerable<T> collection, IEnumerable<T> values, string name, string message = null)
         {
             foreach (var value in values)
@@ -325,14 +303,14 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified value is not present in the specified set of values using the specified <see cref="IEqualityComparer{T}" />, throwing a <see cref="ArgumentException" /> if it exists.
+        /// Validates that the specified value is not present in the specified set of values using the specified <see cref="IEqualityComparer{T}"/>, throwing a <see cref="ArgumentException"/> if it exists.
         /// </summary>
-        /// <typeparam name="T">The type of the value to validate.</typeparam>
-        /// <param name="collection">The collection in which must not contain the value.</param>
-        /// <param name="value">The value to validate.</param>
-        /// <param name="name">The name of the value which must not exist.</param>
-        /// <param name="comparer">The comparer to use to test for the presence of the value.</param>
-        /// <param name="message">A message that provides additional detail as to why the value failed validation.</param>
+        /// <typeparam name="T"> The type of the value to validate. </typeparam>
+        /// <param name="collection"> The collection in which must not contain the value. </param>
+        /// <param name="value">      The value to validate. </param>
+        /// <param name="name">       The name of the value which must not exist. </param>
+        /// <param name="comparer">   The comparer to use to test for the presence of the value. </param>
+        /// <param name="message">    A message that provides additional detail as to why the value failed validation. </param>
         public static void DoesNotExistIn<T>(IEnumerable<T> collection, T value, IEqualityComparer<T> comparer, string name, string message = null)
         {
             if (collection.Contains(value, comparer))
@@ -344,12 +322,13 @@ namespace LASI.Utilities.Validation
         #endregion Range Validation
 
         #region Conditional Validation
+
         /// <summary>
         /// Validates that at least one of the specified conditions holds, raising a <see cref="ArgumentException"/> if both are false.
         /// </summary>
-        /// <param name="conditionOne">The first condition to test.</param>
-        /// <param name="conditionTwo">The second condition to test.</param>
-        /// <param name="message">A message detailing error information.</param>
+        /// <param name="conditionOne"> The first condition to test. </param>
+        /// <param name="conditionTwo"> The second condition to test. </param>
+        /// <param name="message">      A message detailing error information. </param>
         public static void Either(bool conditionOne, bool conditionTwo, string message)
         {
             if (!(conditionOne || conditionTwo))
@@ -359,137 +338,168 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c>false</c> throwing an <see cref="ArgumentException"/> exception otherwise.
+        /// Validates that the specified condition is <c> false </c> throwing an <see cref="ArgumentException"/> exception otherwise.
         /// </summary>
-        /// <param name="condition">The condition to validate.</param>
-        /// <param name="message">A message detailing error information.</param>
+        /// <param name="condition"> The condition to validate. </param>
+        /// <param name="message">   A message detailing error information. </param>
         public static void False(bool condition, string message)
         {
-            if (condition) FailWithArgumentException(message);
+            if (condition)
+            {
+                FailWithArgumentException(message);
+            }
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c>false</c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
+        /// Validates that the specified condition is <c> false </c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
         /// </summary>
-        /// <typeparam name="TFailWith">The type of the exception to throw on failure.</typeparam>
-        /// <param name="condition">The condition to validate.</param>
+        /// <typeparam name="TFailWith"> The type of the exception to throw on failure. </typeparam>
+        /// <param name="condition"> The condition to validate. </param>
         public static void False<TFailWith>(bool condition) where TFailWith : Exception, new()
         {
-            if (condition) throw new TFailWith();
+            if (condition)
+            {
+                throw new TFailWith();
+            }
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c>false</c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
+        /// Validates that the specified condition is <c> false </c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
         /// </summary>
-        /// <typeparam name="TFailWith">The type of the exception to throw on failure.</typeparam>
-        /// <param name="condition">The condition to validate.</param>
-        /// <param name="failWith">A function which produces creates an exception of <typeparamref name="TFailWith"/> to throw on failure.</param>
+        /// <typeparam name="TFailWith"> The type of the exception to throw on failure. </typeparam>
+        /// <param name="condition"> The condition to validate. </param>
+        /// <param name="failWith">  A function which produces creates an exception of <typeparamref name="TFailWith"/> to throw on failure. </param>
         public static void False<TFailWith>(bool condition, Func<TFailWith> failWith) where TFailWith : Exception
         {
-            if (condition) throw failWith();
+            if (condition)
+            {
+                throw failWith();
+            }
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c>false</c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
+        /// Validates that the specified condition is <c> false </c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
         /// </summary>
-        /// <typeparam name="TFailWith">The type of the exception to throw on failure.</typeparam>
-        /// <param name="condition">The condition to validate.</param>
-        /// <param name="failWith">A function which produces creates an exception of <typeparamref name="TFailWith"/> to throw on failure.</param>
-        /// <param name="message">A message detailing error information.</param>
+        /// <typeparam name="TFailWith"> The type of the exception to throw on failure. </typeparam>
+        /// <param name="condition"> The condition to validate. </param>
+        /// <param name="failWith">  A function which produces creates an exception of <typeparamref name="TFailWith"/> to throw on failure. </param>
+        /// <param name="message">   A message detailing error information. </param>
         public static void False<TFailWith>(bool condition, Func<string, TFailWith> failWith, string message) where TFailWith : Exception
         {
-            if (condition) throw failWith(message);
+            if (condition)
+            {
+                throw failWith(message);
+            }
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c>true</c> throwing an <see cref="ArgumentException"/> exception otherwise.
+        /// Validates that the specified condition is <c> true </c> throwing an <see cref="ArgumentException"/> exception otherwise.
         /// </summary>
-        /// <param name="condition">The condition to validate.</param>
-        /// <param name="message">A message detailing error information.</param>
+        /// <param name="condition"> The condition to validate. </param>
+        /// <param name="message">   A message detailing error information. </param>
         public static void True(bool condition, string message)
         {
-            if (!condition) FailWithArgumentException(message);
+            if (!condition)
+            {
+                FailWithArgumentException(message);
+            }
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c>true</c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
+        /// Validates that the specified condition is <c> true </c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
         /// </summary>
-        /// <typeparam name="TFailWith">The type of the exception to throw on failure.</typeparam>
-        /// <param name="condition">The condition to validate.</param>
+        /// <typeparam name="TFailWith"> The type of the exception to throw on failure. </typeparam>
+        /// <param name="condition"> The condition to validate. </param>
         public static void True<TFailWith>(bool condition) where TFailWith : Exception, new()
         {
-            if (!condition) throw new TFailWith();
+            if (!condition)
+            {
+                throw new TFailWith();
+            }
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c>true</c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
+        /// Validates that the specified condition is <c> true </c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
         /// </summary>
-        /// <typeparam name="TFailWith">The type of the exception to throw on failure.</typeparam>
-        /// <param name="condition">The condition to validate.</param>
-        /// <param name="failWith">A function which produces creates an exception of <typeparamref name="TFailWith"/> to throw on failure.</param>
+        /// <typeparam name="TFailWith"> The type of the exception to throw on failure. </typeparam>
+        /// <param name="condition"> The condition to validate. </param>
+        /// <param name="failWith">  A function which produces creates an exception of <typeparamref name="TFailWith"/> to throw on failure. </param>
         public static void True<TFailWith>(bool condition, Func<TFailWith> failWith) where TFailWith : Exception
         {
-            if (!condition) throw failWith();
+            if (!condition)
+            {
+                throw failWith();
+            }
         }
 
         /// <summary>
-        /// Validates that the specified condition is <c>true</c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
+        /// Validates that the specified condition is <c> true </c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
         /// </summary>
-        /// <typeparam name="TFailWith">The type of the exception to throw on failure.</typeparam>
-        /// <param name="condition">The condition to validate.</param>
-        /// <param name="failWith">A function which produces creates an exception of <typeparamref name="TFailWith"/> to throw on failure.</param>
-        /// <param name="message">A message detailing error information.</param>
+        /// <typeparam name="TFailWith"> The type of the exception to throw on failure. </typeparam>
+        /// <param name="condition"> The condition to validate. </param>
+        /// <param name="failWith">  A function which produces creates an exception of <typeparamref name="TFailWith"/> to throw on failure. </param>
+        /// <param name="message">   A message detailing error information. </param>
         public static void True<TFailWith>(bool condition, Func<string, TFailWith> failWith, string message) where TFailWith : Exception
         {
-            if (!condition) throw failWith(message);
+            if (!condition)
+            {
+                throw failWith(message);
+            }
         }
+
         #endregion Conditional Validation
 
         #region Exception Helpers
+
         /// <summary>
         /// Throws an <see cref="ArgumentNullException"/>.
         /// </summary>
-        /// <param name="name">The name of the argument which caused the exception.</param>
-        private static void FailWithArgumentNullException(string name)
+        /// <param name="name"> The name of the argument which caused the exception. </param>
+        static void FailWithArgumentNullException(string name)
         {
             throw new ArgumentNullException(name);
         }
+
         /// <summary>
         /// Throws an <see cref="ArgumentNullException"/>.
         /// </summary>
-        /// <param name="name">The name of the argument which caused the exception.</param>
-        /// <param name="message">A message describing the error.</param>
-        private static void FailWithArgumentNullException(string name, string message)
+        /// <param name="name">    The name of the argument which caused the exception. </param>
+        /// <param name="message"> A message describing the error. </param>
+        static void FailWithArgumentNullException(string name, string message)
         {
             throw new ArgumentNullException(name, message);
         }
+
         /// <summary>
         /// Throws an <see cref="ArgumentException"/>.
         /// </summary>
-        /// <param name="actualValue">The value which caused the exception.</param>
-        /// <param name="paramName">The name of the argument which caused the exception.</param>
-        /// <param name="message">A message describing the error.</param>
-        private static void FailWithOutOfRangeException<T>(T actualValue, string paramName, string message) where T : IComparable<T>, IEquatable<T>
+        /// <param name="actualValue"> The value which caused the exception. </param>
+        /// <param name="paramName">   The name of the argument which caused the exception. </param>
+        /// <param name="message">     A message describing the error. </param>
+        static void FailWithOutOfRangeException<T>(T actualValue, string paramName, string message) where T : IComparable<T>, IEquatable<T>
         {
             throw new ArgumentOutOfRangeException(paramName, actualValue, message);
         }
+
         /// <summary>
         /// Throws an <see cref="ArgumentException"/>.
         /// </summary>
-        /// <param name="name">The name of the argument which caused the exception.</param>
-        /// <param name="message">A message describing the error.</param>
-        private static void FailWithArgumentException(string name, string message)
+        /// <param name="name">    The name of the argument which caused the exception. </param>
+        /// <param name="message"> A message describing the error. </param>
+        static void FailWithArgumentException(string name, string message)
         {
             throw new ArgumentException(message, name);
         }
+
         /// <summary>
         /// Throws an <see cref="ArgumentException"/>.
         /// </summary>
-        /// <param name="message">A message describing the error.</param>
-        private static void FailWithArgumentException(string message)
+        /// <param name="message"> A message describing the error. </param>
+        static void FailWithArgumentException(string message)
         {
             throw new ArgumentException(message);
         }
+
         #endregion Exception Helpers
     }
 }

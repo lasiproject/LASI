@@ -18,10 +18,7 @@ namespace LASI.Core
         /// Initializes a new instance of the Symbol class.
         /// </summary>
         /// <param name="literalSymbol">The text of the Symbol.</param>
-        public Symbol(string literalSymbol) : base(SymbolAliasMap.FromAlias(literalSymbol))
-        {
-            LiteralCharacter = Text.Length == 1 ? Text[0] : '\0';
-        }
+        public Symbol(string literalSymbol) : base(SymbolAliasMap.FromAlias(literalSymbol)) => LiteralCharacter = Text.Length == 1 ? Text[0] : '\0';
         /// <summary>
         /// The literal punctuation character of the <see cref="Punctuator"/>.
         /// </summary>

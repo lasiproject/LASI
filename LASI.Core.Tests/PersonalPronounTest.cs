@@ -1,10 +1,7 @@
-﻿using LASI;
+﻿using System.Linq;
 using LASI.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Xunit;
 using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -53,10 +50,6 @@ namespace LASI.Core.Tests
             actual = target.Equals(obj);
             Check.That(actual).IsEqualTo(expected);
         }
-
-
-
-
 
         /// <summary>
         ///A test for BoundEntity

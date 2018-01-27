@@ -99,6 +99,6 @@ namespace LASI.Utilities
             c == other :
             (c >= 96 ? c - 32 : c) == (other >= 96 ? other - 32 : other);
 
-        private const string Vowels = "AEIOUY";
+        const string Vowels = "AEIOUY";
     }
 }

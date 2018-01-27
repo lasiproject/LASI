@@ -8,15 +8,14 @@ namespace LASI.Content.FileConverters
 {
     using LASI.Content.FileTypes;
     using static System.Linq.Enumerable;
+
     /// <summary>
-    /// An input file converter specialized to extract the non optical textual content from a .pdf (Adobe Acrobat) document
-    /// and create a text file containing this content as raw text.
+    /// An input file converter specialized to extract the non optical textual content from a .pdf (Adobe Acrobat) document and create a text file containing this content as raw text.
     /// </summary>
     public class PdfToTextConverter : FileConverter<PdfFile, TxtFile>
     {
         /// <summary>
-        /// Constructs a new instance which will govern the conversion of the PdfFile instance provided.
-        /// The converted file will be placed in the same directory as the original.
+        /// Constructs a new instance which will govern the conversion of the PdfFile instance provided. The converted file will be placed in the same directory as the original.
         /// </summary>
         /// <param name="infile">The PdfFile instance representing the .pdf document to convert.</param>
         public PdfToTextConverter(PdfFile infile)
@@ -33,6 +32,12 @@ namespace LASI.Content.FileConverters
             return new TxtFile(newPath);
         }
 
+        /// <summary>
+        /// Asynchronously converts the document governed by this instance from .pdf format to .txt ASCII text format.
+        /// </summary>
+        /// <returns>A System.Threading.Tasks.Task&lt;InputFile&gt; which, when awaited yields an InputFile object which wraps the newly created .txt file.</returns>
+        public override async Task<TxtFile> ConvertFileAsync() => await Task.Run(() => ConvertFile()).ConfigureAwait(false);
+
         // Found this on CodeProject.com, no strings attached, it works pretty well but it is not very well written.
 
         /// <summary>
@@ -40,24 +45,24 @@ namespace LASI.Content.FileConverters
         /// </summary>
         private class PdfParser
         {
-            // BT = Beginning of a text object operator 
-            // ET = End of a text object operator
-            // Td move to the start of next line
-            //  5 Ts = superscript
+            // BT = Beginning of a text object operator ET = End of a text object operator Td move to the start of next line 5 Ts = superscript
             // -5 Ts = subscript
 
             #region Fields
+
             /// <summary>
             /// The number of characters to keep, when extracting text.
             /// </summary>
             private const int CHARS_TO_KEEP = 15;
-            #endregion
+
+            #endregion Fields
 
             #region ExtractText
+
             /// <summary>
             /// Extracts a text from a PDF file.
             /// </summary>
-            /// <param name="inFileName">the full path to the pdf file.</param>
+            /// <param name="inFileName"> the full path to the pdf file.</param>
             /// <param name="outFileName">the output file name.</param>
             /// <returns>the extracted text</returns>
             public void ExtractText(string inFileName, string outFileName)
@@ -73,33 +78,34 @@ namespace LASI.Content.FileConverters
                     }
                 }
             }
-            #endregion
+
+            #endregion ExtractText
 
             /// <summary>
-            /// This method processes an uncompressed Adobe (text) object 
-            /// and extracts text.
+            /// This method processes an uncompressed Adobe (text) object and extracts text.
             /// </summary>
             /// <param name="input">uncompressed</param>
             /// <returns>The text extracted from the stream of PDF encoded bytes.</returns>
             private string ExtractTextFromPDFBytes(byte[] input)
             {
                 if (input == null || input.Length == 0)
+                {
                     return string.Empty;
+                }
+
                 var resultString = string.Empty;
 
                 // Flag showing if we are we currently inside a text object
                 var inTextObject = false;
 
-                // Flag showing if the next character is key 
-                // e.g. '\\' to get a '\' character or '\(' to get '('
+                // Flag showing if the next character is key e.g. '\\' to get a '\' character or '\(' to get '('
                 var nextLiteral = false;
 
                 // () Bracket nesting level. Text appears inside ()
                 var bracketDepth = 0;
 
-                // Keep previous chars to get extract numbers etc.: 
+                // Keep previous chars to get extract numbers etc.:
                 var previousCharacters = Repeat(' ', CHARS_TO_KEEP).ToArray();
-
 
                 for (var i = 0; i < input.Length; i++)
                 {
@@ -156,8 +162,7 @@ namespace LASI.Content.FileConverters
                                     // Just a normal text character:
                                     if (bracketDepth == 1)
                                     {
-                                        // Only print out next character no matter what. 
-                                        // Do not interpret.
+                                        // Only print out next character no matter what. Do not interpret.
                                         if (c == '\\' && !nextLiteral)
                                         {
                                             nextLiteral = true;
@@ -177,8 +182,7 @@ namespace LASI.Content.FileConverters
                         }
                     }
 
-                    // Store the recent characters for 
-                    // when we have to go back for a checking
+                    // Store the recent characters for when we have to go back for a checking
                     for (var j = 0; j < CHARS_TO_KEEP - 1; j++)
                     {
                         previousCharacters[j] = previousCharacters[j + 1];
@@ -194,13 +198,11 @@ namespace LASI.Content.FileConverters
                 return resultString;
             }
 
-
-
             /// <summary>
             /// Check if a certain 2 character currentCharacterToken just came along (e.g. BT)
             /// </summary>
-            /// <param name="tokens">the searched currentCharacterToken</param>
-            /// <param name="recent">the recent character array</param>
+            /// <param name="tokens">     the searched currentCharacterToken</param>
+            /// <param name="recent">     the recent character array</param>
             /// <param name="charsToKeep"></param>
             /// <returns></returns>
             private bool CheckToken(string[] tokens, char[] recent, int charsToKeep)

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using NFluent;
+using Xunit;
 
 namespace LASI.Utilities.Tests
 {
     using static Enumerable;
-    using Fact = Xunit.FactAttribute;
     public class EnumerableExtensionsTest
     {
         #region Sequence String Formatting Methods
@@ -176,7 +176,6 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void ZipWithHasSameBehaviorAsZip()
         {
-            Func<int, int, int> selector = (x, y) => x + y * y;
             var first = Range(1, 10);
             var second = Range(10, 20);
 
@@ -184,6 +183,8 @@ namespace LASI.Utilities.Tests
             var zipWithed = first.Zip(second).With(selector);
 
             Check.That(expected).ContainsExactly(zipWithed);
+
+            int selector(int x, int y) => x + y * y;
         }
 
         [Fact]
@@ -335,7 +336,13 @@ namespace LASI.Utilities.Tests
         public void AggregateWithIndexSpecifyingSeedPassesCorrectIndexTo()
         {
             var values = Range(1, 10);
-            Check.That(values.Aggregate(string.Empty, (result, n, i) => $"{result}, {i}").TrimStart(',').TrimStart()).IsEqualTo(string.Join(", ", values.Select((n, i) => i)));
+            var actual = values
+                .Aggregate(string.Empty, (result, n, i) => $"{result}, {i}")
+                .TrimStart(',')
+                .TrimStart();
+            var expected = string.Join(", ", values.Select((n, i) => i));
+
+            Check.That(actual).IsEqualTo(expected);
         }
 
         [Fact]

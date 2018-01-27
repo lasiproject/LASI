@@ -1,6 +1,7 @@
 ﻿using LASI.App.Properties;
 using LASI.Content;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Linq;
 using System.Xml.Linq;
@@ -48,8 +49,7 @@ namespace LASI.App
 
         private static void LoadPerformancePreference()
         {
-            Interop.PerformanceProfile performanceProfile;
-            if (Enum.TryParse(Settings.Default.PerformanceLevel, out performanceProfile))
+            if (Enum.TryParse(Settings.Default.PerformanceLevel, out Interop.PerformanceProfile performanceProfile))
             {
                 Interop.ResourceUsageManager.SetPerformanceLevel(performanceProfile);
             }

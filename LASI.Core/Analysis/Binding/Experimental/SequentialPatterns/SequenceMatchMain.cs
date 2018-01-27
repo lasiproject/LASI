@@ -8,7 +8,7 @@ using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
 {
     /// <summary>
-    /// Represents a binding expression applied to a sequence if lexical constructs.
+    /// Represents a binding expression applied to a sequence if lexical constructs. 
     /// </summary>
     public partial class SequenceMatch
     {
@@ -18,16 +18,15 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
 
         internal SequenceMatch(Sentence sentence) : this(sentence.Phrases) { }
 
-        #endregion
+        #endregion Constructors
 
         #region Ignore Clauses
 
         /// <summary>
-        /// Filters elements of the given type out of the sequence before attempting to match any
-        /// subsequent patterns.
+        /// Filters elements of the given type out of the sequence before attempting to match any subsequent patterns. 
         /// </summary>
-        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
-        /// <returns>The SentenceMatch so far.</returns>
+        /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
+        /// <returns> The SentenceMatch so far. </returns>
         public SequenceMatch Ignore<T1>()
             where T1 : class, ILexical
         {
@@ -36,12 +35,11 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any
-        /// subsequent patterns.
+        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns. 
         /// </summary>
-        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
-        /// <typeparam name="T2">The second type of element to filter out.</typeparam>
-        /// <returns>The SentenceMatch so far.</returns>
+        /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
+        /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
+        /// <returns> The SentenceMatch so far. </returns>
         public SequenceMatch Ignore<T1, T2>()
             where T1 : class, ILexical
             where T2 : class, ILexical
@@ -51,13 +49,12 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any
-        /// subsequent patterns.
+        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns. 
         /// </summary>
-        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
-        /// <typeparam name="T2">The second type of element to filter out.</typeparam>
-        /// <typeparam name="T3">The third type of element to filter out.</typeparam>
-        /// <returns>The SentenceMatch so far.</returns>
+        /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
+        /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
+        /// <typeparam name="T3"> The third type of element to filter out. </typeparam>
+        /// <returns> The SentenceMatch so far. </returns>
         public SequenceMatch Ignore<T1, T2, T3>()
             where T1 : class, ILexical
             where T2 : class, ILexical
@@ -68,14 +65,13 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any
-        /// subsequent patterns.
+        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns. 
         /// </summary>
-        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
-        /// <typeparam name="T2">The second type of element to filter out.</typeparam>
-        /// <typeparam name="T3">The third type of element to filter out.</typeparam>
-        /// <typeparam name="T4">The fourth type of element to filter out.</typeparam>
-        /// <returns>The SentenceMatch so far.</returns>
+        /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
+        /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
+        /// <typeparam name="T3"> The third type of element to filter out. </typeparam>
+        /// <typeparam name="T4"> The fourth type of element to filter out. </typeparam>
+        /// <returns> The SentenceMatch so far. </returns>
         public SequenceMatch Ignore<T1, T2, T3, T4>()
             where T1 : class, ILexical
             where T2 : class, ILexical
@@ -87,15 +83,14 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any
-        /// subsequent patterns.
+        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns. 
         /// </summary>
-        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
-        /// <typeparam name="T2">The second type of element to filter out.</typeparam>
-        /// <typeparam name="T3">The third type of element to filter out.</typeparam>
-        /// <typeparam name="T4">The fourth type of element to filter out.</typeparam>
-        /// <typeparam name="T5">The fifth type of element to filter out.</typeparam>
-        /// <returns>The SentenceMatch so far.</returns>
+        /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
+        /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
+        /// <typeparam name="T3"> The third type of element to filter out. </typeparam>
+        /// <typeparam name="T4"> The fourth type of element to filter out. </typeparam>
+        /// <typeparam name="T5"> The fifth type of element to filter out. </typeparam>
+        /// <returns> The SentenceMatch so far. </returns>
         public SequenceMatch Ignore<T1, T2, T3, T4, T5>()
             where T1 : class, ILexical
             where T2 : class, ILexical
@@ -108,11 +103,10 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements matching the supplied predicate out of the sequence before attempting
-        /// to match any subsequent patterns.
+        /// Filters elements matching the supplied predicate out of the sequence before attempting to match any subsequent patterns. 
         /// </summary>
-        /// <param name="predicate">The predicate which selects which elements to filter.</param>
-        /// <returns>The SentenceMatch so far.</returns>
+        /// <param name="predicate"> The predicate which selects which elements to filter. </param>
+        /// <returns> The SentenceMatch so far. </returns>
         public SequenceMatch Ignore(Func<ILexical, bool> predicate)
         {
             predicates.Add(predicate);
@@ -120,11 +114,10 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given type out of the sequence before attempting to match the
-        /// next pattern.
+        /// Filters elements of the given type out of the sequence before attempting to match the next pattern. 
         /// </summary>
-        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
-        /// <returns>The SentenceMatch so far.</returns>
+        /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
+        /// <returns> The SentenceMatch so far. </returns>
         public SequenceMatch IgnoreOnce<T1>()
             where T1 : class, ILexical
         {
@@ -133,12 +126,11 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match the
-        /// next pattern.
+        /// Filters elements of the given types out of the sequence before attempting to match the next pattern. 
         /// </summary>
-        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
-        /// <typeparam name="T2">The second type of element to filter out.</typeparam>
-        /// <returns>The SentenceMatch so far.</returns>
+        /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
+        /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
+        /// <returns> The SentenceMatch so far. </returns>
         public SequenceMatch IgnoreOnce<T1, T2>()
             where T1 : class, ILexical
             where T2 : class, ILexical
@@ -148,13 +140,12 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match the
-        /// next pattern.
+        /// Filters elements of the given types out of the sequence before attempting to match the next pattern. 
         /// </summary>
-        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
-        /// <typeparam name="T2">The second type of element to filter out.</typeparam>
-        /// <typeparam name="T3">The third type of element to filter out.</typeparam>
-        /// <returns>The SentenceMatch so far.</returns>
+        /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
+        /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
+        /// <typeparam name="T3"> The third type of element to filter out. </typeparam>
+        /// <returns> The SentenceMatch so far. </returns>
         public SequenceMatch IgnoreOnce<T1, T2, T3>()
             where T1 : class, ILexical
             where T2 : class, ILexical
@@ -165,14 +156,13 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match the
-        /// next pattern.
+        /// Filters elements of the given types out of the sequence before attempting to match the next pattern. 
         /// </summary>
-        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
-        /// <typeparam name="T2">The second type of element to filter out.</typeparam>
-        /// <typeparam name="T3">The third type of element to filter out.</typeparam>
-        /// <typeparam name="T4">The fourth type of element to filter out.</typeparam>
-        /// <returns>The SentenceMatch so far.</returns>
+        /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
+        /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
+        /// <typeparam name="T3"> The third type of element to filter out. </typeparam>
+        /// <typeparam name="T4"> The fourth type of element to filter out. </typeparam>
+        /// <returns> The SentenceMatch so far. </returns>
         public SequenceMatch IgnoreOnce<T1, T2, T3, T4>()
             where T1 : class, ILexical
             where T2 : class, ILexical
@@ -184,15 +174,14 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match the
-        /// next pattern.
+        /// Filters elements of the given types out of the sequence before attempting to match the next pattern. 
         /// </summary>
-        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
-        /// <typeparam name="T2">The second type of element to filter out.</typeparam>
-        /// <typeparam name="T3">The third type of element to filter out.</typeparam>
-        /// <typeparam name="T4">The fourth type of element to filter out.</typeparam>
-        /// <typeparam name="T5">The fifth type of element to filter out.</typeparam>
-        /// <returns>The SentenceMatch so far.</returns>
+        /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
+        /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
+        /// <typeparam name="T3"> The third type of element to filter out. </typeparam>
+        /// <typeparam name="T4"> The fourth type of element to filter out. </typeparam>
+        /// <typeparam name="T5"> The fifth type of element to filter out. </typeparam>
+        /// <returns> The SentenceMatch so far. </returns>
         public SequenceMatch IgnoreOnce<T1, T2, T3, T4, T5>()
             where T1 : class, ILexical
             where T2 : class, ILexical
@@ -205,11 +194,10 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements matching the specified predicate out of the sequence before attempting
-        /// to match the next pattern.
+        /// Filters elements matching the specified predicate out of the sequence before attempting to match the next pattern. 
         /// </summary>
-        /// <param name="predicate">The predicate to apply to the sequence.</param>
-        /// <returns>The SentenceMatch so far.</returns>
+        /// <param name="predicate"> The predicate to apply to the sequence. </param>
+        /// <returns> The SentenceMatch so far. </returns>
         public SequenceMatch IgnoreOnce(Func<ILexical, bool> predicate)
         {
             checkOncePredicates.Add(predicate);
@@ -220,11 +208,11 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
 
         #region Guard Clauses
 
-        /// <summary>Predicates the next bind on the specified condition.</summary>
-        /// <param name="condition">
-        /// The condition which must be met for the next binding function to be attempted.
-        /// </param>
-        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        /// <summary>
+        /// Predicates the next bind on the specified condition. 
+        /// </summary>
+        /// <param name="condition"> The condition which must be met for the next binding function to be attempted. </param>
+        /// <returns> The SequenceMatch instance representing the binding so far. </returns>
         public SequenceMatch When(bool condition)
         {
             guardSatisfied = condition;
@@ -232,11 +220,11 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
             return this;
         }
 
-        /// <summary>Predicates the next bind on the specified condition.</summary>
-        /// <param name="condition">
-        /// The condition which must be met for the next binding function to be attempted.
-        /// </param>
-        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        /// <summary>
+        /// Predicates the next bind on the specified condition. 
+        /// </summary>
+        /// <param name="condition"> The condition which must be met for the next binding function to be attempted. </param>
+        /// <returns> The SequenceMatch instance representing the binding so far. </returns>
         public SequenceMatch When(Func<bool> condition)
         {
             guardSatisfied = condition();
@@ -257,9 +245,11 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
 
         #endregion Guard Clauses
 
-        /// <summary>Set the continuation mode of the SequenceMatch.</summary>
-        /// <param name="mode">The continuation mode to set.</param>
-        /// <returns>The SentenceMatch so far.</returns>
+        /// <summary>
+        /// Set the continuation mode of the SequenceMatch. 
+        /// </summary>
+        /// <param name="mode"> The continuation mode to set. </param>
+        /// <returns> The SentenceMatch so far. </returns>
         public SequenceMatch WithContinuationMode(ContinuationMode mode)
         {
             continuationMode = mode;
@@ -267,23 +257,22 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Appends a log action to the <see cref="SequenceMatch"/>.
+        /// Appends a log action to the <see cref="SequenceMatch"/>. 
         /// </summary>
-        /// <param name="log">The log action.</param>
-        /// <returns>The <see cref="SequenceMatch"/>.</returns>
+        /// <param name="log"> The log action. </param>
+        /// <returns> The <see cref="SequenceMatch"/>. </returns>
         public SequenceMatch AddLogger(Action<object> log)
         {
             this.log += message => log(message);
             return this;
         }
 
-
         #region Private fields and properties
 
         private Action<string> log = delegate { };
 
         /// <summary>
-        /// Gets or sets the value indicating whether or not the a pattern has been matched.
+        /// Gets or sets the value indicating whether or not the a pattern has been matched. 
         /// </summary>
         /// <returns></returns>
         protected bool Accepted { get; set; }
@@ -316,8 +305,7 @@ namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
         private IReadOnlyList<ILexical> SequenceFilteredByCurrentPredicates => FilterByCurrentPredicates(Sequence);
 
         /// <summary>
-        /// <c>true</c> if all guards have been satisfied or there are no applicable guards;
-        /// otherwise, <c>false</c>.
+        /// <c> true </c> if all guards have been satisfied or there are no applicable guards; otherwise, <c> false </c>. 
         /// </summary>
         private bool ApplicableGuardsSatisfied => guarded && guardSatisfied || !guarded;
 

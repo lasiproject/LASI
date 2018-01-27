@@ -10,9 +10,9 @@ namespace LASI.Utilities
         /// <summary>
         /// A <see cref="TextWriter"/> which delegates to the debug output of a supporting IDE.
         /// </summary>
-        private sealed class DebugOutputProxy : TextWriter
+        sealed class DebugOutputProxy : TextWriter
         {
-            private DebugOutputProxy() { }
+            DebugOutputProxy() { }
             internal static readonly DebugOutputProxy Instance = new DebugOutputProxy();
             public override void Write(bool value) { Debug.Write(value); }
             public override void Write(char value) { Debug.Write(value); }

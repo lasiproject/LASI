@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using LASI.Core.Heuristics;
@@ -24,15 +23,12 @@ namespace LASI.Core
             var constituentVerbForms = from verb in Words.OfVerb()
                                        let typeName = verb.GetType().Name
                                        group typeName by typeName into byTypeName
-                                       select new
-                                       {
-                                           Name = byTypeName.Key,
-                                           Count = byTypeName.Count()
-                                       };
+                                       let count = byTypeName.Count()
+                                       select (byTypeName.Key, count);
 
             PrevailingForm = constituentVerbForms
-                .DefaultIfEmpty(new { Name = "Undetermined", Count = 1 })
-                .MaxBy(form => form.Count).Name;
+                .DefaultIfEmpty((Key: "Undetermined", count: 1))
+                .MaxBy(form => form.count).Key;
 
             modifiers = modifiers.Union(words.OfAdverb());
         }

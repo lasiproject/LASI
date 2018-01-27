@@ -10,8 +10,8 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
     {
         private readonly Lazy<bool> condition;
 
-        public WhenPredicate(bool condition) { this.condition = new Lazy<bool>(() => condition); }
-        public WhenPredicate(Func<bool> condition) { this.condition = new Lazy<bool>(() => condition()); }
+        public WhenPredicate(bool condition) => this.condition = new Lazy<bool>(() => condition);
+        public WhenPredicate(Func<bool> condition) => this.condition = new Lazy<bool>(() => condition());
         public override bool Satifies<TLexical>(TLexical element) => condition.Value;
         protected override Func<bool> ToFunc(ILexical element) => () => condition.Value;
     }

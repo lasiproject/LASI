@@ -18,7 +18,11 @@ namespace LASI.Content.Tests
         public DocToDocXConverterTest() : base("Draft_Environmental_Assessment.doc") { }
 
         protected sealed override Func<string, DocFile> SourceFactory => path => new DocFile(path);
+        [Fact]
+        public void SomeTest()
+        {
 
+        }
         /// <summary>
         ///A test for DocToDocXConverter Constructor
         /// </summary>
@@ -60,7 +64,7 @@ namespace LASI.Content.Tests
         ///A test for ConvertFileAsync
         /// </summary>
         [Fact]
-        public async Task ConvertFileAsyncTest()
+        public async Task ConvertFileAsyncCreatesOutputInTheExpectedLocation()
         {
             var infile = Input;
             var target = new DocToDocXConverter(infile);

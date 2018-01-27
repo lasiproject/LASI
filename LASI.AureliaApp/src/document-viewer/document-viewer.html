@@ -1,0 +1,17 @@
+﻿<template>
+  <require from="./paragraph.html"></require>
+
+  <aurelia-typeahead typeahead-options.bind="typeaheadOptions" basic-source.bind="typeAheadSource"
+    placeholder="enter lifted search" value.bind="searchTerm" change.trigger="queryTypeAhead($event, search)">
+  </aurelia-typeahead>
+
+  <div class="${document && document.style.cssClass}">
+
+    <div>title: ${document && document.title}</div>
+    <div>
+      <div repeat.for="paragraph of document && document.paragraphs || []">
+        <paragraph parent-id.bind="document.id" paragraph.bind="paragraph"></paragraph>
+      </div>
+    </div>
+  </div>
+</template>
