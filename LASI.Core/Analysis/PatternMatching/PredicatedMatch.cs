@@ -64,7 +64,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// over is of this type.
         /// </typeparam>
         /// <typeparam name="TResult">
-        /// The Type of the result to be yielded by the Pattern Matching expression. 
+        /// The Type of the result to be yielded by the Pattern Matching expression.
         /// </typeparam>
         /// <param name="f">The Action which, if this Case expression is Matched, will be invoked.</param>
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
@@ -93,7 +93,7 @@ namespace LASI.Core.Analysis.PatternMatching
 
         public Match<T, TResult> Then<TResult>(Func<TResult> f) => Accepted ? expression.Yield<TResult>().Case(f) : expression.Yield<TResult>();
 
-        public Match<T, TResult> Then<TResult>(TResult value) => Accepted ? expression.Yield<TResult>().Case(value) : expression.Yield<TResult>();
+        public Match<T, TResult> Then<TResult>(TResult value) => Accepted ? expression.Yield<TResult>().Case(() => value) : expression.Yield<TResult>();
 
         #region Fields
 
