@@ -77,7 +77,7 @@ namespace LASI.Core.Analysis.PatternMatching
 
         public Match<T, TResult> Then<TResult>(Func<TResult> f) => Accepted ? expression.Case(f) : expression;
 
-        public Match<T, TResult> Then<TResult>(TResult value) => Accepted ? expression.Yield<TResult>().Case(value) : expression;
+        public Match<T, TResult> Then<TResult>(TResult value) => Accepted ? expression.Yield<TResult>().Case(() => value) : expression;
 
         #region Fields
 

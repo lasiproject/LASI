@@ -134,24 +134,13 @@ namespace LASI.Core
         /// <param name="source">the Document whose noun weights may be modified</param>
         static void WeightSimilarNouns(IReifiedTextual source)
         {
-            //var toConsider = from e in source.Words
-            //                     //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-            //                     .OfEntity()
-            //                     .InSubjectOrObjectRole(s => s.Match()
-            //                         .When((IReferencer r) => r.RefersTo != null)
-            //                         .Then(r => r != null)
-            //                         .Case((IEntity x) => x != null)) //Currently, include only those nouns which exist in relationships with some IVerbal or IReferencer.
-            //                 select e.Match()
-            //                     .Case((IReferencer r) => r.RefersTo)
-            //                     .Result(x => x);
-
             var toConsider = from e in source.Words
-                     //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                     .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                      .OfEntity()
                      .InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IReferencer.
                              select e.Match()
                                  .When((IReferencer r) => r.RefersTo != null)
-                                 .Then(r => r.RefersTo)
+                                 .Then((IReferencer r) => r.RefersTo)
                                  .Case((IEntity x) => new AggregateEntity(x)).Result()
                              into y
                              where y != null

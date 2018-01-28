@@ -139,12 +139,13 @@ namespace LASI.App
             Phrase.VerboseOutput = true;
             Word.VerboseOutput = true;
             var panel = new WrapPanel();
-            var phrases = from page in document.Paginate(80, 20)
-                          where page.Paragraphs.PercentWhere(p => !p.Text.IsNullOrWhiteSpace()) < 50
-                          from phrase in page.Phrases
-                          select phrase;
-
-
+            var phrases = document
+                     .Paginate(80, 20)
+                     .Where(page => page.Paragraphs.PercentWhere(p => !p.Text.IsNullOrWhiteSpace()) < 50)
+                     .Take(10)
+                     .Select(page => page.Sentences)
+                     .DefaultIfEmpty(document.Sentences)
+                     .SelectMany(sentence => sentence.Phrases());
             var colorizer = new SyntacticColorMapping();
             var flowDocument = new FlowDocument();
 
@@ -155,21 +156,17 @@ namespace LASI.App
                                         Tag = phrase,
                                         Foreground = colorizer[phrase],
                                         Background = Brushes.White,
+                                        ToolTip = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format((' ', '\n', ' '))
                                     }).ToList();
 
 
 
             foreach (var run in documentContents)
             {
-                run.ToolTipOpening += (s, e) =>
-                {
-                    run.ToolTip = run.Tag.ToString().SplitRemoveEmpty('\n', '\r').Format((' ', '\n', ' '));
-
-                };
                 LexicalContextMenu.ContextMenu(run, documentContents);
             }
             var flowDocumentParagraph = new System.Windows.Documents.Paragraph();
-            flowDocumentParagraph.Inlines.AddRange(documentContents.SelectMany(runWithTrivia));
+            flowDocumentParagraph.Inlines.AddRange(documentContents.SelectMany(runWithTrivia).ToArray());
 
             IEnumerable<Run> runWithTrivia(Run run)
             {
