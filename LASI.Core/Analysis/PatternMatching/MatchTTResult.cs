@@ -214,7 +214,6 @@ namespace LASI.Core.Analysis.PatternMatching
 
                 public Match<T, TResult> Case(Func<TResult> func) => Case<T>(func);
 
-                public Match<T, TResult> Case(TResult result) => Case<T>(result);
 
                 #endregion Case Expressions
 

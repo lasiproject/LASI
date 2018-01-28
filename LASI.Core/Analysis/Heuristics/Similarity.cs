@@ -145,9 +145,6 @@ namespace LASI.Core
         /// </returns>
         public static implicit operator double(Similarity sr) => sr.Ratio;
 
-        public static bool operator true(Similarity sr) => sr;
-        public static bool operator false(Similarity sr) => sr;
-
         #endregion Implcit Conversion Operators
 
         #region Comparison Operators
