@@ -87,7 +87,7 @@ namespace LASI.WebService
                 .UseAuthentication()
                 .UseSignalR(options =>
                 {
-                    options.MapHub<JwtBroadcaster>("/broadcast");
+                    options.MapHub<JwtBroadcaster>("broadcast");
                 })
                 .UseMvc(routes =>
                 {
