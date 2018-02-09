@@ -11,25 +11,22 @@ namespace LASI.Core
     {
         public NameProvider()
         {
-            var fileData = Task
-                .Run(async () => new
-                {
-                    FemaleNames = await ReadLinesAsync(Paths.Names.Female),
-                    MaleNames = await ReadLinesAsync(Paths.Names.Male),
-                    LastNames = await ReadLinesAsync(Paths.Names.Last)
-                })
-                .GetAwaiter()
-                .GetResult();
+            var fileData = Task.Run(async () => new
+            {
+                FemaleNames = await ReadLinesAsync(Paths.Names.Female),
+                MaleNames = await ReadLinesAsync(Paths.Names.Male),
+                LastNames = await ReadLinesAsync(Paths.Names.Last)
+            }).Result;
             FemaleNames = fileData.FemaleNames;
             MaleNames = fileData.MaleNames;
             GenderAmbiguousNames = MaleNames.Intersect(FemaleNames).WithComparer(OrdinalIgnoreCase);
             LastNames = fileData.LastNames;
 
             var stratified =
-                from m in MaleNames.Select((name, i) => (rank: (double)i / MaleNames.Count, name))
-                join f in FemaleNames.Select((name, i) => (rank: (double)i / FemaleNames.Count, name))
-                on m.name equals f.name
-                group f.name by f.rank / m.rank > 1 ? 'F' : m.rank / f.rank > 1 ? 'M' : 'U';
+                from m in MaleNames.Select((name, i) => new { Rank = (double)i / MaleNames.Count, Name = name })
+                join f in FemaleNames.Select((name, i) => new { Rank = (double)i / FemaleNames.Count, Name = name })
+                on m.Name equals f.Name
+                group f.Name by f.Rank / m.Rank > 1 ? 'F' : m.Rank / f.Rank > 1 ? 'M' : 'U';
             var byLikelyGender = stratified.ToDictionary(strata => strata.Key);
 
             MaleNames = MaleNames.Except(byLikelyGender['F']);
