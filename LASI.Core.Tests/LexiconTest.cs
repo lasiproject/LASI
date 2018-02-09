@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using LASI.Core.Heuristics;
 using NFluent;
 using Fact = Xunit.FactAttribute;
 

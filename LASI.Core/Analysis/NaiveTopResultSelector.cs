@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using LASI.Core.Heuristics;
 using LASI.Utilities;
 using LASI.Core.Configuration;
-using LASI.Core.Analysis.Heuristics.Support;
+using LASI.Core.Heuristics.Heuristics.Support;
 
-namespace LASI.Core.Analysis.Heuristics
+namespace LASI.Core.Heuristics.Heuristics
 {
     /// <summary>
     /// Contains methods which compute and yield the top results from a document based on simple, naive heuristics.

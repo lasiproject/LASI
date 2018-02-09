@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using LASI.Core.Heuristics;
 using LASI.Utilities;
 using static System.Linq.Enumerable;
 
@@ -29,7 +30,7 @@ namespace LASI.Core.Heuristics
                 && aliases.Contains(possibleAlias.Text);
         }
         /// <summary>
-        /// Establishes that the given Entity has a the given textual alias. 
+        /// Establishes that the given Entity has a the given textual alias.
         /// </summary>
         /// <param name="entity">The Entity to register an alias for</param>
         /// <param name="textualAlias">The textual alias which will be registered</param>
@@ -38,7 +39,7 @@ namespace LASI.Core.Heuristics
             DefineAliasesImplementation(entity.Text, textualAlias);
         }
         /// <summary>
-        /// Establishes that one Entity is an alias for the end. 
+        /// Establishes that one Entity is an alias for the end.
         /// </summary>
         /// <param name="entity">The first Entity</param>
         /// <param name="other">The second Entity</param>
@@ -47,7 +48,7 @@ namespace LASI.Core.Heuristics
             DefineAliasesImplementation(entity.Text, other.Text);
         }
         /// <summary>
-        /// Establishes that one Entity is an alias for the end. 
+        /// Establishes that one Entity is an alias for the end.
         /// </summary>
         /// <param name="entityText">The first Entity</param>
         /// <param name="aliasText">The second Entity</param>
@@ -95,10 +96,9 @@ namespace LASI.Core.Heuristics
                 .Result()))
             .Result(Empty<string>());
 
-        private static IEnumerable<string> DefineAliases(NounPhrase nounPhrase) =>
-            nounPhrase.Words.OfNoun().Count() == 1 && !nounPhrase.Words.Any(w => w is ProperNoun) ?
-            Lexicon.GetSynonyms(nounPhrase.Words.OfNoun().First()) :
-            Empty<string>();
+        private static IEnumerable<string> DefineAliases(NounPhrase nounPhrase) => nounPhrase.Words.OfNoun().Count() == 1 && !nounPhrase.Words.Any(w => w is ProperNoun)
+            ? nounPhrase.Words.OfNoun().First().GetSynonyms()
+            : Empty<string>();
 
         private static ConcurrentDictionary<IEntity, ISet<IEntity>> aliasedEntityReferenceMap = new ConcurrentDictionary<IEntity, ISet<IEntity>>();
         private static ConcurrentDictionary<string, ISet<string>> aliasDictionary = new ConcurrentDictionary<string, ISet<string>>();

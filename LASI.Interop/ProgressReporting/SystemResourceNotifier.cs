@@ -1,6 +1,6 @@
 ﻿namespace LASI.Interop.ProgressReporting.Basis
 {
-    using Lexicon = LASI.Core.Lexicon;
+    using LASI.Core.Heuristics;
     using ResourceLoadEventArgs = LASI.Core.ResourceLoadEventArgs;
 
     /// <summary>

@@ -4,7 +4,7 @@ using LASI.Utilities;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 using static System.StringComparison;
 
-namespace LASI.Core.Analysis.Heuristics.WordMorphing
+namespace LASI.Core.Heuristics.Heuristics.WordMorphing
 {
     /// <summary>Performs both noun root extraction and noun form generation.</summary>
     public class NounMorpher : IWordMorpher<Noun>

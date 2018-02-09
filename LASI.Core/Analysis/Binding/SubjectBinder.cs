@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LASI.Core.Analysis.Binding
+namespace LASI.Core.Heuristics.Binding
 {
     /// <summary>
     /// Establishes bindings between verbals and their subjects at the Phrase level.

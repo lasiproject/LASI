@@ -9,12 +9,12 @@ namespace LASI.Core.Heuristics.WordNet
 {
     using System.Collections.Immutable;
     using System.Reactive.Linq;
-    using Analysis.Heuristics.WordMorphing;
     using Configuration;
     using static Enumerable;
     using EventArgs = ResourceLoadEventArgs;
     using LinkType = VerbLink;
     using SetReference = KeyValuePair<VerbLink, int>;
+    using LASI.Core.Heuristics.Heuristics.WordMorphing;
 
     internal sealed class VerbLookup : WordNetLookup<Verb>
     {
@@ -29,18 +29,18 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         internal override void Load()
         {
-            OnReport(new EventArgs("Parsing File", 0));
-            OnReport(new EventArgs("Mapping Verb Sets", 0));
+            OnReport(new EventArgs("Parsing File", 0, 0));
+            OnReport(new EventArgs("Mapping Verb Sets", 0, 0));
             foreach (var (line, index) in LoadData())
             {
                 var set = CreateSet(line);
                 LinkSynset(set);
                 if (index % ProgressModulus == 0)
                 {
-                    OnReport(new EventArgs(string.Format(ProgressFormat, index), ProgressAmmount));
+                    OnReport(new EventArgs(string.Format(ProgressFormat, index), ProgressAmmount, 0));
                 }
             }
-            OnReport(new EventArgs("Mapped Verb Sets", 1));
+            OnReport(new EventArgs("Mapped Verb Sets", 1, 0));
         }
 
         private IEnumerable<(string line, int index)> LoadData()

@@ -1,10 +1,10 @@
 ﻿using System;
-using LASI.Core.Analysis.Heuristics.WordMorphing;
+using LASI.Core.Heuristics.Heuristics.WordMorphing;
 using System.Linq;
 using NFluent;
 using Xunit;
 
-namespace LASI.Core.Analysis.Heuristics.WordMorphing.Tests
+namespace LASI.Core.Heuristics.Heuristics.WordMorphing.Tests
 {
     public class AdjectiveMorpherTest
     {

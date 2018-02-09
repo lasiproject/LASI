@@ -120,16 +120,19 @@
       <DependentUpon>ObjectBinderV2.cs</DependentUpon>
     </Compile>
     <Compile Include="Analysis\Binding\VerblessPhrasalSequenceException.cs" />
-    <Compile Include="Analysis\Heuristics\Paths.cs" />
-    <Compile Include="Analysis\Heuristics\NameProvider.cs" />
-    <Compile Include="Analysis\Heuristics\Similarity.cs" />
-    <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\AdjectiveCategory.cs" />
-    <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\AdverbCategory.cs" />
-    <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\NounCategory.cs" />
-    <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\VerbCategory.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphing\AdjectiveMorpher.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphing\IWordMorpher.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphing\WordNetExceptionDataManager.cs" />
+    <Compile Include="Analysis\DescriptorSimilarityExtensions.cs" />
+    <Compile Include="Analysis\EntitySimilarityExtensions.cs" />
+    <Compile Include="Analysis\GenderExtensions.cs" />
+    <Compile Include="Analysis\Paths.cs" />
+    <Compile Include="Analysis\NameProvider.cs" />
+    <Compile Include="Analysis\Similarity.cs" />
+    <Compile Include="Analysis\SyntacticCategorical\CategoricalEnumerations\AdjectiveCategory.cs" />
+    <Compile Include="Analysis\SyntacticCategorical\CategoricalEnumerations\AdverbCategory.cs" />
+    <Compile Include="Analysis\SyntacticCategorical\CategoricalEnumerations\NounCategory.cs" />
+    <Compile Include="Analysis\SyntacticCategorical\CategoricalEnumerations\VerbCategory.cs" />
+    <Compile Include="Analysis\WordMorphing\AdjectiveMorpher.cs" />
+    <Compile Include="Analysis\WordMorphing\IWordMorpher.cs" />
+    <Compile Include="Analysis\WordMorphing\WordNetExceptionDataManager.cs" />
     <Compile Include="Analysis\Melding\LiftedEntity.cs" />
     <Compile Include="Analysis\Melding\MeldingExtensions.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\Applicator.cs" />
@@ -154,7 +157,7 @@
     <Compile Include="Analysis\RelationshipLookups\Helpers\ActionsRelatedOn.cs" />
     <Compile Include="Analysis\RelationshipLookups\Helpers\IActionReceiverPair.cs" />
     <Compile Include="Analysis\RelationshipLookups\RelationshipLookupExtensions.cs" />
-    <Compile Include="Analysis\Heuristics\NaiveTopResultSelector.cs" />
+    <Compile Include="Analysis\NaiveTopResultSelector.cs" />
     <Compile Include="Analysis\Binding\PreBinder.cs" />
     <Compile Include="Analysis\Binding\ScopedAliasMap.cs" />
     <Compile Include="Analysis\Binding\AdaptivePronounBinder.cs" />
@@ -187,15 +190,13 @@
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\DoubleQuote.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfIPronounExtensions.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\Gender.cs" />
-    <Compile Include="Analysis\Heuristics\CrossDocumentJoiner.cs" />
-    <Compile Include="Analysis\Heuristics\Support\SvoRelationship.cs" />
+    <Compile Include="Analysis\CrossDocumentJoiner.cs" />
+    <Compile Include="Analysis\Support\SvoRelationship.cs" />
     <Compile Include="Configuration\ReportEventArgs.cs" />
-    <Compile Include="Analysis\Heuristics\AdverbialSimilarityProvider.cs" />
-    <Compile Include="Analysis\Heuristics\ResourceLoadEventArgs.cs" />
-    <Compile Include="Analysis\Heuristics\VerbalSimilarityProvider.cs" />
-    <Compile Include="Analysis\Heuristics\EntitySimilarityProvider.cs" />
-    <Compile Include="Analysis\Heuristics\DescriptorSimilarityProvider.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphing\AdverbMorpher.cs" />
+    <Compile Include="Analysis\AdverbialSimilarityProvider.cs" />
+    <Compile Include="Analysis\ResourceLoadEventArgs.cs" />
+    <Compile Include="Analysis\VerbalSimilarityProvider.cs" />
+    <Compile Include="Analysis\WordMorphing\AdverbMorpher.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
     <Compile Include="LexicalStructures\AttributiveConstructs\IAttributable.cs" />
@@ -203,7 +204,7 @@
     <Compile Include="Analysis\PatternMatching\MatchTTResult.cs" />
     <Compile Include="Analysis\PatternMatching\MatchExtensions.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
-    <Compile Include="Analysis\Heuristics\EntityClassificationExtensions.cs" />
+    <Compile Include="Analysis\EntityClassificationExtensions.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfRecursiveEnumerableLexicalsExtenstions.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
     <Compile Include="Analysis\RelationshipLookups\Helpers\ActionReceiverPair.cs" />
@@ -250,10 +251,10 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\IDescriptor.cs" />
     <Compile Include="LexicalStructures\BehavioralConstructs\IPossessable.cs" />
     <Compile Include="LexicalStructures\BehavioralConstructs\IPossessor.cs" />
-    <Compile Include="Analysis\Heuristics\Support\LexicalComparers.cs" />
-    <Compile Include="Analysis\Heuristics\SyntacticCategorical\AdjectiveLookup.cs" />
-    <Compile Include="Analysis\Heuristics\SyntacticCategorical\AdverbLookup.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphing\NounMorpher.cs" />
+    <Compile Include="Analysis\Support\LexicalComparers.cs" />
+    <Compile Include="Analysis\SyntacticCategorical\AdjectiveLookup.cs" />
+    <Compile Include="Analysis\SyntacticCategorical\AdverbLookup.cs" />
+    <Compile Include="Analysis\WordMorphing\NounMorpher.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\CommonNoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ProperNoun.cs" />
@@ -268,9 +269,8 @@
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\ComparativeAdjective.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\SuperlativeAdjective.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\PossessiveEnding.cs" />
-    <Compile Include="Analysis\Heuristics\SyntacticCategorical\NounLookup.cs" />
-    <Compile Include="Analysis\Heuristics\SyntacticCategorical\Support\Synset.cs" />
-    <Compile Include="Analysis\Heuristics\Lexicon.cs" />
+    <Compile Include="Analysis\SyntacticCategorical\NounLookup.cs" />
+    <Compile Include="Analysis\SyntacticCategorical\Support\Synset.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\Adjective.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\AdjectivePhrase.cs" />
     <Compile Include="LexicalStructures\AdverbRelatedConstructs\Adverb.cs" />
@@ -305,7 +305,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\PersonalPronoun.cs" />
     <Compile Include="LexicalStructures\AdverbRelatedConstructs\SuperlativeAdverb.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\Symbol.cs" />
-    <Compile Include="Analysis\Heuristics\SyntacticCategorical\WordNetLookup.cs" />
+    <Compile Include="Analysis\SyntacticCategorical\WordNetLookup.cs" />
     <Compile Include="LexicalStructures\BehavioralConstructs\IVerbal.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\Noun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\NounPhrase.cs" />
@@ -315,30 +315,31 @@
     <Compile Include="LexicalStructures\BridgingConstructs\PrepositionalPhrase.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\Pronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ProperSingularNoun.cs" />
+    <Compile Include="Lexicon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ToLinker.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphing\VerbMorpher.cs" />
-    <Compile Include="Analysis\Heuristics\SyntacticCategorical\VerbLookup.cs" />
+    <Compile Include="Analysis\WordMorphing\VerbMorpher.cs" />
+    <Compile Include="Analysis\SyntacticCategorical\VerbLookup.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\Verb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfIVerbalExtensions.cs" />
     <Compile Include="LexicalStructures\Structural\Word.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfWordExtensions.cs" />
-    <Compile Include="Analysis\Heuristics\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs" />
+    <Compile Include="Analysis\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\ThirdPersonSingularPresentVerb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\PhraseExtensions.cs" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
-    <None Include="ClassDiagram3.cd" />
-    <None Include="ClassDiagram4.cd" />
-    <None Include="ClassDiagram6.cd" />
-    <None Include="ClassDiagram8.cd" />
-    <None Include="ClassDiagram9.cd" />
+    <None Include="Diagrams\ClassDiagram1.cd" />
+    <None Include="Diagrams\ClassDiagram2.cd" />
+    <None Include="Diagrams\ClassDiagram3.cd" />
+    <None Include="Diagrams\ClassDiagram4.cd" />
+    <None Include="Diagrams\ClassDiagram6.cd" />
+    <None Include="Diagrams\ClassDiagram8.cd" />
+    <None Include="Diagrams\ClassDiagram9.cd" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
     <Compile Include="DocumentStructures\TextualEnumerable.cs" />
-    <None Include="PrimarySyntacticRoleInterfaces.cd" />
+    <None Include="Diagrams\PrimarySyntacticRoleInterfaces.cd" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -369,7 +370,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Analysis\Heuristics\Support\KnownSubordinators.txt" />
+    <Content Include="Analysis\Support\KnownSubordinators.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Analysis\Heuristics\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

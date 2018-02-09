@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termification
+namespace LASI.Core.Heuristics.PatternMatching.LexicalSpecific.Experimental.Termification
 {
     static class Tests
     {

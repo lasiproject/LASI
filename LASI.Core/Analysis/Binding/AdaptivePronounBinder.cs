@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LASI.Core.Heuristics;
 using LASI.Utilities;
 using static System.Linq.Enumerable;
 

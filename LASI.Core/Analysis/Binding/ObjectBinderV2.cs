@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Core.Analysis.Binding.Experimental.SequentialPatterns;
+using LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns;
 using LASI.Core.Configuration;
 
-namespace LASI.Core.Analysis.Binding
+namespace LASI.Core.Heuristics.Binding
 {
     internal class ObjectBinderV2
     {

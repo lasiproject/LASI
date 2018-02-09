@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using LASI.Core.Analysis.Heuristics.WordMorphing;
+using LASI.Core.Heuristics.Heuristics.WordMorphing;
 using LASI.Utilities;
 using Xunit;
 
-namespace LASI.Core.Analysis.WordMorphing.Tests
+namespace LASI.Core.Heuristics.WordMorphing.Tests
 {
     /// <summary>
     ///This is A test class for VerbConjugatorTest and is intended

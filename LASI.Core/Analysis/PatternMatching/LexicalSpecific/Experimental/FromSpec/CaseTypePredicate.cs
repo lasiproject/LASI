@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSpec
+namespace LASI.Core.Heuristics.PatternMatching.LexicalSpecific.Experimental.FromSpec
 {
     class CaseTypePredicate<TX, T> : Predicate<T> where T : class, ILexical where TX : class, T
     {

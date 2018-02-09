@@ -378,24 +378,6 @@ namespace LASI.Utilities.Tests
         }
 
         [Fact]
-        public void IdentityTest()
-        {
-            IdentityTestHelper<object>();
-            IdentityTestHelper<int>();
-            IdentityTestHelper<int?>();
-        }
-        /// <summary>
-        ///A test for Identity
-        /// </summary>
-        static void IdentityTestHelper<T>() where T : new()
-        {
-            var target = new T();
-            var expected = target;
-            var actual = Identity(target);
-            Check.That(actual).IsEqualTo(expected);
-        }
-
-        [Fact]
         public void WithTimerOfArity0FunctionStopsAndStartsTimerAppropriately()
         {
             var synthesizedWaitInMs = 0;
@@ -420,9 +402,8 @@ namespace LASI.Utilities.Tests
                 Sleep(synthesizedWaitInMs);
                 return new Complex(data.Imaginary, data.Real);
             };
-            System.Diagnostics.Stopwatch sw;
 
-            var computeWithTimer = compute.WithTimer(out sw);
+            var (computeWithTimer, sw) = compute.WithTimer();
             Check.That(sw.IsRunning).IsFalse();
             computeWithTimer(new Complex(2, 2));
             Check.That(sw.IsRunning).IsFalse();
@@ -438,9 +419,8 @@ namespace LASI.Utilities.Tests
                 Sleep(synthesizedWaitInMs);
                 result = new Complex(1, -1);
             };
-            System.Diagnostics.Stopwatch sw;
 
-            var computeWithTimer = compute.WithTimer(out sw);
+            var (computeWithTimer, sw) = compute.WithTimer();
             Check.That(sw.IsRunning).IsFalse();
             computeWithTimer();
             Check.That(sw.IsRunning).IsFalse();

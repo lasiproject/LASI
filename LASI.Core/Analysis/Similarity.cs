@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LASI.Core
+namespace LASI.Core.Heuristics
 {
     /// <summary>
     /// Encapsulates multiple pieces of information gathered during a similarity comparison into a light weight type.

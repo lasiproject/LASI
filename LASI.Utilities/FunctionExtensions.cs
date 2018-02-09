@@ -739,66 +739,62 @@ namespace LASI.Utilities
         #endregion Partial Application
 
         /// <summary>
-        /// Performs an identity projection on the value, returning it.
-        /// </summary>
-        /// <typeparam name="T">The type of the value.</typeparam>
-        /// <param name="value">The value to project.</param>
-        /// <returns>The value.</returns>
-        public static T Identity<T>(T value) => value;
-
-        /// <summary>
         /// and sets up an invocation context such that after a call to <paramref name="time"/> it will track the elapsed execution time.
         /// </summary>
         /// <typeparam name="TResult">The type of the value returned by the function.</typeparam>
         /// <param name="time">the function to time.</param>
         /// <returns>
-        /// A function which will invoke the specified function and reveal elapsed execution time by way of a <see cref="Stopwatch"/>.
+        /// A (<see cref="Func{TResult}"/>, <see cref="Stopwatch"/>) which will invoke the specified function and reveal elapsed execution.
         /// </returns>
         public static (Func<TResult> timed, Stopwatch timer) WithTimer<TResult>(this Func<TResult> time)
         {
             var timer = new Stopwatch();
-            TResult timed()
+
+            return (() =>
             {
                 timer.Start();
                 var result = time();
                 timer.Stop();
                 return result;
             }
-
-            return (timed, timer);
+            , timer);
         }
+
+        public static (Func<TResult> timed, Stopwatch timer) Time<TResult>(Func<TResult> f) => f.WithTimer();
+        public static (Action timed, Stopwatch timer) Time(Action a) => a.WithTimer();
+
         /// <summary>
-        /// Binds a new <see cref="System.Diagnostics.Stopwatch"/>to <paramref name="stopwatch"/>
         /// and sets up an invocation context such that after a call to <paramref name="function"/> it will track the elapsed execution time.
         /// </summary>
         /// <typeparam name="T">The type of argument of the function.</typeparam>
         /// <typeparam name="TResult">The type of the value returned by the function</typeparam>
         /// <param name="function">the function to time.</param>
-        /// <param name="stopwatch">The stopwatch reference which will be bound.</param>
-        /// <returns>A function which will invoke the specified function and reveal elapsed execution time by way of <paramref name="stopwatch"/>.</returns>
-        public static Func<T, TResult> WithTimer<T, TResult>(this Func<T, TResult> function, out System.Diagnostics.Stopwatch stopwatch)
+        /// <returns>
+        /// A (<see cref="Func{T, TResult}"/>, <see cref="Stopwatch"/>) which will invoke the specified function and reveal elapsed execution.
+        /// </returns>
+        public static (Func<T, TResult> timed, Stopwatch stopwatch) WithTimer<T, TResult>(this Func<T, TResult> function)
         {
-            var proxy = new System.Diagnostics.Stopwatch();
-            stopwatch = proxy;
-            return x =>
+            var stopwatch = new System.Diagnostics.Stopwatch();
+            return (x =>
             {
-                proxy.Start();
+                stopwatch.Start();
                 var result = function(x);
-                proxy.Stop();
+                stopwatch.Stop();
                 return result;
-            };
+            }
+            , stopwatch);
         }
 
-        public static Action WithTimer(this Action action, out System.Diagnostics.Stopwatch stopwatch)
+        public static (Action timed, Stopwatch timer) WithTimer(this Action action)
         {
-            var proxy = new System.Diagnostics.Stopwatch();
-            stopwatch = proxy;
-            return () =>
+            var timer = new Stopwatch();
+            return (() =>
             {
-                proxy.Start();
+                timer.Start();
                 action();
-                proxy.Stop();
-            };
+                timer.Stop();
+            }
+            , timer);
         }
     }
     #endregion

@@ -7,8 +7,8 @@ using LASI.Utilities;
 namespace LASI.Core
 {
     /// <summary>
-    /// <para> Represents a preposition such as "below", "atop", "into", "through", "by","via", "but", or "for". </para> 
-    /// <para> Example: The duplicitous blue bird, via its treacherous machinations, betrayed the ardent, hard-working dog. </para> 
+    /// <para> Represents a preposition such as "below", "atop", "into", "through", "by","via", "but", or "for". </para>
+    /// <para> Example: The duplicitous blue bird, via its treacherous machinations, betrayed the ardent, hard-working dog. </para>
     /// </summary>
     public class Preposition : Word, IPrepositional
     {
@@ -36,7 +36,7 @@ namespace LASI.Core
         #region Methods
 
         /// <summary>
-        /// Binds an ILexical construct as the object of the Preposition. 
+        /// Binds an ILexical construct as the object of the Preposition.
         /// Lexical constructs include word, Phrase, and Clause Types.
         /// </summary>
         /// <param name="prepositionalObject">The ILexical construct as the object of the Preposition.</param>

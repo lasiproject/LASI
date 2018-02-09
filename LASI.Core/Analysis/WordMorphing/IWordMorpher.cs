@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace LASI.Core.Analysis.Heuristics.WordMorphing
+namespace LASI.Core.Heuristics.Heuristics.WordMorphing
 {
     /// <summary>
     /// Provides root extraction and derived form generation of words of the specified type.

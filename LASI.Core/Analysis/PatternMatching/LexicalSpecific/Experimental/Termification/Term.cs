@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termification
+namespace LASI.Core.Heuristics.PatternMatching.LexicalSpecific.Experimental.Termification
 {
     internal class AppliedTerm<T> where T : ILexical
     {

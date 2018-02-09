@@ -10,7 +10,7 @@ using LASI.Utilities;
 
 namespace LASI.Core.Heuristics.WordNet
 {
-    using Analysis.Heuristics.WordMorphing;
+    using LASI.Core.Heuristics.Heuristics.WordMorphing;
     using static Enumerable;
     using EventArgs = ResourceLoadEventArgs;
     using Link = NounLink;
@@ -21,8 +21,13 @@ namespace LASI.Core.Heuristics.WordNet
         /// <summary>
         /// Initializes a new instance of the NounProvider class.
         /// </summary>
-        /// <param name="path"> The path of the WordNet database file containing the synonym data for nouns. </param>
-        public NounLookup(string path) => filePath = path;
+        /// <param name="path">
+        /// The path of the WordNet database file containing the synonym data for nouns.
+        /// </param>
+        public NounLookup(string path)
+        {
+            filePath = path;
+        }
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
@@ -32,17 +37,16 @@ namespace LASI.Core.Heuristics.WordNet
             var setsEnumerated = 0;
             //var setsSampled = 0;
             var indexedSynsets = LoadData()
-                .Select(CreateSet)
-                .Zip(Range(1, TotalLines), (set, lineNumber) => (set, lineNumber));
+                .Zip(Range(1, TotalLines)).With((line, i) => new { Set = CreateSet(line), LineNumber = i });
             try
             {
-                foreach (var (set, lineNumber) in indexedSynsets)
+                foreach (var indexed in indexedSynsets)
                 {
                     ++setsEnumerated;
-                    setsById[set.Id] = set;
-                    if (lineNumber % 821 == 0)
+                    setsById[indexed.Set.Id] = indexed.Set;
+                    if (indexed.LineNumber % 821 == 0)
                     {
-                        OnReport(new EventArgs($"Loaded Noun Data - Set: {lineNumber} / {TotalLines}", ProgressAmount * 2));
+                        OnReport(new EventArgs($"Loaded Noun Data - Set: {indexed.LineNumber} / {TotalLines}", ProgressAmount * 2, 0));
                     }
                 }
             }
@@ -53,29 +57,36 @@ namespace LASI.Core.Heuristics.WordNet
             }
         }
 
-        static NounSynset CreateSet(string rawSynset)
+        private static NounSynset CreateSet(string rawSynset)
         {
             var line = rawSynset.Substring(0, rawSynset.IndexOf('|'));
 
             var referencedSets = from Match match in PointerRegex.Matches(line)
                                  let split = match.Value.SplitRemoveEmpty(' ')
                                  where split.Length > 1
-                                 let linkKind = LinkMap[split[0]]
+                                 let linkKind = linkMap[split[0]]
                                  where consideredSetLinks.Contains(linkKind)
                                  let referenced = int.Parse(split[1])
                                  select new SetReference(linkKind, referenced);
             return new NounSynset(
                 id: int.Parse(line.Substring(0, 8)),
-                words: from Match match in WordRegex.Matches(line)
-                       select match.Value.Replace('_', ' '),
+                words: from Match m in WordRegex.Matches(line)
+                       select m.Value.Replace(
+                               '_',
+                               ' '
+                           ),
                 category: (NounCategory)int.Parse(line.Substring(9, 2)),
                 pointerRelationships: referencedSets
             );
         }
 
-        IEnumerable<string> LoadData()
+        private IEnumerable<string> LoadData()
         {
-            using (var reader = new StreamReader(path: filePath))
+            using (var reader = new StreamReader(File.Open(
+                                        path: filePath,
+                                        mode: FileMode.Open,
+                                        access: FileAccess.Read
+                                    )))
             {
                 for (var i = 0; i < LinesInHeader; ++i)
                 {
@@ -88,7 +99,7 @@ namespace LASI.Core.Heuristics.WordNet
             }
         }
 
-        IImmutableSet<string> SearchFor(string word)
+        private IImmutableSet<string> SearchFor(string word)
         {
             var containingSets = setsById.Values.Where(set => set.ContainsWord(word));
             if (containingSets != null)
@@ -110,15 +121,15 @@ namespace LASI.Core.Heuristics.WordNet
             return ImmutableHashSet<string>.Empty;
         }
 
-        void SearchSubsets(NounSynset containingSet, List<string> results, HashSet<NounSynset> setsSearched)
+        private void SearchSubsets(NounSynset containingSet, List<string> results, HashSet<NounSynset> setsSearched)
         {
             results.AddRange(containingSet.Words);
-            results.AddRange(containingSet[Link.Hypernym].Where(setsById.ContainsKey).SelectMany(set => setsById[set].Words));
+            results.AddRange(containingSet[Link.Hypernym].Where(set => setsById.ContainsKey(set)).SelectMany(set => setsById[set].Words));
             setsSearched.Add(containingSet);
             foreach (var set in containingSet.ReferencedSets
                 .Except(containingSet[Link.Hypernym])
                 .Select(setsById.GetValueOrDefault)
-                .NonNull())
+                .Where(set => set != null))
             {
                 if (set != null && set.Category == containingSet.Category && !setsSearched.Contains(set))
                 {
@@ -127,11 +138,11 @@ namespace LASI.Core.Heuristics.WordNet
             }
         }
 
-        const double ProgressAmount = 100 / (211 * 100d);
+        private const double ProgressAmount = 100 / (211 * 100d);
 
-        const int TotalLines = 82114;
+        private const int TotalLines = 82114;
 
-        static readonly IImmutableSet<Link> consideredSetLinks = ImmutableHashSet.Create(
+        private static readonly IImmutableSet<Link> consideredSetLinks = ImmutableHashSet.Create(
             Link.MemberOfThisDomain_REGION,
             Link.MemberOfThisDomain_TOPIC,
             Link.MemberOfThisDomain_USAGE,
@@ -144,8 +155,9 @@ namespace LASI.Core.Heuristics.WordNet
             Link.Hypernym
         );
 
-        // Provides an indexed lookup between the values of the Noun enum and their corresponding string representation in WordNet data.noun files.
-        static readonly IReadOnlyDictionary<string, Link> LinkMap = new Dictionary<string, Link>
+        // Provides an indexed lookup between the values of the Noun enum and their corresponding
+        // string representation in WordNet data.noun files.
+        private static readonly IReadOnlyDictionary<string, Link> linkMap = new Dictionary<string, Link>
         {
             ["!"] = Link.Antonym,
             ["@"] = Link.Hypernym,
@@ -168,13 +180,22 @@ namespace LASI.Core.Heuristics.WordNet
             ["-u"] = Link.MemberOfThisDomain_USAGE
         };
 
-        static readonly Regex PointerRegex = new Regex(@"\D{1,2}\s*\d{8}", RegexOptions.Compiled);
+        private static readonly Regex PointerRegex = new Regex(
+                                                         @"\D{1,2}\s*\d{8}",
+                                                         RegexOptions.Compiled
+                                                     );
 
-        static readonly Regex WordRegex = new Regex(@"(?<word>[A-Za-z_\-\']{3,})", RegexOptions.Compiled);
+        private static readonly Regex WordRegex = new Regex(
+                                                      @"(?<word>[A-Za-z_\-\']{3,})",
+                                                      RegexOptions.Compiled
+                                                  );
 
-        string filePath;
+        private string filePath;
 
-        ConcurrentDictionary<int, NounSynset> setsById = new ConcurrentDictionary<int, NounSynset>(Concurrency.Max, TotalLines);
+        private ConcurrentDictionary<int, NounSynset> setsById = new ConcurrentDictionary<int, NounSynset>(
+                                                                     Concurrency.Max,
+                                                                     TotalLines
+                                                                 );
 
         internal override IImmutableSet<string> this[string search]
         {

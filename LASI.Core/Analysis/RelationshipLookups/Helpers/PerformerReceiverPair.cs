@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LASI.Core.Analysis
+namespace LASI.Core.Heuristics
 {
     /// <summary>
     /// Stores the relationship between two Entity constructs which are related together by the first performing an action received by the second.

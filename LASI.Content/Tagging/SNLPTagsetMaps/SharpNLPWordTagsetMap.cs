@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Core;
+using LASI.Core.Heuristics;
 
 namespace LASI.Content.Tagging
 {
     using WordFactory = Func<string, Word>;
-
     /// <summary>
-    /// Represents a Word Level tagset-to-runtime-type-mapping context which translates between The SharpNLP Tagger's tagset and the classes whose instances provide the runtime representations of the
-    /// tag. This class represents the tagset =&gt; runtime-type mapping for the tagset used by SharpNLP, a derivative of the Penn Tagset. This class is sealed and thus may not be extended. If a new
-    /// tagset is to be implemented, extend the base class, TaggingContext.
+    /// Represents a Word Level tagset-to-runtime-type-mapping context which translates between The SharpNLP Tagger's tagset and the classes whose instances provide
+    /// the runtime representations of the tag.
+    /// This class represents the tagset => runtime-type mapping for
+    /// the tagset used by SharpNLP, a derivative of the Penn Tagset.
+    /// This class is sealed and thus may not be extended.
+    /// If a new tagset is to be implemented, extend the base class, TaggingContext.
     /// </summary>
     /// <example>
     /// <code>
@@ -25,7 +28,7 @@ namespace LASI.Content.Tagging
     {
         private static readonly IReadOnlyDictionary<string, WordFactory> map = new Dictionary<string, WordFactory>
         {
-            //Punctuation Mappings
+            //Punctation Mappings
             ["."] = _ => SentenceEnding.Period, //. sentence ending
             ["!"] = _ => SentenceEnding.ExclamationPoint, //! sentence ending
             ["?"] = _ => SentenceEnding.QuestionMark, //? sentence ending
@@ -38,7 +41,7 @@ namespace LASI.Content.Tagging
             ["-LRB-"] = t => new Punctuator(t), //Left Round Bracket
             ["-RRB-"] = t => new Punctuator(t), //Right Round Bracket
             ["-LSB-"] = t => new Punctuator(t), //Left Square Bracket
-            ["-RSB-"] = t => new Punctuator(t), //Right Square Bracket 
+            ["-RSB-"] = t => new Punctuator(t), //Right Square Bracket
             ["-LCB-"] = t => new Punctuator(t), //Left Curly Bracket
             ["-RCB-"] = t => new Punctuator(t), //Right Curly Bracket
             //Determiner mappings
@@ -56,8 +59,8 @@ namespace LASI.Content.Tagging
             //Noun mappings
             ["NN"] = t => new CommonSingularNoun(t), //Noun, singular or mass
             ["NNS"] = t => new CommonPluralNoun(t), //Noun, plural
-            ["NNP"] = t => Lexicon.IsCommon(t) ? new CommonSingularNoun(t) : new ProperSingularNoun(t) as Noun, //Proper noun, singular
-            ["NNPS"] = t => Lexicon.IsCommon(t) ? new CommonPluralNoun(t) : new ProperPluralNoun(t) as Noun, //Proper noun, plural
+            ["NNP"] = t => EntitySimilarityExtensions.IsCommon(t) ? new CommonSingularNoun(t) : new ProperSingularNoun(t) as Noun, //Proper noun, singular
+            ["NNPS"] = t => EntitySimilarityExtensions.IsCommon(t) ? new CommonPluralNoun(t) : new ProperPluralNoun(t) as Noun, //Proper noun, plural
             //Pronoun mappings
             ["PDT"] = t => new PreDeterminer(t), //Predeterminer
             ["POS"] = t => new PossessiveEnding(t), //Possessive ending
@@ -85,7 +88,7 @@ namespace LASI.Content.Tagging
             ["TO"] = t => new ToLinker(t), //'To'
             ["UH"] = t => new Interjection(t), //Interjection
             //Empty POS Tag, resulting function will throw EmptyTagException on invocation.
-            [""] = t => throw new EmptyWordTagException(t)
+            [""] = t => { throw new EmptyWordTagException(t); }
         };
 
         /// <summary>
@@ -126,5 +129,9 @@ namespace LASI.Content.Tagging
                 }
             }
         }
+
+        #region Helpers
+
+        #endregion Helpers
     }
 }

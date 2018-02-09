@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.TermBased
+namespace LASI.Core.Heuristics.PatternMatching.LexicalSpecific.Experimental.TermBased
 {
     abstract class Token
     {

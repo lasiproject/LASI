@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace LASI.Core.Analysis.Binding
+namespace LASI.Core.Heuristics.Binding
 {
     internal sealed partial class ObjectBinder
     {

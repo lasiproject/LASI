@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 using LASI.Core.Configuration;
-using LASI.Core.Analysis.Heuristics.Support;
+using LASI.Core.Heuristics.Heuristics.Support;
 
-namespace LASI.Core.Analysis.Heuristics
+namespace LASI.Core.Heuristics.Heuristics
 {
     /// <summary>
     /// Facilitates the joining of multiple documents into a single result set based on overlap and intersection techniques.

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.Analysis.Relationships
+namespace LASI.Core.Heuristics.Relationships
 {
     /// <summary>
     /// A sample (or test) implementation of the IRelationshipLookup interface.

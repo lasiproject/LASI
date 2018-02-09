@@ -1,4 +1,4 @@
-﻿namespace LASI.Core.Analysis.Binding
+﻿namespace LASI.Core.Heuristics.Binding
 {
     public interface IIntraSentenceBinder
     {

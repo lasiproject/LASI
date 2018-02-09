@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using LASI.Utilities;
 
-namespace LASI.Core
+namespace LASI.Core.Heuristics
 {
-    public static partial class Lexicon
+    public static class AdverbialSimilarityProvider
     {
         /// <summary>
         /// Determines if two IAdverbial instances are similar.
@@ -67,7 +67,7 @@ namespace LASI.Core
             var percentMatched = first.Words.OfAdverb()
                 .Zip(second.Words.OfAdverb(), (x, y) => x.IsSimilarTo(y) == true)
                 .PercentTrue();
-            return Similarity.FromBoolean(first == second || percentMatched / 100 > SimilarityThreshold);
+            return Similarity.FromBoolean(first == second || percentMatched / 100 > Lexicon.SimilarityThreshold);
         }
     }
 }

@@ -4,7 +4,7 @@
     {
         public SystemResourceLoadingNotifier() : base(messageAdjunct: "Loading")
         {
-            Core.Lexicon.ResourceLoading += (s, e) => OnReport(e);
+            LASI.Core.Heuristics.Lexicon.ResourceLoading += (s, e) => OnReport(e);
         }
     }
 }
