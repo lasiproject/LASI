@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LASI.Core.Analysis.Heuristics.WordMorphing
+namespace LASI.Core.Heuristics.Heuristics.WordMorphing
 {
     /// <summary>
     /// Performs both Adverb root extraction and Adverb form generation.

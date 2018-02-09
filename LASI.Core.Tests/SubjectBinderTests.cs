@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace LASI.Core.Analysis.Binding.Tests
+namespace LASI.Core.Heuristics.Binding.Tests
 {
     public class SubjectBinderTests
     {

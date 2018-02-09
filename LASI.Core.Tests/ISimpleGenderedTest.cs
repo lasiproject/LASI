@@ -1,6 +1,4 @@
-﻿using LASI.Core;
-using System;
-using LASI.Core.Heuristics;
+﻿using LASI.Core.Heuristics;
 using Fact = Xunit.FactAttribute;
 using NFluent;
 

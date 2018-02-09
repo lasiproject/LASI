@@ -1,4 +1,4 @@
-﻿namespace LASI.Core.Analysis.Ambiance
+﻿namespace LASI.Core.Heuristics.Ambiance
 {
     /// <summary>
     /// Describes an object which can be associated with an <see cref="IAmbiantContext"/>. 

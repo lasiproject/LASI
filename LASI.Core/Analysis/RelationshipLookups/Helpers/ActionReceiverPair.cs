@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LASI.Core.Analysis.Relationships
+namespace LASI.Core.Heuristics.Relationships
 {
     /// <summary>
     /// Stores the relationship between a Verbal construct used transitively (having at least one

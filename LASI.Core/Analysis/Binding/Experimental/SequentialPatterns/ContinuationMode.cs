@@ -1,4 +1,4 @@
-﻿namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
+﻿namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
 {
     /// <summary>Determines how a match should be applied to a sentence or sentence fragment.</summary>
     public enum ContinuationMode

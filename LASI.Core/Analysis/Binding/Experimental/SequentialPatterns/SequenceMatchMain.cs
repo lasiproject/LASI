@@ -5,7 +5,7 @@ using LASI.Utilities;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 
 // TODO: SequenceMatch like class with result returning case expressions. Probably not add them to the current class. API is large as it is.
-namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
+namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
 {
     /// <summary>
     /// Represents a binding expression applied to a sequence if lexical constructs.

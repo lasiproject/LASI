@@ -7,7 +7,7 @@ using LASI.Utilities;
 
 namespace LASI.Core.PatternMatching.Tests
 {
-    using LASI.Core.Analysis.Binding.Experimental.SequentialPatterns;
+    using LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns;
     using NFluent;
     using Xunit;
     public class SequentialPatternMatchingTest

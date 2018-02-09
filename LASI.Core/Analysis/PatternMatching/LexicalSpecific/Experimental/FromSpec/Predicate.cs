@@ -2,7 +2,7 @@
 using System.Linq;
 using LASI.Utilities;
 
-namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSpec
+namespace LASI.Core.Heuristics.PatternMatching.LexicalSpecific.Experimental.FromSpec
 {
     abstract class Predicate<T> where T : class, ILexical
     {

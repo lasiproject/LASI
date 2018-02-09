@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LASI.Core.Heuristics;
 using LASI.Utilities;
 using static System.Linq.Enumerable;
 
@@ -28,7 +29,7 @@ namespace LASI.Core.Binding.Experimental
                     .Select(splitter => words
                         .Take(splitPoints.First())
                         .Concat(words.Skip(splitter)));
-                // for now, we will take the most fruitful branch. That is, the branch which produces the most actions 
+                // for now, we will take the most fruitful branch. That is, the branch which produces the most actions
                 var actionsByBranch = from branch in branches
                                           //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                       let actions = GetBranchActions(branch)

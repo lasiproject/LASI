@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using LASI.Core.Analysis.Heuristics.WordMorphing;
+using LASI.Core.Heuristics.Heuristics.WordMorphing;
 
-namespace LASI.Core.Analysis.WordMorphing.Tests
+namespace LASI.Core.Heuristics.WordMorphing.Tests
 {
     using NFluent;
     using Utilities;

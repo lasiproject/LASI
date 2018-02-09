@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LASI.Core.Heuristics;
 
-namespace LASI.Core.Analysis.Heuristics.Support
+namespace LASI.Core.Heuristics.Heuristics.Support
 {
     /// <summary>
     /// Sometimes an anonymous type simple will not do. So this little class is defined to

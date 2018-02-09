@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using LASI.Utilities;
 
-namespace LASI.Core
+namespace LASI.Core.Heuristics
 {
-    public static partial class Lexicon
+    public static partial class DescriptorSimilarityExtensions
     {
         /// <summary>
         /// Determines if two IDescriptor instances are similar.
@@ -35,7 +35,7 @@ namespace LASI.Core
         /// <returns>
         /// <c>true</c> if the first Adjective is similar to the second; otherwise, <c>false</c>.
         /// </returns>
-        public static Similarity IsSimilarTo(this Adjective first, Adjective second) => 
+        public static Similarity IsSimilarTo(this Adjective first, Adjective second) =>
             Similarity.FromBoolean(Similarity.FromBoolean(Equals(first, second) || (first?.GetSynonyms().Contains(second?.Text) ?? false)));
 
         /// <summary>

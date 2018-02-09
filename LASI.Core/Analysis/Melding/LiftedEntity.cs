@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using LASI.Utilities;
 
-namespace LASI.Core.Analysis.Melding
+namespace LASI.Core.Heuristics.Melding
 {
     /// <summary>
     /// Represents and Entity which abstracts over a group of related entities, transparently standing in as any one of them.

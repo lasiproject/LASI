@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NFluent;
 using Xunit;
 
-namespace LASI.Core.Analysis.Relationships.Tests
+namespace LASI.Core.Heuristics.Relationships.Tests
 {
     public class RelationshipInferenceExtensionsTest
     {

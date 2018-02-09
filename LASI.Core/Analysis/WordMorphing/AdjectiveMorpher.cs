@@ -4,7 +4,7 @@ using System.Linq;
 using LASI.Utilities;
 using static System.StringComparison;
 
-namespace LASI.Core.Analysis.Heuristics.WordMorphing
+namespace LASI.Core.Heuristics.Heuristics.WordMorphing
 {
     /// <summary>
     /// Provides root extraction and derived form generation of <see cref="Adjective"/>s.

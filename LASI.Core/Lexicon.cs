@@ -7,10 +7,10 @@ using System.Linq;
 using LASI.Core.Configuration;
 using LASI.Core.Heuristics.WordNet;
 using LASI.Utilities;
-using static System.StringComparer;
+using static LASI.Utilities.FunctionExtensions;
 using ConcurrentSetDictionary = System.Collections.Concurrent.ConcurrentDictionary<string, System.Collections.Immutable.IImmutableSet<string>>;
 
-namespace LASI.Core
+namespace LASI.Core.Heuristics
 {
     /// <summary>
     /// Provides Comprehensive static facilities for Synonym Identification, Word and Phrase
@@ -83,44 +83,33 @@ namespace LASI.Core
         static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> wordNetLookup) where TWord : Word
         {
             var resourceName = typeof(TWord).Name + " Association Map";
-            ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0)
-            {
-                ElapsedMiliseconds = 0
-            });
-            System.Diagnostics.Stopwatch timer;
+            ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0, 0));
             wordNetLookup.ProgressChanged += ResourceLoading;
-            Action load = wordNetLookup.Load;
-            load.WithTimer(out timer)();
-            ResourceLoaded(wordNetLookup, new ResourceLoadEventArgs(resourceName, increment: 1 / 5f)
-            {
-                ElapsedMiliseconds = timer.ElapsedMilliseconds
-            });
+
+            var (load, timer) = Time(wordNetLookup.Load);
+            load();
+            ResourceLoaded(wordNetLookup, new ResourceLoadEventArgs(resourceName, increment: 1 / 5f, timer.ElapsedMilliseconds));
             return wordNetLookup;
         }
 
-        #region Properties
+        #region Events
+        internal static void OnResourceLoaded(object sender, ResourceLoadEventArgs e) => ResourceLoaded(sender, e);
+        internal static void OnResourceLoading(object sender, ResourceLoadEventArgs e) => ResourceLoading(sender, e);
 
         /// <summary>
         /// Raised when a data set resource finishes loading.
         /// </summary>
-        public static event EventHandler<ResourceLoadEventArgs> ResourceLoaded = delegate { };
+        public static event EventHandler<ResourceLoadEventArgs> ResourceLoaded = (s, e) => { };
 
         /// <summary>
         /// Raised when a resource starts loading.
         /// </summary>
-        public static event EventHandler<ResourceLoadEventArgs> ResourceLoading = delegate { };
-
-        /// <summary>
-        /// The sequence of strings corresponding to all nouns in the Scrabble Dictionary data source.
-        /// </summary>
-        public static IEnumerable<string> ScrabbleDictionary => scrabbleDictionary.Value;
-
+        public static event EventHandler<ResourceLoadEventArgs> ResourceLoading = (s, e) => { };
         #endregion
 
-        #region Events
-        #endregion
+        #region Properties
 
-        static NameProvider NameData => nameData.Value;
+
 
         static WordNetLookup<Adjective> AdjectiveLookup => lazyAdjectiveLookup.Value;
 
@@ -129,6 +118,7 @@ namespace LASI.Core
         static WordNetLookup<Noun> NounLookup => lazyNounLookup.Value;
 
         static WordNetLookup<Verb> VerbLookup => lazyVerbLookup.Value;
+        #endregion
 
         #region Private Fields
 
@@ -150,35 +140,6 @@ namespace LASI.Core
 
         static ConcurrentSetDictionary cachedVerbData = CreateConcurrentSetDictionary();
 
-        static Lazy<NameProvider> nameData = new Lazy<NameProvider>(() =>
-        {
-            var resourceName = "Name Data";
-            ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
-            var timer = System.Diagnostics.Stopwatch.StartNew();
-            var nameProvider = new NameProvider();
-            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0)
-            {
-                ElapsedMiliseconds = timer.ElapsedMilliseconds
-            });
-            return nameProvider;
-        }, isThreadSafe: true);
-
-        // scrabble dictionary Internal Lookups
-        static Lazy<IEnumerable<string>> scrabbleDictionary = new Lazy<IEnumerable<string>>(() =>
-        {
-            var resourceName = "Scrabble Dictionary";
-            ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
-
-            Func<IImmutableSet<string>> loadWords = () => File.ReadAllText(Paths.ScrabbleDict)
-                .SplitRemoveEmpty('\r', '\n')
-                .Select(s => s.ToLower())
-                .Except(NameData.AllNames, OrdinalIgnoreCase)
-                .ToImmutableHashSet(OrdinalIgnoreCase);
-            var (timed, timer) = loadWords.WithTimer();
-            var words = timed();
-            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
-            return words;
-        }, isThreadSafe: true);
 
         static Lazy<WordNetLookup<Noun>> lazyNounLookup = CreateLazyWordNetLookup(() => new NounLookup(Paths.WordNet.Noun));
 

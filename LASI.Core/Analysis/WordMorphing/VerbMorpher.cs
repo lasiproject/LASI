@@ -4,7 +4,7 @@ using System.Linq;
 using LASI.Utilities;
 using static System.StringComparison;
 
-namespace LASI.Core.Analysis.Heuristics.WordMorphing
+namespace LASI.Core.Heuristics.Heuristics.WordMorphing
 {
     /// <summary>Performs both verb root extraction and verb conjugation generation.</summary>
     public static class VerbMorpher

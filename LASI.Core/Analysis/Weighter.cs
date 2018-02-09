@@ -1,4 +1,5 @@
-﻿using LASI.Core.Configuration;
+﻿using LASI.Core.Heuristics;
+using LASI.Core.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -126,7 +127,7 @@ namespace LASI.Core
             var toConsider = source.Phrases
                 .OfNounPhrase()
                 .InSubjectOrObjectRole().ToList();
-            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 0.5);
+            GroupAndWeight(toConsider, (x, y) => x.IsSimilarTo(y), scaleBy: 0.5);
         }
         /// <summary>
         /// Increase noun weights in a document by abstracting over synonyms
@@ -145,19 +146,19 @@ namespace LASI.Core
                              into y
                              where y != null
                              select y;
-            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 1);
+            GroupAndWeight(toConsider, (x, y) => x.IsSimilarTo(y), scaleBy: 1);
         }
         static void WeightSimilarVerbPhrases(IReifiedTextual source)
         {
             //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
             // in the two subsequent from clauses both query the reified collection in parallel.
             var toConsider = source.Phrases.OfVerbPhrase().WithSubjectOrObject();
-            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 0.5);
+            GroupAndWeight(toConsider, (x, y) => x.IsSimilarTo(y), scaleBy: 0.5);
         }
         static void WeightSimilarVerbs(IReifiedTextual source)
         {
             var toConsider = source.Words.OfVerb().WithSubjectOrObject();
-            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 1);
+            GroupAndWeight(toConsider, (x, y) => x.IsSimilarTo(y), scaleBy: 1);
         }
     }
 }

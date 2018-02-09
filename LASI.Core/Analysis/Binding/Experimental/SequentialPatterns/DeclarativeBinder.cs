@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Core.Analysis.Binding.Experimental.SequentialPatterns;
+using LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns;
 
-namespace LASI.Core.Analysis.Binding.Experimental.SequentialPatterns
+namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
 {
     internal static class DeclarativeBinder
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Heuristics;
 
-namespace LASI.Core.Analysis.Relationships
+namespace LASI.Core.Heuristics.Relationships
 {
     /// <summary>
     /// Provides extension methods for convenient use of <see cref="IRelationshipLookup{TEntity, TVerbal}"/>s.

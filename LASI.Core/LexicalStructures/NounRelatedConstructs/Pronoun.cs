@@ -39,7 +39,7 @@ namespace LASI.Core
             }
             EntityKind = RefersTo.EntityKind;
         }
-        /// <summary>   
+        /// <summary>
         /// Returns a string representation of the Pronoun.
         /// </summary>
         /// <returns>A string representation of the Pronoun.</returns>
@@ -134,7 +134,7 @@ namespace LASI.Core
         /// <summary>
         /// The <see cref="IVerbal"/> which the Pronoun references.
         /// </summary>
-        public virtual IAggregateEntity RefersTo { get; private set; }
+        public IAggregateEntity RefersTo { get; private set; }
 
         /// <summary>
         /// Gets or sets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.
@@ -224,7 +224,7 @@ namespace LASI.Core
 
         #region Static Fields
 
-        //Common personal Pronouns by gender and plurality 
+        //Common personal Pronouns by gender and plurality
         private static readonly ISet<string> males = new HashSet<string> { "he", "him", "his" };
         private static readonly ISet<string> maleReflexives = new HashSet<string> { "himself", "hisself", };
         private static readonly ISet<string> females = new HashSet<string> { "she", "her", "hers" };

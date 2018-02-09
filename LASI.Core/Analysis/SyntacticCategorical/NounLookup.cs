@@ -10,7 +10,7 @@ using LASI.Utilities;
 
 namespace LASI.Core.Heuristics.WordNet
 {
-    using Analysis.Heuristics.WordMorphing;
+    using LASI.Core.Heuristics.Heuristics.WordMorphing;
     using static Enumerable;
     using EventArgs = ResourceLoadEventArgs;
     using Link = NounLink;
@@ -46,7 +46,7 @@ namespace LASI.Core.Heuristics.WordNet
                     setsById[indexed.Set.Id] = indexed.Set;
                     if (indexed.LineNumber % 821 == 0)
                     {
-                        OnReport(new EventArgs($"Loaded Noun Data - Set: {indexed.LineNumber} / {TotalLines}", ProgressAmount * 2));
+                        OnReport(new EventArgs($"Loaded Noun Data - Set: {indexed.LineNumber} / {TotalLines}", ProgressAmount * 2, 0));
                     }
                 }
             }

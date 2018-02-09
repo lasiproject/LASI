@@ -1,0 +1,9 @@
+<!--This is read by static code analysis tools. It is not used by LASI.-->
+<Dictionary>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>LASI</Acronym>
+
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSpec
+namespace LASI.Core.Heuristics.PatternMatching.LexicalSpecific.Experimental.FromSpec
 {
     class WhenPredicate<T> : Predicate<T> where T : class, ILexical
     {

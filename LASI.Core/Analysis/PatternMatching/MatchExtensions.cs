@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Core.Analysis.Binding.Experimental.SequentialPatterns;
-using LASI.Core.Analysis.PatternMatching;
+using LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns;
+using LASI.Core.Heuristics.PatternMatching;
 using static LASI.Utilities.Logger;
 
 namespace LASI.Core
@@ -10,9 +10,9 @@ namespace LASI.Core
     /// <summary>
     /// Provides for the construction of flexible Typed Pattern Matching expressions.
     /// </summary>
-    /// <seealso cref="Analysis.PatternMatching.Match{T}"/>
+    /// <seealso cref="Heuristics.PatternMatching.Match{T}"/>
     /// <seealso cref="Match{T, TResult}"/>
-    /// <seealso cref="Analysis.PatternMatching"/>
+    /// <seealso cref="Heuristics.PatternMatching"/>
     /// <remarks>
     /// <para>
     /// The type based pattern matching functionality was introduced to solve the problem of

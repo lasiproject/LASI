@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Linq;
 
-namespace LASI.Core.Analysis.Relationships
+namespace LASI.Core.Heuristics.Relationships
 {
     /// <summary>
     /// Provides convenient extension methods for working with IEntity and IVerbal constructs in the context of an applicable IRelationshipLookup.

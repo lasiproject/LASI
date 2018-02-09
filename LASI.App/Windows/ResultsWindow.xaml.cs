@@ -14,7 +14,7 @@ using LASI.Interop;
 
 namespace LASI.App
 {
-    using Core.Analysis.Heuristics;
+    using Core.Heuristics.Heuristics;
     using Extensions;
     using LASI.App.Helpers;
     using LASI.Content.Exceptions;
@@ -25,6 +25,7 @@ namespace LASI.App
     using FileInfo = System.IO.FileInfo;
     using FlowDocument = System.Windows.Documents.FlowDocument;
     using FlowDocumentPageViewer = FlowDocumentPageViewer;
+    using LASI.Core.Heuristics;
 
     /// <summary>
     /// Interaction logic for ResultsWindow.xaml

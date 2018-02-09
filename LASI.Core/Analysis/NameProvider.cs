@@ -1,38 +1,34 @@
 ﻿using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using LASI.Core.Configuration;
 using LASI.Utilities;
 using static System.StringComparer;
 
-namespace LASI.Core
+namespace LASI.Core.Heuristics
 {
     sealed class NameProvider
     {
-        public NameProvider()
+        public async Task InitializeAsync()
         {
-            var fileData = Task.Run(async () => new
-            {
-                FemaleNames = await ReadLinesAsync(Paths.Names.Female),
-                MaleNames = await ReadLinesAsync(Paths.Names.Male),
-                LastNames = await ReadLinesAsync(Paths.Names.Last)
-            }).Result;
-            FemaleNames = fileData.FemaleNames;
-            MaleNames = fileData.MaleNames;
-            GenderAmbiguousNames = MaleNames.Intersect(FemaleNames).WithComparer(OrdinalIgnoreCase);
-            LastNames = fileData.LastNames;
+            (FemaleNames, MaleNames, LastNames) = (await ReadLinesAsync(Paths.Names.Female), await ReadLinesAsync(Paths.Names.Male), await ReadLinesAsync(Paths.Names.Last));
+            GenderAmbiguousNames = MaleNames.WithComparer(OrdinalIgnoreCase).Intersect(FemaleNames);
 
             var stratified =
-                from m in MaleNames.Select((name, i) => new { Rank = (double)i / MaleNames.Count, Name = name })
-                join f in FemaleNames.Select((name, i) => new { Rank = (double)i / FemaleNames.Count, Name = name })
-                on m.Name equals f.Name
-                group f.Name by f.Rank / m.Rank > 1 ? 'F' : m.Rank / f.Rank > 1 ? 'M' : 'U';
+                from name in MaleNames.WithIndices()
+                let rankedMale = (rank: (double)name.index / MaleNames.Count, name: name.element)
+                join rankedFemale in from name in FemaleNames.WithIndices()
+                                     select (rank: (double)name.index / FemaleNames.Count, name: name.element)
+                on rankedMale.name equals rankedFemale.name
+                let gender = rankedFemale.rank / rankedMale.rank > 1 ? Gender.Female : rankedMale.rank / rankedFemale.rank > 1 ? Gender.Male : default
+                group rankedFemale.name by gender;
+
             var byLikelyGender = stratified.ToDictionary(strata => strata.Key);
 
-            MaleNames = MaleNames.Except(byLikelyGender['F']);
-            FemaleNames = FemaleNames.Except(byLikelyGender['M']);
+            MaleNames = MaleNames.Except(byLikelyGender[Gender.Female]);
+            FemaleNames = FemaleNames.Except(byLikelyGender[Gender.Male]);
         }
-
         /// <summary>
         /// Determines if provided text is in the set of Female or Male first names.
         /// </summary>
@@ -83,7 +79,7 @@ namespace LASI.Core
 
         private static async Task<ImmutableSortedSet<string>> ReadLinesAsync(string fileName)
         {
-            using (var reader = new System.IO.StreamReader(fileName))
+            using (var reader = new StreamReader(fileName))
             {
                 return (await reader.ReadToEndAsync())
                     .SplitRemoveEmpty('\r', '\n')
@@ -95,33 +91,42 @@ namespace LASI.Core
         /// <summary>
         /// Gets a sequence of all known Last Names.
         /// </summary>
-        public ImmutableSortedSet<string> LastNames { get; }
+        public ImmutableSortedSet<string> LastNames { get; private set; }
 
         /// <summary>
         /// Gets a sequence of all known Female Names.
         /// </summary>
-        public ImmutableSortedSet<string> FemaleNames { get; }
+        public ImmutableSortedSet<string> FemaleNames { get; private set; }
 
         /// <summary>
         /// Gets a sequence of all known Male Names.
         /// </summary>
-        public ImmutableSortedSet<string> MaleNames { get; }
+        public ImmutableSortedSet<string> MaleNames { get; private set; }
 
         /// <summary>
         /// Gets a sequence of all known Names which are just as likely to be Female or Male.
         /// </summary>
-        public ImmutableSortedSet<string> GenderAmbiguousNames { get; }
+        public ImmutableSortedSet<string> GenderAmbiguousNames { get; private set; }
+
 
         public ImmutableSortedSet<string> AllNames
         {
             get
             {
-                var builder = FemaleNames.ToBuilder();
-                builder.UnionWith(MaleNames);
-                builder.UnionWith(GenderAmbiguousNames);
-                builder.UnionWith(LastNames);
-                return builder.ToImmutable().WithComparer(OrdinalIgnoreCase);
+                return allNames = allNames ?? buildNames();
+
+                ImmutableSortedSet<string> buildNames()
+                {
+                    var builder = FemaleNames.ToBuilder();
+                    builder.UnionWith(MaleNames);
+                    builder.UnionWith(GenderAmbiguousNames);
+                    builder.UnionWith(LastNames);
+                    return builder.ToImmutable().WithComparer(OrdinalIgnoreCase);
+                }
             }
         }
+
+        private ImmutableSortedSet<string> allNames;
+
     }
 }

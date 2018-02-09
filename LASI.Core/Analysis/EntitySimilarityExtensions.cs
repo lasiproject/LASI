@@ -1,8 +1,18 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
+using System.Linq;
+using LASI.Core.Configuration;
+using LASI.Core.Heuristics;
 using LASI.Utilities;
+using static System.StringComparer;
+using static LASI.Utilities.FunctionExtensions;
 
-namespace LASI.Core {
-    public static partial class Lexicon {
+namespace LASI.Core.Heuristics
+{
+    public static partial class EntitySimilarityExtensions
+    {
         /// <summary>Determines if two IEntity instances are similar.</summary>
         /// <param name="first">The first IEntity</param>
         /// <param name="second">The second IEntity</param>
@@ -31,7 +41,8 @@ namespace LASI.Core {
         /// <returns>
         /// <c>true</c> if the given IAggregateEntity instances are similar; otherwise, <c>false</c>.
         /// </returns>
-        private static Similarity IsSimilarTo(this IAggregateEntity first, IAggregateEntity second) {
+        private static Similarity IsSimilarTo(this IAggregateEntity first, IAggregateEntity second)
+        {
             var simResults = from e1 in first
                              from e2 in second
                              select e1.IsSimilarTo(e2);
@@ -44,7 +55,8 @@ namespace LASI.Core {
         /// <returns>
         /// <c>true</c> if the provided Noun is similar to the provided NounPhrase; otherwise, <c>false</c>.
         /// </returns>
-        private static Similarity IsSimilarTo(this Noun first, NounPhrase second) {
+        private static Similarity IsSimilarTo(this Noun first, NounPhrase second)
+        {
             var phraseNouns = second.Words.OfNoun().ToList();
             return Similarity.FromBoolean(phraseNouns.Count == 1 && phraseNouns.First().IsSimilarTo(first));
         }
@@ -183,7 +195,8 @@ namespace LASI.Core {
         /// <param name="first">The first NounPhrase</param>
         /// <param name="second">The second NounPhrase</param>
         /// <returns>A double value indicating the degree of similarity between two NounPhrases.</returns>
-        private static double GetSimilarityRatio(NounPhrase first, NounPhrase second) {
+        private static double GetSimilarityRatio(NounPhrase first, NounPhrase second)
+        {
             var left = first.Words.OfNoun().ToList();
             if (left.Count == 0) { return 0; }
             var right = second.Words.OfNoun().ToList();
@@ -196,7 +209,8 @@ namespace LASI.Core {
 
         // TODO: refactor these two methods. their interaction is very opaque and error prone.
         //       Although they are private, they make maintaining related algorithms difficult.
-        private static Gender DetermineNounPhraseGender(NounPhrase name) {
+        private static Gender DetermineNounPhraseGender(NounPhrase name)
+        {
             var properNouns = name.Words.OfProperNoun();
             var first = properNouns.OfSingular()
                 .FirstOrDefault(n => n.Gender.IsMaleOrFemale());
@@ -208,7 +222,8 @@ namespace LASI.Core {
                     : Gender.Undetermined;
         }
 
-        private static Gender DeterminePronounPhraseGender(PronounPhrase pronounPhrase) {
+        private static Gender DeterminePronounPhraseGender(PronounPhrase pronounPhrase)
+        {
             if (pronounPhrase.Words.All(w => w is Determiner)) { return Gender.Undetermined; }
             var genders = pronounPhrase.Words.OfType<ISimpleGendered>().Select(w => w.Gender);
             return pronounPhrase.Words.OfProperNoun().Any(n => !(n is ISimpleGendered))
@@ -219,6 +234,67 @@ namespace LASI.Core {
                     : genders.All(g => g.IsNeutral()) ? Gender.Neutral : Gender.Undetermined
                     : Gender.Undetermined;
         }
+
+
+        /// <summary>
+        /// The sequence of strings corresponding to all nouns in the Scrabble Dictionary data source.
+        /// </summary>
+        public static IEnumerable<string> ScrabbleDictionary => scrabbleDictionary.Value;
+        /// <summary>
+        /// scrabble dictionary Internal Lookups
+        /// </summary>
+        static Lazy<IEnumerable<string>> scrabbleDictionary = new Lazy<IEnumerable<string>>(() =>
+        {
+            var resourceName = "Scrabble Dictionary";
+            Lexicon.OnResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0, 0));
+
+
+            var (timed, timer) = FunctionExtensions.WithTimer(loadWords);
+            var words = timed();
+            Lexicon.OnResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0, timer.ElapsedMilliseconds));
+            return words;
+
+            IImmutableSet<string> loadWords() => File.ReadAllText(Paths.ScrabbleDict)
+    .SplitRemoveEmpty('\r', '\n')
+    .Select(s => s.ToLower())
+    .Except(NameData.AllNames, OrdinalIgnoreCase)
+    .ToImmutableHashSet(OrdinalIgnoreCase);
+        }, isThreadSafe: true);
+
+
+        public static event EventHandler<ResourceLoadEventArgs> ResourceLoaded
+        {
+            add => Lexicon.ResourceLoaded += value;
+            remove => Lexicon.ResourceLoaded -= value;
+        }
+
+        /// <summary>
+        /// Raised when a resource starts loading.
+        /// </summary>
+        public static event EventHandler<ResourceLoadEventArgs> ResourceLoading
+        {
+            add => Lexicon.ResourceLoading += value;
+            remove => Lexicon.ResourceLoading -= value;
+        }
+        static NameProvider NameData => nameData.Value;
+
+        static Lazy<NameProvider> nameData = new Lazy<NameProvider>(() =>
+        {
+            var resourceName = "Name Data";
+            var nameProvider = new NameProvider();
+
+            Lexicon.OnResourceLoading(nameProvider, new ResourceLoadEventArgs(resourceName, 0, 0));
+
+            var (timed, timer) = Time(() => nameProvider
+                  .InitializeAsync()
+                  .GetAwaiter()
+                  .GetResult());
+
+            timed();
+
+            Lexicon.OnResourceLoaded(nameProvider, new ResourceLoadEventArgs(resourceName, 0, timer.ElapsedMilliseconds));
+            return nameProvider;
+        }, isThreadSafe: true);
 
     }
 }

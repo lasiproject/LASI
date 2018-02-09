@@ -36,21 +36,23 @@ namespace LASI.Interop
         {
             var isUrl = Uri.IsWellFormedUriString(configUrl, UriKind.Absolute);
             var isFsPath = File.Exists(Path.GetFullPath(configUrl));
-            Validate.Either(isUrl, isFsPath,
-                $"The specified url is neither an accessible file system location nor a valid Uri");
+            if (!isUrl && !isFsPath)
+            {
+                throw new ArgumentException("The specified url is neither an accessible file system location nor a valid Uri", nameof(configUrl));
+            }
             Initialize(
-                stream: isUrl ? WebRequest.CreateHttp(configUrl).GetRequestStream() :
-                isFsPath ? new FileStream(
-                    options: FileOptions.Asynchronous,
-                    path: Path.GetFullPath(configUrl),
-                    mode: FileMode.Open,
-                    access: FileAccess.Read,
-                    share: FileShare.Read,
-                    bufferSize: 1024
-                ) : null,
-                format: format,
-                subkey: subkey
-            );
+               stream: isUrl ? WebRequest.CreateHttp(configUrl).GetRequestStream() :
+               isFsPath ? new FileStream(
+                   options: FileOptions.Asynchronous,
+                   path: Path.GetFullPath(configUrl),
+                   mode: FileMode.Open,
+                   access: FileAccess.Read,
+                   share: FileShare.Read,
+                   bufferSize: 1024
+               ) : null,
+               format: format,
+               subkey: subkey
+           );
         }
 
         /// <summary>
@@ -81,7 +83,10 @@ namespace LASI.Interop
         {
             lock (initializationLock)
             {
-                Validate.False(alreadyConfigured, () => new AlreadyConfiguredException());
+                if (alreadyConfigured)
+                {
+                    throw new AlreadyConfiguredException();
+                }
                 var config = configFactory();
                 InitializeComponents(config);
                 alreadyConfigured = true;
@@ -92,7 +97,10 @@ namespace LASI.Interop
         {
             lock (initializationLock)
             {
-                Validate.False<AlreadyConfiguredException>(alreadyConfigured);
+                if (alreadyConfigured)
+                {
+                    throw new AlreadyConfiguredException();
+                }
                 var config = format is ConfigurationFormat.Json is var j
                     ? loadJsonConfig()
                     : format is ConfigurationFormat.Xml is var x

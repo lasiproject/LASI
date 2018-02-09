@@ -6,7 +6,7 @@ using System.Text;
 using LASI.Utilities;
 using LASI.Utilities.Validation;
 
-namespace LASI.Core.Analysis.Binding
+namespace LASI.Core.Heuristics.Binding
 {
     /// <summary>
     /// The Exception which is thrown when an attempt is made to perform VerbPhrase related binding over a sequence of Phrases which contain no VerbPhrases.

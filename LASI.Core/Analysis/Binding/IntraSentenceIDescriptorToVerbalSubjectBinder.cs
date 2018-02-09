@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace LASI.Core.Analysis.Binding
+namespace LASI.Core.Heuristics.Binding
 {
     public class IntraSentenceIDescriptorToVerbalSubjectBinder : IIntraSentenceBinder
     {

@@ -12,7 +12,7 @@ namespace LASI.Core.Heuristics.WordNet
     using Link = AdjectiveLink;
     using System.Collections.Immutable;
     using Utilities;
-    using LASI.Core.Analysis.Heuristics.WordMorphing;
+    using LASI.Core.Heuristics.Heuristics.WordMorphing;
     using LASI.Core.Configuration;
     using System.Collections.Concurrent;
 

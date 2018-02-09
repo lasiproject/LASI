@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace LASI.Core.Analysis.PatternMatching
+namespace LASI.Core.Heuristics.PatternMatching
 {
     /// <summary>
     /// Provides for the representation and free form structuring of Type based Pattern Matching expressions which match with a value of

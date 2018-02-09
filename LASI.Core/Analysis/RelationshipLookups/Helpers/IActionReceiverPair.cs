@@ -1,4 +1,4 @@
-﻿namespace LASI.Core.Analysis.Relationships
+﻿namespace LASI.Core.Heuristics.Relationships
 {
     public interface IActionReceiverPair<out TVerbal, out TEntity>
         where TVerbal : IVerbal

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSpec
+namespace LASI.Core.Heuristics.PatternMatching.LexicalSpecific.Experimental.FromSpec
 {
     class Applicator
     {

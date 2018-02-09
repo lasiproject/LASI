@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
 
-namespace LASI.Core
+namespace LASI.Core.Heuristics
 {
-    public static partial class Lexicon
+    public static class VerbalSimilarityExtensions
     {
         /// <summary>e
         /// Determines if two <see cref="IVerbal"/>s are similar.

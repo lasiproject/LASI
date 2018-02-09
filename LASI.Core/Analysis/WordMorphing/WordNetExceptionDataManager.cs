@@ -6,7 +6,7 @@ using static System.Configuration.ConfigurationManager;
 using LASI.Utilities;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 
-namespace LASI.Core.Analysis.Heuristics.WordMorphing
+namespace LASI.Core.Heuristics.Heuristics.WordMorphing
 {
     using ExceptionsInfoMapping = System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>>;
 

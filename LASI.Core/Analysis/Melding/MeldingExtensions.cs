@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Core.Analysis.Melding;
+using LASI.Core.Heuristics;
+using LASI.Core.Heuristics.Melding;
 using LASI.Utilities;
 
 namespace LASI.Core

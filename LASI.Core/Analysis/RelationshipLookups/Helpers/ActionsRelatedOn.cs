@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LASI.Core.Analysis.Relationships
+namespace LASI.Core.Heuristics.Relationships
 {
     /// <summary>
     /// Provides a nullable sequence of IVerbal constructs. Instances of the structure will implicitly collapse to true or false as needed

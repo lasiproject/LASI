@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Core.Analysis.Binding.Experimental.SequentialPatterns;
-using LASI.Core.Analysis.Binding;
+using LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns;
+using LASI.Core.Heuristics.Binding;
 
 namespace LASI.Core
 {
