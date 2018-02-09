@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LASI.Core.Analysis.PatternMatching
+namespace LASI.Core.Heuristics.PatternMatching
 {
     public sealed class PredicatedMatchLifted<T, TCase> : PredicatedMatch<T>
         where T : ILexical
