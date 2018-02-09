@@ -281,18 +281,10 @@ namespace LASI.Core.Heuristics
         static Lazy<NameProvider> nameData = new Lazy<NameProvider>(() =>
         {
             var resourceName = "Name Data";
+            Lexicon.OnResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0, elapsedMilliseconds: 0));
+            var timer = System.Diagnostics.Stopwatch.StartNew();
             var nameProvider = new NameProvider();
-
-            Lexicon.OnResourceLoading(nameProvider, new ResourceLoadEventArgs(resourceName, 0, 0));
-
-            var (timed, timer) = Time(() => nameProvider
-                  .InitializeAsync()
-                  .GetAwaiter()
-                  .GetResult());
-
-            timed();
-
-            Lexicon.OnResourceLoaded(nameProvider, new ResourceLoadEventArgs(resourceName, 0, timer.ElapsedMilliseconds));
+            Lexicon.OnResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0, timer.ElapsedMilliseconds));
             return nameProvider;
         }, isThreadSafe: true);
 

@@ -12,9 +12,9 @@ namespace LASI.Core
         /// </summary>
         /// <param name="message">A short textual description of the event.</param>
         /// <param name="increment">The percentage of total work completed.</param>
-        /// <param name="elapsedMiliseconds">The number of milliseconds consumed by the loading task associated with the event.</param>
-        public ResourceLoadEventArgs(string message, double increment, long elapsedMiliseconds)
-            : base(message, increment) => ElapsedMiliseconds = elapsedMiliseconds;
+        /// <param name=" elapsedMilliseconds">The number of milliseconds consumed by the loading task associated with the event.</param>
+        public ResourceLoadEventArgs(string message, double increment, long  elapsedMilliseconds)
+            : base(message, increment) => ElapsedMiliseconds =  elapsedMilliseconds;
         /// <summary>
         /// The number of milliseconds consumed by the loading task associated with the event.
         /// </summary>
