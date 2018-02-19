@@ -31,18 +31,19 @@ namespace LASI.Content.Serialization.Xml
                 new XElement("SubjectOf",
                     ElementNames[entity.SubjectOf]),
                 new XElement("DirectObjectOf",
-                    ElementNames[entity.DirectObjectOf.Match((IVerbal v) => v)]),
+                    ElementNames[entity.DirectObjectOf.Match().Case((IVerbal v) => v).Result()]),
                 new XElement("IndirectObjectOf",
                     ElementNames[entity.IndirectObjectOf]),
                 new XElement("BoundPronouns",
-                    from r in entity.Referencers
-                    select new XElement("Referees", ElementNames[r])),
+                    from referencer in entity.Referencers
+                    select new XElement("Referees", ElementNames[referencer])),
                 new XElement("Descriptors",
-                    from d in entity.Descriptors
-                    select new XElement("DescribedBy", ElementNames[d])),
+                    from descriptor
+                    in entity.Descriptors
+                    select new XElement("DescribedBy", ElementNames[descriptor])),
                 new XElement("Possessions",
-                    from p in entity.Possessions
-                    select new XElement("Possesses", ElementNames[p])));
+                    from possessions in entity.Possessions
+                    select new XElement("Possesses", ElementNames[possessions])));
 
         private static readonly NodeNameMapper ElementNames = new NodeNameMapper();
 

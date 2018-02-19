@@ -8,16 +8,16 @@ namespace LASI.Core.Heuristics.Binding
     /// <summary>
     /// Establishes bindings between verbals and their subjects at the Phrase level.
     /// </summary>
-    public class SubjectBinder : IIntraSentenceBinder
+    public class SubjectBinder
     {
-        List<State> stateList = new List<State>();
+        readonly List<State> stateList = new List<State>();
         /// <summary>
-        /// This is the Bind function for the SubjectBinder Class 
+        /// This is the Bind function for the SubjectBinder Class
         /// </summary>
         /// <param name="sentence">The sentence to bind within.</param>
         public void Bind(Sentence sentence)
         {
-            //Handle case of verbless sentence. Needs to be included for the sake of security of the code. 
+            //Handle case of verbless sentence. Needs to be included for the sake of security of the code.
             if (!sentence.Phrases.OfVerbPhrase().Any())
             {
                 throw new VerblessPhrasalSequenceException(sentence.Phrases);
@@ -154,7 +154,7 @@ namespace LASI.Core.Heuristics.Binding
     public static class SubjectBinderPhraseExtensions
     {
         /// <summary>
-        /// Takes in a phrase and evaluates to see if anything in that phrase is a pronoun that could only be in the subject of a sentence. Will cut down on the number of compares for certain phrases. 
+        /// Takes in a phrase and evaluates to see if anything in that phrase is a pronoun that could only be in the subject of a sentence. Will cut down on the number of compares for certain phrases.
         /// </summary>
         /// <param name="p">Any phrase</param>
         /// <returns>Returns true of false if a phrase has a pronoun in it that can only be in the subject of a sentence</returns>

@@ -182,3 +182,8 @@ jspm_packages/
 *.vc.db
 /.idea/.idea.Lasi/.idea
 /.idea/.idea.Lasi/riderModule.iml
+.idea/httpRequests/http-requests-log.http
+.idea/.idea.Lasi/riderModule.iml
+.idea/.idea.Lasi/.idea/contentModel.xml
+.idea/.idea.Lasi/.idea/typescript-compiler.xml
+.idea/.idea.Lasi/.idea/workspace.xml

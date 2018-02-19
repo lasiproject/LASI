@@ -38,7 +38,12 @@ namespace LASI.Core.Binding.Experimental
                                       orderby actions.Count() descending
                                       select actions;
 
-                actionsByBranch.DefaultIfEmpty(Empty<Action>()).First().InvokeAll();
+                var branchActions = actionsByBranch.DefaultIfEmpty(Empty<Action>()).First();
+
+                foreach (var action in branchActions)
+                {
+                    action();
+                }
             }
         }
         private static IEnumerable<Action> GetBranchActions(IEnumerable<Word> words)

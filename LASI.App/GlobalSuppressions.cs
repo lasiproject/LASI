@@ -22,3 +22,5 @@
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0135:Function does not reach its end or a 'return' statement by any of possible execution paths", Justification = "Incorrect analysis. Handler removes itself after it has been called.", Scope = "member", Target = "~M:LASI.App.StartupWindow.expandCreatePanelButton_Click(System.Object,System.Windows.RoutedEventArgs)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0003:Remove qualification", Justification = "<Pending>", Scope = "member", Target = "~M:LASI.App.ProjectPreviewWindow.OpenLicensesMenuItem_Click_1(System.Object,System.Windows.RoutedEventArgs)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0165:Asynchronous methods should return a Task instead of void", Justification = "Event handler", Scope = "member", Target = "~M:LASI.App.ResultsWindow.AddMenuItem_Click")]
+

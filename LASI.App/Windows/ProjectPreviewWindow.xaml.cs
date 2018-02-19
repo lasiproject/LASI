@@ -263,5 +263,7 @@ namespace LASI.App
                 await orchestrator.ProcessAsync();
             }
         }
+
+        public string ApplicationVersion { get; set; } = System.Reflection.Assembly.GetExecutingAssembly().ImageRuntimeVersion;
     }
 }

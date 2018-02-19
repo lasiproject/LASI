@@ -172,7 +172,7 @@ namespace LASI.Core.Heuristics
         /// <returns>
         /// <c>true</c> if the SimResult on the left is equal to the SimResult on the right.
         /// </returns>
-        public static bool operator ==(Similarity left, Similarity right) => left.Boolean == right.Boolean && left.Ratio == right.Ratio;
+        public static bool operator ==(Similarity left, Similarity right) => left.Boolean == right.Boolean && Math.Abs(left.Ratio - right.Ratio) < double.Epsilon;
 
         /// <summary>
         /// Returns a value that indicates whether the SimResult on the left is not equal to the

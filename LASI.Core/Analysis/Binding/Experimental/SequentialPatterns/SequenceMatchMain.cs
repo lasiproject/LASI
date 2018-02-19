@@ -8,13 +8,13 @@ using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
 {
     /// <summary>
-    /// Represents a binding expression applied to a sequence if lexical constructs. 
+    /// Represents a binding expression applied to a sequence if lexical constructs.
     /// </summary>
     public partial class SequenceMatch
     {
         #region Constructors
 
-        internal SequenceMatch(IEnumerable<ILexical> sequence) => this.sequence = sequence.ToList();
+        internal SequenceMatch(IEnumerable<ILexical> sequence) => elements = sequence.ToList();
 
         internal SequenceMatch(Sentence sentence) : this(sentence.Phrases) { }
 
@@ -23,7 +23,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         #region Ignore Clauses
 
         /// <summary>
-        /// Filters elements of the given type out of the sequence before attempting to match any subsequent patterns. 
+        /// Filters elements of the given type out of the sequence before attempting to match any subsequent patterns.
         /// </summary>
         /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
         /// <returns> The SentenceMatch so far. </returns>
@@ -35,7 +35,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns. 
+        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns.
         /// </summary>
         /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
         /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
@@ -49,7 +49,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns. 
+        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns.
         /// </summary>
         /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
         /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
@@ -65,7 +65,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns. 
+        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns.
         /// </summary>
         /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
         /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
@@ -83,7 +83,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns. 
+        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns.
         /// </summary>
         /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
         /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
@@ -103,7 +103,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements matching the supplied predicate out of the sequence before attempting to match any subsequent patterns. 
+        /// Filters elements matching the supplied predicate out of the sequence before attempting to match any subsequent patterns.
         /// </summary>
         /// <param name="predicate"> The predicate which selects which elements to filter. </param>
         /// <returns> The SentenceMatch so far. </returns>
@@ -114,7 +114,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given type out of the sequence before attempting to match the next pattern. 
+        /// Filters elements of the given type out of the sequence before attempting to match the next pattern.
         /// </summary>
         /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
         /// <returns> The SentenceMatch so far. </returns>
@@ -126,7 +126,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match the next pattern. 
+        /// Filters elements of the given types out of the sequence before attempting to match the next pattern.
         /// </summary>
         /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
         /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
@@ -140,7 +140,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match the next pattern. 
+        /// Filters elements of the given types out of the sequence before attempting to match the next pattern.
         /// </summary>
         /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
         /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
@@ -156,7 +156,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match the next pattern. 
+        /// Filters elements of the given types out of the sequence before attempting to match the next pattern.
         /// </summary>
         /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
         /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
@@ -174,7 +174,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match the next pattern. 
+        /// Filters elements of the given types out of the sequence before attempting to match the next pattern.
         /// </summary>
         /// <typeparam name="T1"> The first type of element to filter out. </typeparam>
         /// <typeparam name="T2"> The second type of element to filter out. </typeparam>
@@ -194,7 +194,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Filters elements matching the specified predicate out of the sequence before attempting to match the next pattern. 
+        /// Filters elements matching the specified predicate out of the sequence before attempting to match the next pattern.
         /// </summary>
         /// <param name="predicate"> The predicate to apply to the sequence. </param>
         /// <returns> The SentenceMatch so far. </returns>
@@ -209,7 +209,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         #region Guard Clauses
 
         /// <summary>
-        /// Predicates the next bind on the specified condition. 
+        /// Predicates the next bind on the specified condition.
         /// </summary>
         /// <param name="condition"> The condition which must be met for the next binding function to be attempted. </param>
         /// <returns> The SequenceMatch instance representing the binding so far. </returns>
@@ -221,7 +221,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Predicates the next bind on the specified condition. 
+        /// Predicates the next bind on the specified condition.
         /// </summary>
         /// <param name="condition"> The condition which must be met for the next binding function to be attempted. </param>
         /// <returns> The SequenceMatch instance representing the binding so far. </returns>
@@ -237,16 +237,17 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             if (!Accepted && ApplicableGuardsSatisfied)
             {
                 onSuccess();
-                Sequence = Sequence.Skip(indexOfLast);
+                Elements = Elements.Skip(indexOfLast);
                 guarded = false;
             }
+
             return this;
         }
 
         #endregion Guard Clauses
 
         /// <summary>
-        /// Set the continuation mode of the SequenceMatch. 
+        /// Set the continuation mode of the SequenceMatch.
         /// </summary>
         /// <param name="mode"> The continuation mode to set. </param>
         /// <returns> The SentenceMatch so far. </returns>
@@ -257,7 +258,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         }
 
         /// <summary>
-        /// Appends a log action to the <see cref="SequenceMatch"/>. 
+        /// Appends a log action to the <see cref="SequenceMatch"/>.
         /// </summary>
         /// <param name="log"> The log action. </param>
         /// <returns> The <see cref="SequenceMatch"/>. </returns>
@@ -269,19 +270,17 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
 
         #region Private fields and properties
 
-        private Action<string> log = delegate { };
+        private Action<string> log = obj => { };
 
         /// <summary>
-        /// Gets or sets the value indicating whether or not the a pattern has been matched. 
+        /// A value indicating whether or not the a pattern has been matched.
         /// </summary>
-        /// <returns></returns>
-        protected bool Accepted { get; set; }
+        private bool Accepted { get; set; }
 
         private IReadOnlyList<ILexical> FilterByCurrentPredicates(IReadOnlyList<ILexical> values)
         {
             var results = new List<ILexical>(values.Count);
             var tests = checkOncePredicates.Concat(predicates);
-            bool test(ILexical e) => tests.All(t => t(e));
             var i = 0;
             for (; i < values.Count; ++i)
             {
@@ -291,21 +290,23 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
                     results.Add(lexical);
                 }
             }
+
             indexOfLast = i;
 
             return results;
+            bool test(ILexical e) => tests.All(t => t(e));
         }
 
-        private IReadOnlyList<ILexical> Sequence
+        private IReadOnlyList<ILexical> Elements
         {
-            get => sequence;
-            set => sequence = value;
+            get => elements;
+            set => elements = value;
         }
 
-        private IReadOnlyList<ILexical> SequenceFilteredByCurrentPredicates => FilterByCurrentPredicates(Sequence);
+        private IReadOnlyList<ILexical> SequenceFilteredByCurrentPredicates => FilterByCurrentPredicates(Elements);
 
         /// <summary>
-        /// <c> true </c> if all guards have been satisfied or there are no applicable guards; otherwise, <c> false </c>. 
+        /// <c> true </c> if all guards have been satisfied or there are no applicable guards; otherwise, <c> false </c>.
         /// </summary>
         private bool ApplicableGuardsSatisfied => guarded && guardSatisfied || !guarded;
 
@@ -314,7 +315,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         private bool guarded;
         private readonly List<Func<ILexical, bool>> predicates = new List<Func<ILexical, bool>>();
         private readonly List<Func<ILexical, bool>> checkOncePredicates = new List<Func<ILexical, bool>>();
-        private IReadOnlyList<ILexical> sequence;
+        private IReadOnlyList<ILexical> elements;
         private int indexOfLast;
 
         #endregion Private fields and properties

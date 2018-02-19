@@ -1,5 +1,7 @@
+using System;
 using System.IO;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +15,11 @@ namespace LASI.WebApp
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options => { })
+            services
+                .AddCors(options =>
+                {
+                    options.AddDefaultPolicy(ConfigureCorsPolicy);
+                })
                 .AddDirectoryBrowser();
         }
 
@@ -27,22 +33,23 @@ namespace LASI.WebApp
             env.WebRootPath = "/";
             //env.WebRootFileProvider= new
             var root = Path.Combine(Directory.GetCurrentDirectory());
-            app.UseCors(policy =>
-            {
-                policy.SetIsOriginAllowedToAllowWildcardSubdomains()
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials();
-            })
-            .UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(root),
-                ServeUnknownFileTypes = true,
-                DefaultContentType = "text/plain",
-                RequestPath = new PathString("")
-            })
-            .UseDefaultFiles();
+
+            app.UseCors(ConfigureCorsPolicy)
+               .UseStaticFiles(new StaticFileOptions
+               {
+                   FileProvider = new PhysicalFileProvider(root),
+                   ServeUnknownFileTypes = true,
+                   DefaultContentType = "text/plain",
+                   RequestPath = new PathString("")
+               })
+               .UseDefaultFiles();
         }
+
+        static void ConfigureCorsPolicy(CorsPolicyBuilder policy) =>
+            policy.SetIsOriginAllowedToAllowWildcardSubdomains()
+                  .AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
     }
 }

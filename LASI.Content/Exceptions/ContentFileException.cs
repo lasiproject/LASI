@@ -27,7 +27,7 @@ namespace LASI.Content
         /// Initializes a new instance of the FileSystemException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood</param>
-        /// <param name="inner">  
+        /// <param name="inner">
         /// The exception that is the cause of the current exception. If the innerException parameter is not null, the current exception is raised in a catch block that handles the inner exception.
         /// </param>
         protected ContentFileException(string message, Exception inner)

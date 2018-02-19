@@ -8,16 +8,26 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
-    <PackageReference Include="NFluent" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.0-preview2-30183" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.1.0-preview2-30171" />
+    <PackageReference Include="Microsoft.AspNetCore.Testing" Version="2.1.0-preview2-30171" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.0-preview2-30171" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0-preview-20180221-13" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+    <PackageReference Include="NFluent" Version="2.2.0" />
     <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.assert" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.console" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.utility" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
@@ -27,6 +37,10 @@
     <ProjectReference Include="..\LASI.Interop\LASI.Interop.csproj" />
     <ProjectReference Include="..\LASI.Utilities\LASI.Utilities.csproj" />
     <ProjectReference Include="..\LASI.WebService\LASI.WebService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Api\" />
   </ItemGroup>
 
 </Project>

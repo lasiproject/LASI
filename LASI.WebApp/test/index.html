@@ -7,11 +7,14 @@
 </head>
 
 <body>
-  <script src="/jspm_packages/system.js"></script>
-  <script src="/jspm.config.js"></script>
-  <script>
-      SystemJS.import('test').catch(console.error.bind(console));
-  </script>
+<script src="/jspm_packages/system.js"></script>
+<script src="/jspm.config.js"></script>
+<script src="/jspm.browser.js"></script>
+<script src="/jspm.dev.js"></script>
+
+<script>
+  SystemJS.import('test').catch(console.error.bind(console));
+</script>
 </body>
 
 </html>

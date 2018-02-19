@@ -47,6 +47,6 @@ namespace LASI.Core
         /// </summary>
         public virtual IEntity Describes { get; set; }
 
-        private ISet<IAdverbial> adverbialModifiers = new HashSet<IAdverbial>();
+        private readonly ISet<IAdverbial> adverbialModifiers = new HashSet<IAdverbial>();
     }
 }

@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using LASI.Utilities.Configuration;
-using LASI.WebService.Config;
+using LASI.WebService.Configuration;
 using LASI.WebService.Data;
-using LASI.WebService.Extensions;
 using LASI.WebService.Services;
+using LASI.WebService.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace LASI.WebService
 {
@@ -28,7 +29,7 @@ namespace LASI.WebService
         /// <param name="services">The service collection.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IValuesService, ValuesService>()
+            services
                 .AddSingleton(Configuration)
                 .AddDbContext<ApplicationDbContext>((options) =>
                 {
@@ -38,12 +39,16 @@ namespace LASI.WebService
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc()
+            services
+                .AddMvc()
                 .AddJsonOptions(options =>
                 {
                     JsonConfiguration.AddDefaultSerializerSettings(options.SerializerSettings);
                 })
-                .AddMvcOptions(options => {})
+                .AddMvcOptions(options =>
+                {
+                    options.Filters.Add(new RequireHttpsAttribute());
+                })
                 .AddRazorOptions(options =>
                 {
                     options.CompilationCallback = e => System.Console.WriteLine(e.Compilation);
@@ -54,7 +59,7 @@ namespace LASI.WebService
                     options.Conventions.AuthorizePage("/Account/Logout");
                 });
 
-            services.AddSingleton<IEnumerable<(string key, int value)>>(provider => new []
+            services.AddSingleton<IEnumerable<(string key, int value)>>(provider => new[]
             {
                 (key: "A", value : 1)
             });
@@ -62,21 +67,31 @@ namespace LASI.WebService
             // Register no-op EmailSender used by account confirmation and password reset during development For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
             services.AddSingleton<IEmailSender, EmailSender>();
 
-            services.AddSignalR(options =>
+            services
+                .AddCors()
+                .AddSockets()
+                .AddSignalR()
+                .AddJsonProtocol(options =>
+                {
+                    JsonConfiguration.AddDefaultSerializerSettings(options.PayloadSerializerSettings);
+                });
+
+            services.AddDbContext<DocumentsContext>(options =>
             {
-                JsonConfiguration.AddDefaultSerializerSettings(options.JsonSerializerSettings);
+                options.UseSqlServer(Configuration.GetConnectionString("DocumentsContext"));
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
         {
-            var (isDevelopment, _, _) = env;
+            var isDevelopment = env.IsDevelopment();
             if (isDevelopment)
             {
                 app.UseDeveloperExceptionPage()
-                    .UseBrowserLink()
-                    .UseDatabaseErrorPage();
+                   .UseBrowserLink()
+                   .UseDatabaseErrorPage();
             }
             else
             {
@@ -84,22 +99,39 @@ namespace LASI.WebService
             }
 
             app.UseStaticFiles()
-                .UseAuthentication()
-                .UseSignalR(options =>
-                {
-                    options.MapHub<JwtBroadcaster>("broadcast");
-                })
-                .UseMvc(routes =>
-                {
-                    routes.MapRoute(
-                        name: "default",
-                        template: "{controller}/{action=Index}/{id?}");
-                    // .MapRoute(
-                    // name: "api",
-                    // template: "api/{controller}/{id?}");
-                });
+               .UseCors(policy =>
+               {
+                   policy.SetIsOriginAllowedToAllowWildcardSubdomains()
+                         .AllowAnyOrigin()
+                         .AllowAnyHeader()
+                         .AllowAnyMethod()
+                         .AllowCredentials();
+               })
+               .UseWebSockets()
+               .UseAuthentication()
+               .UseSignalR(options =>
+               {
+                   options.MapHub<JwtBroadcaster>("/broadcast", socket =>
+                   {
+                       socket.LongPolling.PollTimeout = 120.Seconds();
+                       socket.WebSockets.CloseTimeout = 100.Seconds();
+                   });
 
-            Interop.Configuration.Initialize(new JsonConfig("./appsettings.json"));
+                   options.MapHub<UploadProgressBroadcaster>("/upload/{id}/progress");
+               })
+               .UseMvc(routes =>
+               {
+                   routes.MapRoute(
+                       name: "default",
+                       template: "{controller}/{action=Index}/{id?}");
+                   // .MapRoute(
+                   // name: "api",
+                   // template: "api/{controller}/{id?}");
+               })
+               .UseRewriter(new RewriteOptions().AddRedirectToHttps());
+
+
+            Interop.Configuration.Initialize("./appsettings.json", Interop.ConfigurationFormat.Json, "Resources");
         }
     }
 

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LASI.Core</RootNamespace>
     <AssemblyName>LASI.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -120,17 +120,6 @@
     <Compile Include="Analysis\WordMorphing\WordNetExceptionDataManager.cs" />
     <Compile Include="Analysis\Melding\LiftedEntity.cs" />
     <Compile Include="Analysis\Melding\MeldingExtensions.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\Applicator.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\CaseTypePredicate.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\ExactTextPredicate.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\Predicate.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\PredicateBuilder.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\WhenPredicate.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\WhenPredicateT.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\Termification\Term.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\Termification\Tests.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\TokenBased.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\MatchAgainstTuple.cs" />
     <Compile Include="Analysis\PatternMatching\MatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\Match.cs" />
     <Compile Include="Analysis\PatternMatching\PredicatedMatchBase.cs" />
@@ -178,7 +167,7 @@
     <Compile Include="Analysis\CrossDocumentJoiner.cs" />
     <Compile Include="Analysis\Support\SvoRelationship.cs" />
     <Compile Include="Configuration\ReportEventArgs.cs" />
-    <Compile Include="Analysis\AdverbialSimilarityProvider.cs" />
+    <Compile Include="Analysis\AdverbialSimilarityExtensions.cs" />
     <Compile Include="Analysis\ResourceLoadEventArgs.cs" />
     <Compile Include="Analysis\VerbalSimilarityProvider.cs" />
     <Compile Include="Analysis\WordMorphing\AdverbMorpher.cs" />

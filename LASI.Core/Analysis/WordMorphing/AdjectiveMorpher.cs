@@ -123,9 +123,11 @@ namespace LASI.Core.Heuristics.Heuristics.WordMorphing
                 }
                 yield break;
             }
-            foreach (var form in from suffixAndEnding in EndingSuffixPairs/*.Skip(root[root.Length - 1].EqualsIgnoreCase('e') ? 2 : 0).Take(2)*/
-                                 where suffixAndEnding.ending.Length == 0 || root.EndsWith(suffixAndEnding.ending)
-                                 select suffixAndEnding.RemoveEndingAndApplySuffix(root))
+
+            var forms = from suffixAndEnding in EndingSuffixPairs/*.Skip(root[root.Length - 1].EqualsIgnoreCase('e') ? 2 : 0).Take(2)*/
+                        where suffixAndEnding.ending.Length == 0 || root.EndsWith(suffixAndEnding.ending, Ordinal)
+                        select suffixAndEnding.RemoveEndingAndApplySuffix(root);
+            foreach (var form in forms)
             {
                 yield return form + hyphenatedAppendage;
             }

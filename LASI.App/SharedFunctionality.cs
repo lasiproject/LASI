@@ -125,6 +125,7 @@ namespace LASI.App
         internal static void DisplayPreferencesWindow(Window source)
         {
             var preferences = new Preferences();
+            preferences.Owner = source;
             preferences.Left = (source.Left - preferences.Left) / 2;
             preferences.Top = (source.Top - preferences.Top) / 2;
             var saved = preferences.ShowDialog();

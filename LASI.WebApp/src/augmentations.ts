@@ -1,6 +1,5 @@
 // Ensure this remains a module regardless of dependencies
-export { }
-import { FrameworkConfiguration } from 'aurelia-framework';
+import {FrameworkConfiguration} from 'aurelia-framework';
 
 declare module 'aurelia-framework' {
   interface FrameworkConfiguration {
@@ -8,7 +7,7 @@ declare module 'aurelia-framework' {
   }
 }
 
-const { singleton } = FrameworkConfiguration.prototype;
+const {singleton} = FrameworkConfiguration.prototype;
 FrameworkConfiguration.prototype.singleton = function (type: {}, implementationOrFactory: () => {}, deps?: {}) {
   if (Array.isArray(deps) && deps.length) {
     implementationOrFactory.inject = [...deps];

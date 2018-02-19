@@ -16,7 +16,10 @@ namespace LASI.Core.Binding
         /// <param name="sentence">The Sentence to bind within.</param>
         public static void Bind(Sentence sentence)
         {
-            GetPossibilities(sentence).InvokeAll();
+            foreach (var possibility in GetPossibilities(sentence))
+            {
+                possibility();
+            }
         }
 
         private static IEnumerable<Action> GetPossibilities(Sentence sentence) =>

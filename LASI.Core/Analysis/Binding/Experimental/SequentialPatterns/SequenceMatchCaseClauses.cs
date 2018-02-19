@@ -160,9 +160,9 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9);
-                Sequence = Sequence.Skip(9);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9);
+                Elements = Elements.Skip(9);
             }
         });
 
@@ -236,10 +236,10 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
                 {
-                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                        Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                        Sequence[10] as T11);
-                    Sequence = Sequence.Skip(11);
+                    pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                        Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                        Elements[10] as T11);
+                    Elements = Elements.Skip(11);
                 }
             });
 
@@ -277,10 +277,10 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                    Sequence[10] as T11, Sequence[11] as T12);
-                Sequence = Sequence.Skip(12);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                    Elements[10] as T11, Elements[11] as T12);
+                Elements = Elements.Skip(12);
             }
         });
 
@@ -320,10 +320,10 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                    Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13);
-                Sequence = Sequence.Skip(13);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                    Elements[10] as T11, Elements[11] as T12, Elements[12] as T13);
+                Elements = Elements.Skip(13);
             }
         });
 
@@ -367,10 +367,10 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
                 {
-                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                        Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                        Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14);
-                    Sequence = Sequence.Skip(14);
+                    pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                        Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                        Elements[10] as T11, Elements[11] as T12, Elements[12] as T13, Elements[13] as T14);
+                    Elements = Elements.Skip(14);
                 }
             });
 
@@ -415,22 +415,22 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1,
-                    Sequence[1] as T2,
-                    Sequence[2] as T3,
-                    Sequence[3] as T4,
-                    Sequence[4] as T5,
-                    Sequence[5] as T6,
-                    Sequence[6] as T7,
-                    Sequence[7] as T8,
-                    Sequence[8] as T9,
-                    Sequence[9] as T10,
-                    Sequence[10] as T11,
-                    Sequence[11] as T12,
-                    Sequence[12] as T13,
-                    Sequence[13] as T14,
-                    Sequence[14] as T15);
-                Sequence = Sequence.Skip(15);
+                pattern(Elements[0] as T1,
+                    Elements[1] as T2,
+                    Elements[2] as T3,
+                    Elements[3] as T4,
+                    Elements[4] as T5,
+                    Elements[5] as T6,
+                    Elements[6] as T7,
+                    Elements[7] as T8,
+                    Elements[8] as T9,
+                    Elements[9] as T10,
+                    Elements[10] as T11,
+                    Elements[11] as T12,
+                    Elements[12] as T13,
+                    Elements[13] as T14,
+                    Elements[14] as T15);
+                Elements = Elements.Skip(15);
             }
         });
 
@@ -477,10 +477,10 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                    Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15, Sequence[15] as T16);
-                Sequence = Sequence.Skip(16);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                    Elements[10] as T11, Elements[11] as T12, Elements[12] as T13, Elements[13] as T14, Elements[14] as T15, Elements[15] as T16);
+                Elements = Elements.Skip(16);
             }
         });
 
@@ -529,11 +529,11 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                    Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15,
-                    Sequence[15] as T16, Sequence[16] as T17);
-                Sequence = Sequence.Skip(17);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                    Elements[10] as T11, Elements[11] as T12, Elements[12] as T13, Elements[13] as T14, Elements[14] as T15,
+                    Elements[15] as T16, Elements[16] as T17);
+                Elements = Elements.Skip(17);
             }
         });
 
@@ -585,11 +585,11 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
                 {
-                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                        Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                        Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15,
-                        Sequence[15] as T16, Sequence[16] as T17, Sequence[17] as T18);
-                    Sequence = Sequence.Skip(18);
+                    pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                        Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                        Elements[10] as T11, Elements[11] as T12, Elements[12] as T13, Elements[13] as T14, Elements[14] as T15,
+                        Elements[15] as T16, Elements[16] as T17, Elements[17] as T18);
+                    Elements = Elements.Skip(18);
                 }
             });
 
@@ -643,11 +643,11 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                    Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15,
-                    Sequence[15] as T16, Sequence[16] as T17, Sequence[17] as T18, Sequence[18] as T19);
-                Sequence = Sequence.Skip(19);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                    Elements[10] as T11, Elements[11] as T12, Elements[12] as T13, Elements[13] as T14, Elements[14] as T15,
+                    Elements[15] as T16, Elements[16] as T17, Elements[17] as T18, Elements[18] as T19);
+                Elements = Elements.Skip(19);
             }
         });
 
@@ -703,11 +703,11 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             if (Accepted)
             {
                 {
-                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                        Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                        Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15,
-                        Sequence[15] as T16, Sequence[16] as T17, Sequence[17] as T18, Sequence[18] as T19, Sequence[19] as T20);
-                    Sequence = Sequence.Skip(20);
+                    pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                        Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                        Elements[10] as T11, Elements[11] as T12, Elements[12] as T13, Elements[13] as T14, Elements[14] as T15,
+                        Elements[15] as T16, Elements[16] as T17, Elements[17] as T18, Elements[18] as T19, Elements[19] as T20);
+                    Elements = Elements.Skip(20);
                 }
             }
         });
@@ -731,8 +731,8 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2);
-                Sequence = Sequence.Skip(2);
+                pattern(Elements[0] as T1, Elements[1] as T2);
+                Elements = Elements.Skip(2);
             }
         });
 
@@ -753,8 +753,8 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3);
-                Sequence = Sequence.Skip(3);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3);
+                Elements = Elements.Skip(3);
             }
         });
 
@@ -777,8 +777,8 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4);
-                Sequence = Sequence.Skip(4);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4);
+                Elements = Elements.Skip(4);
             }
         });
 
@@ -803,8 +803,8 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5);
-                Sequence = Sequence.Skip(5);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5);
+                Elements = Elements.Skip(5);
             }
         });
 
@@ -831,9 +831,9 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6);
-                Sequence = Sequence.Skip(6);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6);
+                Elements = Elements.Skip(6);
             }
         });
 
@@ -862,9 +862,9 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7);
-                Sequence = Sequence.Skip(7);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7);
+                Elements = Elements.Skip(7);
             }
         });
 
@@ -895,9 +895,9 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8);
-                Sequence = Sequence.Skip(8);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8);
+                Elements = Elements.Skip(8);
             }
         });
 
@@ -930,9 +930,9 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9);
-                Sequence = Sequence.Skip(9);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9);
+                Elements = Elements.Skip(9);
             }
         });
 
@@ -967,9 +967,9 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10);
-                Sequence = Sequence.Skip(10);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10);
+                Elements = Elements.Skip(10);
             }
         });
 
@@ -1006,10 +1006,10 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                    Sequence[10] as T11);
-                Sequence = Sequence.Skip(11);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                    Elements[10] as T11);
+                Elements = Elements.Skip(11);
             }
         });
 
@@ -1048,10 +1048,10 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                    Sequence[10] as T11, Sequence[11] as T12);
-                Sequence = Sequence.Skip(12);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                    Elements[10] as T11, Elements[11] as T12);
+                Elements = Elements.Skip(12);
             }
         });
 
@@ -1092,10 +1092,10 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                    Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13);
-                Sequence = Sequence.Skip(13);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                    Elements[10] as T11, Elements[11] as T12, Elements[12] as T13);
+                Elements = Elements.Skip(13);
             }
         });
 
@@ -1140,10 +1140,10 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                    Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14);
-                Sequence = Sequence.Skip(14);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                    Elements[10] as T11, Elements[11] as T12, Elements[12] as T13, Elements[13] as T14);
+                Elements = Elements.Skip(14);
             }
         });
 
@@ -1189,22 +1189,22 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1,
-                    Sequence[1] as T2,
-                    Sequence[2] as T3,
-                    Sequence[3] as T4,
-                    Sequence[4] as T5,
-                    Sequence[5] as T6,
-                    Sequence[6] as T7,
-                    Sequence[7] as T8,
-                    Sequence[8] as T9,
-                    Sequence[9] as T10,
-                    Sequence[10] as T11,
-                    Sequence[11] as T12,
-                    Sequence[12] as T13,
-                    Sequence[13] as T14,
-                    Sequence[14] as T15);
-                Sequence = Sequence.Skip(15);
+                pattern(Elements[0] as T1,
+                    Elements[1] as T2,
+                    Elements[2] as T3,
+                    Elements[3] as T4,
+                    Elements[4] as T5,
+                    Elements[5] as T6,
+                    Elements[6] as T7,
+                    Elements[7] as T8,
+                    Elements[8] as T9,
+                    Elements[9] as T10,
+                    Elements[10] as T11,
+                    Elements[11] as T12,
+                    Elements[12] as T13,
+                    Elements[13] as T14,
+                    Elements[14] as T15);
+                Elements = Elements.Skip(15);
             }
         });
 
@@ -1252,10 +1252,10 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                    Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15, Sequence[15] as T16);
-                Sequence = Sequence.Skip(16);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                    Elements[10] as T11, Elements[11] as T12, Elements[12] as T13, Elements[13] as T14, Elements[14] as T15, Elements[15] as T16);
+                Elements = Elements.Skip(16);
             }
         });
 
@@ -1305,11 +1305,11 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                    Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15,
-                    Sequence[15] as T16, Sequence[16] as T17);
-                Sequence = Sequence.Skip(17);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                    Elements[10] as T11, Elements[11] as T12, Elements[12] as T13, Elements[13] as T14, Elements[14] as T15,
+                    Elements[15] as T16, Elements[16] as T17);
+                Elements = Elements.Skip(17);
             }
         });
 
@@ -1361,11 +1361,11 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                    Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15,
-                    Sequence[15] as T16, Sequence[16] as T17, Sequence[17] as T18);
-                Sequence = Sequence.Skip(18);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                    Elements[10] as T11, Elements[11] as T12, Elements[12] as T13, Elements[13] as T14, Elements[14] as T15,
+                    Elements[15] as T16, Elements[16] as T17, Elements[17] as T18);
+                Elements = Elements.Skip(18);
             }
         });
 
@@ -1420,11 +1420,11 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
             if (Accepted)
             {
-                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                    Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                    Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15,
-                    Sequence[15] as T16, Sequence[16] as T17, Sequence[17] as T18, Sequence[18] as T19);
-                Sequence = Sequence.Skip(19);
+                pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                    Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                    Elements[10] as T11, Elements[11] as T12, Elements[12] as T13, Elements[13] as T14, Elements[14] as T15,
+                    Elements[15] as T16, Elements[16] as T17, Elements[17] as T18, Elements[18] as T19);
+                Elements = Elements.Skip(19);
             }
         });
 
@@ -1481,11 +1481,11 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             if (Accepted)
             {
                 {
-                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                        Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                        Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15,
-                        Sequence[15] as T16, Sequence[16] as T17, Sequence[17] as T18, Sequence[18] as T19, Sequence[19] as T20);
-                    Sequence = Sequence.Skip(20);
+                    pattern(Elements[0] as T1, Elements[1] as T2, Elements[2] as T3, Elements[3] as T4, Elements[4] as T5,
+                        Elements[5] as T6, Elements[6] as T7, Elements[7] as T8, Elements[8] as T9, Elements[9] as T10,
+                        Elements[10] as T11, Elements[11] as T12, Elements[12] as T13, Elements[13] as T14, Elements[14] as T15,
+                        Elements[15] as T16, Elements[16] as T17, Elements[17] as T18, Elements[18] as T19, Elements[19] as T20);
+                    Elements = Elements.Skip(20);
                 }
             }
         });

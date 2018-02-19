@@ -1,6 +1,5 @@
 ﻿using LASI.Utilities;
 using LASI.Utilities.Configuration;
-using LASI.Utilities.Validation;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
@@ -14,6 +13,10 @@ namespace LASI.Interop
     /// </summary>
     public static class Configuration
     {
+        /// <summary>
+        /// Configures how components are initialized by specifying the locations of required resource files.
+        /// </summary>
+        /// <param name="config">An XML or JSON document containing configuration information.</param>
         public static void Initialize(IConfig config) => Initialize(() => config);
 
         /// <summary>
@@ -21,7 +24,8 @@ namespace LASI.Interop
         /// </summary>
         /// <param name="configUrl">The location of an XML or JSON document containing configuration information.</param>
         /// <param name="format">Specifies the format of the document containing the configuration information.</param>
-        public static void Initialize(string configUrl, ConfigurationFormat format) => Initialize(configUrl, format, null);
+        public static void Initialize(string configUrl, ConfigurationFormat format) =>
+            Initialize(configUrl, format, null);
 
         /// <summary>
         /// Configures how components are initialized by specifying the locations of required resource files.
@@ -38,21 +42,24 @@ namespace LASI.Interop
             var isFsPath = File.Exists(Path.GetFullPath(configUrl));
             if (!isUrl && !isFsPath)
             {
-                throw new ArgumentException("The specified url is neither an accessible file system location nor a valid Uri", nameof(configUrl));
+                throw new ArgumentException(
+                    "The specified url is neither an accessible file system location nor a valid Uri",
+                    nameof(configUrl));
             }
+
             Initialize(
-               stream: isUrl ? WebRequest.CreateHttp(configUrl).GetRequestStream() :
-               isFsPath ? new FileStream(
-                   options: FileOptions.Asynchronous,
-                   path: Path.GetFullPath(configUrl),
-                   mode: FileMode.Open,
-                   access: FileAccess.Read,
-                   share: FileShare.Read,
-                   bufferSize: 1024
-               ) : null,
-               format: format,
-               subkey: subkey
-           );
+                stream: isUrl ? WebRequest.CreateHttp(configUrl).GetRequestStream() :
+                isFsPath ? new FileStream(
+                    options: FileOptions.Asynchronous,
+                    path: Path.GetFullPath(configUrl),
+                    mode: FileMode.Open,
+                    access: FileAccess.Read,
+                    share: FileShare.Read,
+                    bufferSize: 1024
+                ) : null,
+                format: format,
+                subkey: subkey
+            );
         }
 
         /// <summary>
@@ -87,6 +94,7 @@ namespace LASI.Interop
                 {
                     throw new AlreadyConfiguredException();
                 }
+
                 var config = configFactory();
                 InitializeComponents(config);
                 alreadyConfigured = true;
@@ -101,6 +109,7 @@ namespace LASI.Interop
                 {
                     throw new AlreadyConfiguredException();
                 }
+
                 var config = format is ConfigurationFormat.Json is var j
                     ? loadJsonConfig()
                     : format is ConfigurationFormat.Xml is var x
@@ -112,14 +121,14 @@ namespace LASI.Interop
             }
 
             IConfig loadXmlConfig() =>
-                    new XmlConfig(subkey.IsNullOrWhiteSpace()
-                ? XElement.Parse(raw)
-                : XElement.Parse(raw).Element(subkey));
+                new XmlConfig(subkey.IsNullOrWhiteSpace()
+                    ? XElement.Parse(raw)
+                    : XElement.Parse(raw).Element(subkey));
 
             IConfig loadJsonConfig() =>
-                    new JsonConfig((JObject)(subkey.IsNullOrWhiteSpace()
-                ? JToken.Parse(raw)
-                : JToken.Parse(raw).SelectToken(subkey)));
+                new JsonConfig((JObject) (subkey.IsNullOrWhiteSpace()
+                    ? JToken.Parse(raw)
+                    : JToken.Parse(raw).SelectToken(subkey)));
         }
 
         static void InitializeComponents(IConfig settings)
@@ -131,7 +140,7 @@ namespace LASI.Interop
         static bool alreadyConfigured;
 
         static readonly string configFormatError =
-                $"Invalid config format, specify {nameof(ConfigurationFormat)}: {nameof(ConfigurationFormat.Json)} or {nameof(ConfigurationFormat)}{nameof(ConfigurationFormat.Xml)}";
+            $"Invalid config format, specify {nameof(ConfigurationFormat)}: {nameof(ConfigurationFormat.Json)} or {nameof(ConfigurationFormat)}{nameof(ConfigurationFormat.Xml)}";
 
         static readonly object initializationLock = new object();
     }

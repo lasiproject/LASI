@@ -3,52 +3,145 @@
     "baseUrl": ".",
     "moduleResolution": "node",
     "paths": {
-      "app": ["src"],
-      "app/*": ["src/*"],
-      "models": ["src/models"],
-      "models/*": ["src/models/*"],
-      "env": ["src/env/dev.js", "src/env/prod.js"],
-      "tslib": ["jspm_packages/npm/tslib@1.8.0"],
-      "jquery": ["jspm_packages/npm/@types/jquery@latest"],
-      "typeahead": ["jspm_packages/npm/@types/typeahead@0.11.28"],
-      "rxjs": ["jspm_packages/npm/rxjs@5.5.2"],
-      "rxjs/*": ["jspm_packages/npm/rxjs@5.5.2/*"],
-      "moment": ["jspm_packages/npm/moment@2.19.2"],
-      "tape": ["jspm_packages/npm/@types/tape@latest"],
-      "deep-freeze": ["jspm_packages/npm/@types/deep-freeze@0.1.1"],
-      "aurelia-testing": ["jspm_packages/npm/aurelia-testing@1.0.0-beta.4.0.0"],
-      "aurelia-fetch-client": ["jspm_packages/npm/aurelia-fetch-client@1.1.3"],
-      "aurelia-binding": ["jspm_packages/npm/aurelia-binding@1.5.0"],
-      "aurelia-bootstrapper": ["jspm_packages/npm/aurelia-bootstrapper@2.1.1"],
-      "aurelia-dependency-injection": ["jspm_packages/npm/aurelia-dependency-injection@1.3.2"],
-      "aurelia-event-aggregator": ["jspm_packages/npm/aurelia-event-aggregator@1.0.1"],
-      "aurelia-history": ["jspm_packages/npm/aurelia-history@1.1.0"],
-      "aurelia-history-browser": ["jspm_packages/npm/aurelia-history-browser@1.1.0"],
-      "aurelia-loader": ["jspm_packages/npm/aurelia-loader@1.0.0"],
-      "aurelia-loader-default": ["jspm_packages/npm/aurelia-loader-default@1.0.3"],
-      "aurelia-logging": ["jspm_packages/npm/aurelia-logging@1.3.1"],
-      "aurelia-logging-console": ["jspm_packages/npm/aurelia-logging-console@1.0.0"],
-      "aurelia-metadata": ["jspm_packages/npm/aurelia-metadata@1.0.3"],
-      "aurelia-pal": ["jspm_packages/npm/aurelia-pal@1.4.0"],
-      "aurelia-pal-browser": ["jspm_packages/npm/aurelia-pal-browser@1.3.0"],
-      "aurelia-path": ["jspm_packages/npm/aurelia-path@1.1.1"],
-      "aurelia-polyfills": ["jspm_packages/npm/aurelia-polyfills@1.2.2"],
-      "aurelia-route-recognizer": ["jspm_packages/npm/aurelia-route-recognizer@1.1.1"],
-      "aurelia-router": ["jspm_packages/npm/aurelia-router@1.4.0"],
-      "aurelia-task-queue": ["jspm_packages/npm/aurelia-task-queue@1.2.1"],
-      "aurelia-templating": ["jspm_packages/npm/aurelia-templating@1.6.0"],
-      "aurelia-templating-binding": ["jspm_packages/npm/aurelia-templating-binding@1.4.0"],
-      "aurelia-templating-resources": ["jspm_packages/npm/aurelia-templating-resources@1.5.4"],
-      "aurelia-templating-router": ["jspm_packages/npm/aurelia-templating-router@1.2.0"],
-      "aurelia-dialog": ["jspm_packages/npm/aurelia-dialog@1.0.0-rc.2.0.0"],
-      "aurelia-framework": ["jspm_packages/npm/aurelia-framework@1.1.5"],
-      "jquery-contextmenu": ["jspm_packages/npm/@types/jquery.contextmenu@1.7.31"],
-      "aurelia-validation": ["jspm_packages/npm/aurelia-validation@1.1.2"],
-      "aurelia-ui-virtualization": ["jspm_packages/npm/aurelia-ui-virtualization@1.0.0-beta.3.1.2"],
-      "aurelia-ui-framework": ["jspm_packages/npm/aurelia-ui-framework@master"],
-      "flat-map": ["jspm_packages/github/aluanhaddad/flat-map@master"],
-      "aurelia-animator-css": ["jspm_packages/npm/aurelia-animator-css@1.0.4"],
-      "aurelia-http-client": ["jspm_packages/npm/aurelia-http-client@1.2.1"]
+      "app": [
+        "src"
+      ],
+      "app/*": [
+        "src/*"
+      ],
+      "models": [
+        "src/models"
+      ],
+      "models/*": [
+        "src/models/*"
+      ],
+      "env": [
+        "src/env/dev.js",
+        "src/env/prod.js"
+      ],
+      "tslib": [
+        "jspm_packages/npm/tslib@1.8.0"
+      ],
+      "jquery": [
+        "jspm_packages/npm/@types/jquery@latest"
+      ],
+      "typeahead": [
+        "jspm_packages/npm/@types/typeahead@0.11.28"
+      ],
+      "rxjs": [
+        "jspm_packages/npm/rxjs@5.5.2"
+      ],
+      "rxjs/*": [
+        "jspm_packages/npm/rxjs@5.5.2/*"
+      ],
+      "moment": [
+        "jspm_packages/npm/moment@2.19.2"
+      ],
+      "tape": [
+        "jspm_packages/npm/@types/tape@latest"
+      ],
+      "deep-freeze": [
+        "jspm_packages/npm/@types/deep-freeze@0.1.1"
+      ],
+      "aurelia-testing": [
+        "jspm_packages/npm/aurelia-testing@1.0.0-beta.4.0.0"
+      ],
+      "aurelia-fetch-client": [
+        "jspm_packages/npm/aurelia-fetch-client@1.1.3"
+      ],
+      "aurelia-binding": [
+        "jspm_packages/npm/aurelia-binding@1.5.0"
+      ],
+      "aurelia-bootstrapper": [
+        "jspm_packages/npm/aurelia-bootstrapper@2.1.1"
+      ],
+      "aurelia-dependency-injection": [
+        "jspm_packages/npm/aurelia-dependency-injection@1.3.2"
+      ],
+      "aurelia-event-aggregator": [
+        "jspm_packages/npm/aurelia-event-aggregator@1.0.1"
+      ],
+      "aurelia-history": [
+        "jspm_packages/npm/aurelia-history@1.1.0"
+      ],
+      "aurelia-history-browser": [
+        "jspm_packages/npm/aurelia-history-browser@1.1.0"
+      ],
+      "aurelia-loader": [
+        "jspm_packages/npm/aurelia-loader@1.0.0"
+      ],
+      "aurelia-loader-default": [
+        "jspm_packages/npm/aurelia-loader-default@1.0.3"
+      ],
+      "aurelia-logging": [
+        "jspm_packages/npm/aurelia-logging@1.3.1"
+      ],
+      "aurelia-logging-console": [
+        "jspm_packages/npm/aurelia-logging-console@1.0.0"
+      ],
+      "aurelia-metadata": [
+        "jspm_packages/npm/aurelia-metadata@1.0.3"
+      ],
+      "aurelia-pal": [
+        "jspm_packages/npm/aurelia-pal@1.4.0"
+      ],
+      "aurelia-pal-browser": [
+        "jspm_packages/npm/aurelia-pal-browser@1.3.0"
+      ],
+      "aurelia-path": [
+        "jspm_packages/npm/aurelia-path@1.1.1"
+      ],
+      "aurelia-polyfills": [
+        "jspm_packages/npm/aurelia-polyfills@1.2.2"
+      ],
+      "aurelia-route-recognizer": [
+        "jspm_packages/npm/aurelia-route-recognizer@1.1.1"
+      ],
+      "aurelia-router": [
+        "jspm_packages/npm/aurelia-router@1.4.0"
+      ],
+      "aurelia-task-queue": [
+        "jspm_packages/npm/aurelia-task-queue@1.2.1"
+      ],
+      "aurelia-templating": [
+        "jspm_packages/npm/aurelia-templating@1.6.0"
+      ],
+      "aurelia-templating-binding": [
+        "jspm_packages/npm/aurelia-templating-binding@1.4.0"
+      ],
+      "aurelia-templating-resources": [
+        "jspm_packages/npm/aurelia-templating-resources@1.5.4"
+      ],
+      "aurelia-templating-router": [
+        "jspm_packages/npm/aurelia-templating-router@1.2.0"
+      ],
+      "aurelia-dialog": [
+        "jspm_packages/npm/aurelia-dialog@1.0.0-rc.2.0.0"
+      ],
+      "aurelia-framework": [
+        "jspm_packages/npm/aurelia-framework@1.1.5"
+      ],
+      "jquery-contextmenu": [
+        "jspm_packages/npm/@types/jquery.contextmenu@1.7.31"
+      ],
+      "aurelia-validation": [
+        "jspm_packages/npm/aurelia-validation@1.1.2"
+      ],
+      "aurelia-ui-virtualization": [
+        "jspm_packages/npm/aurelia-ui-virtualization@1.0.0-beta.3.1.2"
+      ],
+      "aurelia-ui-framework": [
+        "jspm_packages/npm/aurelia-ui-framework@master"
+      ],
+      "flat-map": [
+        "jspm_packages/github/aluanhaddad/flat-map@master"
+      ],
+      "aurelia-animator-css": [
+        "jspm_packages/npm/aurelia-animator-css@1.0.4"
+      ],
+      "aurelia-http-client": [
+        "jspm_packages/npm/aurelia-http-client@1.2.1"
+      ]
     }
   }
 }

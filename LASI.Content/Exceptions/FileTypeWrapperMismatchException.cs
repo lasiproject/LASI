@@ -45,30 +45,11 @@ namespace LASI.Content.Exceptions
         {
         }
 
-        public sealed override IDictionary Data => base.Data;
-
-        public sealed override string Message => base.Message;
-
-        public sealed override string Source { get => base.Source; set => base.Source = value; }
-
-        public sealed override string HelpLink { get => base.HelpLink; set => base.HelpLink = value; }
-
-        public sealed override string StackTrace => base.StackTrace;
-
-        public sealed override bool Equals(object obj) => base.Equals(obj);
-
-        public sealed override Exception GetBaseException() => base.GetBaseException();
-
-        public sealed override int GetHashCode() => base.GetHashCode();
-
         public sealed override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
             info.AddValue(nameof(mistmatchedExtension), mistmatchedExtension, typeof(string));
         }
-
-        [System.Security.SecuritySafeCritical]
-        public override string ToString() => base.ToString();
 
         private readonly string mistmatchedExtension;
     }

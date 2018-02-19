@@ -166,25 +166,6 @@ namespace LASI.Utilities
         public static TResult AggregateRight<TSource, TAccumulate, TResult>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, int, TAccumulate> func, Func<TAccumulate, TResult> resultSelector) =>
             resultSelector(source.AggregateRight(seed, func));
 
-        /// <summary>
-        /// Appends the given element to the sequence, yielding a new sequence consisting of the
-        /// original sequence followed by the appended element.
-        /// </summary>
-        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
-        /// <param name="head">The sequence to which the element will be appended.</param>
-        /// <param name="tail">The element to append to the sequence.</param>
-        /// <returns>
-        /// A new sequence consisting of the original sequence followed by the appended element..
-        /// </returns>
-        public static IEnumerable<TSource> Append<TSource>(this IEnumerable<TSource> head, TSource tail)
-        {
-            foreach (var element in head)
-            {
-                yield return element;
-            }
-            yield return tail;
-        }
-
 
         /// <summary>
         /// Returns the distinct elements of the given of the source sequence by applying the given
@@ -209,7 +190,7 @@ namespace LASI.Utilities
             NotNull(source, nameof(source), selector, nameof(selector));
             return source.Distinct(
                 Equality.Create<TSource>(
-                    (x, y) => selector(x).Equals(selector(y)),
+                    (x, y) => selector(x)?.Equals(selector(y)) == true,
                     x => selector(x).GetHashCode())
             );
         }
@@ -239,7 +220,7 @@ namespace LASI.Utilities
         /// </returns>
         public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
             first.Except(second, Equality.Create<TSource>(
-                (x, y) => selector(x)?.Equals(selector(y)) ?? false,
+                (x, y) => selector(x)?.Equals(selector(y)) == true,
                 x => selector(x).GetHashCode())
             );
 
@@ -405,7 +386,7 @@ namespace LASI.Utilities
         /// compare equal under the given projection; otherwise, false.
         /// </returns>
         public static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
-            first.SequenceEqual(second, Equality.Create<TSource>((x, y) => selector(x).Equals(selector(y)), e => selector(e).GetHashCode()));
+            first.SequenceEqual(second, Equality.Create<TSource>((x, y) => selector(x)?.Equals(selector(y)) == true, e => selector(e).GetHashCode()));
 
         #region Statistical
 
@@ -427,26 +408,6 @@ namespace LASI.Utilities
         /// </param>
         /// <returns>The percentage of true values in the collection of Boolean values.</returns>
         public static double PercentTrue(this IEnumerable<bool> delineated) => delineated.PercentWhere(v => v);
-
-        /// <summary>
-        /// Prepends the given element to the sequence, yielding a new sequence consisting of the
-        /// prepended element followed by each element in the original sequence.
-        /// </summary>
-        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
-        /// <param name="tail">The sequence to which the element will be prepended.</param>
-        /// <param name="head">The element to prepend to the sequence.</param>
-        /// <returns>
-        /// A new sequence consisting of the prepended element followed by each element in the
-        /// original sequence.
-        /// </returns>
-        public static IEnumerable<T> Prepend<T>(this IEnumerable<T> tail, T head)
-        {
-            yield return head;
-            foreach (var element in tail)
-            {
-                yield return element;
-            }
-        }
 
         #endregion Statistical
 
@@ -630,7 +591,7 @@ namespace LASI.Utilities
         /// A sequence that contains the set union of the elements of two sequences under the given projection.
         /// </returns>
         public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
-            first.Union(second, Equality.Create<TSource>((x, y) => selector(x).Equals(selector(y)), x => selector(x).GetHashCode()));
+            first.Union(second, Equality.Create<TSource>((x, y) => selector(x)?.Equals(selector(y)) == true, x => selector(x).GetHashCode()));
 
         /// <summary>Merges three sequences by using the specified function to select elements.</summary>
         /// <typeparam name="TFirst">The type of the elements of the first input sequence.</typeparam>
@@ -708,18 +669,6 @@ namespace LASI.Utilities
         /// </returns>
         public static IEnumerable<(T element, int index)> WithIndices<T>(this IEnumerable<T> source) =>
             source.Select((element, index) => (element, index));
-
-        /// <summary>
-        /// Invokes each action in the IEnumerable&lt;<see cref="Action"/>&gt;.
-        /// </summary>
-        /// <param name="actions">The sequence of actions to invoke.</param>
-        public static void InvokeAll(this IEnumerable<Action> actions)
-        {
-            foreach (var action in actions)
-            {
-                action();
-            }
-        }
 
     }
 }

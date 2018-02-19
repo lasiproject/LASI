@@ -26,7 +26,16 @@
     "typeRoots": [
       "./jspm_packages/npm/@types"
     ],
-    "types": []
+    "types": [],
+    "plugins": [
+      {
+        "name": "tslint-language-service",
+        "alwaysShowRuleFailuresAsWarnings": true,
+        "ignoreDefinitionFiles": true,
+        "configFile": "./tslint.json",
+        "disableNoUnusedVariableRule": true
+      }
+    ]
   },
   "exclude": [
     "node_modules",

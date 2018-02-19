@@ -130,194 +130,194 @@ namespace LASI.Core.Heuristics.PatternMatching
     {
         #region Constructors
 
-                /// <summary>
-                /// Initializes a new instance of the Case&lt;T,R&gt; which will allow for Pattern Matching with the provided value.
-                /// </summary>
-                /// <param name="value">  The value to match with.</param>
-                /// <param name="matched">Indicates if the match is to be initialized as already matched.</param>
-                internal Match(T value, bool matched) : base(value) => Matched = matched;
+        /// <summary>
+        /// Initializes a new instance of the Case&lt;T,R&gt; which will allow for Pattern Matching with the provided value.
+        /// </summary>
+        /// <param name="value">  The value to match with.</param>
+        /// <param name="matched">Indicates if the match is to be initialized as already matched.</param>
+        internal Match(T value, bool matched) : base(value) => Matched = matched;
 
-                #endregion Constructors
+        #endregion Constructors
 
-                #region When Expressions
+        #region When Expressions
 
-                /// <summary>
-                /// Appends a When expression to the current pattern. This applies a predicate to the value being matched such that the subsequent Then expression will only be chosen if the predicate returns true.
-                /// </summary>
-                /// <param name="predicate">The predicate to test the value being matched.</param>
-                /// <returns>The <see cref="PredicatedMatch{T, R}"/> describing the Match expression so far. This must be followed by a single Then expression.</returns>
-                public PredicatedMatch<T, TResult> When(Func<T, bool> predicate) => new PredicatedMatch<T, TResult>(predicate(Value), this);
+        /// <summary>
+        /// Appends a When expression to the current pattern. This applies a predicate to the value being matched such that the subsequent Then expression will only be chosen if the predicate returns true.
+        /// </summary>
+        /// <param name="predicate">The predicate to test the value being matched.</param>
+        /// <returns>The <see cref="PredicatedMatch{T, R}"/> describing the Match expression so far. This must be followed by a single Then expression.</returns>
+        public PredicatedMatch<T, TResult> When(Func<T, bool> predicate) => new PredicatedMatch<T, TResult>(predicate(Value), this);
 
-                /// <summary>
-                /// Appends a When expression to the current pattern. This applies a predicate to the value being matched such that the subsequent Then expression will only be chosen if the predicate returns true.
-                /// </summary>
-                /// <param name="when">The predicate to test the value being matched.</param>
-                /// <returns>The <see cref="PredicatedMatch{T, R}"/> describing the Match expression so far. This must be followed by a single Then expression.</returns>
-                public PredicatedMatch<T, TResult> When(Func<bool> when) => new PredicatedMatch<T, TResult>(when(), this);
+        /// <summary>
+        /// Appends a When expression to the current pattern. This applies a predicate to the value being matched such that the subsequent Then expression will only be chosen if the predicate returns true.
+        /// </summary>
+        /// <param name="when">The predicate to test the value being matched.</param>
+        /// <returns>The <see cref="PredicatedMatch{T, R}"/> describing the Match expression so far. This must be followed by a single Then expression.</returns>
+        public PredicatedMatch<T, TResult> When(Func<bool> when) => new PredicatedMatch<T, TResult>(when(), this);
 
-                /// <summary>
-                /// Appends a When expression to the current pattern. This applies a predicate to the value being matched such that the subsequent Then expression will only be chosen if the predicate returns true.
-                /// </summary>
-                /// <typeparam name="TCase">The Type to match with. That the value being matched is of this type is also necessary for the following then expression to be selected.</typeparam>
-                /// <param name="predicate">The predicate to test the value being matched.</param>
-                /// <returns>The <see cref="PredicatedMatch{T, R}"/> describing the Match expression so far. This must be followed by a single Then expression.</returns>
-                public PredicatedMatch<T, TCase, TResult> When<TCase>(Func<TCase, bool> predicate) where TCase : ILexical =>
-                    new PredicatedMatch<T, TCase, TResult>(Value is TCase c && predicate(c), this);
+        /// <summary>
+        /// Appends a When expression to the current pattern. This applies a predicate to the value being matched such that the subsequent Then expression will only be chosen if the predicate returns true.
+        /// </summary>
+        /// <typeparam name="TCase">The Type to match with. That the value being matched is of this type is also necessary for the following then expression to be selected.</typeparam>
+        /// <param name="predicate">The predicate to test the value being matched.</param>
+        /// <returns>The <see cref="PredicatedMatch{T, R}"/> describing the Match expression so far. This must be followed by a single Then expression.</returns>
+        public PredicatedMatch<T, TCase, TResult> When<TCase>(Func<TCase, bool> predicate) where TCase : ILexical =>
+            new PredicatedMatch<T, TCase, TResult>(Value is TCase c && predicate(c), this);
 
-                /// <summary>
-                /// Appends a When expression to the current pattern. This applies a predicate to the value being matched such that the subsequent Then expression will only be chosen if the predicate returns true.
-                /// </summary>
-                /// <param name="when">The predicate to test the value being matched.</param>
-                /// <returns>The <see cref="PredicatedMatch{T, R}"/> describing the Match expression so far. This must be followed by a single Then expression.</returns>
-                public PredicatedMatch<T, TResult> When(bool when) => new PredicatedMatch<T, TResult>(when, this);
+        /// <summary>
+        /// Appends a When expression to the current pattern. This applies a predicate to the value being matched such that the subsequent Then expression will only be chosen if the predicate returns true.
+        /// </summary>
+        /// <param name="when">The predicate to test the value being matched.</param>
+        /// <returns>The <see cref="PredicatedMatch{T, R}"/> describing the Match expression so far. This must be followed by a single Then expression.</returns>
+        public PredicatedMatch<T, TResult> When(bool when) => new PredicatedMatch<T, TResult>(when, this);
 
-                #endregion When Expressions
+        #endregion When Expressions
 
-                #region Case Expressions
+        #region Case Expressions
 
-                /// <summary>
-                /// Appends a Match with Type expression to the current PatternMatching Expression.
-                /// </summary>
-                /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
-                /// <param name="func">The function which, if this Case expression is Matched, will be invoked to produce the corresponding desired result for a Match Case TPattern.</param>
-                /// <returns>The <see cref="Match{T, R}"/> describing the Match expression so far.</returns>
-                public Match<T, TResult> Case<TCase>(Func<TResult> func) where TCase : ILexical
-                {
-                    // Despite the nullary func, TCase must match.
-                    if (HasValueAndContinue && Value is TCase)
-                    {
-                        result = func();
-                        Matched = true;
-                    }
-                    return this;
-                }
+        /// <summary>
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
+        /// </summary>
+        /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
+        /// <param name="func">The function which, if this Case expression is Matched, will be invoked to produce the corresponding desired result for a Match Case TPattern.</param>
+        /// <returns>The <see cref="Match{T, R}"/> describing the Match expression so far.</returns>
+        public Match<T, TResult> Case<TCase>(Func<TResult> func) where TCase : ILexical
+        {
+            // Despite the nullary func, TCase must match.
+            if (HasValueAndContinue && Value is TCase)
+            {
+                result = func();
+                Matched = true;
+            }
+            return this;
+        }
 
-                /// <summary>
-                /// Appends a Match with Type expression to the current PatternMatching Expression.
-                /// </summary>
-                /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
-                /// <param name="func">The function which, if this Case expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TPattern.</param>
-                /// <returns>The <see cref="Match{T, R}"/> describing the Match expression so far.</returns>
-                public Match<T, TResult> Case<TCase>(Func<TCase, TResult> func) where TCase : ILexical
-                {
-                    if (HasValueAndContinue && Value is TCase matched)
-                    {
-                        result = func(matched);
-                        Matched = true;
-                    }
-                    return this;
-                }
+        /// <summary>
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
+        /// </summary>
+        /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
+        /// <param name="func">The function which, if this Case expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TPattern.</param>
+        /// <returns>The <see cref="Match{T, R}"/> describing the Match expression so far.</returns>
+        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> func) where TCase : ILexical
+        {
+            if (HasValueAndContinue && Value is TCase matched)
+            {
+                result = func(matched);
+                Matched = true;
+            }
+            return this;
+        }
 
-                /// <summary>
-                /// Appends a Case of Type expression to the current PatternMatching Expression.
-                /// </summary>
-                /// <typeparam name="TCase">The type to match.</typeparam>
-                /// <param name="then">The function to apply if the case matched.</param>
-                /// <param name="when">The predicate to match.</param>
-                /// <returns>The <see cref="Match{T, R}"/> describing the Match expression so far.</returns>
-                public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<bool> when) where TCase : ILexical => When<TCase>(e => when()).Then(then);
+        /// <summary>
+        /// Appends a Case of Type expression to the current PatternMatching Expression.
+        /// </summary>
+        /// <typeparam name="TCase">The type to match.</typeparam>
+        /// <param name="then">The function to apply if the case matched.</param>
+        /// <param name="when">The predicate to match.</param>
+        /// <returns>The <see cref="Match{T, R}"/> describing the Match expression so far.</returns>
+        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<bool> when) where TCase : ILexical => When<TCase>(e => when()).Then(then);
 
-                public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<TCase, bool> when) where TCase : ILexical => When(when).Then(then);
+        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<TCase, bool> when) where TCase : ILexical => When(when).Then(then);
 
-                public Match<T, TResult> Case<TCase>(TResult then, Func<TCase, bool> when) where TCase : ILexical => When(when).Then(then);
+        public Match<T, TResult> Case<TCase>(TResult then, Func<TCase, bool> when) where TCase : ILexical => When(when).Then(then);
 
-                //public Match<T, TResult> Case(Func<T, TResult> then, Func<T, bool> when) => When(when).Then(then);
+        //public Match<T, TResult> Case(Func<T, TResult> then, Func<T, bool> when) => When(when).Then(then);
 
-                public Match<T, TResult> Case<TCase>(Func<TResult> then, Func<TCase, bool> when) where TCase : ILexical => When(when).Then(then);
+        public Match<T, TResult> Case<TCase>(Func<TResult> then, Func<TCase, bool> when) where TCase : ILexical => When(when).Then(then);
 
-                public Match<T, TResult> Case(Func<TResult> then, Func<T, bool> when) => When(when).Then(then);
+        public Match<T, TResult> Case(Func<TResult> then, Func<T, bool> when) => When(when).Then(then);
 
-                public Match<T, TResult> Case(TResult then, Func<T, bool> when) => When(when).Then(then);
+        public Match<T, TResult> Case(TResult then, Func<T, bool> when) => When(when).Then(then);
 
-                /// <summary>
-                /// Appends a Match with Type expression to the current PatternMatching Expression.
-                /// </summary>
-                /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
-                /// <param name="result">The value which, if this Case expression is Matched, will be the result of the Pattern Match.</param>
-                /// <returns>The <see cref="Match{T, R}"/> describing the Match expression so far.</returns>
-                public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : ILexical
-                {
-                    if (HasValueAndContinue && Value is TPattern)
-                    {
-                        this.result = result;
-                        Matched = true;
-                    }
-                    return this;
-                }
+        /// <summary>
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
+        /// </summary>
+        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
+        /// <param name="result">The value which, if this Case expression is Matched, will be the result of the Pattern Match.</param>
+        /// <returns>The <see cref="Match{T, R}"/> describing the Match expression so far.</returns>
+        public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : ILexical
+        {
+            if (HasValueAndContinue && Value is TPattern)
+            {
+                this.result = result;
+                Matched = true;
+            }
+            return this;
+        }
 
-                public Match<T, TResult> Case(Func<T, TResult> func) => Case<T>(func);
+        public Match<T, TResult> Case(Func<T, TResult> func) => Case<T>(func);
 
-                public Match<T, TResult> Case(Func<TResult> func) => Case<T>(func);
+        public Match<T, TResult> Case(Func<TResult> func) => Case<T>(func);
 
 
-                #endregion Case Expressions
+        #endregion Case Expressions
 
-                #region Result Expressions
+        #region Result Expressions
 
-                /// <summary>
-                /// Returns the result of the Pattern Matching expression. This will be either the result specified for the first Match expression which succeeded or the default value the type TResult.
-                /// </summary>
-                /// <returns>The result of the Pattern Matching expression.</returns>
-                public TResult Result() => result;
+        /// <summary>
+        /// Returns the result of the Pattern Matching expression. This will be either the result specified for the first Match expression which succeeded or the default value the type TResult.
+        /// </summary>
+        /// <returns>The result of the Pattern Matching expression.</returns>
+        public TResult Result() => result;
 
-                /// <summary>
-                /// Appends a Result Expression to the current pattern, thus specifying the default result to yield when no other patterns have been matched.
-                /// </summary>
-                /// <param name="defaultValueFactory">The factory function returning a desired default value.</param>
-                /// <returns>The result of the first successful match or the value given by invoking the supplied factory function.</returns>
-                public TResult Result(Func<TResult> defaultValueFactory)
-                {
-                    if (HasValueAndContinue)
-                    {
-                        result = defaultValueFactory();
-                        Matched = true;
-                    }
-                    return result;
-                }
+        /// <summary>
+        /// Appends a Result Expression to the current pattern, thus specifying the default result to yield when no other patterns have been matched.
+        /// </summary>
+        /// <param name="defaultValueFactory">The factory function returning a desired default value.</param>
+        /// <returns>The result of the first successful match or the value given by invoking the supplied factory function.</returns>
+        public TResult Result(Func<TResult> defaultValueFactory)
+        {
+            if (HasValueAndContinue)
+            {
+                result = defaultValueFactory();
+                Matched = true;
+            }
+            return result;
+        }
 
-                /// <summary>
-                /// Appends a Result Expression to the current pattern, thus specifying the default result to yield when no other patterns have been matched.
-                /// </summary>
-                /// <param name="func">The factory function returning a desired default value.</param>
-                /// <returns>The result of the first successful match or the value given by invoking the supplied factory function.</returns>
-                public TResult Result(Func<T, TResult> func)
-                {
-                    if (HasValueAndContinue)
-                    {
-                        result = func(Value);
-                        Matched = true;
-                    }
-                    return result;
-                }
+        /// <summary>
+        /// Appends a Result Expression to the current pattern, thus specifying the default result to yield when no other patterns have been matched.
+        /// </summary>
+        /// <param name="func">The factory function returning a desired default value.</param>
+        /// <returns>The result of the first successful match or the value given by invoking the supplied factory function.</returns>
+        public TResult Result(Func<T, TResult> func)
+        {
+            if (HasValueAndContinue)
+            {
+                result = func(Value);
+                Matched = true;
+            }
+            return result;
+        }
 
-                /// <summary>
-                /// Appends a Result Expression to the current pattern, thus specifying the default result to yield when no other patterns have been matched.
-                /// </summary>
-                /// <param name="defaultValue">The desired default value.</param>
-                /// <returns>The result of the first successful match or supplied default value.</returns>
-                public TResult Result(TResult defaultValue)
-                {
-                    if (HasValueAndContinue)
-                    {
-                        result = defaultValue;
-                        Matched = true;
-                    }
-                    return result;
-                }
+        /// <summary>
+        /// Appends a Result Expression to the current pattern, thus specifying the default result to yield when no other patterns have been matched.
+        /// </summary>
+        /// <param name="defaultValue">The desired default value.</param>
+        /// <returns>The result of the first successful match or supplied default value.</returns>
+        public TResult Result(TResult defaultValue)
+        {
+            if (HasValueAndContinue)
+            {
+                result = defaultValue;
+                Matched = true;
+            }
+            return result;
+        }
 
-                #endregion Result Expressions
+        #endregion Result Expressions
 
-                #region Fields
+        #region Fields
 
-                private TResult result = default;
+        private TResult result = default;
 
-                #endregion Fields
+        #endregion Fields
 
-                #region Operators
+        #region Operators
 
-                public static implicit operator TResult(Match<T, TResult> expression) => expression;
+        public static implicit operator TResult(Match<T, TResult> expression) => expression;
 
-                public static implicit operator Match<T, TResult>(Match<T> @void) => @void.Yield<TResult>();
+        public static implicit operator Match<T, TResult>(Match<T> @void) => @void.Yield<TResult>();
 
         #endregion Operators
 
@@ -352,7 +352,7 @@ namespace LASI.Core.Heuristics.PatternMatching
 
         public IEnumerable<TResultant> SelectMany<TCollection, TResultant>(
             Func<TResult, IEnumerable<TCollection>> collectionSelector,
-            Func<TResult, TCollection, TResultant> resultSelector) => new []{result}.SelectMany(collectionSelector, resultSelector);
+            Func<TResult, TCollection, TResultant> resultSelector) => new[] { result }.SelectMany(collectionSelector, resultSelector);
 
         #endregion LINQ Operators
 

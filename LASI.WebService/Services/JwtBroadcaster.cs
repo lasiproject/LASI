@@ -14,7 +14,7 @@ namespace LASI.WebService.Services
     {
         public async Task BroadcastAsync(string sender, string message)
         {
-            await Clients.All.InvokeAsync("Message", sender, message);
+            await Clients.All.SendAsync("Message", sender, message);
         }
     }
 }

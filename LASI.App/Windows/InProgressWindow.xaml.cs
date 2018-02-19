@@ -62,7 +62,8 @@ namespace LASI.App
                     analysisUpdateEvents.Select(pattern => pattern.EventArgs)
                 )
                 .Select(pattern => (pattern.Message, pattern.PercentWorkRepresented))
-                .SubscribeOn(context: System.Threading.SynchronizationContext.Current)
+                .Sample(TimeSpan.FromMilliseconds(100))
+                .ObserveOn(System.Reactive.Concurrency.DispatcherScheduler.Current)
                 .Subscribe(onNext: async e =>
                 {
                     var (Message, PercentWorkRepresented) = e;
@@ -109,7 +110,7 @@ namespace LASI.App
 
         private void ProceedToResultsView()
         {
-            ResultsScreen.SetTitle(StartupScreen.ProjectNameTextBox.Text + " - L.A.S.I.");
+            ResultsScreen.SetTitle($"{StartupScreen.ProjectNameTextBox.Text} - L.A.S.I. ${System.Reflection.Assembly.GetExecutingAssembly().ImageRuntimeVersion}");
             this.SwapWith(ResultsScreen);
         }
         #endregion

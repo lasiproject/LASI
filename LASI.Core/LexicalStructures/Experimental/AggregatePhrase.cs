@@ -116,9 +116,9 @@ namespace LASI.Core.Binding.Experimental
 
         public double Weight { get; set; }
 
-        private HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
-        private IList<IEntity> constituents;
-        private HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
-        private HashSet<IPossessable> possessions = new HashSet<IPossessable>();
+        private readonly HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
+        private readonly IList<IEntity> constituents;
+        private readonly HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
+        private readonly HashSet<IPossessable> possessions = new HashSet<IPossessable>();
     }
 }

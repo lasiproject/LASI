@@ -67,10 +67,10 @@ SystemJS.config({
     'local:*.json'
   ],
   map: {
+    '@types/jquery': 'npm:@types/jquery@latest',
     '@aspnet/signalr-client': 'npm:@aspnet/signalr-client@latest',
     '@types/react': 'npm:@types/react@latest',
     '@types/react-dom': 'npm:@types/react-dom@latest',
-    '@types/jquery': 'npm:@types/jquery@latest',
     'aurelia-ui-virtualization': 'npm:aurelia-ui-virtualization@1.0.0-beta.3.1.2',
     'aurelia-validation': 'npm:aurelia-validation@1.1.2',
     '@types/deep-freeze': 'npm:@types/deep-freeze@0.1.1',

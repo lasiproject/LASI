@@ -3,7 +3,7 @@ using LASI.Utilities;
 
 namespace LASI.Core.Heuristics
 {
-    public static partial class DescriptorSimilarityExtensions
+    public static class DescriptorSimilarityExtensions
     {
         /// <summary>
         /// Determines if two IDescriptor instances are similar.

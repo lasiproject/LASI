@@ -68,28 +68,10 @@ namespace LASI.Core
             ((IDisposable)Task).Dispose();
             GC.SuppressFinalize(this);
         }
-        public override bool Equals(object obj)
-        {
-            if (obj is ProcessingTask)
-            {
-                return Equals((ProcessingTask)obj);
-            }
-
-            return base.Equals(obj);
-        }
+        public override bool Equals(object obj) => obj is ProcessingTask t && Equals(t);
         public bool Equals(ProcessingTask other)
         {
-            if (other is null)
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            return Equals(Task, other?.Task);
+            return !(other is null) && ReferenceEquals(this, other) ? true : Equals(Task, other?.Task);
         }
         /// <summary>
         /// Gets an awaiter used to await the underlying <see cref="System.Threading.Tasks.Task"/>.

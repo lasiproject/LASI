@@ -80,11 +80,11 @@ namespace LASI.Core.Heuristics.WordNet
         public IEnumerable<string> SearchByAdverbId(int setId) => setsById[setId].Words.SelectMany(SearchFor);
         internal override IImmutableSet<string> this[Adjective search] => this[search.Text];
 
-        private string filePath;
+        private readonly string filePath;
         private const string PointerRegex = @"\D{1,2}\s*\d{8}";
         private const string WordRegex = @"(?<word>[A-Za-z_\-\']{3,})";
         //ISet<AdjectiveSynset> allSets = new HashSet<AdjectiveSynset>();
-        ConcurrentDictionary<int, AdjectiveSynset> setsById = new ConcurrentDictionary<int, AdjectiveSynset>(concurrencyLevel: 8, capacity: 18154);
+        readonly ConcurrentDictionary<int, AdjectiveSynset> setsById = new ConcurrentDictionary<int, AdjectiveSynset>(concurrencyLevel: 8, capacity: 18154);
         /// <summary>
         /// Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adj files.
         /// </summary>

@@ -28,7 +28,11 @@ namespace LASI.Core.Heuristics.WordNet
         }
 
         HashSet<AdverbSynset> allSets = new HashSet<AdverbSynset>();
-        System.Collections.Concurrent.ConcurrentDictionary<int, AdverbSynset> setsById = new System.Collections.Concurrent.ConcurrentDictionary<int, WordNet.AdverbSynset>(8, 100000);
+
+        readonly System.Collections.Concurrent.ConcurrentDictionary<int, AdverbSynset> setsById =
+            new System.Collections.Concurrent.ConcurrentDictionary<int, WordNet.AdverbSynset>(8, 100000);
+
+        /// <inheritdoc />
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
@@ -40,11 +44,13 @@ namespace LASI.Core.Heuristics.WordNet
                 {
                     try
                     {
-                        var set = CreateSet(line); setsById[set.Id] = set;
+                        var set = CreateSet(line);
+                        setsById[set.Id] = set;
                     }
                     catch (KeyNotFoundException e)
                     {
-                        Logger.Log($"An error occured when Loading the {GetType().Name}: {e.Message}\r\n{e.StackTrace}");
+                        Logger.Log(
+                            $"An error occured when Loading the {GetType().Name}: {e.Message}\r\n{e.StackTrace}");
                         throw;
                     }
                 }
@@ -57,12 +63,12 @@ namespace LASI.Core.Heuristics.WordNet
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
             var referencedSets = from Match match in Regex.Matches(line, pointerRegex)
-                                 let split = match.Value.SplitRemoveEmpty(' ')
-                                 where split.Length > 1 && interSetMap.ContainsKey(split[0])
-                                 select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
+                let split = match.Value.SplitRemoveEmpty(' ')
+                where split.Length > 1 && interSetMap.ContainsKey(split[0])
+                select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
 
             var words = from Match match in Regex.Matches(line, wordRegex)
-                        select match.Value.Replace('_', ' ');
+                select match.Value.Replace('_', ' ');
 
             var id = int.Parse(line.Substring(0, 8));
 
@@ -76,7 +82,6 @@ namespace LASI.Core.Heuristics.WordNet
             return ImmutableHashSet.CreateRange(StringComparer,
                 from setId in containingSet.Value.ReferencedSets
                 let relatedAdjectives = (adjectiveLookup as AdjectiveLookup).SearchByAdverbId(setId)
-
                 from word in relatedAdjectives
                 from form in conjugator.GetLexicalForms(word)
                 select form).Add(search);
@@ -86,8 +91,8 @@ namespace LASI.Core.Heuristics.WordNet
 
         internal override IImmutableSet<string> this[Adverb search] => this[search.Text];
 
-        AdverbMorpher conjugator = new AdverbMorpher();
-        private string filePath;
+        readonly AdverbMorpher conjugator = new AdverbMorpher();
+        private readonly string filePath;
         private const string pointerRegex = @"\D{1,2}\s*\d{8}";
         private const string wordRegex = @"(?<word>[A-Za-z_\-\']{3,})";
 
@@ -102,7 +107,7 @@ namespace LASI.Core.Heuristics.WordNet
             [";r"] = Link.DomainOfSynset_REGION,
             [";u"] = Link.DomainOfSynset_USAGE
         };
+
         private readonly WordNetLookup<Adjective> adjectiveLookup;
     }
 }
-

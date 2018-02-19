@@ -40,7 +40,7 @@ namespace LASI.Core.Heuristics.Heuristics.WordMorphing
             var root = FindRoot(adverbText);
             for (var i = suffices.Length - 1; i <= 0; --i)
             {
-                if (root.EndsWith(endings[i]))
+                if (root.EndsWith(endings[i], ordinalIgnoreCase))
                 {
                     return root.Substring(0, root.Length - endings[i].Length) + suffices[i];
                 }
@@ -71,7 +71,7 @@ namespace LASI.Core.Heuristics.Heuristics.WordMorphing
         {
             for (var i = 0; i < suffices.Length; ++i)
             {
-                if (adverbText.EndsWith(endings[i]))
+                if (adverbText.EndsWith(endings[i], ordinalIgnoreCase))
                 {
                     return adverbText.Substring(0, adverbText.Length - endings[i].Length);
                 }

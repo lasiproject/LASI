@@ -11,7 +11,7 @@ using static LASI.Utilities.FunctionExtensions;
 
 namespace LASI.Core.Heuristics
 {
-    public static partial class EntitySimilarityExtensions
+    public static class EntitySimilarityExtensions
     {
         /// <summary>Determines if two IEntity instances are similar.</summary>
         /// <param name="first">The first IEntity</param>
@@ -246,7 +246,7 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// scrabble dictionary Internal Lookups
         /// </summary>
-        static Lazy<IEnumerable<string>> scrabbleDictionary = new Lazy<IEnumerable<string>>(() =>
+        static readonly Lazy<IEnumerable<string>> scrabbleDictionary = new Lazy<IEnumerable<string>>(() =>
         {
             var resourceName = "Scrabble Dictionary";
             Lexicon.OnResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0, 0));
@@ -281,7 +281,7 @@ namespace LASI.Core.Heuristics
         }
         static NameProvider NameData => nameData.Value;
 
-        static Lazy<NameProvider> nameData = new Lazy<NameProvider>(() =>
+        static readonly Lazy<NameProvider> nameData = new Lazy<NameProvider>(() =>
         {
             var resourceName = "Name Data";
             Lexicon.OnResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0, elapsedMilliseconds: 0));

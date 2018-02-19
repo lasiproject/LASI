@@ -11,3 +11,7 @@
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0041:Use 'is null' check", Justification = "<Pending>", Scope = "member", Target = "~M:LASI.Utilities.Option`1.FromValue(`0)~LASI.Utilities.Option`1")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0041:Use 'is null' check", Justification = "<Pending>", Scope = "namespace", Target = "~M:LASI.Utilities")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancies in Symbol Declarations", "RECS0154:Parameter is never used", Justification = "<Pending>", Scope = "member", Target = "~M:LASI.Utilities.Option`1.Some.#ctor(`0)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancies in Symbol Declarations", "RECS0154:Parameter is never used", Justification = "<Pending>", Scope = "member", Target = "~M:LASI.Utilities.Configuration.XmlConfig.#ctor(System.Xml.Linq.XElement)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancies in Symbol Declarations", "RECS0154:Parameter is never used", Justification = "<Pending>", Scope = "member", Target = "~M:LASI.Utilities.Configuration.JsonConfig.#ctor(Newtonsoft.Json.Linq.JObject)")]
+

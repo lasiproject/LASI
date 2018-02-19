@@ -6,9 +6,9 @@ import $ from 'jquery';
 import 'typeahead';
 
 export default class SearchBox {
-  @bindable find: SearchModel;
+  @bindable find?: SearchModel;
 
-  @bindable searchContext: TextFragmentModel[];
+  @bindable searchContext?: TextFragmentModel[];
 
   @bindable phrases: PhraseModel[] = [];
 

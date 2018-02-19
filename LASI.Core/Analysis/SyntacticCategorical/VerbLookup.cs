@@ -154,12 +154,12 @@ namespace LASI.Core.Heuristics.WordNet
         private const double ProgressAmmount = 100 / (100d * ProgressModulus);
         private const string ProgressFormat = "Mapping Verb Set {0} / 13766";
 
-        private string filePath;
-        private ConcurrentDictionary<int, VerbSynset> setsById = new ConcurrentDictionary<int, VerbSynset>(
+        private readonly string filePath;
+        private readonly ConcurrentDictionary<int, VerbSynset> setsById = new ConcurrentDictionary<int, VerbSynset>(
             concurrencyLevel: Concurrency.Max,
             capacity: 30000
         );
-        private ConcurrentDictionary<string, VerbSynset> setsByWord = new ConcurrentDictionary<string, VerbSynset>(
+        private readonly ConcurrentDictionary<string, VerbSynset> setsByWord = new ConcurrentDictionary<string, VerbSynset>(
             concurrencyLevel: Concurrency.Max,
             capacity: 30000,
             comparer: System.StringComparer.OrdinalIgnoreCase

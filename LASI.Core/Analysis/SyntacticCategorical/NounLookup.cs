@@ -190,9 +190,9 @@ namespace LASI.Core.Heuristics.WordNet
                                                       RegexOptions.Compiled
                                                   );
 
-        private string filePath;
+        private readonly string filePath;
 
-        private ConcurrentDictionary<int, NounSynset> setsById = new ConcurrentDictionary<int, NounSynset>(
+        private readonly ConcurrentDictionary<int, NounSynset> setsById = new ConcurrentDictionary<int, NounSynset>(
                                                                      Concurrency.Max,
                                                                      TotalLines
                                                                  );

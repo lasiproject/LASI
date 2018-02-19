@@ -52,8 +52,9 @@ namespace LASI.Core.Binding
         #endregion
 
         #region Fields
-        IEnumerable<ILexical> domain;
-        IDictionary<string, IEnumerable<string>> assumedAliases = new Dictionary<string, IEnumerable<string>>();
+
+        readonly IEnumerable<ILexical> domain;
+        readonly IDictionary<string, IEnumerable<string>> assumedAliases = new Dictionary<string, IEnumerable<string>>();
         #endregion
     }
 }

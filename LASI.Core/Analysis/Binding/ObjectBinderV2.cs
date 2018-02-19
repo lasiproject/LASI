@@ -11,49 +11,49 @@ namespace LASI.Core.Heuristics.Binding
         internal void Bind(Sentence sentence)
         {
             sentence.Match()
-                  .WithContinuationMode(ContinuationMode.Recursive)
-                  .IgnoreOnce<IAdverbial, IDescriptor>()
-                  .Case((IEntity s, IVerbal v, IEntity d) =>
-                  {
-                      v.BindSubject(s);
-                      v.BindDirectObject(d);
-                  })
-                  .Case((IEntity subject,
-                        IVerbal verb,
-                        IEntity direct,
-                        IPrepositional prepToDirectObject,
-                        IEntity indirect) =>
-                    {
-                        verb.BindSubject(subject);
-                        verb.BindDirectObject(direct);
-                        verb.BindIndirectObject(indirect);
-                    });
+                .WithContinuationMode(ContinuationMode.Recursive)
+                .IgnoreOnce<IAdverbial, IDescriptor>()
+                .Case((IEntity s, IVerbal v, IEntity d) =>
+                {
+                    v.BindSubject(s);
+                    v.BindDirectObject(d);
+                })
+                .Case((IEntity subject, IVerbal verb, IEntity direct, IPrepositional prepToDirectObject,
+                    IEntity indirect) =>
+                {
+                    verb.BindSubject(subject);
+                    verb.BindDirectObject(direct);
+                    verb.BindIndirectObject(indirect);
+                });
             Bind(sentence.Phrases);
         }
-        internal void Bind(IEnumerable<Phrase> phrases)
+
+        private void Bind(IEnumerable<Phrase> phrases)
         {
             if (!phrases.OfVerbPhrase().Any())
             {
                 throw new VerblessPhrasalSequenceException(phrases);
             }
+
             var x = from Utilities.Logger.Mode e in Enum.GetValues(typeof(Utilities.Logger.Mode)) select e;
             var releventElements = from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                   let result = phrase.Match()
-                                           .Case((IPrepositional p) => phrase)
-                                           .Case((IConjunctive p) => phrase)
-                                           .Case((IEntity p) => phrase)
-                                           .Case((IVerbal p) => phrase)
-                                           .Case((SubordinateClauseBeginPhrase p) => phrase)
-                                           .Case((SymbolPhrase p) => phrase)
-                                        .Result()
-                                   where result != null
-                                   select result;
+                let result = phrase.Match()
+                    .Case((IPrepositional p) => phrase)
+                    .Case((IConjunctive p) => phrase)
+                    .Case((IEntity p) => phrase)
+                    .Case((IVerbal p) => phrase)
+                    .Case((SubordinateClauseBeginPhrase p) => phrase)
+                    .Case((SymbolPhrase p) => phrase)
+                    .Result()
+                where result != null
+                select result;
             var bindingActions = ImagineBindings(releventElements.SkipWhile(p => !(p is VerbPhrase)));
             Phrase last = null;
             foreach (var action in bindingActions)
             {
                 last = action();
             }
+
             if (last != null)
             {
                 Bind(phrases.PhrasesAfter(last));
@@ -69,7 +69,7 @@ namespace LASI.Core.Heuristics.Binding
                         .Case((VerbPhrase v) => v)
                         .Result(s.Next.Next as VerbPhrase))
                     .Case((VerbPhrase v) => v)
-                .Result())
+                    .Result())
                 .Distinct().TakeWhile(v => v != null)
                 .ToList();
             var next = targetVerbPhrases.LastOrDefault(v => v.Next != null && v.Sentence == v.Next.Sentence);
@@ -77,7 +77,7 @@ namespace LASI.Core.Heuristics.Binding
             {
                 results.Add(targetVerbPhrases.Last()
                     .Next.Match()
-                    .Case((NounPhrase n) => (Func<Phrase>)(() =>
+                    .Case((NounPhrase n) => (Func<Phrase>) (() =>
                     {
                         targetVerbPhrases.ForEach(v => v.BindDirectObject(n));
                         return n;
@@ -94,12 +94,13 @@ namespace LASI.Core.Heuristics.Binding
                         {
                             targetVerbPhrases.ForEach(v => v.BindIndirectObject(e));
                         }
+
                         return p;
                     })
-                .Result());
+                    .Result());
             }
+
             return results;
         }
-
     }
 }

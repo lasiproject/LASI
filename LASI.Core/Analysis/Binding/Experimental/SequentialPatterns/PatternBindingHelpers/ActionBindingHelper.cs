@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using LASI.Utilities;
 
+#pragma warning disable RECS0154 // Parameter is never used
 namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
 {
     static class ActionBindingHelper
@@ -1260,3 +1261,5 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         }
     }
 }
+
+#pragma warning restore RECS0154 // Parameter is never used

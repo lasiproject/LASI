@@ -3,21 +3,37 @@ using System.Threading.Tasks;
 using LASI.Content;
 using LASI.Core;
 using LASI.Interop;
+using LASI.WebService.Data.Models;
+using LASI.WebService.Models;
+using LASI.WebService.Models.DocumentStructures;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LASI.WebService.Api
 {
-    [Produces("application/json")]
     [Route("api/[Controller]/{id?}")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     public class DocumentsController : Controller
     {
-        public async Task<Document> Get()
+        public async Task<DocumentModel> Get()
         {
             var orchestrator = new AnalysisOrchestrator(new RawTextFragment("House Fires", content));
             var documents = await orchestrator.ProcessAsync();
-            return documents.First();
+            return new DocumentSetModel(documents).Documents.First();
         }
 
+
+        [HttpPost("api/[controller]")]
+        [Consumes("multipart/form-data")]
+        public IActionResult Post(UploadDocument upload)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            //using (var context = new )
+            return CreatedAtRoute("", new { upload.Name, upload.Content.Length, upload.FileName });
+        }
 
         readonly string content =
 @"

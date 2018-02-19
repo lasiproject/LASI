@@ -75,7 +75,7 @@ namespace LASI.Core.Heuristics.Heuristics.WordMorphing
             {
                 for (var i = 0; i < sufficies.Length; i++)
                 {
-                    if (root.EndsWith(endings[i]) || endings[i].Length == 0)
+                    if (root.EndsWith(endings[i], OrdinalIgnoreCase) || endings[i].Length == 0)
                     {
                         yield return hyphenatadAppendage + root.Substring(0, root.Length - endings[i].Length) + sufficies[i];
                         yield break;

@@ -9,5 +9,5 @@ import DocumentModel from 'app/models/document-model';
     this.document = await this.documentModelService.processDocument({ documentId: 4 });
   }
 
-  @bindable document: DocumentModel;
+  @bindable document?: DocumentModel;
 }

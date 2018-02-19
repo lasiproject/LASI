@@ -2,13 +2,14 @@
 
 namespace LASI.Core.Heuristics.Binding
 {
-    public class IntraSentenceIDescriptorToVerbalSubjectBinder : IIntraSentenceBinder
+    public class IntraSentenceIDescriptorToVerbalSubjectBinder
     {
         public void Bind(Sentence sentence)
         {
             sentence.Match().Case((IVerbal v, IDescriptor a) => v.SubjectComplement = a);
         }
     }
+
     public static class SentenceDeconstructionExtensions
     {
         public static void Deconstruct<T1, T2>(this Sentence sentence, out T1 a, out T2 b) where T1 : ILexical

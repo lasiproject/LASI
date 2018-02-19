@@ -192,6 +192,7 @@ namespace LASI.Utilities
             long lineLength,
             Func<T, string> selector)
         {
+            //var d = DefaultDeimiters
             Validate.NotNull(source, "source", deimiters, "delimiters", selector, "selector");
             lineLength.NotLessThan(1, "lineLength", "Line length must be greater than 0.");
             return source.Aggregate((accumulatedLineLength: 0L, builder: new StringBuilder(deimiters.beginning.ToString())),

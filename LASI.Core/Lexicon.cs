@@ -16,7 +16,7 @@ namespace LASI.Core.Heuristics
     /// Provides Comprehensive static facilities for Synonym Identification, Word and Phrase
     /// Comparison, Gender Stratification, and Named Entity Recognition.
     /// </summary>
-    public static partial class Lexicon
+    public static class Lexicon
     {
         #region Public Methods
         /// <summary>
@@ -88,7 +88,7 @@ namespace LASI.Core.Heuristics
 
             var (load, timer) = Time(wordNetLookup.Load);
             load();
-            ResourceLoaded(wordNetLookup, new ResourceLoadEventArgs(resourceName, increment: 1 / 5f, timer.ElapsedMilliseconds));
+            ResourceLoaded(wordNetLookup, new ResourceLoadEventArgs(resourceName, increment: 1 / 5f, elapsedMilliseconds: timer.ElapsedMilliseconds));
             return wordNetLookup;
         }
 
@@ -131,23 +131,23 @@ namespace LASI.Core.Heuristics
         /// </summary>
         internal const double SimilarityThreshold = 0.6;
 
-        static ConcurrentSetDictionary cachedAdjectiveData = CreateConcurrentSetDictionary();
+        static readonly ConcurrentSetDictionary cachedAdjectiveData = CreateConcurrentSetDictionary();
 
-        static ConcurrentSetDictionary cachedAdverbData = CreateConcurrentSetDictionary();
+        static readonly ConcurrentSetDictionary cachedAdverbData = CreateConcurrentSetDictionary();
 
         // Synonym LexicalLookup Caches
-        static ConcurrentSetDictionary cachedNounData = CreateConcurrentSetDictionary();
+        static readonly ConcurrentSetDictionary cachedNounData = CreateConcurrentSetDictionary();
 
-        static ConcurrentSetDictionary cachedVerbData = CreateConcurrentSetDictionary();
+        static readonly ConcurrentSetDictionary cachedVerbData = CreateConcurrentSetDictionary();
 
 
-        static Lazy<WordNetLookup<Noun>> lazyNounLookup = CreateLazyWordNetLookup(() => new NounLookup(Paths.WordNet.Noun));
+        static readonly Lazy<WordNetLookup<Noun>> lazyNounLookup = CreateLazyWordNetLookup(() => new NounLookup(Paths.WordNet.Noun));
 
-        static Lazy<WordNetLookup<Verb>> lazyVerbLookup = CreateLazyWordNetLookup(() => new VerbLookup(Paths.WordNet.Verb));
+        static readonly Lazy<WordNetLookup<Verb>> lazyVerbLookup = CreateLazyWordNetLookup(() => new VerbLookup(Paths.WordNet.Verb));
 
-        static Lazy<WordNetLookup<Adjective>> lazyAdjectiveLookup = CreateLazyWordNetLookup(() => new AdjectiveLookup(Paths.WordNet.Adjective));
+        static readonly Lazy<WordNetLookup<Adjective>> lazyAdjectiveLookup = CreateLazyWordNetLookup(() => new AdjectiveLookup(Paths.WordNet.Adjective));
 
-        static Lazy<WordNetLookup<Adverb>> lazyAdverbLookup = CreateLazyWordNetLookup(() => new AdverbLookup(Paths.WordNet.Adverb, AdjectiveLookup));
+        static readonly Lazy<WordNetLookup<Adverb>> lazyAdverbLookup = CreateLazyWordNetLookup(() => new AdverbLookup(Paths.WordNet.Adverb, AdjectiveLookup));
 
         #endregion
 

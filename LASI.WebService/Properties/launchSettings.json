@@ -2,9 +2,13 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/LASI.WebService",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:54932/",
-      "sslPort": 0
+      "sslPort": 44354
     }
   },
   "profiles": {
@@ -14,7 +18,8 @@
       "launchUrl": "https://localhost:44361/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "use64Bit": true
     },
     "LASI.WebService": {
       "commandName": "Project",

@@ -42,7 +42,7 @@ function createTokenService() {
     get length() {
       return Object.keys(items).length;
     },
-    removeItem(key) {
+    removeItem(key) {a
       delete items[key];
     },
     setItem(key, value) {

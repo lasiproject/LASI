@@ -11,7 +11,7 @@
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterOwner"
-        WindowStyle="None">
+        WindowStyle="None" ShowInTaskbar="True">
     <Window.TaskbarItemInfo>
         <TaskbarItemInfo ProgressState="Normal" />
     </Window.TaskbarItemInfo>
@@ -19,7 +19,7 @@
         <Canvas Background="#FFE6E6E6">
 
             <ProgressBar x:Name="progressBar"
-                         Canvas.Top="328"
+                         Canvas.Top="328" 
                          Width="654"
                          Height="26"
                          VerticalAlignment="Top"

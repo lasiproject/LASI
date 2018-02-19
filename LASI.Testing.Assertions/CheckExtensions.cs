@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace LASI.Testing.Assertions
 {
-    public static partial class CheckExtensions
+    public static class CheckExtensions
     {
         public static ICheckLink<ICheck<T>> IsSameReferenceAs<T>(this ICheck<T> check, T expected) => check.IsSameReferenceAs(expected);
 

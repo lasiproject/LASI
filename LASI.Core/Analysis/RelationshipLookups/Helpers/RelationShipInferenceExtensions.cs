@@ -58,6 +58,6 @@ namespace LASI.Core.Heuristics.Relationships
             $@"There is no relationship lookup context associated with {performer} or {receiver}.
             Please associate a context by calling {performer}.SetRelationshipLookup or {receiver}.SetRelationshipLookup appropriately.";
 
-        private static ConcurrentDictionary<IEntity, IRelationshipLookup<IEntity, IVerbal>> entityLookupContexts = new ConcurrentDictionary<IEntity, IRelationshipLookup<IEntity, IVerbal>>();
+        private static readonly ConcurrentDictionary<IEntity, IRelationshipLookup<IEntity, IVerbal>> entityLookupContexts = new ConcurrentDictionary<IEntity, IRelationshipLookup<IEntity, IVerbal>>();
     }
 }

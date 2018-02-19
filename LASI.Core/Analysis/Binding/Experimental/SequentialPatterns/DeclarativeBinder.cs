@@ -9,10 +9,8 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
 {
     internal static class DeclarativeBinder
     {
-        private static void Bind(Sentence sentence)
-        {
-            Example(sentence);
-        }
+        private static void Bind(Sentence sentence) => Example(sentence);
+
         static void Example(Sentence sentence)
         {
             sentence.Match()

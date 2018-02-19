@@ -8,7 +8,7 @@ namespace LASI.Core.Heuristics.Binding
     /// <summary>
     /// Attempts to establish bindings between verbals and their objects at the Phrase level.
     /// </summary>
-    internal sealed partial class ObjectBinder : IIntraSentenceBinder
+    internal sealed partial class ObjectBinder
     {
         /// <summary>
         /// Initializes a new instance of ObjectBinder class.
@@ -26,7 +26,7 @@ namespace LASI.Core.Heuristics.Binding
         #region Methods
 
         /// <summary>
-        /// Performance IVerbal :=: IVerbalObject binding between the applicable elements within the provided sentence.
+        /// Performs IVerbal :=: IVerbalObject binding between the applicable elements within the provided sentence.
         /// </summary>
         /// <param name="sentence">The Sentence to bind within.</param>
         public void Bind(Sentence sentence)
@@ -116,15 +116,15 @@ namespace LASI.Core.Heuristics.Binding
         VerbPhrase bindingTarget;
         Stack<Phrase> source;
         PhraseStackWrapper inputStream;
-        List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
-        List<NounPhrase> conjunctNounPhrases = new List<NounPhrase>();
-        Stack<NounPhrase> entities = new Stack<NounPhrase>();
-        State0 state0;
-        State1 state1;
-        State2 state2;
-        State3 state3;
-        State4 state4;
-        State5 state5;
+        readonly List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
+        readonly List<NounPhrase> conjunctNounPhrases = new List<NounPhrase>();
+        readonly Stack<NounPhrase> entities = new Stack<NounPhrase>();
+        readonly State0 state0;
+        readonly State1 state1;
+        readonly State2 state2;
+        readonly State3 state3;
+        readonly State4 state4;
+        readonly State5 state5;
         ConjunctionPhrase lastConjunctive;
         IPrepositional lastPrepositional;
         #endregion

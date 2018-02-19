@@ -169,13 +169,6 @@ namespace LASI.Core
             Match<TValue, IEnumerable<TResult>>.TransferValue(match)
                 .Case<TValue, TCase, TResultEnumerable, IEnumerable<TResult>>(func);
 
-        public static Match<TValue, IEnumerable<TResult>> Case<TValue, TCase, TResult>(
-            this Match<TValue, IEnumerable<TResult>> match, Func<TCase, TResult[]> func)
-            where TValue : class, ILexical
-            where TCase : ILexical =>
-            Match<TValue, IEnumerable<TResult>>.TransferValue(match)
-                .Case<TValue, TCase, IEnumerable<TResult>, IEnumerable<TResult>>(func);
-
         public static TBaseResult Result<TValue, TResult, TBaseResult>(this Match<TValue, TResult> match,
             TBaseResult defaultValue)
             where TResult : TBaseResult where TValue : ILexical =>
@@ -213,20 +206,6 @@ namespace LASI.Core
         /// <param name="pattern">The single pattern case to try.</param>
         /// <returns>The result of matching the value against the specified pattern.</returns>
         public static TResult Match<TValue, TCase, TResult>(this TValue value, Func<TCase, TResult> pattern)
-            where TValue : class, ILexical
-            where TCase : ILexical => value.Match().Case(pattern).Result();
-
-        /// <summary>
-        /// Matches a value against a single case and immediately returns the result.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value being matched over.</typeparam>
-        /// <typeparam name="TCase">The type of the Case pattern.</typeparam>
-        /// <typeparam name="TResult">The result type of the match expression.</typeparam>
-        /// <param name="value">The Lexical value to match against.</param>
-        /// <param name="pattern">The single pattern case to try.</param>
-        /// <returns>The result of matching the value against the specified pattern.</returns>
-        /// <returns></returns>
-        public static TResult Match<TValue, TCase, TResult>(this TValue value, Func<TValue, TResult> pattern)
             where TValue : class, ILexical
             where TCase : ILexical => value.Match().Case(pattern).Result();
 

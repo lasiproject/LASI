@@ -42,6 +42,6 @@ namespace LASI.Core
         public IAdverbialModifiable Modifies { get; set; }
 
         IDescriptor IAttributive<IDescriptor>.AttributedTo => Modifies as IDescriptor;
-        private HashSet<IAdverbial> adverbialModifiers = new HashSet<IAdverbial>();
+        private readonly HashSet<IAdverbial> adverbialModifiers = new HashSet<IAdverbial>();
     }
 }

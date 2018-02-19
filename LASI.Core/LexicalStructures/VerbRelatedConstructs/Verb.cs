@@ -180,14 +180,14 @@ namespace LASI.Core
 
         #region Fields
 
-        private ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
-        private ISet<IEntity> subjects = new HashSet<IEntity>();
-        private ISet<IEntity> directObjects = new HashSet<IEntity>();
-        private ISet<IEntity> indirectObjects = new HashSet<IEntity>();
+        private readonly ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
+        private readonly ISet<IEntity> subjects = new HashSet<IEntity>();
+        private readonly ISet<IEntity> directObjects = new HashSet<IEntity>();
+        private readonly ISet<IEntity> indirectObjects = new HashSet<IEntity>();
         private bool? possessive;
         private bool? classifier;
 
-        private StringComparer ignoreCase = StringComparer.OrdinalIgnoreCase;
+        private readonly StringComparer ignoreCase = StringComparer.OrdinalIgnoreCase;
 
         #endregion Fields
     }

@@ -12,22 +12,19 @@ namespace LASI.WebService.Controllers
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ILogger _logger;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger)
-        {
-            _signInManager = signInManager;
-            _logger = logger;
-        }
+        public AccountController(SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger) => (this.signInManager, this.logger) = (signInManager, logger);
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
+            await signInManager.SignOutAsync();
+            logger.LogInformation("User logged out.");
             return RedirectToPage("/Index");
         }
+
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly ILogger logger;
     }
 }
