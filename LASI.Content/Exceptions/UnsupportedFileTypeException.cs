@@ -51,6 +51,7 @@ namespace LASI.Content.Exceptions
         {
         }
 
+        /// <inheritdoc />
         public UnsupportedFileTypeException() { }
     }
 }

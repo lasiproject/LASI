@@ -1,8 +1,9 @@
 ﻿using System;
+using LASI.Content.Tagging;
 using SerializationInfo = System.Runtime.Serialization.SerializationInfo;
 using StreamingContext = System.Runtime.Serialization.StreamingContext;
 
-namespace LASI.Content.Tagging
+namespace LASI.Content.Exceptions
 {
     /// <summary>
     /// The Exception that is thrown when attempting to access the tag corresponding to a

@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using LASI.Content.Exceptions;
 using LASI.Core;
 
 namespace LASI.Content.Tagging
 {
     using PhraseFactory = Func<IEnumerable<Word>, Phrase>;
 
+    /// <inheritdoc />
     /// <summary>
     /// Represents a tagset-to-runtime-type-mapping context for Phrase constructs which translates between a Part Of Speech
     /// Tagger's tagset and the classes whose instances provide the runtime representations of the Phrase tag.
-    /// This class represents the tagset => runtime-type mapping for word occurrences.
+    /// This class represents the tagset =&gt; runtime-type mapping for Phrase occurrences.
     /// </summary>
     /// <example>
     /// <code>
@@ -18,7 +20,7 @@ namespace LASI.Content.Tagging
     /// var phrase = phraseFactory(phraseWords);
     /// </code>
     /// </example>
-    /// <seealso cref="WordTagsetMap"/>
+    /// <seealso cref="T:LASI.Content.Tagging.WordTagsetMap" />
     public abstract class PhraseTagsetMap : ITagsetMap<IEnumerable<Word>, Phrase>
     {
         /// <summary>
@@ -36,14 +38,15 @@ namespace LASI.Content.Tagging
         /// </exception>
         public abstract PhraseFactory this[string tag] { get; }
 
+        /// <inheritdoc />
         /// <summary>
         /// When overridden in a derived class, Gets the PosTag string corresponding to the
         /// System.Type of the given LASI.Algorithm.Phrase.
         /// </summary>
         /// <param name="phrase">
-        /// The <see cref="Phrase"/> for which to get the corresponding tag.
+        /// The <see cref="T:LASI.Core.Phrase" /> for which to get the corresponding tag.
         /// </param>
-        /// <returns>The PosTag string corresponding to the System.Type of the given <see cref="Phrase" />.</returns>
+        /// <returns>The PosTag string corresponding to the System.Type of the given <see cref="T:LASI.Core.Phrase" />.</returns>
         public abstract string this[Phrase phrase] { get; }
     }
 }

@@ -17,7 +17,21 @@ namespace LASI.Interop
         /// Configures how components are initialized by specifying the locations of required resource files.
         /// </summary>
         /// <param name="config">An XML or JSON document containing configuration information.</param>
-        public static void Initialize(IConfig config) => Initialize(() => config);
+        public static void Initialize(IConfig config)
+        {
+            {
+                lock (initializationLock)
+                {
+                    if (alreadyConfigured)
+                    {
+                        throw new AlreadyConfiguredException();
+                    }
+
+                    InitializeComponents(config);
+                    alreadyConfigured = true;
+                }
+            }
+        }
 
         /// <summary>
         /// Configures how components are initialized by specifying the locations of required resource files.
@@ -86,21 +100,6 @@ namespace LASI.Interop
             }
         }
 
-        static void Initialize(Func<IConfig> configFactory)
-        {
-            lock (initializationLock)
-            {
-                if (alreadyConfigured)
-                {
-                    throw new AlreadyConfiguredException();
-                }
-
-                var config = configFactory();
-                InitializeComponents(config);
-                alreadyConfigured = true;
-            }
-        }
-
         static void InitializeImplementation(string raw, ConfigurationFormat format, string subkey)
         {
             lock (initializationLock)
@@ -110,9 +109,9 @@ namespace LASI.Interop
                     throw new AlreadyConfiguredException();
                 }
 
-                var config = format is ConfigurationFormat.Json is var j
+                var config = format is ConfigurationFormat.Json
                     ? loadJsonConfig()
-                    : format is ConfigurationFormat.Xml is var x
+                    : format is ConfigurationFormat.Xml
                         ? loadXmlConfig()
                         : throw new ArgumentException(configFormatError);
 
@@ -126,14 +125,14 @@ namespace LASI.Interop
                     : XElement.Parse(raw).Element(subkey));
 
             IConfig loadJsonConfig() =>
-                new JsonConfig((JObject) (subkey.IsNullOrWhiteSpace()
+                new JsonConfig((JObject)(subkey.IsNullOrWhiteSpace()
                     ? JToken.Parse(raw)
                     : JToken.Parse(raw).SelectToken(subkey)));
         }
 
         static void InitializeComponents(IConfig settings)
         {
-            Core.Configuration.Configuration.Initialize(settings);
+            LASI.Core.Configuration.Configuration.Initialize(settings);
             LASI.Content.Configuration.Initialize(settings);
         }
 
@@ -143,5 +142,6 @@ namespace LASI.Interop
             $"Invalid config format, specify {nameof(ConfigurationFormat)}: {nameof(ConfigurationFormat.Json)} or {nameof(ConfigurationFormat)}{nameof(ConfigurationFormat.Xml)}";
 
         static readonly object initializationLock = new object();
+
     }
 }

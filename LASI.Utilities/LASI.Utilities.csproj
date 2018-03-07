@@ -33,6 +33,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Debug\LASI.Utilities.XML</DocumentationFile>
     <LangVersion>latest</LangVersion>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -57,7 +58,6 @@
     <Reference Include="System.Reactive, Version=4.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.4.0.0-preview00001\lib\net46\System.Reactive.dll</HintPath>
     </Reference>
-
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>

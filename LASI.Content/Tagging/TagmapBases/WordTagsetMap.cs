@@ -1,4 +1,5 @@
 ﻿using System;
+using LASI.Content.Exceptions;
 using LASI.Core;
 
 namespace LASI.Content.Tagging

@@ -1,6 +1,5 @@
-﻿namespace LASI.Content.Tagging
+﻿namespace LASI.Content.Exceptions
 {
-    using System;
     using Exception = System.Exception;
     using SerializableAttribute = System.SerializableAttribute;
     using SerializationInfo = System.Runtime.Serialization.SerializationInfo;
@@ -191,6 +190,7 @@
         /// </param>
         protected PartOfSpeechTagException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
+        /// <inheritdoc />
         protected PartOfSpeechTagException() { }
     }
 

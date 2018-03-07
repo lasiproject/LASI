@@ -3,11 +3,11 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using iTextSharp.text.pdf;
+using LASI.Content.FileTypes;
+using static System.Linq.Enumerable;
 
 namespace LASI.Content.FileConverters
 {
-    using LASI.Content.FileTypes;
-    using static System.Linq.Enumerable;
 
     /// <summary>
     /// An input file converter specialized to extract the non optical textual content from a .pdf (Adobe Acrobat) document and create a text file containing this content as raw text.

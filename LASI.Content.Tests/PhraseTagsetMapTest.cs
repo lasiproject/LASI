@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using LASI.Content;
+using LASI.Content.Exceptions;
 using LASI.Content.Tagging;
 using LASI.Core;
 using NFluent;

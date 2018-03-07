@@ -32,7 +32,6 @@ namespace LASI.Core.Heuristics.WordNet
         readonly System.Collections.Concurrent.ConcurrentDictionary<int, AdverbSynset> setsById =
             new System.Collections.Concurrent.ConcurrentDictionary<int, WordNet.AdverbSynset>(8, 100000);
 
-        /// <inheritdoc />
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
@@ -62,13 +61,14 @@ namespace LASI.Core.Heuristics.WordNet
         {
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
-            var referencedSets = from Match match in Regex.Matches(line, pointerRegex)
+            var referencedSets =
+                from Match match in Regex.Matches(line, pointerRegex)
                 let split = match.Value.SplitRemoveEmpty(' ')
                 where split.Length > 1 && interSetMap.ContainsKey(split[0])
                 select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
 
             var words = from Match match in Regex.Matches(line, wordRegex)
-                select match.Value.Replace('_', ' ');
+                        select match.Value.Replace('_', ' ');
 
             var id = int.Parse(line.Substring(0, 8));
 

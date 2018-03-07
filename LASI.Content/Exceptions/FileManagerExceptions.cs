@@ -42,6 +42,7 @@ namespace LASI.Content.Exceptions
         protected FileManagerException(SerializationInfo info, StreamingContext context)
             : base(info, context) => CollectDirInfo();
 
+        /// <inheritdoc />
         public FileManagerException() { }
 
         /// <summary>

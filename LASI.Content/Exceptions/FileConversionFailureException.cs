@@ -10,6 +10,9 @@ namespace LASI.Content.Exceptions
     [Serializable]
     public class FileConversionFailureException : FileManagerException
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public FileConversionFailureException() : base("File conversion failed.") { }
         /// <summary>
         /// Initializes a new instance of the FileConversionFailureException with a message based on the supplied fileName, source type, and target type
@@ -34,7 +37,7 @@ namespace LASI.Content.Exceptions
         /// <param name="message">The message that describes the error.</param>
         public FileConversionFailureException(string message) : base(message) { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileConversionFailureException"/> class with the specified error message 
+        /// Initializes a new instance of the <see cref="FileConversionFailureException"/> class with the specified error message
         /// and a reference to the inner exception that is the cause of this exception.
         /// </summary>
         /// <param name="message">The error message that explains the reason for the exception.</param>

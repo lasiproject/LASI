@@ -1,4 +1,5 @@
-﻿using LASI.Core;
+﻿using LASI.Content.Exceptions;
+using LASI.Core;
 using LASI.Content.Tagging;
 
 namespace LASI.Content

@@ -105,7 +105,7 @@ namespace LASI.Content.FileTypes
         /// <summary>
         /// Provides encapsulated access to underlying path information.
         /// </summary>
-        readonly FileData fileData;
+        private readonly FileData fileData;
 
         /// <summary>
         /// Returns a value that indicates whether the InputFile on the left is equal to the InputFile on the right.

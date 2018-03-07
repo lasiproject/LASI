@@ -115,6 +115,7 @@
     <Compile Include="Analysis\SyntacticCategorical\CategoricalEnumerations\AdverbCategory.cs" />
     <Compile Include="Analysis\SyntacticCategorical\CategoricalEnumerations\NounCategory.cs" />
     <Compile Include="Analysis\SyntacticCategorical\CategoricalEnumerations\VerbCategory.cs" />
+    <Compile Include="Analysis\VerbalSimilarityExtensions.cs" />
     <Compile Include="Analysis\WordMorphing\AdjectiveMorpher.cs" />
     <Compile Include="Analysis\WordMorphing\IWordMorpher.cs" />
     <Compile Include="Analysis\WordMorphing\WordNetExceptionDataManager.cs" />
@@ -169,7 +170,6 @@
     <Compile Include="Configuration\ReportEventArgs.cs" />
     <Compile Include="Analysis\AdverbialSimilarityExtensions.cs" />
     <Compile Include="Analysis\ResourceLoadEventArgs.cs" />
-    <Compile Include="Analysis\VerbalSimilarityProvider.cs" />
     <Compile Include="Analysis\WordMorphing\AdverbMorpher.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />

@@ -2,7 +2,7 @@
 using SerializationInfo = System.Runtime.Serialization.SerializationInfo;
 using StreamingContext = System.Runtime.Serialization.StreamingContext;
 
-namespace LASI.Content
+namespace LASI.Content.Exceptions
 {
     /// <summary>
     /// The base class for all file related exceptions within the LASI framework.
@@ -10,18 +10,14 @@ namespace LASI.Content
     [Serializable]
     public abstract class ContentFileException : System.IO.IOException, System.Runtime.Serialization.ISerializable
     {
-        protected ContentFileException()
-        {
-        }
+        /// <inheritdoc />
+        protected ContentFileException() { }
 
         /// <summary>
         /// Initializes a new instance of the FileSystemException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood</param>
-        protected ContentFileException(string message)
-            : base(message)
-        {
-        }
+        protected ContentFileException(string message) : base(message) { }
 
         /// <summary>
         /// Initializes a new instance of the FileSystemException class with its message string set to message.
@@ -30,10 +26,7 @@ namespace LASI.Content
         /// <param name="inner">
         /// The exception that is the cause of the current exception. If the innerException parameter is not null, the current exception is raised in a catch block that handles the inner exception.
         /// </param>
-        protected ContentFileException(string message, Exception inner)
-            : base(message, inner)
-        {
-        }
+        protected ContentFileException(string message, Exception inner) : base(message, inner) { }
 
         /// <summary>
         /// Initializes a new instance of the FileSystemException class with serialized data.
