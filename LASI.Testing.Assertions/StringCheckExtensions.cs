@@ -16,7 +16,7 @@ namespace LASI.Testing.Assertions
 
         public static ICheckLink<ICheck<FileSystemInfo>> Exists(this ICheck<string> check)
         {
-            var c = Check.That(Directory.GetParent(ExtractChecker(check).Value)); ;
+            var c = Check.That(Directory.GetParent(ExtractChecker(check).Value));
             return c.Exists();
         }
         public static ICheckLink<ICheck<FileSystemInfo>> Exists(this ICheck<FileSystemInfo> check)

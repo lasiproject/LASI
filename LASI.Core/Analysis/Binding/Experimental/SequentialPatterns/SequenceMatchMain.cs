@@ -14,7 +14,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
     {
         #region Constructors
 
-        internal SequenceMatch(IEnumerable<ILexical> sequence) => elements = sequence.ToList();
+        internal SequenceMatch(IEnumerable<ILexical> sequence) => Elements = sequence.ToList();
 
         internal SequenceMatch(Sentence sentence) : this(sentence.Phrases) { }
 
@@ -297,11 +297,7 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
             bool test(ILexical e) => tests.All(t => t(e));
         }
 
-        private IReadOnlyList<ILexical> Elements
-        {
-            get => elements;
-            set => elements = value;
-        }
+        private IReadOnlyList<ILexical> Elements { get; set; }
 
         private IReadOnlyList<ILexical> SequenceFilteredByCurrentPredicates => FilterByCurrentPredicates(Elements);
 
@@ -315,7 +311,6 @@ namespace LASI.Core.Heuristics.Binding.Experimental.SequentialPatterns
         private bool guarded;
         private readonly List<Func<ILexical, bool>> predicates = new List<Func<ILexical, bool>>();
         private readonly List<Func<ILexical, bool>> checkOncePredicates = new List<Func<ILexical, bool>>();
-        private IReadOnlyList<ILexical> elements;
         private int indexOfLast;
 
         #endregion Private fields and properties

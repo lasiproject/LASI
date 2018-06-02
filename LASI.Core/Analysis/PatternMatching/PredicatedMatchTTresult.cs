@@ -20,7 +20,7 @@ namespace LASI.Core.Heuristics.PatternMatching
         /// </param>
         /// <param name="inner">The Match&lt;T, TResult&gt; which created the current instance.</param>
         internal PredicatedMatch(bool predicateSucceeded, Match<T, TResult> inner)
-           : base(predicateSucceeded) => expression = inner;
+           : base(predicateSucceeded) => Expression = inner;
 
         #endregion Constructors
 
@@ -34,7 +34,7 @@ namespace LASI.Core.Heuristics.PatternMatching
         /// result of the Then expression.
         /// </param>
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
-        public Match<T, TResult> Then(Func<T, TResult> func) => Accepted ? expression.Case(func) : expression;
+        public Match<T, TResult> Then(Func<T, TResult> func) => Accepted ? Expression.Case(func) : Expression;
 
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
@@ -43,19 +43,17 @@ namespace LASI.Core.Heuristics.PatternMatching
         /// The value which, if this Then expression is Matched, will be the result of the Pattern Match.
         /// </param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> Then(TResult result) => Accepted ? expression.Case<T>(result) : expression;
+        public Match<T, TResult> Then(TResult result) => Accepted ? Expression.Case<T>(result) : Expression;
 
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <param name="func">The function whose result will be the result of the Then match expression.</param>
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
-        public Match<T, TResult> Then(Func<TResult> func) => Accepted ? expression.Case<T>(func) : expression;
+        public Match<T, TResult> Then(Func<TResult> func) => Accepted ? Expression.Case<T>(func) : Expression;
+
+        protected Match<T, TResult> Expression { get; }
 
         #endregion Methods
-
-        readonly Match<T, TResult> expression;
-
-        protected Match<T, TResult> Expression => expression;
     }
 }

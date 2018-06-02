@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LASI.Content.FileTypes;
+using static System.Linq.Enumerable;
 using SerializationInfo = System.Runtime.Serialization.SerializationInfo;
 using StreamingContext = System.Runtime.Serialization.StreamingContext;
 
@@ -67,21 +68,15 @@ namespace LASI.Content.Exceptions
         {
             if (FileManager.Initialized && FileManager.TxtFiles.Any())
             {
-                filesInProjectDirectories = new DirectoryInfo(FileManager.ProjectDirectory)
+                FilesInProjectDirectories = new DirectoryInfo(FileManager.ProjectDirectory)
                     .EnumerateFiles("*", SearchOption.AllDirectories)
-                    .Select(di => FileManager.WrapperMap[di.Extension](di.FullName))
+                    .Select(file => FileManager.WrapperMap[file.Extension](file.FullName))
                     .DefaultIfEmpty();
             }
         }
-
-        private IEnumerable<InputFile> filesInProjectDirectories = new List<InputFile>();
         /// <summary>
         /// Gets data about the contents of the ProjectDirectory when the FileManagerException was constructed.
         /// </summary>
-        public IEnumerable<InputFile> FilesInProjectDirectories
-        {
-            get => filesInProjectDirectories;
-            protected set => filesInProjectDirectories = value;
-        }
+        public IEnumerable<InputFile> FilesInProjectDirectories { get; protected set; } = Empty<InputFile>();
     }
 }

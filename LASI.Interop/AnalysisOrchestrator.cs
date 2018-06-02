@@ -53,6 +53,8 @@ namespace LASI.Interop
             stepMagnitude = 2d / sourceCount;
         }
 
+        private IEnumerable<Document> Results { get; set; }
+
         /// <summary>
         /// <para>Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;</para>
         /// <para>which, when awaited, loads, analyzes, and aggregates all of the provided TextFile instances as individual documents, collecting them as</para>
@@ -68,23 +70,6 @@ namespace LASI.Interop
             var taggedFiles = await TagFilesAsync(rawTextSources);
             Results = await BindAndWeightAsync(taggedFiles);
             return Results;
-        }
-
-        private async Task<IEnumerable<ITaggedTextSource>> TagFilesAsync<TRaw>(IEnumerable<TRaw> rawTextDocuments) where TRaw : IRawTextSource
-        {
-            Progress("Tagging Documents", 0);
-            var tasks = rawTextDocuments.Select(TagRawAsync).ToList();
-            var taggedFiles = new ConcurrentBag<ITaggedTextSource>();
-            while (tasks.Count > 0)
-            {
-                var task = await Task.WhenAny(tasks);
-                var tagged = await task;
-                tasks.Remove(task);
-                taggedFiles.Add(tagged);
-                Progress($"{tagged.Name}: Tagged", stepMagnitude + 1.5);
-            }
-            Progress("Tagged Documents", 3);
-            return taggedFiles;
         }
 
         private async Task<IEnumerable<Document>> BindAndWeightAsync(IEnumerable<ITaggedTextSource> taggedFiles)
@@ -117,19 +102,33 @@ namespace LASI.Interop
             return document;
         }
 
-        private async Task<ITaggedTextSource> TagRawAsync<TRaw>(TRaw raw) where TRaw : IRawTextSource => await tagger.TaggedFromRawAsync(raw);
-
         private void Progress(string message, double percentCompleted)
         {
             OnReport(new AnalysisUpdateEventArgs(message, percentCompleted));
         }
 
+        private async Task<IEnumerable<ITaggedTextSource>> TagFilesAsync<TRaw>(IEnumerable<TRaw> rawTextDocuments) where TRaw : IRawTextSource
+        {
+            Progress("Tagging Documents", 0);
+            var tasks = rawTextDocuments.Select(TagRawAsync).ToList();
+            var taggedFiles = new ConcurrentBag<ITaggedTextSource>();
+            while (tasks.Count > 0)
+            {
+                var task = await Task.WhenAny(tasks);
+                var tagged = await task;
+                tasks.Remove(task);
+                taggedFiles.Add(tagged);
+                Progress($"{tagged.Name}: Tagged", stepMagnitude + 1.5);
+            }
+            Progress("Tagged Documents", 3);
+            return taggedFiles;
+        }
 
-        private double sourceCount;
-        private double stepMagnitude;
-        private IEnumerable<IRawTextSource> rawTextSources;
-        private IEnumerable<Document> Results { get; set; }
+        private async Task<ITaggedTextSource> TagRawAsync<TRaw>(TRaw raw) where TRaw : IRawTextSource => await tagger.TaggedFromRawAsync(raw);
 
         private static readonly Tagger tagger = new Tagger();
+        private readonly IEnumerable<IRawTextSource> rawTextSources;
+        private readonly double sourceCount;
+        private readonly double stepMagnitude;
     }
 }

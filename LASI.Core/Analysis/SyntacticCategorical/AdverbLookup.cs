@@ -27,7 +27,7 @@ namespace LASI.Core.Heuristics.WordNet
             this.adjectiveLookup = adjectiveLookup;
         }
 
-        HashSet<AdverbSynset> allSets = new HashSet<AdverbSynset>();
+        readonly HashSet<AdverbSynset> allSets = new HashSet<AdverbSynset>();
 
         readonly System.Collections.Concurrent.ConcurrentDictionary<int, AdverbSynset> setsById =
             new System.Collections.Concurrent.ConcurrentDictionary<int, WordNet.AdverbSynset>(8, 100000);

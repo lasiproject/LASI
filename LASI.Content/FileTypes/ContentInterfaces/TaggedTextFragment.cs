@@ -47,6 +47,6 @@ namespace LASI.Content
         /// </summary>
         public string Name { get; }
 
-        private string taggedText;
+        private readonly string taggedText;
     }
 }

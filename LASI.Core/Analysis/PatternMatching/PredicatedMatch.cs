@@ -22,7 +22,7 @@ namespace LASI.Core.Heuristics.PatternMatching
         /// effect and simply return the original match.
         /// </param>
         /// <param name="inner">The match which has been predicated.</param>
-        internal PredicatedMatch(bool predicateSucceeded, Match<T> inner) : base(predicateSucceeded) => expression = inner;
+        internal PredicatedMatch(bool predicateSucceeded, Match<T> inner) : base(predicateSucceeded) => Expression = inner;
 
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
@@ -36,7 +36,7 @@ namespace LASI.Core.Heuristics.PatternMatching
         /// The Action which, if this Case expression is Matched, will be invoked.
         /// </param>
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
-        public Match<T> Then<TCase>(Action action) where TCase : class, ILexical => Accepted ? expression.Case<TCase>(action) : expression;
+        public Match<T> Then<TCase>(Action action) where TCase : class, ILexical => Accepted ? Expression.Case<TCase>(action) : Expression;
 
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
@@ -50,7 +50,7 @@ namespace LASI.Core.Heuristics.PatternMatching
         /// The Action which, if this Case expression is Matched, will be invoked.
         /// </param>
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
-        public Match<T> Then<TCase>(Action<TCase> action) where TCase : class, ILexical => Accepted ? expression.Case(action) : expression;
+        public Match<T> Then<TCase>(Action<TCase> action) where TCase : class, ILexical => Accepted ? Expression.Case(action) : Expression;
 
 
 
@@ -61,7 +61,7 @@ namespace LASI.Core.Heuristics.PatternMatching
         /// The Action which, if this Case expression is Matched, will be invoked.
         /// </param>
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
-        public Match<T> Then(Action action) => Accepted ? expression.Case<T>(action) : expression;
+        public Match<T> Then(Action action) => Accepted ? Expression.Case<T>(action) : Expression;
 
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
@@ -71,20 +71,14 @@ namespace LASI.Core.Heuristics.PatternMatching
         /// matched over.
         /// </param>
         /// <returns>The <see cref="Match{T}"/> describing the Match expression so far.</returns>
-        public Match<T> Then(Action<T> action) => Accepted ? expression.Case(action) : expression;
+        public Match<T> Then(Action<T> action) => Accepted ? Expression.Case(action) : Expression;
 
-        public Match<T, TResult> Then<TResult>(Func<T, TResult> f) => Accepted ? expression.Case(f) : expression;
+        public Match<T, TResult> Then<TResult>(Func<T, TResult> f) => Accepted ? Expression.Case(f) : Expression;
 
-        public Match<T, TResult> Then<TResult>(Func<TResult> f) => Accepted ? expression.Case(f) : expression;
+        public Match<T, TResult> Then<TResult>(Func<TResult> f) => Accepted ? Expression.Case(f) : Expression;
 
-        public Match<T, TResult> Then<TResult>(TResult value) => Accepted ? expression.Yield<TResult>().Case(() => value) : expression;
+        public Match<T, TResult> Then<TResult>(TResult value) => Accepted ? Expression.Yield<TResult>().Case(() => value) : Expression;
 
-        #region Fields
-
-        readonly Match<T> expression;
-
-        protected Match<T> Expression => expression;
-
-        #endregion Fields
+        protected Match<T> Expression { get; }
     }
 }

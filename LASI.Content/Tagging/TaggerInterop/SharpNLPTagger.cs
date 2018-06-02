@@ -10,8 +10,8 @@ namespace TaggerInterop
 {
     public class SharpNLPTagger
     {
-        private string mModelPath;
-        private string mNameFinderPath;
+        private readonly string mModelPath;
+        private readonly string mNameFinderPath;
 
         private OpenNLP.Tools.SentenceDetect.MaximumEntropySentenceDetector mSentenceDetector;
         private OpenNLP.Tools.Tokenize.EnglishMaximumEntropyTokenizer mTokenizer;
@@ -81,7 +81,7 @@ namespace TaggerInterop
         /// <summary>
         /// Processes the text given to the tagger based on the Tagger's current TaggerMode. Returns the path to the tagged file resulting from the process.
         /// </summary>
-        ///// <returns>The TaggedFile resulting from the process.</returns>
+        /// <returns>The TaggedFile resulting from the process.</returns>
         public virtual string ProcessFile()
         {
             WriteToFile(ParseViaTaggingMode());
@@ -437,9 +437,9 @@ namespace TaggerInterop
 
         #region Properties
 
-        private string outputFilePath;
+        private readonly string outputFilePath;
 
-        private string inputFilePath;
+        private readonly string inputFilePath;
 
         /// <summary>
         /// Gets or sets the text which the SharpNLPTagger will tag when the ProcessFile or ProcessFileAsync methods are invoked.

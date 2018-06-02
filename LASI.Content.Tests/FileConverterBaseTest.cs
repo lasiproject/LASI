@@ -8,16 +8,14 @@ namespace LASI.Content.Tests
     {
 #pragma warning disable RECS0108 // Warns about static fields in generic types
         static int testsRun;
-#pragma warning restore RECS0108 // Warns about static fields in generic types
-        private readonly string filePath;
         private readonly string directoryPath;
-        private string FilePath => filePath;
+        private string FilePath { get; }
 
         public FileConverterBaseTest(string fileName)
         {
             var file = FileInfo($@"..\..\MockUserFiles\{fileName}");
             directoryPath = Directory.CreateDirectory($@"{Directory.GetCurrentDirectory()}\{GetType()}\{testsRun}").FullName;
-            filePath = file.CopyTo($@"{directoryPath}\{fileName}", overwrite: true).FullName;
+            FilePath = file.CopyTo($@"{directoryPath}\{fileName}", overwrite: true).FullName;
             testsRun += 1;
         }
 
