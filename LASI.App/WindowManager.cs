@@ -11,14 +11,11 @@ namespace LASI.App
 
         internal static void Intialize()
         {
-            startupScreen = App.Windows.OfType<StartupWindow>().First();
+            StartupScreen = App.Windows.OfType<StartupWindow>().First();
         }
 
         #endregion Methods
-
         #region Fields
-
-        private static StartupWindow startupScreen;
         private static ResultsWindow resultsScreen;
         private static ProjectPreviewWindow projectPreviewScreen;
         private static InProgressWindow inProgressScreen;
@@ -28,7 +25,8 @@ namespace LASI.App
         #region Properties
 
         private static System.Windows.Application App => System.Windows.Application.Current;
-        public static StartupWindow StartupScreen => startupScreen;
+        public static StartupWindow StartupScreen { get; private set; }
+
         public static InProgressWindow InProgressScreen => inProgressScreen ?? (inProgressScreen = new InProgressWindow());
         public static ResultsWindow ResultsScreen => resultsScreen ?? (resultsScreen = new ResultsWindow());
         public static ProjectPreviewWindow ProjectPreviewScreen => projectPreviewScreen ?? (projectPreviewScreen = new ProjectPreviewWindow());

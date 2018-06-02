@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="LASI.App Rule Set" Description=" " ToolsVersion="15.0">
+  <Rules AnalyzerId="ExperimentalTools.Roslyn.Features" RuleNamespace="ExperimentalTools.Roslyn.Features">
+    <Rule Id="ET001" Action="Info" />
+    <Rule Id="ET002" Action="Info" />
+  </Rules>
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1001" Action="Warning" />
     <Rule Id="CA1002" Action="Warning" />
@@ -62,6 +66,9 @@
   </Rules>
   <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.Features" RuleNamespace="Microsoft.CodeAnalysis.CSharp.Features">
     <Rule Id="IDE0007" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="RefactoringEssentials" RuleNamespace="RefactoringEssentials">
+    <Rule Id="RECS0165" Action="None" />
   </Rules>
   <Rules AnalyzerId="Roslynator.CSharp.Analyzers" RuleNamespace="Roslynator.CSharp.Analyzers">
     <Rule Id="RCS1207" Action="Info" />
