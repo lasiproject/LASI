@@ -187,3 +187,5 @@ jspm_packages/
 .idea/.idea.Lasi/.idea/contentModel.xml
 .idea/.idea.Lasi/.idea/typescript-compiler.xml
 .idea/.idea.Lasi/.idea/workspace.xml
+/Help
+/LASI.WebService.old

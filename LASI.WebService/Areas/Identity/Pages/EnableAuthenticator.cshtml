@@ -1,0 +1,7 @@
+﻿@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script type="module">
+        import site from 'site.js';
+        site(@Html.Raw(Model.AuthenticatorUri));
+    </script>
+}

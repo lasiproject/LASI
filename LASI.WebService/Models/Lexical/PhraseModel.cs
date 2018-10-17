@@ -10,11 +10,11 @@ namespace LASI.WebService.Models.Lexical
         public PhraseModel(Phrase phrase) : base(phrase)
         {
             Contextmenu = ContextmenuFactory.Create(ModelFor);
-            var delimiters = (' ', ' ', ' ');
+            //var delimiters = (' ', ' ', ' ');
             DetailText = ModelFor
                 .ToString()
                 .SplitRemoveEmpty('\n', '\r').FirstOrDefault();
-                //.Format(delimiters, s => s + "\n");
+            //.Format(delimiters, s => s + "\n");
             Words = ModelFor.Words.Select(w => new WordModel(w));
         }
         public sealed override ILexicalContextmenu Contextmenu { get; }

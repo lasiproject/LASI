@@ -32,6 +32,7 @@ namespace LASI.WebService.Data
             modelBuilder
                 .Entity<UploadDocument>()
                 .ToTable("Uploads")
+                .HasQueryFilter(x => !x.Deleted)
                 .HasChangeTrackingStrategy(ChangeTrackingStrategy.Snapshot)
                 .HasQueryFilter(e => !e.Deleted)
                 .HasAlternateKey(e => e.Name)

@@ -46,7 +46,7 @@ namespace LASI.WebService.Data
 
         // PUT: api/UploadDocuments/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUploadDocument([FromRoute] int id, [FromBody] UploadDocument uploadDocument)
+        public async Task<ActionResult<UploadDocument>> PutUploadDocument([FromRoute] int id, [FromBody] UploadDocument uploadDocument)
         {
             if (!ModelState.IsValid)
             {

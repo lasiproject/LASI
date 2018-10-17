@@ -1,18 +1,25 @@
-﻿#r @"C:\Users\Aluan\Documents\GitHub\LASI\Utilities\bin\Debug\LASI.Utilities.dll"
-#r @"C:\Users\Aluan\Documents\GitHub\LASI\Core\bin\Debug\LASI.Core.dll"
-#r @"C:\Users\Aluan\Documents\GitHub\LASI\Content\bin\Debug\LASI.Content.dll"
-#r @"C:\Users\Aluan\Documents\GitHub\LASI\Interop\bin\Debug\LASI.Interop.dll"
+﻿#r @".\LASI.Utilities\bin\Debug\LASI.Utilities.dll"
+#r @".\LASI.Core\bin\Debug\LASI.Core.dll"
+#r @".\LASI.Content\bin\Debug\LASI.Content.dll"
+#r @".\LASI.Interop\bin\Debug\LASI.Interop.dll"
 
 System.IO.Directory.SetCurrentDirectory(@"C:\Users\Aluan\Documents\GitHub\LASI\")
 type TextSource = IRawTextSource
 
 open LASI.Core
 open LASI.Content
+open LASI.Content.FileTypes
 open LASI.Interop
 open LASI.Core.LexicalStructures
+open Microsoft.FSharp.Compiler.Interactive
 
-try Configuration.Initialize(@".\AspSixApp\config.json",ConfigFormat.Json,"Data") with | :? System.InvalidOperationException as e-> printfn "%A" e.Message
+try 
+    let  init: string ->  ^b -> ^c -> unit = fun a -> fun b  -> fun c -> Configuration.Initialize (a, b, c)
+        
 
+    init @".\AspSixApp\config.json" ConfigurationFormat.Json "Data"
+with
+| :? System.InvalidOperationException as e-> printfn "%A" e.Message
 
 LASI.Utilities.Logger.SetToSilent 
 type Source =  
@@ -40,6 +47,6 @@ Async.StartImmediate result
 
 //let emptyset = Set.empty
 let emptyset<'a when 'a:comparison> : Set<'a> = Set.empty
-let add x y = x + y;
+let inline add x y = x + y;
 let i = add 2  3
-let s = add("Hello ", "World"); // produces "Hello World"
+let s = add "Hello " "World"; // produces "Hello World"

@@ -17,7 +17,7 @@ namespace LASI.WebService.Models
         public Style this[ILexical element] => new Style
         {
             CssClass = element.Match()
-                .Case((IReferencer r) => "referencer")
+                .Case((IReferencer r) => "entity referencer")
                 .Case((NounPhrase n) => n.Words.OfProperNoun().Any() ? "entity proper" : "entity")
                 .Case((InfinitivePhrase i) => "infinitive")
                 .Case((PresentParticiple w) => "present-participle-gerund")

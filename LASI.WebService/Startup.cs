@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using LASI.Utilities.Configuration;
 using LASI.WebService.Configuration;
 using LASI.WebService.Data;
-using LASI.WebService.Services;
 using LASI.WebService.Extensions;
+using LASI.WebService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Rewrite;
 
 namespace LASI.WebService
 {
@@ -37,6 +37,7 @@ namespace LASI.WebService
                 })
                 .AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
             services
@@ -59,7 +60,7 @@ namespace LASI.WebService
                     options.Conventions.AuthorizePage("/Account/Logout");
                 });
 
-            services.AddSingleton<IEnumerable<(string key, int value)>>(provider => new[]
+            services.AddSingleton<IEnumerable<(string key, int value)>>(provider => new []
             {
                 (key: "A", value : 1)
             });
@@ -90,8 +91,8 @@ namespace LASI.WebService
             if (isDevelopment)
             {
                 app.UseDeveloperExceptionPage()
-                   .UseBrowserLink()
-                   .UseDatabaseErrorPage();
+                    // .UseBrowserLink()
+                    .UseDatabaseErrorPage();
             }
             else
             {
@@ -99,37 +100,36 @@ namespace LASI.WebService
             }
 
             app.UseStaticFiles()
-               .UseCors(policy =>
-               {
-                   policy.SetIsOriginAllowedToAllowWildcardSubdomains()
-                         .AllowAnyOrigin()
-                         .AllowAnyHeader()
-                         .AllowAnyMethod()
-                         .AllowCredentials();
-               })
-               .UseWebSockets()
-               .UseAuthentication()
-               .UseSignalR(options =>
-               {
-                   options.MapHub<JwtBroadcaster>("/broadcast", socket =>
-                   {
-                       socket.LongPolling.PollTimeout = 120.Seconds();
-                       socket.WebSockets.CloseTimeout = 100.Seconds();
-                   });
+                .UseCors(policy =>
+                {
+                    policy.SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                })
+                .UseWebSockets()
+                .UseAuthentication()
+                .UseSignalR(options =>
+                {
+                    options.MapHub<JwtBroadcaster>("/broadcast", socket =>
+                    {
+                        socket.LongPolling.PollTimeout = 120. Seconds();
+                        socket.WebSockets.CloseTimeout = 100. Seconds();
+                    });
 
-                   options.MapHub<UploadProgressBroadcaster>("/upload/{id}/progress");
-               })
-               .UseMvc(routes =>
-               {
-                   routes.MapRoute(
-                       name: "default",
-                       template: "{controller}/{action=Index}/{id?}");
-                   // .MapRoute(
-                   // name: "api",
-                   // template: "api/{controller}/{id?}");
-               })
-               .UseRewriter(new RewriteOptions().AddRedirectToHttps());
-
+                    options.MapHub<UploadProgressBroadcaster>("/upload/{id}/progress");
+                })
+                .UseMvc(routes =>
+                {
+                    routes.MapRoute(
+                        name: "default",
+                        template: "{controller}/{action=Index}/{id?}");
+                    // .MapRoute(
+                    // name: "api",
+                    // template: "api/{controller}/{id?}");
+                })
+                .UseRewriter(new RewriteOptions().AddRedirectToHttps());
 
             Interop.Configuration.Initialize("./appsettings.json", Interop.ConfigurationFormat.Json, "Resources");
         }
